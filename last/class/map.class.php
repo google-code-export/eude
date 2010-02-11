@@ -206,6 +206,10 @@ class map /*extends parcours*/ {
     private $empire;
     private $cxx_empires; // -> #86 ~265
     /**
+     * @since 1.4.2
+     */
+    public $lng;
+    /**
      * @var parcours
      */
     protected $cparcours;
@@ -242,6 +246,7 @@ class map /*extends parcours*/ {
         // mise en variable, plus rapide que 36 call function
         $this->empire = trim(Config::GetMyEmpire());
         $this->cxx_empires = DataEngine::CheckPerms('CARTE_SHOWEMPIRE');
+        $this->lng = language::getinstance()->GetLngBlock('carte');
 
         $this->itineraire = ( ($this->IN != '' && $this->OUT != '') && ($this->IN != $this->OUT) );
 
@@ -593,75 +598,75 @@ class map /*extends parcours*/ {
 
             switch ($v['type']) {
                 case 'moi':
-                    $moi .= '<br/><font size=2><b>Votre planète: '.$v['INFOS'].'</b></font>';
+                    $moi .= '<br/><font size=2>'.sprintf($this->lng['map_ownplanet'], $v['INFOS']).'</font>';
                     break;
                 case 'empire':
                     if ($empire=='') {
-                        $empire = '<br/><b>'.$data['empire'].' Membre(s) '.$this->empire.'</b>';
+                        $empire = '<br/>'.sprintf($this->lng['map_empire_header'], $data['empire'], $this->empire);
                     }
 
                     if ($v['Joueur'] != '')
-                        $empire .= '<br/>'.$v['Joueur'].' ('.$v['Grade'].')';
+                        $empire .= '<br/>'.sprintf($this->lng['map_row_player1'], $v['Joueur'], $v['Grade']);
                     else
-                        $empire .= '<br/>'.$v['USER'].'<i>(non inscrit)</i>';
+                        $empire .= '<br/>'.sprintf($this->lng['map_row_player2'], $v['USER']);
                     break;
                 case 'alliance':
                     if ($alliance=='') {
-                        $alliance = '<br/><b>'.$data['alliance'].' Membre(s) d\'une alliance/pna</b>';
+                        $alliance = '<br/>'.sprintf($this->lng['map_alliance_header'], $data['alliance']);
                     }
 
                     if ($v['Joueur'] != '')
-                        $alliance .= '<br/>'.$v['Joueur'].' ('.$v['Grade'].')';
+                        $alliance .= '<br/>'.sprintf($this->lng['map_row_player1'], $v['Joueur'], $v['Grade']);
                     else
-                        $alliance .= '<br/>'.$v['USER'].' ('.$v['EMPIRE'].')';
+                        $alliance .= '<br/>'.sprintf($this->lng['map_row_player3'], $v['USER'], $v['EMPIRE']);
                     break;
                 case 'search':
-                    if ($search=='') $search = '<br/><b>Recherche: '.$data['search'].' résultat(s):</b>';
-                    $search .= '<br/>'.$v['USER'].' ('.$v['EMPIRE'].')';
+                    if ($search=='') $search = '<br/>'.sprintf($this->lng['map_search_header'], $data['search']);
+                    $search .= '<br/>'.sprintf($this->lng['map_row_player3'], $v['USER'], $v['EMPIRE']);
                     break;
 
                 case 'Joueur':
-                    if ($joueur=='') $joueur = '<br/><b>'.$data['Joueur'].' Joueur(s)</b>';
+                    if ($joueur=='') $joueur = '<br/>'.sprintf($this->lng['map_player_header'], $data['Joueur']);
                     if ($v['EMPIRE'] != '')
-                        $joueur .= '<br/>'.$v['USER'].' ('.$v['EMPIRE'].')';
+                        $joueur .= '<br/>'.sprintf($this->lng['map_row_player3'], $v['USER'], $v['EMPIRE']);
                     else
                         $joueur .= '<br/>'.$v['USER'];
                     break;
                 case 'Ennemi':
-                    if ($ennemi=='') $ennemi = '<br/><b>'.$data['Ennemi'].' Ennemi(s)</b>';
+                    if ($ennemi=='') $ennemi = '<br/>'.sprintf($this->lng['map_ennemy_header'], $data['Ennemi']);
                     if ($v['EMPIRE'] != '')
-                        $ennemi .= '<br/><font color=red><b>'.$v['USER'].'</b></font> ('.$v['EMPIRE'].')';
+                        $ennemi .= '<br/>'.sprintf($this->lng['map_row_player4'], $v['USER'], $v['EMPIRE']);
                     else
                         $ennemi .= '<br/><font color=red>'.$v['USER'].'</font>';
                     break;
                 case 'pnj':
-                    if ($pnj=='') $pnj = '<br/><b>'.$data['pnj'].' Flotte(s) pirate</b>';
+                    if ($pnj=='') $pnj = '<br/>'.sprintf($this->lng['map_pnj_header'], $data['pnj']);
                     break;
 
                 case 'Vortex':
-                    if ($vortex=='') $vortex = '<br/><b>'.$data['Vortex'].' Vortex</b>';
+                    if ($vortex=='') $vortex = '<br/>'.sprintf($this->lng['map_planet_header'], $data['Vortex']);
                     $vortex .= '<br/>=> '.$v['POSOUT'];
                     break;
 
                 case 'Planète':
-                    if ($planète=='')	$planète = '<br/><b>'.$data['Planète'].' Planète(s)</b>';
+                    if ($planète=='')	$planète = '<br/>'.sprintf($this->lng['map_wormhole_header'], $data['Planète']);
                     break;
                 case 'Astéroïde':
-                    if ($asteroide=='') $asteroide = '<br/><b>'.$data['Astéroïde'].' Astéroïde(s)</b>';
+                    if ($asteroide=='') $asteroide = '<br/>'.sprintf($this->lng['map_asteroid_header'], $data['Astéroïde']);
                     break;
             }
         }
 
         if ( isset($data['Chemin']) ) {
             switch ($data['Chemin']) {
-                case 1:		$chemin = 'Départ imminent';
+                case 1:		$chemin = $this->lng['map_parcours_start'];
                     break;
-                case 3:		$chemin = 'Vous êtes arrivé';
+                case 3:		$chemin = $this->lng['map_parcours_end'];
                     break;
-                default:	$chemin = 'Itinéraire (vortex)';
+                default:	$chemin = $this->lng['map_parcours_wormhole'];
                     break;
             }
-            $chemin = '<br/><font color=\'darkgreen\'><b>'.$chemin.'</b></font>';
+            $chemin = '<br/>'.sprintf($this->lng['map_parcours'], $chemin);
         }
 
         return $info.$moi.$chemin.$search.$empire.$alliance.$vortex.$asteroide.$planète

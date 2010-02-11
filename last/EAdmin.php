@@ -13,6 +13,7 @@ require_once(INCLUDE_PATH.'Script.php');
 DataEngine::conf_cache('wormhole_cleaning');
 DataEngine::conf_cache('EmpireAllys');
 DataEngine::conf_cache('EmpireEnnemy');
+DataEngine::conf_cache('MapColors');
 
 if (!Members::CheckPerms(AXX_ROOTADMIN) && !Members::CheckPerms('MEMBRES_ADMIN'))
     Members::NoPermsAndDie();

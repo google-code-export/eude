@@ -16,6 +16,7 @@ require_once(CLASS_PATH.'ownuniverse.class.php');
 
 DataEngine::conf_cache('EmpireAllys');
 DataEngine::conf_cache('EmpireEnnemy');
+DataEngine::conf_cache('MapColors');
 
 //if (headers_sent($file,$line)) die("Erreur 'header': $file:$line");
 //$connexion = Config::DB_Connect();
@@ -103,8 +104,9 @@ function initimg($Nbx,$Nby, $taillex,$tailley) {
     imagefilledrectangle($image, 2, 2, $Nbx*$taillex+2, $Nby*$tailley+2, $background_color);
 
     // Tableau des couleurs...
-    $colormap = Config::GetMapColor( $map->itineraire ? 0: $map->sc+1 );
-    $colormap = $colormap['c'];
+    $colormap = DataEngine::config('MapColors');
+//            ( $map->itineraire ? 0: $map->sc+1 );
+    $colormap = $colormap[$map->itineraire ? 0: $map->sc+1];
     foreach ($colormap as $k => $c) {
         $R = hexdec(substr($c,1,2));
         $V = hexdec(substr($c,3,2));

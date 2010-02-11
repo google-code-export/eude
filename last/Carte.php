@@ -12,6 +12,7 @@ require_once(CLASS_PATH.'map.class.php');
 
 DataEngine::conf_cache('EmpireAllys');
 DataEngine::conf_cache('EmpireEnnemy');
+DataEngine::conf_cache('MapColors');
 
 if (!DataEngine::CheckPerms('CARTE'))
     output::Boink(ROOT_URL.'Mafiche.php');
