@@ -24,7 +24,7 @@ class tpl_login extends output {
 
 	public function DoOutput($login_msg='',$register=false) {
 		$action = ($register) ? $this->BASE_FILE: '';
-		$btn_text = ($register) ? $lng['register']: $lng['signin'];
+		$btn_text = ($register) ? $this->lng['register']: $this->lng['signin'];
 $out =<<<BASE
 <CENTER>
 	<table>
