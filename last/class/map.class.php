@@ -536,7 +536,7 @@ class map /*extends parcours*/ {
         $result = '11';
 
         if ($joueur>0)		$result = '3';
-        if ($planete>0)		$result = '9';
+        if ($planete>0)		$result = '6';
         if ($asteroide>0)	$result = '5';
         if ($vortex>0)		$result = '4';
 
