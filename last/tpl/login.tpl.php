@@ -38,7 +38,7 @@ $out =<<<BASE
 		<td id='TDtableau' rowspan=2 style='valign=center'><input id='INBTtableau' type="submit" value="{$btn_text}" /></td>
 	</tr>
 	<tr id='TRtableau'>
-		<td id='TDtableau'>{$lng['password']} :</td>
+		<td id='TDtableau'>{$this->lng['password']} :</td>
 		<td id='TDtableau'><input tabindex=2 id='INtableau' type="password" value="" name="mdp" /></td>
 	</tr>
 BASE;
