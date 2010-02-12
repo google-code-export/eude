@@ -243,7 +243,7 @@ ps;
     }
 
     public function Parcours_Row($vortex,$IN,$OUT,$dist) {
-        $vortex = sprintf($lng['parcours_bywormhole'], $vortex);
+        $vortex = sprintf($this->lng['parcours_bywormhole'], $vortex);
         $out = <<<pr
 				<TR id="Map_Itineraire">
 					<TD id="Map_Itineraire">{$vortex}</TD>

@@ -70,10 +70,10 @@ class DataEngine extends Members {
         return (self::$initialized=true);
     }
     static public function jump_install() {
-        if (file_exists('addons/install/'))
-            output::Boink('addons/install/');
-        elseif (file_exists('../install/'))
-            output::Boink('../install/');
+        if (file_exists(ADDONS_PATH.'install/'))
+            output::Boink(ADDONS_PATH.'install/');
+        elseif (file_exists(ROOT_PATH.'install/'))
+            output::Boink(ROOT_PATH.'install/');
         else
             self::ErrorAndDie('Installation non effectué', false);
     }
