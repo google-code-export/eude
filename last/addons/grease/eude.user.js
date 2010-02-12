@@ -37,85 +37,144 @@ var c_game_lang = (unsafeWindow.top.sei_language != 'undefined') ? unsafeWindow.
 
 var i18n = Array();
 i18n['fr'] = Array();
-i18n['fr']['confheader'] = 'Options spécifique au <u>Data Engine</u>';
-i18n['fr']['conflink']   = 'Adresse';
-i18n['fr']['confuser']   = 'Nom d\'utilisateur';
-i18n['fr']['confpass']   = 'Mot de passe';
-i18n['fr']['confspacer'] = 130;
-i18n['fr']['confcells']  = 21;
-i18n['fr']['coords']     = 'Coordonnées';
-i18n['fr']['ress0']      = 'Titane';
-i18n['fr']['ress1']      = 'Cuivre';
-i18n['fr']['ress2']      = 'Fer';
-i18n['fr']['ress3']      = 'Aluminium';
-i18n['fr']['ress4']      = 'Mercure';
-i18n['fr']['ress5']      = 'Silicium';
-i18n['fr']['ress6']      = 'Uranium';
-i18n['fr']['ress7']      = 'Krypton';
-i18n['fr']['ress8']      = 'Azote';
-i18n['fr']['ress9']      = 'Hydrogène';
+i18n['fr']['confheader']     = 'Options spécifique au <u>Data Engine</u>';
+i18n['fr']['conflink']       = 'Adresse';
+i18n['fr']['confuser']       = 'Nom d\'utilisateur';
+i18n['fr']['confpass']       = 'Mot de passe';
+i18n['fr']['confspacer']     = 130;
+i18n['fr']['confcells']      = 21;
+i18n['fr']['coords']         = 'Coordonnées';
+i18n['fr']['ress0']          = 'Titane';
+i18n['fr']['ress1']          = 'Cuivre';
+i18n['fr']['ress2']          = 'Fer';
+i18n['fr']['ress3']          = 'Aluminium';
+i18n['fr']['ress4']          = 'Mercure';
+i18n['fr']['ress5']          = 'Silicium';
+i18n['fr']['ress6']          = 'Uranium';
+i18n['fr']['ress7']          = 'Krypton';
+i18n['fr']['ress8']          = 'Azote';
+i18n['fr']['ress9']          = 'Hydrogène';
+i18n['fr']['ss_preview']     = 'Aperçu système solaire n°';
+i18n['fr']['neutral,planet'] = ' planètes';
+i18n['fr']['emp,planet']     = ' joueur(s) de l\'empire';
+i18n['fr']['ally,planet']    = ' joueur(s) allié';
+i18n['fr']['war,planet']     = ' joueur(s) en guerre';
+i18n['fr']['nap,planet']     = ' joueur(s) en pna';
+i18n['fr']['wormhole']       = ' vortex';
+i18n['fr'][',asteroid']      = ' astéroïde(s)';
+i18n['fr'][',wreckage']      = ' champs de débris';
+i18n['fr']['neutral,fleet']  = ' flotte(s) neutre';
+i18n['fr']['own,fleet']      = ' flotte(s) perso';
+i18n['fr']['nap,fleet']      = ' flotte(s) en pna';
+i18n['fr']['enemy,fleet']    = ' flotte(s) ennemie(s)';
+i18n['fr']['npc,fleet']      = ' flotte(s) pirate';
+i18n['fr']['ga,fleet']       = ' flotte(s) schtroumpfs';
 
 if (c_game_lang == 'com') c_game_lang = 'en';
 i18n['en'] = Array();
-i18n['en']['confheader'] = '<u>Data Engine</u> specifics options';
-i18n['en']['conflink']   = 'Address';
-i18n['en']['confuser']   = 'User name';
-i18n['en']['confpass']   = 'Password';
-i18n['en']['confspacer'] = 65;
-i18n['en']['confcells']  = 20;
-i18n['en']['coords']     = 'Coordinates';
-i18n['en']['ress0']      = 'Titanium';
-i18n['en']['ress1']      = 'Copper';
-i18n['en']['ress2']      = 'Iron';
-i18n['en']['ress3']      = 'Aluminium';
-i18n['en']['ress4']      = 'Mercury';
-i18n['en']['ress5']      = 'Silicon';
-i18n['en']['ress6']      = 'Uranium';
-i18n['en']['ress7']      = 'Krypton';
-i18n['en']['ress8']      = 'Nitrogen';
-i18n['en']['ress9']      = 'Hydrogen';
+i18n['en']['confheader']     = '<u>Data Engine</u> specifics options';
+i18n['en']['conflink']       = 'Address';
+i18n['en']['confuser']       = 'User name';
+i18n['en']['confpass']       = 'Password';
+i18n['en']['confspacer']     = 65;
+i18n['en']['confcells']      = 20;
+i18n['en']['coords']         = 'Coordinates';
+i18n['en']['ress0']          = 'Titanium';
+i18n['en']['ress1']          = 'Copper';
+i18n['en']['ress2']          = 'Iron';
+i18n['en']['ress3']          = 'Aluminium';
+i18n['en']['ress4']          = 'Mercury';
+i18n['en']['ress5']          = 'Silicon';
+i18n['en']['ress6']          = 'Uranium';
+i18n['en']['ress7']          = 'Krypton';
+i18n['en']['ress8']          = 'Nitrogen';
+i18n['en']['ress9']          = 'Hydrogen';
+i18n['en']['ss_preview']     = 'Aperçu système solaire n°';
+i18n['en']['neutral,planet'] = ' planètes';
+i18n['en']['emp,planet']     = ' joueur(s) de l\'empire';
+i18n['en']['ally,planet']    = ' joueur(s) allié';
+i18n['en']['war,planet']     = ' joueur(s) en guerre';
+i18n['en']['nap,planet']     = ' joueur(s) en pna';
+i18n['en']['wormhole']       = ' vortex';
+i18n['en'][',asteroid']      = ' astéroïde(s)';
+i18n['en'][',wreckage']      = ' champs de débris';
+i18n['en']['neutral,fleet']  = ' flotte(s) neutre';
+i18n['en']['own,fleet']      = ' flotte(s) perso';
+i18n['en']['nap,fleet']      = ' flotte(s) en pna';
+i18n['en']['enemy,fleet']    = ' flotte(s) ennemie(s)';
+i18n['en']['npc,fleet']      = ' flotte(s) pirate';
+i18n['en']['ga,fleet']       = ' flotte(s) schtroumpfs';
 
 i18n['de'] = Array();
-i18n['de']['confheader'] = 'Options spécifique au <u>Data Engine</u>';
-i18n['de']['conflink']   = 'Adresse';
-i18n['de']['confuser']   = 'Nom d\'utilisateur';
-i18n['de']['confpass']   = 'Mot de passe';
-i18n['de']['confspacer'] = 50;
-i18n['de']['confcells']  = 20;
-i18n['de']['coords']     = 'Koordinaten';
-i18n['de']['ress0']      = 'Titan';
-i18n['de']['ress1']      = 'Kupfer';
-i18n['de']['ress2']      = 'Eisen';
-i18n['de']['ress3']      = 'Aluminium';
-i18n['de']['ress4']      = 'Quecksilber';
-i18n['de']['ress5']      = 'Silizium';
-i18n['de']['ress6']      = 'Uran';
-i18n['de']['ress7']      = 'Krypton';
-i18n['de']['ress8']      = 'Stickstoff';
-i18n['de']['ress9']      = 'Wasserstoff';
+i18n['de']['confheader']     = 'Options spécifique au <u>Data Engine</u>';
+i18n['de']['conflink']       = 'Adresse';
+i18n['de']['confuser']       = 'Nom d\'utilisateur';
+i18n['de']['confpass']       = 'Mot de passe';
+i18n['de']['confspacer']     = 50;
+i18n['de']['confcells']      = 20;
+i18n['de']['coords']         = 'Koordinaten';
+i18n['de']['ress0']          = 'Titan';
+i18n['de']['ress1']          = 'Kupfer';
+i18n['de']['ress2']          = 'Eisen';
+i18n['de']['ress3']          = 'Aluminium';
+i18n['de']['ress4']          = 'Quecksilber';
+i18n['de']['ress5']          = 'Silizium';
+i18n['de']['ress6']          = 'Uran';
+i18n['de']['ress7']          = 'Krypton';
+i18n['de']['ress8']          = 'Stickstoff';
+i18n['de']['ress9']          = 'Wasserstoff';
+i18n['de']['ss_preview']     = 'Aperçu système solaire n°';
+i18n['de']['neutral,planet'] = ' planètes';
+i18n['de']['emp,planet']     = ' joueur(s) de l\'empire';
+i18n['de']['ally,planet']    = ' joueur(s) allié';
+i18n['de']['war,planet']     = ' joueur(s) en guerre';
+i18n['de']['nap,planet']     = ' joueur(s) en pna';
+i18n['de']['wormhole']       = ' vortex';
+i18n['de'][',asteroid']      = ' astéroïde(s)';
+i18n['de'][',wreckage']      = ' champs de débris';
+i18n['de']['neutral,fleet']  = ' flotte(s) neutre';
+i18n['de']['own,fleet']      = ' flotte(s) perso';
+i18n['de']['nap,fleet']      = ' flotte(s) en pna';
+i18n['de']['enemy,fleet']    = ' flotte(s) ennemie(s)';
+i18n['de']['npc,fleet']      = ' flotte(s) pirate';
+i18n['de']['ga,fleet']       = ' flotte(s) schtroumpfs';
 
 // [PL] translation by jhonny
 i18n['pl'] = Array();
-i18n['pl']['confheader'] = 'Opcje ustawienia do <u>Data Engine</u>';
-i18n['pl']['conflink']   = 'Strona';
-i18n['pl']['confuser']   = 'Użytkownik';
-i18n['pl']['confpass']   = 'Hasło';
-i18n['pl']['confspacer'] = 130;
-i18n['pl']['confcells']  = 21;
-i18n['pl']['coords']     = 'Współrzędne';
-i18n['pl']['ress0']      = 'Tytan';
-i18n['pl']['ress1']      = 'Miedź';
-i18n['pl']['ress2']      = 'Żelazo';
-i18n['pl']['ress3']      = 'Aluminium';
-i18n['pl']['ress4']      = 'Rtęć';
-i18n['pl']['ress5']      = 'Krzem';
-i18n['pl']['ress6']      = 'Uran';
-i18n['pl']['ress7']      = 'Krypton';
-i18n['pl']['ress8']      = 'Azot';
-i18n['pl']['ress9']      = 'Wodór';
+i18n['pl']['confheader']     = 'Opcje ustawienia do <u>Data Engine</u>';
+i18n['pl']['conflink']       = 'Strona';
+i18n['pl']['confuser']       = 'Użytkownik';
+i18n['pl']['confpass']       = 'Hasło';
+i18n['pl']['confspacer']     = 130;
+i18n['pl']['confcells']      = 21;
+i18n['pl']['coords']         = 'Współrzędne';
+i18n['pl']['ress0']          = 'Tytan';
+i18n['pl']['ress1']          = 'Miedź';
+i18n['pl']['ress2']          = 'Żelazo';
+i18n['pl']['ress3']          = 'Aluminium';
+i18n['pl']['ress4']          = 'Rtęć';
+i18n['pl']['ress5']          = 'Krzem';
+i18n['pl']['ress6']          = 'Uran';
+i18n['pl']['ress7']          = 'Krypton';
+i18n['pl']['ress8']          = 'Azot';
+i18n['pl']['ress9']          = 'Wodór';
+i18n['pl']['ss_preview']     = 'Aperçu système solaire n°';
+i18n['pl']['neutral,planet'] = ' planètes';
+i18n['pl']['emp,planet']     = ' joueur(s) de l\'empire';
+i18n['pl']['ally,planet']    = ' joueur(s) allié';
+i18n['pl']['war,planet']     = ' joueur(s) en guerre';
+i18n['pl']['nap,planet']     = ' joueur(s) en pna';
+i18n['pl']['wormhole']       = ' vortex';
+i18n['pl'][',asteroid']      = ' astéroïde(s)';
+i18n['pl'][',wreckage']      = ' champs de débris';
+i18n['pl']['neutral,fleet']  = ' flotte(s) neutre';
+i18n['pl']['own,fleet']      = ' flotte(s) perso';
+i18n['pl']['nap,fleet']      = ' flotte(s) en pna';
+i18n['pl']['enemy,fleet']    = ' flotte(s) ennemie(s)';
+i18n['pl']['npc,fleet']      = ' flotte(s) pirate';
+i18n['pl']['ga,fleet']       = ' flotte(s) schtroumpfs';
 
-var md5 = function (string) {
-
+var salt = function (string) {
     function RotateLeft(lValue, iShiftBits) {
         return (lValue<<iShiftBits) | (lValue>>>(32-iShiftBits));
     }
@@ -443,18 +502,18 @@ var c_onload = function(e) {
 
     if (e.status=='404' || e.status=='405') {
         GM_setValue(c_prefix+'actived','0');
-        AddGameLog('<span class="gamelog_raid">Aucune réponse du Data Engine ('+e.status+')</span>');
-        return alert('Aucune communication avec le Data Engine\nVérifier l\'adresse');
+        AddGameLog('<span class="gamelog_raid">No answer with Data Engine ('+e.status+')</span>');
+        return alert('No link etablished with ours Data Engine\nCheck address');
         top.location.reload(true);
     }
     if (e.status=='500') {
-        AddGameLog('<span class="gamelog_raid">Le serveur spécifié ne répond pas</span>');
-        return alert('Le serveur répond pas !');
+        AddGameLog('<span class="gamelog_raid">Ours server has crached ?</span>');
+        return alert('Ours server has crached ?!');
     }
 
     if (e.responseText.indexOf('<eude>')<0) {
         GM_setValue(c_prefix+'actived','0');
-        alert("Erreur XML, désactivation de 'eude'...\n\n\n\nRéponse donnée:\n"+e.responseText);
+        alert("XML error, disabling 'eude'...\n\n\n\nData Engine send:\n"+e.responseText);
         return top.location.reload(true);
     }
     if (!e.responseXML)
@@ -521,7 +580,7 @@ function get_xml(key, data) {
             break;
     }
     _data = 'user='+encodeURIComponent(GM_getValue(c_prefix+'user',''))+
-    '&pass='+encodeURIComponent(md5(GM_getValue(c_prefix+'pass','')))+
+    '&pass='+encodeURIComponent(salt(GM_getValue(c_prefix+'pass','')))+
     '&svr='+encodeURIComponent(c_prefix)+_data;
     
     GM_xmlhttpRequest({
@@ -587,7 +646,7 @@ function GetNode (xml, tag){
 
 function Index() {
     //    AddToMotd('Data Engine: <b>'+c_server+'</b>.<b>'+ c_lang+'</b> activé.');
-    AddGameLog('Data Engine: <b>'+c_server+'</b>.<b>'+ c_lang+'</b> activé.');
+    AddGameLog('Data Engine: <b>'+c_server+'</b>.<b>'+ c_lang+'</b>.');
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.text = '\x6f\x6c\x64\x53\x65\x74\x54\x69\x6d\x65\x6f\x75\x74'+
@@ -650,21 +709,22 @@ function Galaxy() {
         else
             e[found]=1;
     }
-    var msg = '<br/><b>Système solaire n°'+document.getElementById('target_starsystem_id').value+'</b>';
-    if (e['neutral,planet']) msg += '<br/>'+                      e['neutral,planet']+' planètes';
-    if (e['emp,planet'])     msg += '<br/><font color=green>'+    e['emp,planet']    +' joueur(s) de l\'empire</font>';
-    if (e['ally,planet'])    msg += '<br/><font color=gold>'+     e['ally,planet']   +' joueur(s) allié</font>';
-    if (e['war,planet'])     msg += '<br/><font color=red>'+      e['war,planet']    +' joueur(s) en guerre</font>';
-    if (e['nap,planet'])     msg += '<br/><font color=#9966FF>'+  e['nap,planet']    +' joueur(s) en pna</font>';
-    if (e['wormhole'])       msg += '<br/><font color=#AABBFF>'+  e['wormhole']      +' vortex</font>';
-    if (e[',asteroid'])      msg += '<br/><font color=gray>'+     e[',asteroid']     +' astéroïde(s)</font>';
-    if (e[',wreckage'])      msg += '<br/><font color=#AA55FF>'+  e[',wreckage']     +' champs de débris</font>';
-    if (e['neutral,fleet'])  msg += '<br/>'+                      e['neutral,fleet'] +' flotte(s) neutre';
-    if (e['own,fleet'])      msg += '<br/><font color=green>'+    e['own,fleet']     +' flotte(s) perso</font>';
-    if (e['nap,fleet'])      msg += '<br/><font color=#9966FF>'+  e['nap,fleet']     +' flotte(s) en pna</font>';
-    if (e['enemy,fleet'])    msg += '<br/><font color=red>'+      e['enemy,fleet']   +' flotte(s) ennemie(s)</font>';
-    if (e['npc,fleet'])      msg += '<br/><font color=gold>'+     e['npc,fleet']     +' flotte(s) pirate</font>';
-    if (e['ga,fleet'])       msg += '<br/><font color=lightblue>'+e['ga,fleet']      +' flotte(s) schtroumpfs</font>';
+
+    var msg = '<br/><b>'+i18n[c_game_lang]['ss_preview']+document.getElementById('target_starsystem_id').value+'</b>';
+    if (e['neutral,planet']) msg += '<br/>'+                      e['neutral,planet']+i18n[c_game_lang]['neutral,planet'];
+    if (e['emp,planet'])     msg += '<br/><font color=green>'+    e['emp,planet']    +i18n[c_game_lang]['emp,planet']     +'</font>';
+    if (e['ally,planet'])    msg += '<br/><font color=gold>'+     e['ally,planet']   +i18n[c_game_lang]['ally,planet']    +'</font>';
+    if (e['war,planet'])     msg += '<br/><font color=red>'+      e['war,planet']    +i18n[c_game_lang]['war,planet']     +'</font>';
+    if (e['nap,planet'])     msg += '<br/><font color=#9966FF>'+  e['nap,planet']    +i18n[c_game_lang]['nap,planet']     +'</font>';
+    if (e['wormhole'])       msg += '<br/><font color=#AABBFF>'+  e['wormhole']      +i18n[c_game_lang]['wormhole']       +'</font>';
+    if (e[',asteroid'])      msg += '<br/><font color=gray>'+     e[',asteroid']     +i18n[c_game_lang][',asteroid']      +'</font>';
+    if (e[',wreckage'])      msg += '<br/><font color=#AA55FF>'+  e[',wreckage']     +i18n[c_game_lang][',wreckage']      +'</font>';
+    if (e['neutral,fleet'])  msg += '<br/>'+                      e['neutral,fleet'] +i18n[c_game_lang]['neutral,fleet'];
+    if (e['own,fleet'])      msg += '<br/><font color=green>'+    e['own,fleet']     +i18n[c_game_lang]['own,fleet']      +'</font>';
+    if (e['nap,fleet'])      msg += '<br/><font color=#9966FF>'+  e['nap,fleet']     +i18n[c_game_lang]['nap,fleet']      +'</font>';
+    if (e['enemy,fleet'])    msg += '<br/><font color=red>'+      e['enemy,fleet']   +i18n[c_game_lang]['enemy,fleet']    +'</font>';
+    if (e['npc,fleet'])      msg += '<br/><font color=gold>'+     e['npc,fleet']     +i18n[c_game_lang]['npc,fleet']      +'</font>';
+    if (e['ga,fleet'])       msg += '<br/><font color=lightblue>'+e['ga,fleet']      +i18n[c_game_lang]['ga,fleet']       +'</font>';
     delete(e['neutral,sun']);
     delete(e['neutral,planet']);
     delete(e['own,planet']);
@@ -717,10 +777,10 @@ function Planet() {
     var html = document.documentElement.innerHTML;
 
     var a=new Array();
-    if (html.match(eval('/'+i18n['fr']['coords']+'.+\\n.+<td class=\\"font_white\\">(\\d+:\\d+:\\d+:\\d+)<\\/td>/')))
+    if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+\\n.+<td class=\\"font_white\\">(\\d+:\\d+:\\d+:\\d+)<\\/td>/')))
         a['COORIN']= RegExp.$1;
     for (i=0;i<10;i++)
-        if (html.match(eval('/'+i18n['fr']['ress'+i]+'.+\\n.+<td class=\\"font_white\\">(.+)<\\/td>/')))
+        if (html.match(eval('/'+i18n[c_game_lang]['ress'+i]+'.+\\n.+<td class=\\"font_white\\">(.+)<\\/td>/')))
             a[i]= RegExp.$1;
 
     get_xml('planet', a);
@@ -730,10 +790,10 @@ function Asteroid() {
     var html = document.documentElement.innerHTML;
 
     var a=new Array();
-    if (html.match(eval('/'+i18n['fr']['coords']+'.+\\n.+<td class=\\"font_white\\">(\\d+:\\d+:\\d+:\\d+)<\\/td>/')))
+    if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+\\n.+<td class=\\"font_white\\">(\\d+:\\d+:\\d+:\\d+)<\\/td>/')))
         a['COORIN']= RegExp.$1;
     for (i=0;i<10;i++)
-        if (html.match(eval('/'+i18n['fr']['ress'+i]+'.+\\n.+<td class=\\"font_white\\">(.+)<\\/td>/')))
+        if (html.match(eval('/'+i18n[c_game_lang]['ress'+i]+'.+\\n.+<td class=\\"font_white\\">(.+)<\\/td>/')))
             a[i]= RegExp.$1;
 
     get_xml('asteroid', a);
