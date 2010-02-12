@@ -712,9 +712,9 @@ function Galaxy() {
 
     var msg = '<br/><b>'+i18n[c_game_lang]['ss_preview']+document.getElementById('target_starsystem_id').value+'</b>';
     if (e['neutral,planet']) msg += '<br/>'+                      e['neutral,planet']+i18n[c_game_lang]['neutral,planet'];
-    if (e['emp,planet'])     msg += '<br/><font color=green>'+    e['emp,planet']    +i18n[c_game_lang]['emp,planet']     +'</font>';
+    if (e['emp,planet'])     msg += '<br/><font color=#ffff88>'+  e['emp,planet']    +i18n[c_game_lang]['emp,planet']     +'</font>';
     if (e['ally,planet'])    msg += '<br/><font color=gold>'+     e['ally,planet']   +i18n[c_game_lang]['ally,planet']    +'</font>';
-    if (e['war,planet'])     msg += '<br/><font color=red>'+      e['war,planet']    +i18n[c_game_lang]['war,planet']     +'</font>';
+    if (e['war,planet'])     msg += '<br/><font color=#ff5588>'+  e['war,planet']    +i18n[c_game_lang]['war,planet']     +'</font>';
     if (e['nap,planet'])     msg += '<br/><font color=#9966FF>'+  e['nap,planet']    +i18n[c_game_lang]['nap,planet']     +'</font>';
     if (e['wormhole'])       msg += '<br/><font color=#AABBFF>'+  e['wormhole']      +i18n[c_game_lang]['wormhole']       +'</font>';
     if (e[',asteroid'])      msg += '<br/><font color=gray>'+     e[',asteroid']     +i18n[c_game_lang][',asteroid']      +'</font>';
@@ -742,7 +742,7 @@ function Galaxy() {
     delete(e['npc,fleet']);
     delete(e['ga,fleet']);
     for (var item in e) {
-        msg += '<br/><font color=red>'+e[item]+' &quot;'+item+'&quot; élément inconnu !</font>';
+        msg += '<br/><font color=red>'+e[item]+' &quot;'+item+'&quot; unknown item !</font>';
         delete(e[item]);
     }
     AddToMotd(msg,'<hr/>');

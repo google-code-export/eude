@@ -348,14 +348,16 @@ class map /*extends parcours*/ {
 
         /// filtre spécial...
         $if = array();
-        if (!$this->ennemis)					$if[] = 'IF(a.TYPE=5, 0, a.TYPE) as TYPE,';
+        if (!$this->ennemis && !$this->allys)   $if[] = 'IF(a.TYPE in (3,5), 0, a.TYPE) as TYPE,';
+        if (!$this->ennemis && $this->allys)    $if[] = 'IF(a.TYPE=5, 0, a.TYPE) as TYPE,';
+        if ($this->ennemis && !$this->allys)    $if[] = 'IF(a.TYPE=3, 0, a.TYPE) as TYPE,';
 
         /// filtre in type:
         $in = array();
         if ($this->joueur)			$in[] = 0;
         if ($this->vortex)			$in[] = 1;
         if ($this->planete)			$in[] = 2;
-        if ($this->allys)			$in[] = 3;
+        if ($this->allys || $this->joueur)      $in[] = 3;
         if ($this->asteroide)                   $in[] = 4;
         if ($this->pnj)				$in[] = 6;
         if ($this->ennemis || $this->joueur)	$in[] = 5;
