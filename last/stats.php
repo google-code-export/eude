@@ -14,7 +14,7 @@ DataEngine::CheckPermsOrDie('MEMBRES_STATS');
 require_once(TEMPLATE_PATH.'stats.tpl.php');
 
 $tpl = tpl_stats::getinstance();
-$tpl->css_file=false;
+//$tpl->css_file=false;
 $tpl->page_title = "EU2: Statistiques";
 
 if (isset($_GET['act']) && $_GET['act'] == 'pts') {

@@ -19,7 +19,6 @@ class tpl_stats extends output {
     protected $BASE_FILE = '';
 
     private $colsid=0;
-    private $cols = array(0=>"#CCCCCC",1=>"#D6D6D6");
     protected $total = null;
     protected $currow = '';
     protected $curtpl;
@@ -28,9 +27,14 @@ class tpl_stats extends output {
         $this->BASE_FILE = ROOT_URL."stats.php";
         parent::__construct();
         $this->total = array_fill(-1,8,0);
+        $actived_pts = ( isset($_GET['act']) ? 'titre':'header');
+        $actived_de  = (!isset($_GET['act']) ? 'titre':'header');
         $out = <<<h
-<table bgcolor='#CCCCCC' align=center>
-<tr><td><a href='{$this->BASE_FILE}'>Stats Data Engine</a></td><td><a href='{$this->BASE_FILE}?act=pts'>Points</a></td></tr>
+        <br/>
+<table class="table_center table_nospacing">
+<tr>
+<td class="color_{$actived_de} text_center" width="50%"><a href='{$this->BASE_FILE}'>Stats Data Engine</a></td>
+<td class="color_{$actived_pts} text_center" width="50%"><a href='{$this->BASE_FILE}?act=pts'>Points</a></td></tr>
 <tr><td colspan="2">
 h;
         $this->PushOutput($out);
@@ -38,34 +42,31 @@ h;
 
     public function SetRowtpl() {
         $this->currow = <<<ROW
-            <TR bgcolor="%%bgcls%%">
-		<TD>%%-2%%</TD>
+            <TR class="color_%%class%%">
+		<TD class="color_header">%%-2%%</TD>
 		<TD align=center>%%0%%</TD>
+		<TD align=center>%%3%%</TD>
 		<TD align=center>%%5%%</TD>
 		<TD align=center>%%6%%</TD>
 		<TD align=center>%%1%%</TD>
 		<TD align=center>%%2%%</TD>
 		<TD align=center>%%4%%</TD>
-		<TD align=center>%%3%%</TD>
 		<TD align=center>%%-1%%</TD>
 	</TR>
 ROW;
 
     }
     public function Setheader() {
-        $tmp = <<<TABLE
-            <TABLE bgcolor='#AAAAAA' align='center' width=900px>
-TABLE;
         $this->curtpl = 'SetRowtpl';
-        $this->PushOutput($tmp);
+        $this->PushOutput('<TABLE class="color_header table_nospacing" width=900px>');
         $this->AddToRow('Utilisateur', -2);
         $this->AddToRow('Joueurs', 0);
+        $this->AddToRow('Alliés', 3);
         $this->AddToRow('Ennemis', 5);
         $this->AddToRow('Flotte PNJ', 6);
         $this->AddToRow('Vortex', 1);
         $this->AddToRow('Planètes', 2);
         $this->AddToRow('Astéroïdes', 4);
-        $this->AddToRow('Autres (0?)', 3);
         $this->AddToRow('Total', -1);
         $this->PushRow(true);
 
@@ -79,25 +80,22 @@ TABLE;
 
     public function SetRowtplPoints() {
         $this->currow = <<<ROW
-            <TR bgcolor="%%bgcls%%">
-		<TD>%%-2%%</TD>
-		<TD align=center>%%Points%%</TD>
-		<TD align=center>%%pts_architecte%%</TD>
-		<TD align=center>%%pts_mineur%%</TD>
-		<TD align=center>%%pts_science%%</TD>
-		<TD align=center>%%pts_commercant%%</TD>
-		<TD align=center>%%pts_amiral%%</TD>
-		<TD align=center>%%pts_guerrier%%</TD>
+            <TR class="color_%%class%%">
+		<TD class="color_header">%%-2%%</TD>
+		<TD>%%Points%%</TD>
+		<TD>%%pts_architecte%%</TD>
+		<TD>%%pts_mineur%%</TD>
+		<TD>%%pts_science%%</TD>
+		<TD>%%pts_commercant%%</TD>
+		<TD>%%pts_amiral%%</TD>
+		<TD>%%pts_guerrier%%</TD>
 	</TR>
 ROW;
 
     }
     public function SetheaderPoints() {
-        $tmp = <<<TABLE
-            <TABLE bgcolor='#AAAAAA' align='center' width=900px>
-TABLE;
         $this->curtpl = 'SetRowtplPoints';
-        $this->PushOutput($tmp);
+        $this->PushOutput('<TABLE class="color_header table_nospacing" width=900px>');
         $this->AddToRow('Utilisateur', -2);
         $this->AddToRow('Points total', 'Points');
         $this->AddToRow('Architecte', 'pts_architecte');
@@ -119,11 +117,11 @@ TABLE;
     }
     public function PushRow($bgcls=false) {
         if ($bgcls) {
-            $this->AddToRow('#AAAAAA', 'bgcls');
+            $this->AddToRow('header', 'class');
             $colsid = 0;
         } else {
             $this->colsid++;
-            $this->AddToRow($this->cols[($this->colsid%2)], 'bgcls');
+            $this->AddToRow('row'.($this->colsid%2), 'class');
             for ($i=-2; $i<8; $i++) $this->AddToRow('-', $i); // valeur par défaut
         }
         $this->PushOutput($this->currow);
