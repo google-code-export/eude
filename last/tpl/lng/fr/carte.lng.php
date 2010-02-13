@@ -79,38 +79,63 @@ $lng['map_parcours']= '<font color=\'darkgreen\'><b>%s</b></font>';
 
 // Légende affiché sur la page 'Carte.php'
 $lng['legend'] = 'Légende';
-$lng['maplegend'] = array (
-        0 => array( // par calcul d'itinéraire
-                1 => 'Astre quelconque',
-                2 => 'Mes colonies',
-                20 => 'Départ...',
-                21 => 'Arrivée.',
-                22 => 'Passage par vortex.',
-        ),
-        1 => array( // Affichage normal
-                1 => 'Joueurs de l\'empire',
-                2 => 'Mes colonies',
-                3 => 'Joueurs',
-                4 => 'Vortex',
-                5 => 'Astéroïde',
-//                6 => 'Planète vide / Colonie + Autre',
-//                7 => 'Joueur de l\'empire + Autre',
-                11 => 'Alliés',
-                8 => 'Joueurs ennemi',
-                9 => 'Flottes PNJ',
-                10 => 'Résultat de recherche',
-        ),
-        2 => array( // Affichage normal
-                1 => 'Joueurs de l\'empire',
-                2 => 'Mes colonies',
-                3 => 'Astre quelconque',
-//                4 => 'Vortex',
-//                5 => 'Astéroïde',
-//                6 => 'Planète vide / Colonie + Autre',
-//                7 => 'Joueur de l\'empire + Autre',
-                11 => 'Alliés',
-//                8 => 'Joueurs ennemi',
-//                9 => 'Flottes PNJ',
-                10 => 'Résultat de recherche',
-        ),
-);
+$lng['maplegend']        = array ();
+// Mode calcul de parcours
+$lng['maplegend'][0]     = array();
+//$lng['maplegend'][0][0]  = 'Portée du radar';
+//$lng['maplegend'][0][1]  = 'Astre quelconque';
+$lng['maplegend'][0][2]  = 'Mes colonies';
+//$lng['maplegend'][0][3]  = 'N/A';
+//$lng['maplegend'][0][4]  = 'N/A';
+//$lng['maplegend'][0][5]  = 'N/A';
+//$lng['maplegend'][0][6]  = 'N/A';
+//$lng['maplegend'][0][7]  = 'N/A';
+//$lng['maplegend'][0][11] = 'N/A';
+//$lng['maplegend'][0][8]  = 'N/A';
+//$lng['maplegend'][0][9]  = 'N/A';
+//$lng['maplegend'][0][10] = 'N/A';
+$lng['maplegend'][0][20] = 'Départ...';
+$lng['maplegend'][0][21] = 'Arrivée.';
+$lng['maplegend'][0][22] = 'Passage par vortex.';
+//$lng['maplegend'][0][24] = 'Navigation \'Warp\' normale';
+//$lng['maplegend'][0][25] = 'Navigation par vortex.';
+
+// Palette de couleur 1
+$lng['maplegend'][1]     = array();
+//$lng['maplegend'][1][0]  = 'Portée du radar';
+$lng['maplegend'][1][1]  = 'Joueur de l\'empire';
+$lng['maplegend'][1][2]  = 'Mes colonies';
+$lng['maplegend'][1][3]  = 'Joueurs';
+$lng['maplegend'][1][4]  = 'Vortex';
+$lng['maplegend'][1][5]  = 'Astéroïdes';
+//$lng['maplegend'][1][6]  = 'Planètes vide / Autre';
+//$lng['maplegend'][1][7]  = 'Joueur de l\'empire + autres';
+$lng['maplegend'][1][11] = 'Alliés';
+$lng['maplegend'][1][8]  = 'Joueurs ennemi';
+$lng['maplegend'][1][9]  = 'Flottes PNJ';
+$lng['maplegend'][1][10] = 'Résultat(s) de recherche';
+//$lng['maplegend'][1][20] = 'N/A';
+//$lng['maplegend'][1][21] = 'N/A';
+//$lng['maplegend'][1][22] = 'N/A';
+//$lng['maplegend'][1][24] = 'N/A';
+//$lng['maplegend'][1][25] = 'N/A';
+
+// Palette de couleur 2 (couleurs de base )
+$lng['maplegend'][2]     = array();
+//$lng['maplegend'][2][0]  = 'Portée du radar';
+$lng['maplegend'][2][1]  = 'Joueur de l\'empire';
+$lng['maplegend'][2][2]  = 'Mes colonies';
+$lng['maplegend'][2][3]  = 'Astre quelconque';
+//$lng['maplegend'][2][4]  = 'Vortex';
+//$lng['maplegend'][2][5]  = 'Astéroïdes';
+//$lng['maplegend'][2][6]  = 'Planètes vide / Autre';
+//$lng['maplegend'][2][7]  = 'Joueur de l\'empire + autres';
+//$lng['maplegend'][2][11] = 'Alliés';
+//$lng['maplegend'][2][8]  = 'Joueurs ennemi';
+//$lng['maplegend'][2][9]  = 'Flottes PNJ';
+$lng['maplegend'][2][10] = 'Résultat(s) de recherche';
+//$lng['maplegend'][2][20] = 'N/A';
+//$lng['maplegend'][2][21] = 'N/A';
+//$lng['maplegend'][2][22] = 'N/A';
+//$lng['maplegend'][2][24] = 'N/A';
+//$lng['maplegend'][2][25] = 'N/A';

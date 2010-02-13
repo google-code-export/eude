@@ -345,6 +345,10 @@ td#imperium_row2 {
     background-color: #480038;
     color: white;
 }
+.table_center {
+    margin-left:auto;
+    margin-right:auto;
+}
 .table_nospacing {
     border-spacing: 0px;
     border-collapse: collapse;
@@ -354,6 +358,9 @@ td#imperium_row2 {
     background-color: #800040;
     color: #FFCCCC;
     font-weight: bold;
+}
+.color_link {
+    color: black;
 }
 
 .text_center {

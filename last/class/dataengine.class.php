@@ -488,6 +488,8 @@ class Members {
         $cxx['MEMBRES_STATS'] = AXX_MEMBER;
         $cxx['MEMBRES_NEWPASS'] = AXX_ROOTADMIN;
         $cxx['MEMBRES_DELETE'] = AXX_ROOTADMIN;
+        $cxx['MEMBRES_ADMIN_MAP_COLOR'] = AXX_ROOTADMIN;
+        $cxx['MEMBRES_ADMIN_LOG'] = AXX_ROOTADMIN;
         $cxx['MEMBRES_ADMIN'] = AXX_ROOTADMIN;
 
         DataEngine::conf_add('perms', $cxx);

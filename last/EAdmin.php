@@ -18,6 +18,8 @@ DataEngine::conf_cache('MapColors');
 if (!Members::CheckPerms(AXX_ROOTADMIN) && !Members::CheckPerms('MEMBRES_ADMIN'))
     Members::NoPermsAndDie();
 
+$lng = language::getinstance()->GetLngBlock('admin');
+
 if(isset($_POST['log'])) {
     $login = strtolower($_POST['log']);
     $pass  = md5($_POST['pwd']);
@@ -140,10 +142,10 @@ if(isset($_GET['emp_war_rm']) && $_GET['emp_war_rm'] != '') {
     $wars = DataEngine::config('EmpireEnnemy');
     $emp = sqlesc($wars[$_GET['emp_war_rm']]);
     if ($emp != "") {
-            $mysql_result = DataEngine::sql("UPDATE SQL_PREFIX_Coordonnee SET TYPE=0 WHERE TYPE in (0,3,5) AND `EMPIRE` LIKE '{$emp}'");
-            unset ($wars[$_GET['emp_war_rm']]);
-            DataEngine::conf_update('EmpireEnnemy', $wars);
-            output::Boink('?');
+        $mysql_result = DataEngine::sql("UPDATE SQL_PREFIX_Coordonnee SET TYPE=0 WHERE TYPE in (0,3,5) AND `EMPIRE` LIKE '{$emp}'");
+        unset ($wars[$_GET['emp_war_rm']]);
+        DataEngine::conf_update('EmpireEnnemy', $wars);
+        output::Boink('?');
     }
 }
 if(isset($_POST['emp_allys_add']) && $_POST['emp_allys_add'] != '') {
@@ -162,11 +164,15 @@ if(isset($_GET['emp_allys_rm']) && $_GET['emp_allys_rm'] != '') {
     $allys = DataEngine::config('EmpireAllys');
     $emp = sqlesc($allys[$_GET['emp_allys_rm']]);
     if ($emp != "") {
-            $mysql_result = DataEngine::sql("UPDATE SQL_PREFIX_Coordonnee SET TYPE=0 WHERE TYPE in (0,3,5) AND `EMPIRE` LIKE '{$emp}'");
-            unset ($allys[$_GET['emp_allys_rm']]);
-            DataEngine::conf_update('EmpireAllys', $allys);
-            output::Boink('?');
+        $mysql_result = DataEngine::sql("UPDATE SQL_PREFIX_Coordonnee SET TYPE=0 WHERE TYPE in (0,3,5) AND `EMPIRE` LIKE '{$emp}'");
+        unset ($allys[$_GET['emp_allys_rm']]);
+        DataEngine::conf_update('EmpireAllys', $allys);
+        output::Boink('?');
     }
+}
+if(isset($_POST['majcolors']) && $_POST['majcolors']) {
+    DataEngine::conf_update('MapColors', $_POST['cls']);
+    output::Boink('?');
 }
 
 ///---------------------------------------------------------------------------------------------------------------
@@ -175,7 +181,7 @@ if(isset($_GET['emp_allys_rm']) && $_GET['emp_allys_rm'] != '') {
 // output::$page_title = "EU2: Admin";
 include_once(TEMPLATE_PATH.'eadmin.tpl.php');
 $tpl = tpl_eadmin::getinstance();
-$tpl->css_file   = false;
+//$tpl->css_file   = false;
 $tpl->page_title = 'EU2: Admin';
 
 ///---
@@ -216,35 +222,48 @@ $tpl->empire_allywars($allysnb, $warsnb);
 
 //---
 $dates = array();
-$dates["[Aucun changement]"]		= "-1";
-$dates["Aujourd'hui (tout)"]		= date("Y-m-d H:i:s");
-$dates["Dimanche dernier"]			= date("Y-m-d H:i:s", mktime(3, 0, 0, date("m"), date("d")-date("w")	) );
-$dates["Dimanche précédent"]		= date("Y-m-d H:i:s", mktime(3, 0, 0, date("m"), date("d")-date("w")-7) );
-$dates["Hier"]						= date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d")-1			) );
-$dates["Avant-hier"]				= date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d")-2			) );
-$dates["3 Jours"]					= date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d")-3			) );
-$dates["4 Jours"]					= date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d")-4			) );
-$dates["5 Jours"]					= date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d")-5			) );
-$dates["6 Jours"]					= date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d")-6			) );
-$dates["7 Jours"]					= date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d")-7			) );
-$dates["15 Jours"]					= date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d")-15			) );
-$dates["1 Mois (premier du mois)"]	= date("Y-m-d H:i:s", mktime(0, 0, 0, date("m")-1, date("d")			) );
-$dates["2 Mois (premier du mois)"]	= date("Y-m-d H:i:s", mktime(0, 0, 0, date("m")-2, date("d")			) );
-$dates["3 Mois (premier du mois)"]	= date("Y-m-d H:i:s", mktime(0, 0, 0, date("m")-3, date("d")			) );
-$dates["6 Mois (premier du mois)"]	= date("Y-m-d H:i:s", mktime(0, 0, 0, date("m")-6, date("d")			) );
-$dates["9 Mois (premier du mois)"]	= date("Y-m-d H:i:s", mktime(0, 0, 0, date("m")-9, date("d")			) );
-$dates["12 Mois (premier du mois)"]	= date("Y-m-d H:i:s", mktime(0, 0, 0, date("m")-12, date("d")			) );
+$dates['[Aucun changement]']		= '-1';
+$dates['Aujourd\'hui (tout)']		= date('Y-m-d H:i:s');
+$dates['Dimanche dernier']		= date('Y-m-d H:i:s', mktime(3, 0, 0, date('m'), date('d')-date('w')	) );
+$dates['Dimanche précédent']		= date('Y-m-d H:i:s', mktime(3, 0, 0, date('m'), date('d')-date('w')-7  ) );
+$dates['Hier']				= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-1		) );
+$dates['Avant-hier']			= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-2		) );
+$dates['3 Jours']			= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-3		) );
+$dates['4 Jours']			= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-4		) );
+$dates['5 Jours']			= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-5		) );
+$dates['6 Jours']			= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-6		) );
+$dates['7 Jours']			= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-7		) );
+$dates['15 Jours']			= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-15		) );
+$dates['1 Mois (premier du mois)']	= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-1, date('d')		) );
+$dates['2 Mois (premier du mois)']	= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-2, date('d')		) );
+$dates['3 Mois (premier du mois)']	= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-3, date('d')		) );
+$dates['6 Mois (premier du mois)']	= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-6, date('d')		) );
+$dates['9 Mois (premier du mois)']	= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-9, date('d')		) );
+$dates['12 Mois (premier du mois)']	= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-12, date('d')		) );
 
 $tpl->cleaning_header(5);
-$tpl->cleaning_row('asteroides',"Suppression des Astéroïdes", $dates);
-$tpl->cleaning_row('planetes',"Suppression des Planètes", $dates);
-$tpl->cleaning_row('joueurs',"Suppression des Joueurs", $dates);
-$tpl->cleaning_row('pnj',"Suppression des Flottes PNJ", $dates);
-$tpl->cleaning_row('inactif', 'Suppression des éléments incatifs',
+$tpl->cleaning_row('asteroides','Suppression des Astéroïdes', $dates);
+$tpl->cleaning_row('planetes','Suppression des Planètes', $dates);
+$tpl->cleaning_row('joueurs','Suppression des Joueurs', $dates);
+$tpl->cleaning_row('pnj','Suppression des Flottes PNJ', $dates);
+$tpl->cleaning_row('inactif', 'Suppression des éléments inactifs',
         array('[Aucun changement]' => '-1', 'Tous' => '1'));
 if (is_array($cleaning)) $tpl->cleaning_msg($cleaning);
 $tpl->cleaning_footer();
 
+//---
+
+if (Members::CheckPerms('MEMBRES_ADMIN_MAP_COLOR')) {
+    $cls = DataEngine::config('MapColors');
+    $tpl->map_color_header();
+
+    foreach ($lng['colorsgroup'] as $i => $title) {
+        $tpl->map_color_rowheader($title);
+        foreach($lng['colorslegend'][$i] as $v => $legend)
+            $tpl->map_color_row($cls,$i,$v,$legend);
+    }
+    $tpl->map_color_footer();
+}
 $tpl->admin_footer();
 ///---
 
