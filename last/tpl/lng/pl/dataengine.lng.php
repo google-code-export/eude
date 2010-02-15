@@ -24,6 +24,7 @@ $cxx = array();
 $cxx[] = 'Partie administrative';
 $cxx['MEMBRES_ADMIN'] = 'Page admin';
 $cxx['MEMBRES_ADMIN_LOG'] = 'Log des connexions';
+$cxx['MEMBRES_ADMIN_MAP_COLOR'] = 'Modification des couleurs de la carte';
 $cxx['MEMBRES_NEW'] = 'Ajout membre (inclus les grades)';
 $cxx['MEMBRES_EDIT'] = 'Modification membre';
 $cxx['MEMBRES_NEWPASS'] = 'Changer pass';
@@ -50,15 +51,15 @@ $cxx[] = 'Addons:';
 $lng['cxx'] = $cxx;
 
 $lng['axx'] = array(
-                AXX_VALIDATING  =>'Non-validé',
-                AXX_GUEST       =>'Invité',
-                AXX_MEMBER      =>'Membre',
-                AXX_POWERMEMBER =>'Membre+',
-                AXX_MODO        =>'Modérateur',
-                AXX_SUPMODO     =>'Super-Modérateur',
-                AXX_ADMIN       =>'Administrateur',
-                AXX_ROOTADMIN   =>'Super-Administrateur',
-                AXX_DISABLED    =>'Désactivé'
+                AXX_VALIDATING	=>'Non-validé',
+                AXX_GUEST	=>'Invité',
+                AXX_MEMBER	=>'Membre',
+                AXX_POWERMEMBER	=>'Membre+',
+                AXX_MODO	=>'Modérateur',
+                AXX_SUPMODO	=>'Super-Modérateur',
+                AXX_ADMIN	=>'Administrateur',
+                AXX_ROOTADMIN	=>'Super-Administrateur',
+                AXX_DISABLED	=>'Désactivé'
         );
 
 $lng['minimalpermsneeded'] = 'Permission minimale manquante (<b>%s</b> ou supérieur)';
