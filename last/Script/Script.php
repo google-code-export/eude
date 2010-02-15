@@ -76,9 +76,9 @@ if ($myget!='') $myget = '?'.substr($myget,0,strlen($myget)-1);
  */
 function sqlesc($value,$skip_gpc=false) {
     if (!get_magic_quotes_gpc() || $skip_gpc) {
-        return mysql_escape_string($value);
+        return mysql_real_escape_string($value);
     } else {
-        return mysql_escape_string(stripslashes($value));
+        return mysql_real_escape_string(stripslashes($value));
     }
 }
 
