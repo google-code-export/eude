@@ -11,47 +11,47 @@ $lng = array();
 
 // Bulles d'information 'Carte.php'
 $lng['helpmsg'] = <<<MSG
-            <b>Utilisation de la carte:</b><br/>
-Clique Gauche: Sélection du point d'origine<br/>
-Clique Droit: Sélection du point d'arrivé<br/>
-Maj/Ctrl + Clique: Visualisation du détail du système
+            <b>Uzywanie Mapy:</b><br>
+			Kliknij LPM: wybierz punkt poczatkowy<br>
+			Kliknij RPM: wybierz punkt koncowy<br>
+			Shift/Ctrl + Kliknij: Pokarz dokladnosc systemu
 MSG;
-$lng['msg_taill_inc'] = 'Taille de carte +';
-$lng['msg_taill_dec'] = 'Taille de carte &#151;';
-$lng['msg_cls']       = 'Couleurs de carte';
-$lng['msg_all_on']    = 'Tout activer';
-$lng['msg_all_off']   = 'Tout désactiver';
-$lng['msg_vortex']    = 'Vortex: %s';
-$lng['msg_joueur']    = 'Joueurs: %s';
-$lng['msg_planete']   = 'Planètes: %s';
-$lng['msg_asteroide'] = 'Astéroïdes: %s';
-$lng['msg_ennemis']   = 'Ennemis: %s';
-$lng['msg_allys']     = 'Alliés: %s';
-$lng['msg_pirate']    = 'Flottes pirate: %s';
-$lng['msg_search1']   = 'Choix empire/joueur';
-$lng['msg_search2']   = 'Touche Entrée pour faire la recherche';
-$lng['msg_search_emp']= 'Empire';
-$lng['msg_search_jou']= 'Joueur';
+$lng['msg_taill_inc'] = 'Wielkosc Mapy +';
+$lng['msg_taill_dec'] = 'Wielkosc Mapy &#151;';
+$lng['msg_cls']       = 'Kolory Mapy';
+$lng['msg_all_on']    = 'Aktywuj wszystko';
+$lng['msg_all_off']   = 'Wylacz wszystko';
+$lng['msg_vortex']    = 'Wormhole: %s';
+$lng['msg_joueur']    = 'Gracze: %s';
+$lng['msg_planete']   = 'Planety: %s';
+$lng['msg_asteroide'] = 'Asteroidy: %s';
+$lng['msg_ennemis']   = 'Wrogowie: %s';
+$lng['msg_allys']     = 'Sojusznicy: %s';
+$lng['msg_pirate']    = 'Floty Pirackie: %s';
+$lng['msg_search1']   = 'Wybierz Imperium lub Gracza';
+$lng['msg_search2']   = 'Enter:Wyszukaj';
+$lng['msg_search_emp']= 'Imperium';
+$lng['msg_search_jou']= 'Gracz';
 
 // Menu pour le calcul
-$lng['parcours_header']= 'Navigateur';
-$lng['parcours_select']= 'Parcours';
-$lng['parcours_option']= '[Sélectionner votre parcours]';
+$lng['parcours_header']= 'Navigator';
+$lng['parcours_select']= 'Trasa';
+$lng['parcours_option']= '[Wybierz Trase]';
 $lng['parcours_msg_load']= 'Charger parcours';
 $lng['parcours_msg_save']= 'Enregistrer parcours';
 $lng['parcours_msg_del']= 'Supprimer parcours';
 $lng['parcours_msg_inv']= 'Intervertir les coords';
-$lng['parcours_start_ss']= 'Système de départ';
-$lng['parcours_end_ss']= 'Système d\'arrivée';
-$lng['parcours_old_wormhole']= 'Utiliser les vortex "Inactif"';
-$lng['parcours_method_1']= '1 vortex max (calcul rapide)';
-$lng['parcours_method_2']= '2 vortex max (normal)';
-$lng['parcours_method_3']= '3 vortex max (calcul \'très\' lent)';
-$lng['parcours_method_10']= 'Au plus proche (très speed)';
-$lng['parcours_start']= 'Départ';
-$lng['parcours_bywormhole']= 'Vortex %s';
-$lng['parcours_end']= 'Arrivée';
-$lng['parcours_diff']= 'Différence';
+$lng['parcours_start_ss']= 'System Poczatkowy';
+$lng['parcours_end_ss']= 'System Koncowy';
+$lng['parcours_old_wormhole']= 'Uzywac skoki "Nie Aktywne"';
+$lng['parcours_method_1']= '1 skok max (Szybkie Licz.))';
+$lng['parcours_method_2']= '2 skoky max (Normalne)';
+$lng['parcours_method_3']= '3 skoky max ([Bardzo Wolne Licz.))';
+$lng['parcours_method_10']= 'Jak najblizej (Szybkie))';
+$lng['parcours_start']= 'Start';
+$lng['parcours_bywormhole']= 'skok %s';
+$lng['parcours_end']= 'Koniec';
+$lng['parcours_diff']= 'Roznica';
 
 // Bulles sur la carte...
 // Ne pas utiliser de guillemets
@@ -78,13 +78,13 @@ $lng['map_parcours']= '<font color=\'darkgreen\'><b>%s</b></font>';
 
 
 // Légende affiché sur la page 'Carte.php'
-$lng['legend'] = 'Légende';
+$lng['legend'] = 'Legenda';
 $lng['maplegend']        = array ();
 // Mode calcul de parcours
 $lng['maplegend'][0]     = array();
 //$lng['maplegend'][0][0]  = 'Portée du radar';
 //$lng['maplegend'][0][1]  = 'Astre quelconque';
-$lng['maplegend'][0][2]  = 'Mes colonies';
+$lng['maplegend'][0][2]  = 'Moje kolonie';
 //$lng['maplegend'][0][3]  = 'N/A';
 //$lng['maplegend'][0][4]  = 'N/A';
 //$lng['maplegend'][0][5]  = 'N/A';
@@ -103,17 +103,17 @@ $lng['maplegend'][0][22] = 'Passage par vortex.';
 // Palette de couleur 1
 $lng['maplegend'][1]     = array();
 //$lng['maplegend'][1][0]  = 'Portée du radar';
-$lng['maplegend'][1][1]  = 'Joueur de l\'empire';
-$lng['maplegend'][1][2]  = 'Mes colonies';
-$lng['maplegend'][1][3]  = 'Joueurs';
-$lng['maplegend'][1][4]  = 'Vortex';
-$lng['maplegend'][1][5]  = 'Astéroïdes';
+$lng['maplegend'][1][1]  = 'Gracze Imperium';
+$lng['maplegend'][1][2]  = 'Moje kolonie';
+$lng['maplegend'][1][3]  = 'Neutralni Gracze';
+$lng['maplegend'][1][4]  = 'Wormhole';
+$lng['maplegend'][1][5]  = 'Asteroidy';
 //$lng['maplegend'][1][6]  = 'Planètes vide / Autre';
 //$lng['maplegend'][1][7]  = 'Joueur de l\'empire + autres';
-$lng['maplegend'][1][11] = 'Alliés';
-$lng['maplegend'][1][8]  = 'Joueurs ennemi';
-$lng['maplegend'][1][9]  = 'Flottes PNJ';
-$lng['maplegend'][1][10] = 'Résultat(s) de recherche';
+$lng['maplegend'][1][11] = 'Sojusznicy';
+$lng['maplegend'][1][8]  = 'Wrogowie';
+$lng['maplegend'][1][9]  = 'Automatyczny Pilot';
+$lng['maplegend'][1][10] = 'Cel Podrozy';
 //$lng['maplegend'][1][20] = 'N/A';
 //$lng['maplegend'][1][21] = 'N/A';
 //$lng['maplegend'][1][22] = 'N/A';
@@ -123,8 +123,8 @@ $lng['maplegend'][1][10] = 'Résultat(s) de recherche';
 // Palette de couleur 2 (couleurs de base )
 $lng['maplegend'][2]     = array();
 //$lng['maplegend'][2][0]  = 'Portée du radar';
-$lng['maplegend'][2][1]  = 'Joueur de l\'empire';
-$lng['maplegend'][2][2]  = 'Mes colonies';
+$lng['maplegend'][2][1]  = 'Gracze Imperium';
+$lng['maplegend'][2][2]  = 'Moje kolonie';
 $lng['maplegend'][2][3]  = 'Astre quelconque';
 //$lng['maplegend'][2][4]  = 'Vortex';
 //$lng['maplegend'][2][5]  = 'Astéroïdes';
@@ -133,7 +133,7 @@ $lng['maplegend'][2][3]  = 'Astre quelconque';
 //$lng['maplegend'][2][11] = 'Alliés';
 //$lng['maplegend'][2][8]  = 'Joueurs ennemi';
 //$lng['maplegend'][2][9]  = 'Flottes PNJ';
-$lng['maplegend'][2][10] = 'Résultat(s) de recherche';
+$lng['maplegend'][2][10] = 'Cel Podrozy';
 //$lng['maplegend'][2][20] = 'N/A';
 //$lng['maplegend'][2][21] = 'N/A';
 //$lng['maplegend'][2][22] = 'N/A';
