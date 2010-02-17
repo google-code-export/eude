@@ -365,3 +365,7 @@ td#imperium_row2 {
 .text_right {
     text-align: right;
 }
+
+.link {
+    cursor: pointer;
+}

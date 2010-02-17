@@ -27,14 +27,14 @@ class tpl_stats extends output {
         $this->BASE_FILE = ROOT_URL."stats.php";
         parent::__construct();
         $this->total = array_fill(-1,8,0);
-        $actived_pts = ( isset($_GET['act']) ? 'titre':'header');
-        $actived_de  = (!isset($_GET['act']) ? 'titre':'header');
+        $actived_pts = ( isset($_GET['act']) ? 'titre':'header link');
+        $actived_de  = (!isset($_GET['act']) ? 'titre':'header link');
         $out = <<<h
         <br/>
-<table class="table_center table_nospacing">
+<table class="table_center table_nospacing" width="900px">
 <tr>
-<td class="color_{$actived_de} text_center" width="50%"><a href='{$this->BASE_FILE}'>Stats Data Engine</a></td>
-<td class="color_{$actived_pts} text_center" width="50%"><a href='{$this->BASE_FILE}?act=pts'>Points</a></td></tr>
+<td class="color_{$actived_de} text_center" width="450px" OnClick="location.href='{$this->BASE_FILE}';">Stats Data Engine</td>
+<td class="color_{$actived_pts} text_center" width="450px" OnClick="location.href='{$this->BASE_FILE}?act=pts';">Points</td></tr>
 <tr><td colspan="2">
 h;
         $this->PushOutput($out);
@@ -42,16 +42,16 @@ h;
 
     public function SetRowtpl() {
         $this->currow = <<<ROW
-            <TR class="color_%%class%%">
+            <TR class="color_%%class%% text_center">
 		<TD class="color_header">%%-2%%</TD>
-		<TD align=center>%%0%%</TD>
-		<TD align=center>%%3%%</TD>
-		<TD align=center>%%5%%</TD>
-		<TD align=center>%%6%%</TD>
-		<TD align=center>%%1%%</TD>
-		<TD align=center>%%2%%</TD>
-		<TD align=center>%%4%%</TD>
-		<TD align=center>%%-1%%</TD>
+		<TD>%%0%%</TD>
+		<TD>%%3%%</TD>
+		<TD>%%5%%</TD>
+		<TD>%%6%%</TD>
+		<TD>%%1%%</TD>
+		<TD>%%2%%</TD>
+		<TD>%%4%%</TD>
+		<TD>%%-1%%</TD>
 	</TR>
 ROW;
 
@@ -59,7 +59,7 @@ ROW;
     public function Setheader() {
         $this->curtpl = 'SetRowtpl';
         $this->PushOutput('<TABLE class="color_header table_nospacing" width=900px>');
-        $this->AddToRow('Utilisateur', -2);
+        $this->AddToRow('Membres', -2);
         $this->AddToRow('Joueurs', 0);
         $this->AddToRow('Alliés', 3);
         $this->AddToRow('Ennemis', 5);
@@ -80,7 +80,7 @@ ROW;
 
     public function SetRowtplPoints() {
         $this->currow = <<<ROW
-            <TR class="color_%%class%%">
+            <TR class="color_%%class%% text_center">
 		<TD class="color_header">%%-2%%</TD>
 		<TD>%%Points%%</TD>
 		<TD>%%pts_architecte%%</TD>
@@ -96,7 +96,7 @@ ROW;
     public function SetheaderPoints() {
         $this->curtpl = 'SetRowtplPoints';
         $this->PushOutput('<TABLE class="color_header table_nospacing" width=900px>');
-        $this->AddToRow('Utilisateur', -2);
+        $this->AddToRow('Joueurs', -2);
         $this->AddToRow('Points total', 'Points');
         $this->AddToRow('Architecte', 'pts_architecte');
         $this->AddToRow('Mineur', 'pts_mineur');
