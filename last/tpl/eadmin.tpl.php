@@ -305,7 +305,7 @@ upd;
 	<TR bgcolor="{$this->cols_cls[1]}">
 		<TD colspan=3 align=center>
 		<select name='emp'>
-			<option name=''>[Selectionner un empire]</option>
+			<option value=''>[Selectionner un empire]</option>
 col1_r;
         $this->PushOutput($out);
         $this->SelectOptions($empire_list,-1);
@@ -350,7 +350,7 @@ col3_r;
 	<TR bgcolor="{$this->cols_cls[1]}">
 		<TD colspan=3 align=center>
 		<select name='emp'>
-			<option name=''>[Selectionner un empire]</option>
+			<option value=''>[Selectionner un empire]</option>
 col1_r;
         $this->PushOutput($out);
         $this->SelectOptions($empire_list,-1);
