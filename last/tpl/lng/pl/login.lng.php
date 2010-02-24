@@ -10,22 +10,23 @@
 
 $lng = array();
 // Script/login.php
-$lng['wronglogin'] = 'Login lub Has�o nieprawid�owe';
-$lng['wronglogin_log'] = 'Logowanie nieprawid�owe do Data Engine.';
+// Script/login.php
+$lng['wronglogin'] = 'Login lub Has³o nieprawid³owe';
+$lng['wronglogin_log'] = 'Logowanie nieprawid³owe do Data Engine.';
 $lng['session_lost'] = 'Nieprawidlowa sesja !';
-$lng['no_axx'] = 'Nie masz pozwolenia na urzywanie opcjii, skontaktuj si� ze swoim dow�dc�';
+$lng['no_axx'] = 'Nie masz pozwolenia na urzywanie opcjii, skontaktuj siê ze swoim dowódc±';
 $lng['login_page_title'] = 'EU2: DataEngine, Identyfikacja';
 
 // tpl/login.tpl.php
 
 $lng['register'] = 'Rejestruj';
-$lng['signin'] = '��czenie';
+$lng['signin'] = '£±czenie';
 $lng['player'] = 'Login';
 $lng['password'] = 'Haslo';
 
-$lng['newaccount'] = 'Za�� konto';
-$lng['newaccount_warn'] = 'Do utwo�enia konta wymagana jest zgoda Dow�dcy';
-$lng['allreadyhaveone'] = 'Konto ju� istnieje ?';
+$lng['newaccount'] = 'Za³ó¿ konto';
+$lng['newaccount_warn'] = 'Do utwo¿enia konta wymagana jest zgoda Dowódcy';
+$lng['allreadyhaveone'] = 'Konto ju¿ istnieje ?';
 
 // register.php
 $lng['signin_page_title'] = 'EU2: DataEngine, Inscription';
