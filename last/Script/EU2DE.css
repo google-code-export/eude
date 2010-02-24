@@ -336,6 +336,11 @@ td#imperium_row2 {
     background-color: #800040;
     color: white;
 }
+.color_bigheader {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
 
 .color_row0 {
     background-color: #660050;

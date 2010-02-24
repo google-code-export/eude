@@ -455,7 +455,7 @@ ead;
      */
     static public function Get_Version() {
         if (DE_DEMO)
-            return '1.4.1.2 démo';
+            return '1.4.x.r83 démo';
         elseif (IN_DEV)
             return '1.4.2-dev'.time();
         else

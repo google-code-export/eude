@@ -10,19 +10,23 @@
 
 $lng = array();
 // Script/login.php
-$lng['wronglogin'] = 'Login lub Has³o nieprawid³owe';
-$lng['wronglogin_log'] = 'Logowanie nieprawid³owe do Data Engine.';
+$lng['wronglogin'] = 'Login lub Hasï¿½o nieprawidï¿½owe';
+$lng['wronglogin_log'] = 'Logowanie nieprawidï¿½owe do Data Engine.';
 $lng['session_lost'] = 'Nieprawidlowa sesja !';
-$lng['no_axx'] = 'Nie masz pozwolenia na urzywanie opcjii, skontaktuj siê ze swoim dowódc±';
+$lng['no_axx'] = 'Nie masz pozwolenia na urzywanie opcjii, skontaktuj siï¿½ ze swoim dowï¿½dcï¿½';
 $lng['login_page_title'] = 'EU2: DataEngine, Identyfikacja';
 
 // tpl/login.tpl.php
 
 $lng['register'] = 'Rejestruj';
-$lng['signin'] = '£±czenie';
+$lng['signin'] = 'ï¿½ï¿½czenie';
 $lng['player'] = 'Login';
 $lng['password'] = 'Haslo';
 
-$lng['newaccount'] = 'Za³ó¿ konto';
-$lng['newaccount_warn'] = 'Do utwo¿enia konta wymagana jest zgoda Dowódcy';
-$lng['allreadyhaveone'] = 'Konto ju¿ istnieje ?';
+$lng['newaccount'] = 'Zaï¿½ï¿½ konto';
+$lng['newaccount_warn'] = 'Do utwoï¿½enia konta wymagana jest zgoda Dowï¿½dcy';
+$lng['allreadyhaveone'] = 'Konto juï¿½ istnieje ?';
+
+// register.php
+$lng['signin_page_title'] = 'EU2: DataEngine, Inscription';
+$lng['user_exists']       = 'Joueur existe dÃ©jÃ ...';

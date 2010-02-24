@@ -26,3 +26,6 @@ $lng['newaccount'] = 'Créer un compte';
 $lng['newaccount_warn'] = 'La création d\'un compte est soumis a la validation de votre empereur';
 $lng['allreadyhaveone'] = 'Déjà un compte ?';
 
+// register.php
+$lng['signin_page_title'] = 'EU2: DataEngine, Inscription';
+$lng['user_exists']       = 'Joueur existe déjà...';

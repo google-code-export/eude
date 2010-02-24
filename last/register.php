@@ -12,6 +12,8 @@ require_once(INCLUDE_PATH.'Script.php');
 
 if (!Config::CanRegister()) DataEngine::NoPermsAndDie();
 
+$lng = language::getinstance()->GetLngBlock('login');
+
 $erreur = '';
 if (isset($_POST['login']) && $_POST['login'] !='' && $_POST['mdp'] != '') {
     $login = sqlesc($_POST['login']);
@@ -22,7 +24,7 @@ if (isset($_POST['login']) && $_POST['login'] !='' && $_POST['mdp'] != '') {
     $ligne=mysql_fetch_array($mysql_result);
 
     if($ligne['Login'] == $login) { // joueur existe déjà...
-        $erreur = 'Joueur existe déjà...';
+        $erreur = $lng['user_exists'];
     } else {
         if (DE_DEMO)
             $axx = AXX_MEMBER;
@@ -40,5 +42,5 @@ if (isset($_POST['login']) && $_POST['login'] !='' && $_POST['mdp'] != '') {
 }
 require_once(TEMPLATE_PATH.'login.tpl.php');
 $tpl = tpl_login::getinstance();
-$tpl->page_title = "EU2: Inscription";
+$tpl->page_title = $lng['signin_page_title'];
 $tpl->DoOutput($erreur,true);
