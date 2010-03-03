@@ -29,15 +29,14 @@ a:hover {
     color: darkorange;
 }
    </style>
-<table><tr>
+   <br/>
 o;
         $this->PushOutput($out);
     }
 
     public function log_header() {
         $out =<<<col1_h
-<td valign="top">
-	<TABLE bgcolor='#AAAAAA'>
+<table class="table_center table_nospacing base_row1">
 	<TR>
 		<TD>Date</TD>
 		<TD>Message</TD>
@@ -67,30 +66,33 @@ col1_r;
     }
 
     public function admin_header($version) {
-        $helpmsg = <<<EOF
-<b>Niveau de permission :</b>
-<br/><b>Invité</b>: Aucun droit, attente d'activation d'un <i>Super-Administrateur</i>.
-<br/><b>Membre</b>: Juste rajouter des éléments
-<br/><b>Modérateur</b>: Peut modifier toutes les lignes du tableau
-<br/><b>Administrateur</b>: Peut rajouter et gérer les membres, organiser la hierarchie + supprimer n'importe quelle ligne du tableau
-<br/><b>Super-Administrateur</b>: Visiblement, vous l'êtes !
-EOF;
-        $helpmsg = bulle($helpmsg);
-
+        $cols=4;
+        $colsminus=$cols-1;
+        $links_1 = ($_REQUEST['act'] == ''         ? 'titre': 'header link');
+        $links_2 = ($_REQUEST['act'] == 'perms'    ? 'titre': 'header link');
+        $links_3 = ($_REQUEST['act'] == 'mapcolor' ? 'titre': 'header link');
+        $links_4 = ($_REQUEST['act'] == 'logs'     ? 'titre': 'header link');
         $out =<<<col2_h
-<TD valign='top'>
-<TABLE bgcolor='#D6D6D6'>
-	<TR>
-		<TD colspan=3><img $helpmsg src='./Images/help.png'>&nbsp;&nbsp;<b>E</b>mpire <b>U</b>niverse 2: <b>D</b>ata <b>E</b>ngine ({$this->version})</TD>
-	</TR><TR>
-		<TD>&nbsp</td><TD colspan=2><a href='http://app216.free.fr/eu2/tracker/' target='_blank'>Un bug, une suggestion ?</a></TD>
-	</TR><TR>
-		<TD align=right><b>Mysql <br/>PHP <br/>GD </b></td><TD colspan=2>{$version[0]}<br/>{$version[1]}<br/>{$version[2]}</TD>
-	</TR><TR>
-		<TD bgcolor="#AAAAAA" colspan=2>Gestion des droits utilisateur: </td>
-                <TD bgcolor="#cccccc" colspan="2"><a href='%ROOT_URL%perms.php'>Cliquez ici</a></TD>
+<table class="table_center table_nospacing" width=750px>
+	<TR class="base_row1 text_center">
+		<TD colspan="{$cols}"><b>E</b>mpire <b>U</b>niverse 2: <b>D</b>ata <b>E</b>ngine ({$this->version})</TD>
 	</TR>
-
+        <TR class="base_row1">
+            <TD colspan="{$cols}"><a href='http://eude.googlecode.com/' target='_blank'>Un bug, une suggestion ?</a></TD>
+	</TR>
+        <TR class="base_row1">
+            <TD align=right><b>Mysql <br/>PHP <br/>GD </b></td><TD colspan="{$colsminus}">{$version[0]}<br/>{$version[1]}<br/>{$version[2]}</TD>
+	</TR>
+        <TR class="text_center">
+		<TD OnClick="location.href='{$this->BASE_FILE}';" class="color_{$links_1}">Général</td>
+		<TD OnClick="location.href='{$this->BASE_FILE}?act=perms';" class="color_{$links_2}">Gestion des droits utilisateurs</td>
+		<TD OnClick="location.href='{$this->BASE_FILE}?act=mapcolor';" class="color_{$links_3}">Couleurs de la carte</td>
+		<TD OnClick="location.href='{$this->BASE_FILE}?act=logs';" class="color_{$links_4}">Logs</td>
+	</TR>      
+<tr class="color_row1">
+<td colspan="{$cols}" height="1px"></td>
+</tr>
+<tr><td colspan="{$cols}">
 col2_h;
         $this->PushOutput($out);
     }
@@ -112,11 +114,14 @@ c;
 c;
         }
         $out =<<<col2_vortex
+            <table class="table_center table_nospacing base_row1">
 		<form name=cleanvortex method='post' action='{$this->BASE_FILE}'>
-		<TR bgcolor="#AAAAAA">
+		<TR class="color_header">
 			<TD colspan=3>Nettoyage des vortex:</TD>
-			<TD rowspan=4>
-				<input type="hidden" name="cleanvortex" value="{$dates[1]}"><input type="hidden" name="cleanvortex_inactif" value="{$dates[2]}"><input type="submit" value="Nettoyer\nmaintenant">
+			<TD rowspan=4 class="text_center">
+				<input type="hidden" name="cleanvortex" value="{$dates[1]}">
+                                <input type="hidden" name="cleanvortex_inactif" value="{$dates[2]}">
+                                <input class="color_header" type="submit" value="Nettoyer\nmaintenant">
 			</TD>
 		</TR>
 		<TR bgcolor="#CCCCCC">
@@ -136,47 +141,13 @@ col2_vortex;
 		</TR>
 
 col2_cleanvortex;
-        $this->PushOutput($out);
-        $this->PushOutput("</form>\n");
-    }
 
-    public function admin_user_header() {
-        $this->idcols=0;
-        $out = <<<col2_h
-	<TR bgcolor="{$this->cols_cls[2]}">
-		<TD colspan=3>Liste des membres</TD>
-		<TD rowspan=2 bgcolor="{$this->cols_cls[2]}">&nbsp</TD>
-	</TR>
-	<TR>
-		<TD>Login</TD><TD>Pwd</TD><TD>Permission</TD>
-	</TR>
-
-col2_h;
-        $this->PushOutput($out);
-    }
-
-    public function admin_user_row($ligne) {
-        $this->idcols++;
-        $cls= $this->cols_cls[($this->idcols%2)];
-        $out = <<<col2_ur
-	<form name=modifuser method='post' action='{$this->BASE_FILE}'>
-	<TR bgcolor="$cls">
-		<TD>{$ligne["Login"]}</TD>
-		<input name='log' type='hidden' value='{$ligne["Login"]}'>
-		<input name='oldpass' type='hidden' value='{$ligne["Password"]}'>
-		<TD><input name='pwd' type='text' value='{$ligne["Password"]}'></TD>
-		<td><select name='perm'>
-
-col2_ur;
-        $this->PushOutput($out);
-        $this->SelectOptions(DataEngine::s_perms(), $ligne["Permission"]);
-        $out = <<<col2_ur2
-	</select></td>
-		<TD bgcolor="{$this->cols_cls[2]}"><input type='submit' value='Modifier'></TD>
-	</TR>
-	</form>
-
-col2_ur2;
+$out .= <<<o
+</form>
+<tr class="color_row1">
+<td colspan=4 height="1px"></td>
+</tr>
+o;
         $this->PushOutput($out);
     }
 
@@ -185,11 +156,11 @@ col2_ur2;
         $numrow++;
         $out =<<<cleaning_header
 		<form name="cleaning" method='post' action='{$this->BASE_FILE}'>
-		<TR bgcolor="#AAAAAA">
+		<TR class="color_header">
 			<TD colspan=2>Nettoyage divers...</TD>
 			<TD>Plus anciens que</TD>
-			<TD rowspan={$numrow} bgcolor="#AAAAAA">
-				<input type="submit" value="Nettoyer">
+			<TD rowspan={$numrow}>
+				<input class="color_header" type="submit" value="Nettoyer">
 			</TD>
 		</TR>
 cleaning_header;
@@ -200,12 +171,12 @@ cleaning_header;
 
     public function cleaning_row($key,$title,$select) {
         $this->idcols++;
-        $cls= $this->cols_cls[($this->idcols%2)];
+        $cls= $this->idcols%2;
 
         $out =<<<cleaning_row
-		<TR bgcolor="{$cls}">
+		<TR class="base_row{$cls}">
 			<TD colspan=2>{$title}</TD>
-			<td><select name="{$key}">
+			<td class="text_center"><select class="base_row{$cls}" name="{$key}">
 cleaning_row;
         $this->PushOutput($out);
 
@@ -225,6 +196,9 @@ cleaning_row;
 			</select></td>
 		</TR>
 		</form>
+<tr class="color_row1">
+<td colspan=4 height="1px"></td>
+</tr>
 cleaning_footer;
 
         $this->PushOutput($out);
@@ -236,7 +210,7 @@ cleaning_footer;
             $msg[] = "$num $tp supprimé";
         $msg = implode('<br/>',$msg);
         $out .=<<<cleaning_msg
-		<TR bgcolor="#CCCCCC">
+		<TR class="color_row0">
 			<TD colspan=4>{$msg}</TD>
 		</TR>
 
@@ -246,21 +220,21 @@ cleaning_msg;
     }
 
     public function admin_footer() {
-        $this->PushOutput("</table>\n</td>\n");
+        $this->PushOutput('</table>');
     }
 
     public function empire_switch($empire_list,$emp_upd) {
 
         $out =<<<col1_r
 <form action="{$this->BASE_FILE}" method='post'>
-	<TR bgcolor="#AAAAAA">
+	<TR class="color_header">
 		<TD colspan=3>Changement des nom d'empire: (Noms simplifiés)</TD>
-		<TD rowspan=3><input name='emp_upd' type=submit value='Changer'></TD>
+		<TD rowspan="3" class="text_center"><input class="color_header" name='emp_upd' type=submit value='Changer'></TD>
 	</TR>
-	<TR bgcolor="{$this->cols_cls[1]}">
+	<TR class="base_row0">
 		<TD>Original:</TD>
 		<TD colspan=2>
-		<select name='emp_orig'>
+		<select class="base_row0" name='emp_orig'>
 			<option name=''>[Selectionner un empire]</option>
 col1_r;
         $this->PushOutput($out);
@@ -270,10 +244,10 @@ col1_r;
 		</select>
 		</TD>
 	</TR>
-	<TR bgcolor="{$this->cols_cls[0]}">
+	<TR  class="base_row1">
 		<TD>Nouveau:</TD>
 		<TD colspan=2>
-		<select name='emp_new'>
+		<select class="base_row1" name='emp_new'>
 			<option name=''>[Supprimer l'empire]</option>
 col2_r;
         $this->PushOutput($out);
@@ -284,10 +258,13 @@ col2_r;
 		</TD>
 	</TR>
 </form>
+<tr class="color_row1">
+<td colspan=4 height="1px"></td>
+</tr>
 col3_r;
         if ($emp_upd)
             $out =<<<upd
-	<TR bgcolor="{$this->cols_cls[1]}">
+	<TR class="color_row1">
 		<TD colspan=4>{$emp_upd} joueurs modifié avec le nouvel empire.</TD>
 	</TR>
 upd;
@@ -299,12 +276,12 @@ upd;
 
         $out =<<<col1_r
 <form action="{$this->BASE_FILE}" method='post'>
-	<TR bgcolor="#AAAAAA">
+	<TR class="color_header">
 		<TD colspan=4>Déclaration de guerre à un empire: (Noms simplifiés)</TD>
 	</TR>
-	<TR bgcolor="{$this->cols_cls[1]}">
+	<TR class="base_row0">
 		<TD colspan=3 align=center>
-		<select name='emp'>
+		<select class="base_row0" name='emp'>
 			<option value=''>[Selectionner un empire]</option>
 col1_r;
         $this->PushOutput($out);
@@ -313,9 +290,9 @@ col1_r;
         $out =<<<col2_r
 		</select>
 		</TD>
-                <td bgcolor="#AAAAAA"><input name='emp_war_add' type=submit value='Ajouter'></td>
+                <td class="color_header text_center"><input class="color_header" name='emp_war_add' type=submit value='Ajouter'></td>
 	</TR>
-	<TR bgcolor="{$this->cols_cls[0]}">
+	<TR class="base_row1">
 		<TD colspan=3><font color="red">
 col2_r;
         $wars = DataEngine::config('EmpireEnnemy');
@@ -333,9 +310,12 @@ col2_r;
         }
         $out .=<<<col3_r
 		</font></TD>
-                <td bgcolor="#AAAAAA">&nbsp;</td>
+                <td class="color_header">&nbsp;</td>
 	</TR>
 </form>
+<tr class="color_row1">
+<td colspan=4 height="1px"></td>
+</tr>
 col3_r;
         $this->PushOutput($out);
     }
@@ -344,12 +324,12 @@ col3_r;
 
         $out =<<<col1_r
 <form action="{$this->BASE_FILE}" method='post'>
-	<TR bgcolor="#AAAAAA">
+	<TR class="color_header">
 		<TD colspan=4>Déclaration d'alliance à un empire: (Noms simplifiés)</TD>
 	</TR>
-	<TR bgcolor="{$this->cols_cls[1]}">
+	<TR class="base_row0">
 		<TD colspan=3 align=center>
-		<select name='emp'>
+		<select class="base_row0" name='emp'>
 			<option value=''>[Selectionner un empire]</option>
 col1_r;
         $this->PushOutput($out);
@@ -358,9 +338,9 @@ col1_r;
         $out =<<<col2_r
 		</select>
 		</TD>
-                <td bgcolor="#AAAAAA"><input name='emp_allys_add' type=submit value='Ajouter'></td>
+                <td class="color_header text_center"><input class="color_header" name='emp_allys_add' type=submit value='Ajouter'></td>
 	</TR>
-	<TR bgcolor="{$this->cols_cls[0]}">
+	<TR class="base_row1">
 		<TD colspan=3><font color="darkgreen">
 col2_r;
         $wars = DataEngine::config('EmpireAllys');
@@ -378,9 +358,12 @@ col2_r;
         }
         $out .=<<<col3_r
 		</font></TD>
-                <td bgcolor="#AAAAAA">&nbsp;</td>
+                <td class="color_header">&nbsp;</td>
 	</TR>
 </form>
+<tr class="color_row1">
+<td colspan=4 height="1px"></td>
+</tr>
 col3_r;
         $this->PushOutput($out);
     }
@@ -389,33 +372,38 @@ col3_r;
 
         $out =<<<col1_r
 <form action="{$this->BASE_FILE}" method='post'>
-	<TR bgcolor="#AAAAAA">
+	<TR class="color_header">
 		<TD colspan=3>Forcer la mise à jour les information sur les alliés/guerres/neutre</TD>
-		<TD><input name='emp_allywars' type=submit value='MAJ'></TD>
+		<TD><input class="color_header" name='emp_allywars' type=submit value='MAJ'></TD>
 	</TR>
 col1_r;
 
         if ($allysnb>=0 || $warsnb>=0)
             $out .=<<<upd
-	<TR bgcolor="{$this->cols_cls[1]}">
+	<TR class="color_row0">
 		<TD colspan=4>{$allysnb} joueurs modifié avec le 'nouveau' status d'allié.</TD>
 	</TR>
-	<TR bgcolor="{$this->cols_cls[0]}">
+	<TR class="color_row0">
 		<TD colspan=4>{$warsnb} joueurs modifié avec le 'nouveau' status d'ennemis.</TD>
 	</TR>
 upd;
 
+$out .= <<<o
+<tr class="color_row1">
+<td colspan=4 height="1px"></td>
+</tr>
+o;
         $this->PushOutput($out);
     }
 
     public function map_color_header() {
         $out=<<<o
-</table>
-<table class="table_nospacing table_center" width="450px">
+<form method="post" action="{$this->BASE_FILE}?act=mapcolor">
+<input type="hidden" name="majcolors" value="true"/>
+<table class="table_center table_nospacing base_row1" width="450px">
 <tr>
     <td class="color_titre text_center" colspan=5>Modification des couleurs de la carte</td>
-</tr><form method=post>
-<input type="hidden" name="majcolors" value="true"/>
+</tr>
 o;
         $this->PushOutput($out);
     }
@@ -439,12 +427,18 @@ o;
         $this->PushOutput($out);
     }
     public function map_color_footer() {
-        $out= '<tr><td class="color_header text_right" colspan=5><input class="color_titre" type=submit></td></tr></form>';
+        $out= <<<mcf
+<tr>
+    <td class="color_header text_right" colspan=5><input class="color_header" type=submit></td>
+</tr>
+</table>
+    </form>
+mcf;
         $this->PushOutput($out);
     }
 
     public function DoOutput($include_menu=true, $include_header=true) {
-        $this->PushOutput("\n</tr></table></html>");
+        $this->PushOutput('</td></tr></table>');
         parent::DoOutput(); // false false ? header menu
     }
 
