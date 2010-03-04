@@ -43,8 +43,8 @@ $cleaning=false;
 if(isset($_POST['asteroides']) && $_POST['asteroides'] != '-1') {
     $tmp = array();
     $mysql_result = DataEngine::sql("SELECT ID FROM SQL_PREFIX_Coordonnee WHERE TYPE=4 AND `DATE`<'{$_POST['asteroides']}'");
-    $cleaning['Asteroïdes'] = mysql_num_rows($mysql_result);
-    if ($cleaning['Asteroïdes'] > 0) {
+    $cleaning['cleaning_asteroides_result'] = mysql_num_rows($mysql_result);
+    if ($cleaning['cleaning_asteroides_result'] > 0) {
         while ($row = mysql_fetch_assoc($mysql_result)) $tmp[] = $row['ID'];
         $tmp = implode(',',$tmp);
         DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE ID in ($tmp)");
@@ -54,8 +54,8 @@ if(isset($_POST['asteroides']) && $_POST['asteroides'] != '-1') {
 if(isset($_POST['planetes']) && $_POST['planetes'] != '-1') {
     $tmp = array();
     $mysql_result = DataEngine::sql("SELECT ID FROM SQL_PREFIX_Coordonnee WHERE TYPE=2 AND `DATE`<'{$_POST['planetes']}'");
-    $cleaning['Planètes'] = mysql_num_rows($mysql_result);
-    if ($cleaning['Planètes'] > 0) {
+    $cleaning['cleaning_planetes_result'] = mysql_num_rows($mysql_result);
+    if ($cleaning['cleaning_planetes_result'] > 0) {
         while ($row = mysql_fetch_assoc($mysql_result)) $tmp[] = $row['ID'];
         $tmp = implode(',',$tmp);
         DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE ID in ($tmp)");
@@ -64,15 +64,15 @@ if(isset($_POST['planetes']) && $_POST['planetes'] != '-1') {
 }
 if(isset($_POST['pnj']) && $_POST['pnj'] != '-1') {
     $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE TYPE=6 AND `DATE`<'{$_POST['pnj']}'");
-    $cleaning['Flottes PNJ'] = mysql_affected_rows();
+    $cleaning['cleaning_pnj_result'] = mysql_affected_rows();
 }
 if(isset($_POST['joueurs']) && $_POST['joueurs'] != '-1') {
     $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE TYPE = 0 AND `DATE`<'{$_POST['joueurs']}'");
-    $cleaning['Joueurs'] = mysql_affected_rows();
+    $cleaning['cleaning_joueurs_result'] = mysql_affected_rows();
 }
 if(isset($_POST['inactif']) && $_POST['inactif'] != '-1') {
     $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE inactif=1");
-    $cleaning['Inactifs'] = mysql_affected_rows();
+    $cleaning['cleaning_inactif_result'] = mysql_affected_rows();
 }
 
 
@@ -166,20 +166,20 @@ DataEngine::sql_do_spool();
 
 include_once(TEMPLATE_PATH.'eadmin.tpl.php');
 $tpl = tpl_eadmin::getinstance();
-$tpl->page_title = 'EU2: Administration';
+$tpl->page_title = $lng['page_title'];
 
 $version[0] = @mysql_get_server_info();
 $version[1] = PHP_VERSION;
 $version[2] = @gd_info();
-$version[2] = $version[2]["GD Version"];
+$version[2] = $version[2]['GD Version'];
 $tpl->admin_header($version);
 
 if (!isset($_REQUEST['act'])) {
 ///---
 
-    $dates[0] = date("Y-m-d H:i:s");
-    $dates[1] = date("Y-m-d H:i:s", mktime(2, 10, 0, date("m")  , date("d")-date("w")));
-    $dates[2] = date("Y-m-d H:i:s", mktime(2, 10, 0, date("m")  , date("d")-date("w")-7));
+    $dates[0] = date('Y-m-d H:i:s');
+    $dates[1] = date('Y-m-d H:i:s', mktime(2, 10, 0, date('m')  , date('d')-date('w')));
+    $dates[2] = date('Y-m-d H:i:s', mktime(2, 10, 0, date('m')  , date('d')-date('w')-7));
     $cleanvortex=null;
     if (isset($_POST['cleanvortex']))
         $cleanvortex = array($cleanvortex_delete, $cleanvortex_inactif);
@@ -188,7 +188,7 @@ if (!isset($_REQUEST['act'])) {
 //---
 
     $empire = array();
-    $mysql_result = DataEngine::sql("SELECT EMPIRE from SQL_PREFIX_Coordonnee GROUP BY EMPIRE ASC");
+    $mysql_result = DataEngine::sql('SELECT EMPIRE from SQL_PREFIX_Coordonnee GROUP BY EMPIRE ASC');
     while ($ligne=mysql_fetch_array($mysql_result)) {
         if (trim($ligne['EMPIRE'])=='') continue;
         $cur_emp = htmlentities(stripslashes($ligne['EMPIRE']), ENT_QUOTES, 'utf-8');
@@ -208,32 +208,32 @@ if (!isset($_REQUEST['act'])) {
 
 //---
     $dates = array();
-    $dates['[Aucun changement]']		= '-1';
-    $dates['Aujourd\'hui (tout)']		= date('Y-m-d H:i:s');
-    $dates['Dimanche dernier']		= date('Y-m-d H:i:s', mktime(3, 0, 0, date('m'), date('d')-date('w')	) );
-    $dates['Dimanche précédent']		= date('Y-m-d H:i:s', mktime(3, 0, 0, date('m'), date('d')-date('w')-7  ) );
-    $dates['Hier']				= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-1		) );
-    $dates['Avant-hier']			= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-2		) );
-    $dates['3 Jours']			= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-3		) );
-    $dates['4 Jours']			= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-4		) );
-    $dates['5 Jours']			= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-5		) );
-    $dates['6 Jours']			= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-6		) );
-    $dates['7 Jours']			= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-7		) );
-    $dates['15 Jours']			= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-15		) );
-    $dates['1 Mois (premier du mois)']	= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-1, date('d')		) );
-    $dates['2 Mois (premier du mois)']	= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-2, date('d')		) );
-    $dates['3 Mois (premier du mois)']	= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-3, date('d')		) );
-    $dates['6 Mois (premier du mois)']	= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-6, date('d')		) );
-    $dates['9 Mois (premier du mois)']	= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-9, date('d')		) );
-    $dates['12 Mois (premier du mois)']	= date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-12, date('d')		) );
+    $dates[$lng['dates'][0]]  = '-1';
+    $dates[$lng['dates'][1]]  = date('Y-m-d H:i:s');
+    $dates[$lng['dates'][2]]  = date('Y-m-d H:i:s', mktime(3, 0, 0, date('m'), date('d')-date('w')  ) );
+    $dates[$lng['dates'][3]]  = date('Y-m-d H:i:s', mktime(3, 0, 0, date('m'), date('d')-date('w')-7) );
+    $dates[$lng['dates'][4]]  = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-1	    ) );
+    $dates[$lng['dates'][5]]  = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-2	    ) );
+    $dates[$lng['dates'][6]]  = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-3	    ) );
+    $dates[$lng['dates'][7]]  = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-4	    ) );
+    $dates[$lng['dates'][8]]  = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-5	    ) );
+    $dates[$lng['dates'][9]]  = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-6	    ) );
+    $dates[$lng['dates'][10]] = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-7	    ) );
+    $dates[$lng['dates'][11]] = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d')-15	    ) );
+    $dates[$lng['dates'][12]] = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-1, date('d')	    ) );
+    $dates[$lng['dates'][13]] = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-2, date('d')	    ) );
+    $dates[$lng['dates'][14]] = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-3, date('d')	    ) );
+    $dates[$lng['dates'][15]] = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-6, date('d')	    ) );
+    $dates[$lng['dates'][16]] = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-9, date('d')	    ) );
+    $dates[$lng['dates'][17]] = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-12, date('d')	    ) );
 
     $tpl->cleaning_header(5);
-    $tpl->cleaning_row('asteroides','Suppression des Astéroïdes', $dates);
-    $tpl->cleaning_row('planetes','Suppression des Planètes', $dates);
-    $tpl->cleaning_row('joueurs','Suppression des Joueurs', $dates);
-    $tpl->cleaning_row('pnj','Suppression des Flottes PNJ', $dates);
-    $tpl->cleaning_row('inactif', 'Suppression des éléments inactifs',
-            array('[Aucun changement]' => '-1', 'Tous' => '1'));
+    $tpl->cleaning_row('asteroides',$lng['cleaning_asteroides'], $dates);
+    $tpl->cleaning_row('planetes',$lng['cleaning_planetes'], $dates);
+    $tpl->cleaning_row('joueurs',$lng['cleaning_joueurs'], $dates);
+    $tpl->cleaning_row('pnj',$lng['cleaning_pnj'], $dates);
+    $tpl->cleaning_row('inactif', $lng['cleaning_inactif'],
+            array($lng['dates'][0] => '-1', $lng['dates'][20] => '1'));
     if (is_array($cleaning)) $tpl->cleaning_msg($cleaning);
     $tpl->cleaning_footer();
 
@@ -242,7 +242,7 @@ if (!isset($_REQUEST['act'])) {
 //---
 
 if ($_REQUEST['act'] == 'mapcolor' && Members::CheckPerms('MEMBRES_ADMIN_MAP_COLOR')) {
-    $tpl->page_title = 'EU2: Administration, Couleurs de carte';
+    $tpl->page_title = $lng['mapcolor_title'];
     $cls = DataEngine::config('MapColors');
     $tpl->map_color_header();
 
@@ -257,9 +257,9 @@ if ($_REQUEST['act'] == 'mapcolor' && Members::CheckPerms('MEMBRES_ADMIN_MAP_COL
 
 ///---
 if ($_REQUEST['act'] == 'logs' && Members::CheckPerms('MEMBRES_ADMIN_LOG')) {
-    $tpl->page_title = 'EU2: Administration, logs';
+    $tpl->page_title = $lng['logs_title'];
     $tpl->log_header();
-    $mysql_result = DataEngine::sql("SELECT * from SQL_PREFIX_Log ORDER BY ID DESC LIMIT 40");
+    $mysql_result = DataEngine::sql('SELECT * from SQL_PREFIX_Log ORDER BY ID DESC LIMIT 40');
     while ($ligne=mysql_fetch_array($mysql_result))
         $tpl->log_row($ligne);
     $tpl->log_footer();
@@ -271,18 +271,8 @@ if ($_REQUEST['act'] == 'perms' && Members::CheckPerms(AXX_ROOTADMIN)) {
     $cxx_conf = DataEngine::config('perms');
     $axx_num  = count($axx_name);
 
-    $tpl->page_title = 'EU2: Administration, permissions';
-
-
-    $out = <<<x
-<form method="post" action="?act=perms">
-<table class="table_center color_bg table_nospacing">
-    <tr class="color_titre">
-        <td colspan="2">Élements conserné</td>
-        <td>Niveau minimum d'accès</td>
-x;
-
-    $tpl->PushOutput($out .'</tr>');
+    $tpl->page_title = $lng['perms_title'];
+    $tpl->perms_header();
     $i=0;
 
 // Loop par CXX
@@ -290,25 +280,17 @@ x;
         $class = 'color_row'.$i%2;
 
         if (is_numeric($cxx_k)) {
-            $tpl->PushOutput('<tr><td class="color_header" colspan="3">'.$cxx_v.'</td></tr>');
+            $tpl->perms_category($cxx_v);
             continue;
         } else {
-            $tpl->PushOutput('<tr class="'.$class.'"><td class="color_header">&nbsp;</td><td>'.$cxx_v.'</td>');
-            $tpl->PushOutput('<td class="text_center"><select class="'.$class.'" name="cxx['.$cxx_k.']">');
-            // loop par AXX
-            foreach ($axx_name as $axx_k=>$axx_v) {
-                $selected = ($cxx_conf[$cxx_k]==$axx_k) ? ' selected':'';
-                $tpl->PushOutput('<option value="'.$axx_k.'"'.$selected.'>'.$axx_v.'</option>');
-            }
-            $tpl->PushOutput('</select></td>');
+            $tpl->perms_row($cxx_k, $cxx_v, $axx_name);
         }
 
         $tpl->PushOutput('</tr>');
         if (is_numeric($cxx_k)) $i=1;
         $i++;
     }
-    $tpl->PushOutput('<tr class="color_header"><td class="text_right" colspan="3"><input class="color_titre" type="submit" value="Enregistrer" /></td>');
-    $tpl->PushOutput('</table></form>');
+    $tpl->perms_footer();
 
 }
 ///---
