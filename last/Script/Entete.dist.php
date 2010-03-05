@@ -21,16 +21,16 @@ final class Config implements iDataEngine_Config {
     /**
      * @var user Nom d'utilisateur pour le serveur mysql
      */
-    static protected $BaseUser  = '%user%';
+    static protected $BaseUser  = 'user';
     /**
      * @var pass Mot de passe pour le serveur mysql
      */
-    static protected $BasePass  = '%pass%';
+    static protected $BasePass  = 'pass';
     /**
      * @var database Nom de la base de donnée utilisé par le serveur mysql
      *   (en général le même que $BaseUser)
      */
-    static protected $BaseName  = '%database%';
+    static protected $BaseName  = 'database';
     /**
      * fonction d'initialisation spéciale...
      */
@@ -59,7 +59,7 @@ final class Config implements iDataEngine_Config {
          * par défaut vide
          * @staticvar SQL_PREFIX_ ''
          */
-        define('SQL_PREFIX_','');
+        define('SQL_PREFIX_','SQL_PREFIX_');
 
         /**
          * Quel pack de langue utiliser ?
