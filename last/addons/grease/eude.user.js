@@ -676,18 +676,19 @@ function Index() {
  * Australis
  *  /html/body/div[14]/strong/strong/strong/strong/font/strong/font/font/a[3]
  *  /html/body/div[14]/strong/strong/strong/strong/font/strong/font/strong/font/font/a[3]
+ *  /html/body/div[14]/strong/font/strong/strong/strong/font/strong/strong/font/a[3]
  *  Baurealis, Beta.de
  *  /html/body/div[14]/a[3]
  *  /html/body/div[14]/a[3]
  */
-    var lnk = $x('/html/body/div[14]/strong/strong/strong/font/strong/strong/font/a[3]');
+    var lnk = $x('/html/body/div[14]/strong/font/strong/strong/strong/font/strong/strong/font/a[3]');
     if (typeof lnk[0]=='undefined') lnk=$x('/html/body/div[14]/a[3]');
     if (typeof lnk[0]!='undefined') {
         lnk[0].href='http://www.looki.'+c_lang+'/support/';
         lnk[0].target='_blank';
     }
 
-    var x =$x('/html/body/div[14]/strong/strong/strong/font/strong/strong/font');
+    var x =$x('/html/body/div[14]/strong/font/strong/strong/strong/font/strong/strong/font');
     if (typeof x[0]=='undefined') x=$x('/html/body/div[14]');
     if (typeof x[0]!='undefined') {
         x[0].innerHTML = x[0].innerHTML + ' | ';
