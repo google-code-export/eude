@@ -2,7 +2,7 @@
 /*
  * @author Alex10336
  * @translator Jhonny, Cthulhu
- * Dernière modification: $Id$
+ * Derniï¿½re modification: $Id$
  * @license GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  *
@@ -10,27 +10,26 @@
 
 $lng = array();
 $lng['Titane'] = 'Tytan';
-$lng['Cuivre'] = 'Mied¼';
-$lng['Fer'] = '¯elazo';
+$lng['Cuivre'] = 'MiedÂ¼';
+$lng['Fer'] = 'Â¯elazo';
 $lng['Aluminium'] = 'Aluminium';
-$lng['Mercure'] = 'Rtêæ';
+$lng['Mercure'] = 'RtÃªÃ¦';
 $lng['Silicium'] = 'Krzem';
 $lng['Uranium'] = 'Uran';
 $lng['Krypton'] = 'Krypton';
 $lng['Azote'] = 'Azot';
-$lng['Hydrogene'] = 'Wodór';
+$lng['Hydrogene'] = 'WodÃ³r';
 
 $cxx = array();
 $cxx[] = 'Partie administrative';
 $cxx['MEMBRES_ADMIN'] = 'Page admin';
 $cxx['MEMBRES_ADMIN_LOG'] = 'Log des connexions';
-$cxx['MEMBRES_ADMIN_MAP_COLOR'] = 'Modification des couleurs de la carte';
 $cxx['MEMBRES_NEW'] = 'Ajout membre (inclus les grades)';
 $cxx['MEMBRES_EDIT'] = 'Modification membre';
 $cxx['MEMBRES_NEWPASS'] = 'Changer pass';
 $cxx['MEMBRES_DELETE'] = 'Supprimer membre';
 $cxx['MEMBRES_STATS'] = 'Affichage stats';
-$cxx['MEMBRES_HIERARCHIE'] = 'Membres hiérarchie';
+$cxx['MEMBRES_HIERARCHIE'] = 'Membres hiÃ©rarchie';
 $cxx[] = 'Carte';
 $cxx['CARTE'] = 'Page Carte';
 $cxx['CARTE_SEARCH'] = 'Recherche';
@@ -42,8 +41,8 @@ $cxx['PERSO_RESEARCH'] = 'Page recherche';
 $cxx['PERSO_OWNUNIVERSE'] = 'Page production';
 $cxx[] = 'Cartographie';
 $cxx['CARTOGRAPHIE'] = 'Page Cartographie';
-$cxx['CARTOGRAPHIE_ASTEROID'] = 'Ajout Astéroïdes';
-$cxx['CARTOGRAPHIE_PLANETS'] = 'Ajout planètes';
+$cxx['CARTOGRAPHIE_ASTEROID'] = 'Ajout AstÃ©roÃ¯des';
+$cxx['CARTOGRAPHIE_PLANETS'] = 'Ajout planÃ¨tes';
 $cxx['CARTOGRAPHIE_PLAYERS'] = 'Ajout Joueur/Flottes PNJ';
 $cxx['CARTOGRAPHIE_SEARCH'] = 'Fonction recherche';
 $cxx['CARTOGRAPHIE_GREASE'] = 'Utilisation "GreaseMonkey"';
@@ -51,16 +50,16 @@ $cxx[] = 'Addons:';
 $lng['cxx'] = $cxx;
 
 $lng['axx'] = array(
-                AXX_VALIDATING	=>'Non-validé',
-                AXX_GUEST	=>'Invité',
-                AXX_MEMBER	=>'Membre',
-                AXX_POWERMEMBER	=>'Membre+',
-                AXX_MODO	=>'Modérateur',
-                AXX_SUPMODO	=>'Super-Modérateur',
-                AXX_ADMIN	=>'Administrateur',
-                AXX_ROOTADMIN	=>'Super-Administrateur',
-                AXX_DISABLED	=>'Désactivé'
+                AXX_VALIDATING  =>'Non-validÃ©',
+                AXX_GUEST       =>'InvitÃ©',
+                AXX_MEMBER      =>'Membre',
+                AXX_POWERMEMBER =>'Membre+',
+                AXX_MODO        =>'ModÃ©rateur',
+                AXX_SUPMODO     =>'Super-ModÃ©rateur',
+                AXX_ADMIN       =>'Administrateur',
+                AXX_ROOTADMIN   =>'Super-Administrateur',
+                AXX_DISABLED    =>'DÃ©sactivÃ©'
         );
 
-$lng['minimalpermsneeded'] = 'Permission minimale manquante (<b>%s</b> ou supérieur)';
-$lng['nopermsanddie'] = 'Permission minimale manquante ou option désactivée.';
+$lng['minimalpermsneeded'] = 'Permission minimale manquante (<b>%s</b> ou supÃ©rieur)';
+$lng['nopermsanddie'] = 'Permission minimale manquante ou option dÃ©sactivÃ©e.';

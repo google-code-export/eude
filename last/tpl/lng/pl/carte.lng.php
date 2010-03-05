@@ -1,7 +1,8 @@
 <?php
 /**
  * @author Alex10336
- * Dernière modification: $Id: carte.lng.php 69 2010-02-13 18:50:17Z Alex10336 $
+ * @translator Jhonny, Cthulhu
+ * Dernière modification: $Id$
  * @license GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  *
