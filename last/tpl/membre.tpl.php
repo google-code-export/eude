@@ -54,6 +54,8 @@ class tpl_membre extends output {
             .'"><img src="%IMAGES_URL%edit.png"></a> &nbsp; ';
 
         $joueur['Points'] = DataEngine::format_number($joueur['Points'],true);
+        if (Members::CheckPerms('PERSO_OWNUNIVERSE_READONLY'))
+           $joueur['Joueur'] = sprintf('<a href="%%ROOT_URL%%ownuniverse.php?showuser=%s">%1$s</a>',$joueur['Joueur']);
 
         $bulle = <<<bulle
 {$ship}

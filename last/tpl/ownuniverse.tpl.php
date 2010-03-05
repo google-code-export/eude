@@ -16,15 +16,16 @@ class tpl_ownuniverse extends output {
         parent::__construct();
     }
 
-    public function Setheader($info, $warn) {
-        $bulle = <<<bulle
+    public function Setheader($info, $warn, $include_form) {
+        if ($include_form) {
+            $bulle = <<<bulle
             Coller ici les détails du '<b>Centre de contrôle</b>' puis '<b>Planètes</b>'<br/>
 (Ctrl+A puis Ctrl+C après avoir ouvert la page)<br/>
 <br/>
 Suivit après par planète un copier/coller de la page 'Aperçu' pour les informations complémentaire
 bulle;
-        $bulle = bulle($bulle);
-        $out =<<<h
+            $bulle = bulle($bulle);
+            $out =<<<h
 	<TABLE id='imperium_header'>
 	<form name='data' method='post' action='{$this->BASE_FILE}'>
 	<TR id='imperium_header'>
@@ -41,16 +42,19 @@ bulle;
 	</tr>
         </form>
 h;
-        $this->PushOutput($out);
-        if ($info != "" or $warn !="") {
-            $info = "<font color=green>$info</font>";
-            $warn = "<font color=red>$warn</font>";
-            $out=<<<info
+            $this->PushOutput($out);
+            if ($info != "" or $warn !="") {
+                $info = "<font color=green>$info</font>";
+                $warn = "<font color=red>$warn</font>";
+                $out=<<<info
 	<TR id='imperium_header'>
 		<TD colspan=12>{$info}{$warn}</td>
 	</tr>
 info;
-            $this->PushOutput($out);
+                $this->PushOutput($out);
+            }
+        } else {
+            $this->PushOutput('<br/><TABLE id="imperium_header">');
         }
     }
 
@@ -144,8 +148,8 @@ bulle;
         $tb		 = DataEngine::format_number($tb);
         $tc		 = DataEngine::format_number($tc);
         $bulles['total'] = bulle('Sur planète: '.$tc
-            .'<br/>Dans le bunker: '.$tb.'<br/>En sécurité: '.$tp.'%'
-            .'<br/>Utilisation bunker: '.$tf.'%');
+                .'<br/>Dans le bunker: '.$tb.'<br/>En sécurité: '.$tp.'%'
+                .'<br/>Utilisation bunker: '.$tf.'%');
 
         $this->Add_RessRow($row, 'Stocks', '', 'imperium_row0', $bulles);
     }

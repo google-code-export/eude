@@ -394,7 +394,7 @@ x;
         $this->PushOutput('<tr><td class="color_header" colspan="3">'.$cxx_v.'</td></tr>');
     }
 
-    public function perms_row($cxx_k, $cxx_v, $axx_name) {
+    public function perms_row($cxx_k, $cxx_v, $axx_name, $cxx_conf) {
         $cols_cls = $this->idcols++%2;
 
         $out = <<<pr

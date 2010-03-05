@@ -37,6 +37,11 @@ class ownuniverse {
      * @since 1.4.1
      */
     protected $race;
+
+    /**
+     * @since 1.4.2
+     */
+    protected $readonly=false;
     /**
      @param	array		sorted data
      @param	&array	output
@@ -48,6 +53,7 @@ class ownuniverse {
      @return	boolean
      **/
     private function GetRessFrom($data, &$output, $nb, $subkey, $from='', $to='', $prefix='') {
+        if ($this->readonly) return false;
         $from_pos		= array_search($from, $data);
         $to_pos			= array_search($to, $data);
         if ($from_pos === false)
@@ -85,6 +91,7 @@ class ownuniverse {
      *	@return	array			Données dans un tableau
      **/
     public function parse_ownuniverse($data, $return=array(1,2,3,4,5,6)) {
+        if ($this->readonly) return false;
 
         if (DataEngine::$browser->getBrowser() != Browser::BROWSER_IE)
             define('DATA_SEP',"\t\t");
@@ -196,6 +203,7 @@ class ownuniverse {
      * @param	string
      */
     public function parse_planet($data) {
+        if ($this->readonly) return false;
         //        $data = str_replace("\n\n", "\n", $data);
 
         if (DataEngine::$browser->getBrowser() == Browser::BROWSER_IE)
@@ -231,6 +239,7 @@ class ownuniverse {
      *  @return array		($info, $warn)
      **/
     public function add_ownuniverse($data) {
+        if ($this->readonly) return false;
         $info=$warn="";
         $qnom  = sqlesc($_SESSION['_login']);
         foreach($data as $k => $v) {
@@ -261,6 +270,7 @@ class ownuniverse {
 
 
     public function add_planet($id, $data) {
+        if ($this->readonly) return false;
         $info=$warn="";
         $qnom  = sqlesc($_SESSION['_login']);
 
@@ -279,9 +289,14 @@ class ownuniverse {
         return array($info, $warn);
     }
 
-    public function get_universe() {
+    public function get_universe($player) {
+        if ($player) {
+            unset ($this->universe_data);
+            unset ($this->ress_data);
+            $this->readonly = true;
+        } else $player = $_SESSION['_login'];
         if (!$this->universe_data) {
-            $qnom  = sqlesc($_SESSION['_login']);
+            $qnom  = sqlesc($player, false);
             $query = "SELECT * FROM SQL_PREFIX_ownuniverse where UTILISATEUR='$qnom'";
             $sql_r = DataEngine::sql($query);
             $ligne = mysql_fetch_assoc($sql_r);

@@ -24,6 +24,14 @@ if (isset($_GET['reset']) && $_GET['reset'] == $_SESSION['_permkey']) {
     output::Boink('./ownuniverse.php');
 }
 
+if ($_GET['showuser'] != '' && Members::CheckPerms('PERSO_OWNUNIVERSE_READONLY')) {
+    $player = gpc_esc($_GET['showuser']);
+    $include_form = false;
+} else {
+    $player=false;
+    $include_form = true;
+}
+
 if (isset($_POST['importation'])) {
 
     $cleandata = $ownuniverse->get_universe(); // initialise les infos (planet)
@@ -54,17 +62,18 @@ if (isset($_POST['importation'])) {
 
         } else $warn = "Le centre de controle en premier !";
     } else $warn = "Information collé non reconnue";
-} else $cleandata = $ownuniverse->get_universe();
+} else $cleandata = $ownuniverse->get_universe($player);
 
 $IsEnabled = ($cleandata && is_array($cleandata[0]));
 
 require_once(TEMPLATE_PATH.'ownuniverse.tpl.php');
 $tpl = tpl_ownuniverse::getinstance();
 $tpl->page_title = "EU2: Son univers";
+
 if ($IsEnabled)
-    $tpl->Setheader($info, $warn);
+    $tpl->Setheader($info, $warn, $include_form);
 else
-    $tpl->Setheader('Lisez les infos sur le <b>i</b> pour commencer', $warn);
+    $tpl->Setheader('Lisez les infos sur le <b>i</b> pour commencer', $warn, $include_form);
 
 /**
  Array (

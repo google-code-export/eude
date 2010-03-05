@@ -39,6 +39,7 @@ $cxx[] = 'Ma fiche & co';
 $cxx['PERSO'] = 'Page Mafiche';
 $cxx['PERSO_RESEARCH'] = 'Page recherche';
 $cxx['PERSO_OWNUNIVERSE'] = 'Page production';
+$cxx['PERSO_OWNUNIVERSE_READONLY'] = 'Page production (mode lecture seule)';
 $cxx[] = 'Cartographie';
 $cxx['CARTOGRAPHIE'] = 'Page Cartographie';
 $cxx['CARTOGRAPHIE_ASTEROID'] = 'Ajout Astéroïdes';

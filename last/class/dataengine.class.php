@@ -481,6 +481,7 @@ class Members {
         $cxx['PERSO'] = AXX_MEMBER;
         $cxx['PERSO_RESEARCH'] = AXX_VALIDATING;
         $cxx['PERSO_OWNUNIVERSE'] = AXX_MEMBER;
+        $cxx['PERSO_OWNUNIVERSE_READONLY'] = AXX_ADMIN;
 
         $cxx['MEMBRES_HIERARCHIE'] = AXX_MEMBER;
         $cxx['MEMBRES_NEW'] = AXX_ADMIN; // inclus les grades...

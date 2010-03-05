@@ -283,7 +283,7 @@ if ($_REQUEST['act'] == 'perms' && Members::CheckPerms(AXX_ROOTADMIN)) {
             $tpl->perms_category($cxx_v);
             continue;
         } else {
-            $tpl->perms_row($cxx_k, $cxx_v, $axx_name);
+            $tpl->perms_row($cxx_k, $cxx_v, $axx_name, $cxx_conf);
         }
 
         $tpl->PushOutput('</tr>');
