@@ -67,6 +67,8 @@ class DataEngine extends Members {
         // Fix multiple installations/conflit avec forum ou autre soft utilisant les sessions
         session_set_cookie_params(0,ROOT_URL);
 
+        if (!NO_SESSIONS)
+            session_start() or trigger_error('Erreur de session', E_USER_ERROR);
         return (self::$initialized=true);
     }
     static public function jump_install() {

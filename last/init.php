@@ -57,9 +57,6 @@ if (version_compare(PHP_VERSION, '5.0.0', '<'))
 if (version_compare(PHP_VERSION, '6.0.0', '>='))
     trigger_error('php v6+ n\'est pas actuellement support&eacute;', E_USER_WARNING);
 
-if (!NO_SESSIONS)
-    session_start() or trigger_error('Erreur de session', E_USER_ERROR);
-
 define('DE_INIT', true);
 define('DE_DEMO', false);
 
