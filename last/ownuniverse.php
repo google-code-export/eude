@@ -34,7 +34,7 @@ if ($_GET['showuser'] != '' && Members::CheckPerms('PERSO_OWNUNIVERSE_READONLY')
 
 if (isset($_POST['importation'])) {
 
-    $cleandata = $ownuniverse->get_universe(); // initialise les infos (planet)
+    $cleandata = $ownuniverse->get_universe(false); // initialise les infos (planet)
 
     $data = gpc_esc($_POST['importation']);
 
@@ -42,13 +42,13 @@ if (isset($_POST['importation'])) {
     if ( $data != "" and strpos($data,"Approvisionnement du peuple par jour") !== false ) {
         $cleandata = $ownuniverse->parse_ownuniverse($data);
         if ($cleandata===false)
-            $cleandata = $ownuniverse->get_universe();
+            $cleandata = $ownuniverse->get_universe(false);
         else
             list($info, $warn) = $ownuniverse->add_ownuniverse($cleandata);
 
         // Partie affichage planète
     } elseif ( $data != "" and strpos($data,"Détails ressources") !== false ) {
-        $cleandata = $ownuniverse->get_universe();
+        $cleandata = $ownuniverse->get_universe(false);
         if ($cleandata && is_array($cleandata[0])) {
             $result = $ownuniverse->parse_planet($data);
             $warn = "Cette planète ne fait pas partie de votre univers (voir centre de controle)";

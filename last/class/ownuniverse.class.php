@@ -195,7 +195,7 @@ class ownuniverse {
         }
 
         $this->universe_data = $cleandata;
-        return $this->get_universe();
+        return $this->get_universe(false);
     }
 
     /**
