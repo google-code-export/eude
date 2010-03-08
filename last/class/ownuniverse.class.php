@@ -178,7 +178,7 @@ class ownuniverse {
             $i++;
         }
         // Ventes par jours
-        $tmp = $parser->GetInner($data, 'Approvisionement du peuple par jour', 'Prochain approvisionnement');
+        $tmp = $parser->GetInner($data, 'Approvisionnement du peuple par jour', 'Prochain approvisionnement');
         $tmp = explode("\n", $tmp);
         $i = 0;
         foreach ($this->ressourcesnames as $k => $v) {
