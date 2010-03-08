@@ -441,7 +441,7 @@ ead;
                 'Mozoran' => array('Titane'=>11, 'Cuivre'=>10, 'Fer'=>9, 'Aluminium'=>16.5, 'Mercure'=>5, 'Silicium'=>8, 'Uranium'=>12, 'Krypton'=>15, 'Azote'=>12.5, 'Hydrogene'=>1),
                 'Ozoidien' => array('Titane'=>12, 'Cuivre'=>9, 'Fer'=>12.5, 'Aluminium'=>8, 'Mercure'=>11, 'Silicium'=>15, 'Uranium'=>10, 'Krypton'=>16.5, 'Azote'=>5, 'Hydrogene'=>1),
                 'Plentropien' => array('Titane'=>10, 'Cuivre'=>8, 'Fer'=>5, 'Aluminium'=>15, 'Mercure'=>16.5, 'Silicium'=>12.5, 'Uranium'=>9, 'Krypton'=>12, 'Azote'=>11, 'Hydrogene'=>1),
-                'Wegamien' => array('Titane'=>9, 'Cuivre'=>5, 'Fer'=>15, 'Aluminium'=>10, 'Mercure'=>12, 'Silicium'=>11, 'Uranium'=>16.5, 'Krypton'=>12.5, 'Azote'=>8, 'Hydrogene'=>1),
+                'Weganien' => array('Titane'=>9, 'Cuivre'=>5, 'Fer'=>15, 'Aluminium'=>10, 'Mercure'=>12, 'Silicium'=>11, 'Uranium'=>16.5, 'Krypton'=>12.5, 'Azote'=>8, 'Hydrogene'=>1),
                 'Zuup' => array('Titane'=>5, 'Cuivre'=>11, 'Fer'=>12, 'Aluminium'=>9, 'Mercure'=>12.5, 'Silicium'=>16.5, 'Uranium'=>15, 'Krypton'=>8, 'Azote'=>10, 'Hydrogene'=>1),
         );
         if (isset($data[$race]))
