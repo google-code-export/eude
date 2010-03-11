@@ -14,8 +14,12 @@ require_once(CLASS_PATH.'parser.class.php');
 require_once(CLASS_PATH.'cartographie.class.php');
 require_once(CLASS_PATH.'map.class.php');
 
-if (!DataEngine::CheckPerms('CARTOGRAPHIE'))
-    output::Boink(ROOT_URL.'Mafiche.php');
+if (!DataEngine::CheckPerms('CARTOGRAPHIE')) {
+    if (DataEngine::CheckPerms('CARTE'))
+        output::Boink(ROOT_URL.'Carte.php');
+    else
+        output::Boink(ROOT_URL.'Mafiche.php');
+}
 
 $where = "WHERE 1=1 ";
 if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {

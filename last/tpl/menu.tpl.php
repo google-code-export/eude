@@ -28,7 +28,7 @@ class tpl_menu {
 // 'menu_unique_id' => array('file/http','btn-img','btn_width','eval(some_php_for_axx)', $array_for_sub_menu_item),
 // $array_for_sub_menu_item = array('file/http','btn-img','eval(some_php_for_axx)')
         return array(
-                'carto' => array('%ROOT_URL%index.php','%IMAGES_URL%btn-cartographie.png',180,'DataEngine::CheckPerms("CARTOGRAPHIE")', array(
+                'carto' => array('%ROOT_URL%index.php','%IMAGES_URL%btn-cartographie.png',180,'DataEngine::CheckPerms("CARTOGRAPHIE")||DataEngine::CheckPerms("CARTE")', array(
                                 array('%ROOT_URL%index.php','%IMAGES_URL%Btn-Tableau.png','DataEngine::CheckPerms("CARTOGRAPHIE")'),
                                 array('%ROOT_URL%Carte.php','%IMAGES_URL%Btn-Carte.png','DataEngine::CheckPerms("CARTE")'),
                         ),
@@ -100,7 +100,7 @@ EOF;
     }
     
     protected function sub_menu($id, $width, $content) {
-        $content = implode("<br/>\n", $content);
+        $content = implode("\n", $content);
         $left = ($this->left-5).'px'; $width=($width+10).'px';
         $this->out .= <<<EOF
 <div id="sm_$id"  onmouseover="montre2('$id');" onmouseout="cache2('$id');" style="z-index:10; font-size:10px; top:30px; left:{$left}; width:$width; background-color: black; visibility:hidden; position:absolute; text-align:center">$content</div>
