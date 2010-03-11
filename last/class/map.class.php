@@ -285,7 +285,7 @@ class map /*extends parcours*/ {
         if ($_SESSION['carte_prefs'] != $tmp || $_SESSION['carte_prefs'] == '')
             DataEngine::sql_spool('UPDATE SQL_PREFIX_Membres SET carte_prefs=\''.$tmp.'\' WHERE Joueur=\''.$_SESSION['_login'].'\'');
     }
-    
+
     private function perms_prefs() {
         if (!DataEngine::CheckPerms('CARTE_JOUEUR')) $this->joueur = 0;
 
@@ -643,15 +643,16 @@ class map /*extends parcours*/ {
                     break;
                 case 'pnj':
                     if ($pnj=='') $pnj = '<br/>'.sprintf($this->lng['map_pnj_header'], $data['pnj']);
+                    $pnj .= '<br/>'.$v['EMPIRE'];
                     break;
 
                 case 'Vortex':
-                    if ($vortex=='') $vortex = '<br/>'.sprintf($this->lng['map_planet_header'], $data['Vortex']);
+                    if ($vortex=='') $vortex = '<br/>'.sprintf($this->lng['map_wormhole_header'], $data['Vortex']);
                     $vortex .= '<br/>=> '.$v['POSOUT'];
                     break;
 
                 case 'Planète':
-                    if ($planète=='')	$planète = '<br/>'.sprintf($this->lng['map_wormhole_header'], $data['Planète']);
+                    if ($planète=='')	$planète = '<br/>'.sprintf($this->lng['map_planet_header'], $data['Planète']);
                     break;
                 case 'Astéroïde':
                     if ($asteroide=='') $asteroide = '<br/>'.sprintf($this->lng['map_asteroid_header'], $data['Astéroïde']);

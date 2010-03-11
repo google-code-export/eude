@@ -28,27 +28,27 @@ class tpl_menu {
 // 'menu_unique_id' => array('file/http','btn-img','btn_width','eval(some_php_for_axx)', $array_for_sub_menu_item),
 // $array_for_sub_menu_item = array('file/http','btn-img','eval(some_php_for_axx)')
         return array(
-        'carto' => array('%ROOT_URL%index.php','%IMAGES_URL%btn-cartographie.png',180,'DataEngine::CheckPerms("CARTOGRAPHIE")', array(
-        array('%ROOT_URL%index.php','%IMAGES_URL%Btn-Tableau.png','DataEngine::CheckPerms("CARTOGRAPHIE")'),
-        array('%ROOT_URL%Carte.php','%IMAGES_URL%Btn-Carte.png','DataEngine::CheckPerms("CARTE")'),
-        ),
-        ),
-        'perso' => array('%ROOT_URL%Mafiche.php','%IMAGES_URL%Btn-Mafiche.png',125,'DataEngine::CheckPerms("PERSO")', array(
-        array('%ROOT_URL%Mafiche.php','%IMAGES_URL%Btn-Mafiche.png','DataEngine::CheckPerms("PERSO")'),
-        array('%ROOT_URL%Recherche.php','%IMAGES_URL%Btn-Recherche.png','DataEngine::CheckPerms("PERSO_RESEARCH")'),
-        array('%ROOT_URL%ownuniverse.php','%IMAGES_URL%Btn-Production.png','DataEngine::CheckPerms("PERSO_OWNUNIVERSE")'),
-        ),
-        ),
-        'addon' => array('', '%IMAGES_URL%btn-addon.png',180, 'addons::getinstance()->IncludeAddonMenu()', array() ),
-        'admin' => array('%ROOT_URL%Membres.php','%IMAGES_URL%Btn-Membres.png',180,'DataEngine::CheckPerms("MEMBRES_HIERARCHIE")', array(
-        array('%ROOT_URL%Membres.php','%IMAGES_URL%btn-hierarchie.png','DataEngine::CheckPerms("MEMBRES_HIERARCHIE")'),
-        array('%ROOT_URL%editmembres.php','%IMAGES_URL%btn-editions.png','DataEngine::CheckPerms("MEMBRES_EDIT")'),
-        array('%ROOT_URL%stats.php','%IMAGES_URL%btn-statistiques.png','DataEngine::CheckPerms("MEMBRES_STATS")'),
-        array('%ROOT_URL%EAdmin.php','%IMAGES_URL%Btn-Admin.png','DataEngine::CheckPerms("MEMBRES_ADMIN")'),
-        ),
-        ),
-        'forum' => array(Config::GetForumLink(),'%IMAGES_URL%Btn-Forum.png',125,'Config::GetForumLink() != ""', null),
-        'logout' => array('%ROOT_URL%logout.php','%IMAGES_URL%btn-logout.png',180,'DataEngine::CheckPerms(AXX_GUEST)', null),
+                'carto' => array('%ROOT_URL%index.php','%IMAGES_URL%btn-cartographie.png',180,'DataEngine::CheckPerms("CARTOGRAPHIE")', array(
+                                array('%ROOT_URL%index.php','%IMAGES_URL%Btn-Tableau.png','DataEngine::CheckPerms("CARTOGRAPHIE")'),
+                                array('%ROOT_URL%Carte.php','%IMAGES_URL%Btn-Carte.png','DataEngine::CheckPerms("CARTE")'),
+                        ),
+                ),
+                'perso' => array('%ROOT_URL%Mafiche.php','%IMAGES_URL%Btn-Mafiche.png',125,'DataEngine::CheckPerms("PERSO")', array(
+                                array('%ROOT_URL%Mafiche.php','%IMAGES_URL%Btn-Mafiche.png','DataEngine::CheckPerms("PERSO")'),
+                                array('%ROOT_URL%Recherche.php','%IMAGES_URL%Btn-Recherche.png','DataEngine::CheckPerms("PERSO_RESEARCH")'),
+                                array('%ROOT_URL%ownuniverse.php','%IMAGES_URL%Btn-Production.png','DataEngine::CheckPerms("PERSO_OWNUNIVERSE")'),
+                        ),
+                ),
+                'addon' => array('', '%IMAGES_URL%btn-addon.png',180, 'addons::getinstance()->IncludeAddonMenu()', array() ),
+                'admin' => array('%ROOT_URL%Membres.php','%IMAGES_URL%Btn-Membres.png',180,'DataEngine::CheckPerms("MEMBRES_HIERARCHIE")', array(
+                                array('%ROOT_URL%Membres.php','%IMAGES_URL%btn-hierarchie.png','DataEngine::CheckPerms("MEMBRES_HIERARCHIE")'),
+                                array('%ROOT_URL%editmembres.php','%IMAGES_URL%btn-editions.png','DataEngine::CheckPerms("MEMBRES_EDIT")'),
+                                array('%ROOT_URL%stats.php','%IMAGES_URL%btn-statistiques.png','DataEngine::CheckPerms("MEMBRES_STATS")'),
+                                array('%ROOT_URL%EAdmin.php','%IMAGES_URL%Btn-Admin.png','DataEngine::CheckPerms("MEMBRES_ADMIN")'),
+                        ),
+                ),
+                'forum' => array(Config::GetForumLink(),'%IMAGES_URL%Btn-Forum.png',125,'Config::GetForumLink() != ""', null),
+                'logout' => array('%ROOT_URL%logout.php','%IMAGES_URL%btn-logout.png',180,'DataEngine::CheckPerms(AXX_GUEST)', null),
         );
     }
 
@@ -98,7 +98,7 @@ HEADER;
 EOF;
         $this->left += $width+5;
     }
-
+    
     protected function sub_menu($id, $width, $content) {
         $content = implode("<br/>\n", $content);
         $left = ($this->left-5).'px'; $width=($width+10).'px';
@@ -109,10 +109,13 @@ EOF;
     }
 
     protected function sub_menu_item($url, $img) {
-        if ($url != "")
-            return "<a href=\"$url\"><img src=\"$img\"></a>";
-        else
-            return "<img src=\"$img\">";
+        $link = ''; $link2 = '';
+        if ($url) {
+            $link = (stristr($url,"http") === false) ? "<a href='$url'>":
+                    "<a href='$url' target='_blank'>";
+            $link2 = '</a>';
+        }
+        return "<center>{$link}<img src={$img} />{$link2}</center>";
     }
 
     /**

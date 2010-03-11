@@ -101,7 +101,7 @@ $cctype[4] = 'Astéroïdes';
 
 // Même chose, utilisé par Cartedetail.php
 $ccimg[0] = 'Joueur.jpg';
-$ccimg[3] = 'Divers.jpg';
+$ccimg[3] = 'fleet_own.gif';
 $ccimg[5] = 'fleet_enemy.gif';
 $ccimg[6] = 'fleet_npc.gif';
 $ccimg[1] = 'Vortex.jpg';
