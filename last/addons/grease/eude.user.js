@@ -811,7 +811,7 @@ function Fleet() {
         a['owner'] = a['owner'].replace(/<\/?[^>]+>/gi, '')
     //    get_xml('pnj', a);
     }
-        alert('Fleet called:\nCoords: '+a['coords']+'\nProprio: '+a['owner']+'\nNom: '+a['fleetname']);
+//        alert('Fleet called:\nCoords: '+a['coords']+'\nProprio: '+a['owner']+'\nNom: '+a['fleetname']);
 
 }
 
