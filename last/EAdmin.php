@@ -29,7 +29,7 @@ if(isset($_POST['cleanvortex'])) {
     $cleanvortex_inactif = mysql_affected_rows();
 
     $tmp = DataEngine::config('wormhole_cleaning');
-    $tmp['lastrun'] = mktime();
+    $tmp['lastrun'] = time();
     DataEngine::conf_update('wormhole_cleaning', $tmp);
 }
 

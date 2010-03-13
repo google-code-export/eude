@@ -24,14 +24,18 @@ class language {
      * @return array
      */
     function GetLngBlock($who) {
-        if (is_array($lngs[$who])) return $lngs[$who];
+        if (is_array($this->lngs[$who])) {
+            if (IN_DEV) FB::info($who.'('.count($this->lngs[$who]).')', 'i18n, cache');
+            return $this->lngs[$who];
+        }
 
         $lng_file = LNG_PATH.$who.'.lng.php';
         if (!file_exists($lng_file))
             trigger_error(sprintf('Language block "%s" not found in pack "%s"', $who, $lng_file), E_USER_ERROR);
 
         include($lng_file);
-        $lngs[$who] = $lng;
+        $this->lngs[$who] = $lng;
+        if (IN_DEV) FB::info($who.'('.count($lng).')', 'i18n');
         return $lng;
     }
 

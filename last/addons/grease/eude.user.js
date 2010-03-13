@@ -77,7 +77,7 @@ i18n['en']['conflink']       = 'Address';
 i18n['en']['confuser']       = 'User name';
 i18n['en']['confpass']       = 'Password';
 i18n['en']['confspacer']     = 65;
-i18n['en']['confcells']      = 20;
+i18n['en']['confcells']      = 21;
 i18n['en']['coords']         = 'Coordinates';
 i18n['en']['ress0']          = 'Titanium';
 i18n['en']['ress1']          = 'Copper';
@@ -89,8 +89,8 @@ i18n['en']['ress6']          = 'Uranium';
 i18n['en']['ress7']          = 'Krypton';
 i18n['en']['ress8']          = 'Nitrogen';
 i18n['en']['ress9']          = 'Hydrogen';
-i18n['en']['ss_preview']     = 'Aperçu système solaire n°';
-i18n['en']['neutral,planet'] = ' planètes';
+i18n['en']['ss_preview']     = 'Starsystem overview n°';
+i18n['en']['neutral,planet'] = ' Planets';
 i18n['en']['emp,planet']     = ' joueur(s) de l\'empire';
 i18n['en']['ally,planet']    = ' joueur(s) allié';
 i18n['en']['war,planet']     = ' joueur(s) en guerre';
@@ -110,8 +110,8 @@ i18n['de']['confheader']     = 'Options spécifique au <u>Data Engine</u>';
 i18n['de']['conflink']       = 'Adresse';
 i18n['de']['confuser']       = 'Nickname';
 i18n['de']['confpass']       = 'Passwort';
-i18n['de']['confspacer']     = 50;
-i18n['de']['confcells']      = 20;
+i18n['de']['confspacer']     = 1;
+i18n['de']['confcells']      = 21;
 i18n['de']['coords']         = 'Koordinaten';
 i18n['de']['ress0']          = 'Titan';
 i18n['de']['ress1']          = 'Kupfer';
@@ -145,7 +145,7 @@ i18n['pl']['confheader']     = 'Opcje ustawienia do <u>Data Engine</u>';
 i18n['pl']['conflink']       = 'Strona';
 i18n['pl']['confuser']       = 'Użytkownik';
 i18n['pl']['confpass']       = 'Hasło';
-i18n['pl']['confspacer']     = 130;
+i18n['pl']['confspacer']     = 1;
 i18n['pl']['confcells']      = 21;
 i18n['pl']['coords']         = 'Współrzędne';
 i18n['pl']['ress0']          = 'Tytan';
@@ -681,8 +681,11 @@ function Index() {
             lnk[0].target='_blank';
         }
     }
-
+    
     var x =$x('/html/body/div[14]/strong/font/strong/strong/strong/font/strong/strong/font');
+    if (typeof x[0]=='undefined' &&
+        c_lang == 'de') x=$x('/html/body/div[16]');
+
     if (typeof x[0]=='undefined') x=$x('/html/body/div[14]/strong/strong/font/strong/strong/font');
     if (typeof x[0]=='undefined') x=$x('/html/body/div[14]');
     if (typeof x[0]!='undefined') {
