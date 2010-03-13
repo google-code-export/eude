@@ -17,27 +17,27 @@ $lng['data_error']     = 'Information collé non reconnue';
 $lng['control_center_error'] = 'Le centre de contrôle en premier !';
 $lng['control_center_ident'] = 'Approvisionnement du peuple par jour';
 // partie détection, par block,
-$lng['block_planet_0'] = 'Description';
-$lng['block_planet_1'] = 'Total';
-$lng['block_coords_0'] = 'Coordonnées';
-$lng['block_coords_1'] = 'Distance vers';
-$lng['block_batiments_0'] = 'Bâtiment (Niveaux de développement)';
-$lng['block_batiments_1'] = 'Ressources';
+$lng['block_planet_0'] = 'Opis';
+$lng['block_planet_1'] = 'Razem';
+$lng['block_coords_0'] = 'Współrzędne';
+$lng['block_coords_1'] = 'Odległość od';
+$lng['block_batiments_0'] = 'Budowle (poziomy rozbudowy)';
+$lng['block_batiments_1'] = 'Surowce';
 $lng['block_ress_0'] = $lng['block_batiments_1'];
-$lng['block_ress_1'] = 'Production par heure';
+$lng['block_ress_1'] = 'Produkcja na godzine';
 $lng['block_prod_0'] = $lng['block_ress_1'];
-$lng['block_prod_1'] = 'Ressources dans le bunker';
+$lng['block_prod_1'] = 'Surowce w bunkrze';
 $lng['block_bunker_0'] = $lng['block_prod_1'];
-$lng['block_bunker_1'] = 'Approvisionnement du peuple par jour';
+$lng['block_bunker_1'] = 'Zaopatrzenie ludności na dzień';
 $lng['block_sell_0'] = $lng['block_bunker_1'];
-$lng['block_sell_1'] = 'Prochain approvisionnement';
+$lng['block_sell_1'] = 'Oczekiwanie na następne zaopatrzenie';
 
 
 $lng['planet_error'] = 'Cette planète ne fait pas partie de votre univers (voir centre de controle)';
-$lng['planet_ident'] = 'Détails ressources';
+$lng['planet_ident'] = 'Podział surowców';
 // partie détection,
-$lng['planet_key_0'] = 'Détails ressources';
-$lng['planet_key_1'] = 'Informations planètes';
-$lng['planet_key_2'] = 'Détails ressources';
-$lng['planet_key_3'] = 'Coordonnées';
-$lng['planet_key_4'] = 'Surface d\'eau';
+$lng['planet_key_0'] = 'Podział surowców';
+$lng['planet_key_1'] = 'Informacje planet';
+$lng['planet_key_2'] = 'Podział surowców';
+$lng['planet_key_3'] = 'Współrzędne';
+$lng['planet_key_4'] = 'Osłona wodna';
