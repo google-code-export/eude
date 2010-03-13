@@ -459,7 +459,7 @@ ead;
         if (DE_DEMO)
             return '1.4.x.r83 démo';
         elseif (IN_DEV)
-            return '1.4.2-dev'.time();
+            return '1.4.svn'.time();
         else
             return '1.4.2';
     }

@@ -15,6 +15,7 @@ require_once(TEMPLATE_PATH.'ownuniverse.tpl.php');
 DataEngine::CheckPermsOrDie('PERSO_OWNUNIVERSE');
 
 $ownuniverse = ownuniverse::getinstance();
+$lng = language::getinstance()->GetLngBlock('ownuniverse');
 
 // initialisation des variables
 $info = $warn ='';
@@ -39,7 +40,7 @@ if (isset($_POST['importation'])) {
     $data = gpc_esc($_POST['importation']);
 
     // Partie centre de controle
-    if ( $data != "" and strpos($data,"Approvisionnement du peuple par jour") !== false ) {
+    if ( $data != "" and strpos($data,$lng['control_center_ident']) !== false ) {
         $cleandata = $ownuniverse->parse_ownuniverse($data);
         if ($cleandata===false)
             $cleandata = $ownuniverse->get_universe(false);
@@ -47,11 +48,11 @@ if (isset($_POST['importation'])) {
             list($info, $warn) = $ownuniverse->add_ownuniverse($cleandata);
 
         // Partie affichage planète
-    } elseif ( $data != "" and strpos($data,"Détails ressources") !== false ) {
+    } elseif ( $data != "" and strpos($data,$lng['planet_ident']) !== false ) {
         $cleandata = $ownuniverse->get_universe(false);
         if ($cleandata && is_array($cleandata[0])) {
             $result = $ownuniverse->parse_planet($data);
-            $warn = "Cette planète ne fait pas partie de votre univers (voir centre de controle)";
+            $warn = $lng['planet_error'];
             foreach ($cleandata as $k => $planet) {
                 if ($planet['Coord']==$result['Coord']) {
                     list($info, $warn) = $ownuniverse->add_planet($k,$result[0]);
@@ -60,20 +61,20 @@ if (isset($_POST['importation'])) {
                 }
             }
 
-        } else $warn = "Le centre de controle en premier !";
-    } else $warn = "Information collé non reconnue";
+        } else $warn = $lng['control_center_error'];
+    } else $warn = $lng['data_error'];
 } else $cleandata = $ownuniverse->get_universe($player);
 
 $IsEnabled = ($cleandata && is_array($cleandata[0]));
 
 require_once(TEMPLATE_PATH.'ownuniverse.tpl.php');
 $tpl = tpl_ownuniverse::getinstance();
-$tpl->page_title = "EU2: Son univers";
+$tpl->page_title = $lng['page_title'];
 
 if ($IsEnabled)
     $tpl->Setheader($info, $warn, $include_form);
 else
-    $tpl->Setheader('Lisez les infos sur le <b>i</b> pour commencer', $warn, $include_form);
+    $tpl->Setheader($lng['ownuniverse_info'], $warn, $include_form);
 
 /**
  Array (
@@ -98,7 +99,7 @@ if ($cleandata && is_array($cleandata[0])) {
     } //else FB::info($nb_planet,'NB planètes');
     //    FB::info($cleandata[0],'Planète 1');
 
-    $keys = array("Titane", "Cuivre", "Fer", "Aluminium", "Mercure", "Silicium", "Uranium", "Krypton", "Azote", "Hydrogene");
+    $keys = array('Titane', 'Cuivre', 'Fer', 'Aluminium', 'Mercure', 'Silicium', 'Uranium', 'Krypton', 'Azote', 'Hydrogene');
     $total_all = array();
 
     for($i=0;$i<$nb_planet;$i++) {

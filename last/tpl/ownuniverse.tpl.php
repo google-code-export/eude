@@ -8,11 +8,15 @@
  **/
 class tpl_ownuniverse extends output {
     protected $BASE_FILE = '';
+    protected $lng = '';
+    protected $ress = '';
     private $keys = array('Titane', 'Cuivre', 'Fer', 'Aluminium', 'Mercure', 'Silicium', 'Uranium', 'Krypton', 'Azote', 'Hydrogene');
 
     public function __construct() {
         $this->BASE_FILE = ROOT_URL.'ownuniverse.php';
-
+        $this->lng = language::getinstance()->GetLngBlock('ownuniverse');
+        $this->ress = DataEngine::a_ressources();
+        
         parent::__construct();
     }
 
@@ -62,16 +66,16 @@ info;
         $out=<<<h
             <TR id='imperium_header'>
 		<td id="TDtableau">&nbsp;</TD>
-		<td id="TDtableau"><img src='%IMAGES_URL%Titane.png'>&nbsp;Titane</TD>
-		<td id="TDtableau"><img src='%IMAGES_URL%Cuivre.png'>&nbsp;Cuivre</TD>
-		<td id="TDtableau"><img src='%IMAGES_URL%Fer.png'>&nbsp;Fer</TD>
-		<td id="TDtableau"><img src='%IMAGES_URL%Aluminium.png'>&nbsp;Aluminium</TD>
-		<td id="TDtableau"><img src='%IMAGES_URL%Mercure.png'>&nbsp;Mercure</TD>
-		<td id="TDtableau"><img src='%IMAGES_URL%Silicium.png'>&nbsp;Silicium</TD>
-		<td id="TDtableau"><img src='%IMAGES_URL%Uranium.png'>&nbsp;Uranium</TD>
-		<td id="TDtableau"><img src='%IMAGES_URL%Krypton.png'>&nbsp;Krypton</TD>
-		<td id="TDtableau"><img src='%IMAGES_URL%Azote.png'>&nbsp;Azote</TD>
-		<td id="TDtableau"><img src='%IMAGES_URL%Hydrogene.png'>&nbsp;Hydrog&egrave;ne</TD>
+		<td id="TDtableau"><img src='%IMAGES_URL%Titane.png'>&nbsp;{$this->ress[0]['Nom']}</TD>
+		<td id="TDtableau"><img src='%IMAGES_URL%Cuivre.png'>&nbsp;{$this->ress[1]['Nom']}</TD>
+		<td id="TDtableau"><img src='%IMAGES_URL%Fer.png'>&nbsp;{$this->ress[2]['Nom']}</TD>
+		<td id="TDtableau"><img src='%IMAGES_URL%Aluminium.png'>&nbsp;{$this->ress[3]['Nom']}</TD>
+		<td id="TDtableau"><img src='%IMAGES_URL%Mercure.png'>&nbsp;{$this->ress[4]['Nom']}</TD>
+		<td id="TDtableau"><img src='%IMAGES_URL%Silicium.png'>&nbsp;{$this->ress[5]['Nom']}</TD>
+		<td id="TDtableau"><img src='%IMAGES_URL%Uranium.png'>&nbsp;{$this->ress[6]['Nom']}</TD>
+		<td id="TDtableau"><img src='%IMAGES_URL%Krypton.png'>&nbsp;{$this->ress[7]['Nom']}</TD>
+		<td id="TDtableau"><img src='%IMAGES_URL%Azote.png'>&nbsp;{$this->ress[8]['Nom']}</TD>
+		<td id="TDtableau"><img src='%IMAGES_URL%Hydrogene.png'>&nbsp;{$this->ress[9]['Nom']}</TD>
 		<td id="TDtableau">Total</TD>
 	</TR>
 h;
@@ -79,9 +83,8 @@ h;
     }
 
     private function RessToImgAndText($key) {
-        $ress = DataEngine::a_ressources();
         $inf = false;
-        foreach($ress as $v)
+        foreach($this->ress as $v)
             if (stripos($v['Field'],$key)!==false)
                 $inf = $v;
 
@@ -217,7 +220,7 @@ f1;
 		<td id="{$style}">{$number}</td>
 f2;
         }
-        $this->PushOutput($out."	</tr>");
+        $this->PushOutput($out.'	</tr>');
     }
 
     public function DoOutput($include_menu=true, $include_header=true) {
