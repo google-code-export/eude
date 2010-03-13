@@ -110,19 +110,19 @@ class ownuniverse {
         //        $portions = array();
 
         // Planètes présente...
-        $tmp = $parser->GetInner($data, $this->lng['ownuniverse_block_planet_0'], $this->lng['ownuniverse_block_planet_1']);
+        $tmp = $parser->GetInner($data, $this->lng['block_planet_0'], $this->lng['block_planet_1']);
         $tmp = $parser->cleaning_array(explode(DATA_SEP, $tmp));
         $nbplanets = count($tmp);
         $cleandata = array_fill(0,$nbplanets-1,array());
         foreach($tmp as $k => $v) $cleandata[$k]['Name'] = $v;
 
         // leurs coordonnées...
-        $tmp = $parser->GetInner($data, $this->lng['ownuniverse_block_coords_0'], $this->lng['ownuniverse_block_coords_1']);
+        $tmp = $parser->GetInner($data, $this->lng['block_coords_0'], $this->lng['block_coords_1']);
         $tmp = $parser->cleaning_array(explode(DATA_SEP, $tmp));
         foreach($tmp as $k => $v) $cleandata[$k]['Coord'] = $v;
 
         // Batiments...
-        $tmp = $parser->GetInner($data, $this->lng['ownuniverse_block_batiments_0'], $this->lng['ownuniverse_block_batiments_1']);
+        $tmp = $parser->GetInner($data, $this->lng['block_batiments_0'], $this->lng['block_batiments_1']);
         $tmp = explode("\n", $tmp);
         $i = 0;
         foreach ($this->BatimentsName as $k => $v) {
@@ -136,7 +136,7 @@ class ownuniverse {
         }
 
         // ressources sur planètes
-        $tmp = $parser->GetInner($data, $this->lng['ownuniverse_block_ress_0'], $this->lng['ownuniverse_block_ress_1']);
+        $tmp = $parser->GetInner($data, $this->lng['block_ress_0'], $this->lng['block_ress_1']);
         $tmp = explode("\n", $tmp);
         $i = 0;
         foreach ($this->ressourcesnames as $k => $v) {
@@ -153,7 +153,7 @@ class ownuniverse {
         }
 
         // Production par heure
-        $tmp = $parser->GetInner($data, $this->lng['ownuniverse_block_prod_0'], $this->lng['ownuniverse_block_prod_1']);
+        $tmp = $parser->GetInner($data, $this->lng['block_prod_0'], $this->lng['block_prod_1']);
         $tmp = explode("\n", $tmp);
         $i = 0;
         foreach ($this->ressourcesnames as $k => $v) {
@@ -170,7 +170,7 @@ class ownuniverse {
         }
 
         // Ressources dans le bunker
-        $tmp = $parser->GetInner($data, $this->lng['ownuniverse_block_bunker_0'], $this->lng['ownuniverse_block_bunker_1']);
+        $tmp = $parser->GetInner($data, $this->lng['block_bunker_0'], $this->lng['block_bunker_1']);
         $tmp = explode("\n", $tmp);
         $i = 0;
         foreach ($this->ressourcesnames as $k => $v) {
@@ -186,7 +186,7 @@ class ownuniverse {
             $i++;
         }
         // Ventes par jours
-        $tmp = $parser->GetInner($data, $this->lng['ownuniverse_block_sell_0'], $this->lng['ownuniverse_block_sell_1']);
+        $tmp = $parser->GetInner($data, $this->lng['block_sell_0'], $this->lng['block_sell_1']);
         $tmp = explode("\n", $tmp);
         $i = 0;
         foreach ($this->ressourcesnames as $k => $v) {
@@ -223,15 +223,15 @@ class ownuniverse {
                 $result[] = trim($v);
 
         $this->GetRessFrom($result, $result2, 1, $this->ressourcesnames,
-                $this->lng['ownuniverse_planet_key_0'], '', 'percent_');
+                $this->lng['planet_key_0'], '', 'percent_');
 
-        $from_pos		= array_search($this->lng['ownuniverse_planet_key_1'], $data);
-        $to_pos			= array_search($this->lng['ownuniverse_planet_key_2'], $data);
+        $from_pos		= array_search($this->lng['planet_key_1'], $data);
+        $to_pos			= array_search($this->lng['planet_key_2'], $data);
         $slice		= array_slice($data,$from_pos+1, $to_pos-$from_pos-2);
         foreach($slice as $v) {
-            if ( strpos($v, $this->lng['ownuniverse_planet_key_3']) !== false )
+            if ( strpos($v, $this->lng['planet_key_3']) !== false )
                 $result2['Coord'] = str_replace(':','-', trim(substr($v,13)) );
-            if ( strpos($v, $this->lng['ownuniverse_planet_key_4']) !== false )
+            if ( strpos($v, $this->lng['planet_key_4']) !== false )
                 $result2[0]['percent_water'] = trim(substr($v,15));
         }
         // utile ? (enlève les % des concentrations)

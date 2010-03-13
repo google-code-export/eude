@@ -35,7 +35,7 @@ class language {
 
         include($lng_file);
         $this->lngs[$who] = $lng;
-        if (IN_DEV) FB::info($who.'('.count($lng).')', 'i18n');
+        if (IN_DEV) FB::info($who.'('.count($lng).')', 'i18n, '.LNG_CODE);
         return $lng;
     }
 
