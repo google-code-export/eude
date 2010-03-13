@@ -280,7 +280,7 @@ col3_r;
 <form action="{$this->BASE_FILE}" method='post'>
 	<TR class="color_header">
 		<TD colspan=3>{$this->lng['empire_allyswars']}</TD>
-		<TD><input class="color_header" name='emp_allywars' type=submit value="{$this->lng['empire_allyswars_upd']}"></TD>
+		<TD class="text_center"><input class="color_header" name='emp_allywars' type=submit value="{$this->lng['empire_allyswars_upd']}"></TD>
 	</TR>
 col1_r;
 
@@ -312,7 +312,7 @@ o;
 		<TR class="color_header">
 			<TD colspan=2>{$this->lng['cleaning_items']}</TD>
 			<TD>{$this->lng['cleaning_act']}</TD>
-			<TD rowspan={$numrow}>
+			<TD class="text_center" rowspan="{$numrow}">
 				<input class="color_header" type="submit" value="{$this->lng['cleaning_btn']}">
 			</TD>
 		</TR>
