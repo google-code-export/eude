@@ -123,11 +123,11 @@ class cartographie {
                 if (!$updatetype) $type = $ligne['TYPE'];
                 if ($note)
                     $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET `TYPE`=%d,`POSOUT`=\'\',`COORDETOUT`=\'\',`USER`=\'%s\',`EMPIRE`=\'%s\','.
-                            '`INFOS`=\'%s\',`UTILISATEUR`=\'%s\',`NOTE`=\'%s\' WHERE ID=%s',
+                            '`INFOS`=\'%s\',`UTILISATEUR`=\'%s\',`NOTE`=\'%s\',DATE=NOW() WHERE ID=%s',
                             $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login'], true), $qnote, $ligne['ID'] );
                 else
                     $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET `TYPE`=%d,`POSOUT`=\'\',`COORDETOUT`=\'\',`USER`=\'%s\',`EMPIRE`=\'%s\','.
-                            '`INFOS`=\'%s\',`UTILISATEUR`=\'%s\' WHERE ID=%s',
+                            '`INFOS`=\'%s\',`UTILISATEUR`=\'%s\',DATE=NOW() WHERE ID=%s',
                             $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login'], true), $ligne['ID'] );
 
                 DataEngine::sql($query);
@@ -204,7 +204,7 @@ class cartographie {
 
         if ($do_update) {
             $updated = 0;
-            $query = "UPDATE `SQL_PREFIX_Coordonnee` SET `NOTE`='$qnote', `INACTIF`=0 WHERE `ID`=$do_update";
+            $query = "UPDATE `SQL_PREFIX_Coordonnee` SET `NOTE`='$qnote',DATE=NOW() `INACTIF`=0 WHERE `ID`=$do_update";
             DataEngine::sql($query);
             $updated +=mysql_affected_rows();
             $query = "UPDATE `SQL_PREFIX_Coordonnee_Planetes` SET $sql WHERE `pID`=$do_update";
