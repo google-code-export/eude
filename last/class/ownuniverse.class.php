@@ -348,7 +348,7 @@ class ownuniverse {
      * @since 1.4.1
      */
     public function get_comlevelwithname() {
-        if (($data = $this->get_universe())===false) return false;
+        if (($data = $this->get_universe(false))===false) return false;
 
         $map = map::getinstance();
 

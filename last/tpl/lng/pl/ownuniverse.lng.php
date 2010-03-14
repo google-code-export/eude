@@ -15,7 +15,7 @@ $lng['page_title']     = 'EU2: Son univers';
 $lng['start_info']     = 'Lisez les infos sur le <b>i</b> pour commencer';
 $lng['data_error']     = 'Information collé non reconnue';
 $lng['control_center_error'] = 'Le centre de contrôle en premier !';
-$lng['control_center_ident'] = 'Approvisionnement du peuple par jour';
+$lng['control_center_ident'] = 'Zaopatrzenie ludności na dzień';
 // partie détection, par block,
 $lng['block_planet_0'] = 'Opis';
 $lng['block_planet_1'] = 'Razem';
