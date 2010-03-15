@@ -147,7 +147,7 @@ bulle;
 
         $row['total'] 	 = $tb+$tc;
         $tp		 = DataEngine::format_number( ($tb/$row['total'])*100 );
-        $tf		 = DataEngine::format_number( ($tb/$maxbunker)*100 );
+        $tf		 = ($maxbunker>0) ? DataEngine::format_number( ($tb/$maxbunker)*100 ):0;
         $tb		 = DataEngine::format_number($tb);
         $tc		 = DataEngine::format_number($tc);
         $bulles['total'] = bulle('Sur planète: '.$tc

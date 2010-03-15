@@ -2,7 +2,7 @@
 /*
  * @author Alex10336
  * @translator Jhonny, Cthulhu
- * Derni�re modification: $Id$
+ * Dernière modification: $Id$
  * @license GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  *
@@ -10,10 +10,10 @@
 
 $lng = array();
 $lng['Titane'] = 'Tytan';
-$lng['Cuivre'] = 'Mied¼';
-$lng['Fer'] = '¯elazo';
+$lng['Cuivre'] = 'Miedź';
+$lng['Fer'] = 'Żelazo';
 $lng['Aluminium'] = 'Aluminium';
-$lng['Mercure'] = 'Rtêæ';
+$lng['Mercure'] = 'Rtęć';
 $lng['Silicium'] = 'Krzem';
 $lng['Uranium'] = 'Uran';
 $lng['Krypton'] = 'Krypton';

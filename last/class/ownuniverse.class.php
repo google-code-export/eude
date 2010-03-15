@@ -24,11 +24,8 @@
 class ownuniverse {
     static private $instance;
 
-    protected $ressourcesnames = array('Titane', 'Cuivre', 'Fer', 'Aluminium', 'Mercure', 'Silicium', 'Uranium', 'Krypton', 'Azote', 'Hydrogene' => 'Hydrogène');
-    protected $BatimentsName = array('control' => '[Centre de contrôle]', 'communication' => '[Centre de communication]', 'university' => '[Université]',
-            'technology' => '[Centre de recherches]', 'gouv' => '[Centre gouvernemental]', 'defense' => '[Caserne]',
-            'shipyard' => '[Chantier spatial]', 'spacedock' => '[Hangar de maintenance]', 'bunker' => '[Bunker]',
-            'tradepost' => '[Poste de commerce]', 'ressource' => '[Complexe d\'extraction]');
+    protected $ressourcesnames = array();
+    protected $BatimentsName   = array();
 
     protected $universe_data;
     protected $ress_data;
@@ -48,6 +45,7 @@ class ownuniverse {
         $this->lng = language::getinstance()->GetLngBlock('ownuniverse');
         foreach (DataEngine::a_ressources() as $v)
             $this->ressourcesnames[$v['Field']] = $v['Nom'];
+        $this->BatimentsName = $this->lng['batiments'];
     }
 
     /**
@@ -107,13 +105,12 @@ class ownuniverse {
             define('DATA_SEP','  ');
 
         $parser = parser::getinstance();
-        //        $portions = array();
 
         // Planètes présente...
         $tmp = $parser->GetInner($data, $this->lng['block_planet_0'], $this->lng['block_planet_1']);
         $tmp = $parser->cleaning_array(explode(DATA_SEP, $tmp));
         $nbplanets = count($tmp);
-        $cleandata = array_fill(0,$nbplanets-1,array());
+        $cleandata = array_fill(0,$nbplanets,array());
         foreach($tmp as $k => $v) $cleandata[$k]['Name'] = $v;
 
         // leurs coordonnées...
@@ -126,7 +123,7 @@ class ownuniverse {
         $tmp = explode("\n", $tmp);
         $i = 0;
         foreach ($this->BatimentsName as $k => $v) {
-            $tmp[$i] = trim($parser->GetInner($tmp[$i],$v)); // strip FF
+            $tmp[$i] = trim(preg_replace('/([^\d\.\s\t])/', '', $tmp[$i]));
             $tmp[$i] = $parser->cleaning_array(explode(DATA_SEP, $tmp[$i]));
             foreach($tmp[$i] as $p => $n) {
                 if ($p == $nbplanets) break;

@@ -97,7 +97,7 @@ if ($cleandata && is_array($cleandata[0])) {
         //        FB::warn('$nb_planet>5, variable forcé...');
         $nb_planet=5;
     } //else FB::info($nb_planet,'NB planètes');
-    //    FB::info($cleandata[0],'Planète 1');
+//        FB::info($cleandata[0],'Planète 1');
 
     $keys = array('Titane', 'Cuivre', 'Fer', 'Aluminium', 'Mercure', 'Silicium', 'Uranium', 'Krypton', 'Azote', 'Hydrogene');
     $total_all = array();
@@ -142,15 +142,8 @@ if ($cleandata && is_array($cleandata[0])) {
 
     $tpl->PushOutput('<tr id="imperium_header"><td id="TDtableau">Planète(s)</td>');
 
-    $BatimentsName = array('control' => '[Centre de contrôle]',
-            'communication' => '[Centre de communication]', 'university' => '[Université]',
-            'technology' => '[Centre de recherches]', 'gouv' => '[Centre gouvernemental]',
-            'defense' => '[Caserne]', 'shipyard' => '[Chantier spatial]',
-            'spacedock' => '[Hangar de maintenance]', 'bunker' => '[Bunker]',
-            'tradepost' => '[Poste de commerce]', 'ressource' => '[Complexe d\'extraction]');
-
+    $BatimentsName = $lng['batiments'];
     foreach ($BatimentsName as $name) {
-        $name = substr($name, 1, -1);
         $tpl->PushOutput('<td id="TDtableau">'.$name.'</td>');
     }
     $tpl->PushOutput('</tr>');

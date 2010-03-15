@@ -32,6 +32,17 @@ $lng['block_bunker_1'] = 'Approvisionnement du peuple par jour';
 $lng['block_sell_0'] = $lng['block_bunker_1'];
 $lng['block_sell_1'] = 'Prochain approvisionnement';
 
+$lng['batiments']['control']       = 'Centre de contrôle';
+$lng['batiments']['communication'] = 'Centre de communication';
+$lng['batiments']['university']    = 'Université';
+$lng['batiments']['technology']    = 'Centre de recherches';
+$lng['batiments']['gouv']          = 'Centre gouvernemental';
+$lng['batiments']['defense']       = 'Caserne';
+$lng['batiments']['shipyard']      = 'Chantier spatial';
+$lng['batiments']['spacedock']     = 'Hangar de maintenance';
+$lng['batiments']['bunker']        = 'Bunker';
+$lng['batiments']['tradepost']     = 'Poste de commerce';
+$lng['batiments']['ressource']     = 'Complexe d\'extraction';
 
 $lng['planet_error'] = 'Cette planète ne fait pas partie de votre univers (voir centre de controle)';
 $lng['planet_ident'] = 'Détails ressources';

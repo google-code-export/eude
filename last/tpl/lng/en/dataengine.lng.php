@@ -8,16 +8,16 @@
 */
 
 $lng = array();
-$lng['Titane'] = 'Titane';
-$lng['Cuivre'] = 'Cuivre';
-$lng['Fer'] = 'Fer';
+$lng['Titane'] = 'Titanium';
+$lng['Cuivre'] = 'Copper';
+$lng['Fer'] = 'Iron';
 $lng['Aluminium'] = 'Aluminium';
-$lng['Mercure'] = 'Mercure';
-$lng['Silicium'] = 'Silicium';
+$lng['Mercure'] = 'Mercury';
+$lng['Silicium'] = 'Silicon';
 $lng['Uranium'] = 'Uranium';
 $lng['Krypton'] = 'Krypton';
-$lng['Azote'] = 'Azote';
-$lng['Hydrogene'] = 'Hydrog&egrave;ne';
+$lng['Azote'] = 'Nitrogen';
+$lng['Hydrogene'] = 'Hydrogen';
 
 $cxx = array();
 $cxx[] = 'Partie administrative';
