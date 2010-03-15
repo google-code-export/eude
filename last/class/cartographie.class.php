@@ -204,7 +204,7 @@ class cartographie {
 
         if ($do_update) {
             $updated = 0;
-            $query = "UPDATE `SQL_PREFIX_Coordonnee` SET `NOTE`='$qnote',DATE=NOW() `INACTIF`=0 WHERE `ID`=$do_update";
+            $query = "UPDATE `SQL_PREFIX_Coordonnee` SET `NOTE`='$qnote',DATE=NOW(),`INACTIF`=0 WHERE `ID`=$do_update";
             DataEngine::sql($query);
             $updated +=mysql_affected_rows();
             $query = "UPDATE `SQL_PREFIX_Coordonnee_Planetes` SET $sql WHERE `pID`=$do_update";
