@@ -2,12 +2,11 @@ var metadata = <><![CDATA[
 // ==UserScript==
 // @author       Alex10336
 // @name         Data Engine
-// @namespace    eude
+// @namespace    http://eude.googlecode.com/
 // @version      1.4.2
 // @lastmod      $Id$
 // @license      GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
 // @license      Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
-// @homepage     http://app216.free.fr/eu2/tracker
 // @description  Script de liaison entre firefox et un serveur Data Engine
 // @include      http://*eu2.looki.*/index.php
 // @include      http://*eu2.looki.*/galaxy/galaxy_overview.php*
@@ -672,26 +671,11 @@ function Index() {
         top.window.document.getElementById('chat').style.display='none';
     }, false);
 
-    if (c_lang=='fr') {
-        var lnk = $x('/html/body/div[14]/strong/font/strong/strong/strong/font/strong/strong/font/a[3]');
-        if (typeof lnk[0]=='undefined') lnk=$x('/html/body/div[14]/strong/strong/font/strong/strong/font/a[3]');
-        if (typeof lnk[0]=='undefined') lnk=$x('/html/body/div[14]/a[3]');
-        if (typeof lnk[0]!='undefined') {
-            lnk[0].href='http://www.looki.'+c_lang+'/support/';
-            lnk[0].target='_blank';
-        }
-    }
-    
-    var x =$x('/html/body/div[14]/strong/font/strong/strong/strong/font/strong/strong/font');
-    if (typeof x[0]=='undefined' &&
-        c_lang == 'de') x=$x('/html/body/div[16]');
-
-    if (typeof x[0]=='undefined') x=$x('/html/body/div[14]/strong/strong/font/strong/strong/font');
-    if (typeof x[0]=='undefined') x=$x('/html/body/div[14]');
-    if (typeof x[0]!='undefined') {
-        x[0].innerHTML = x[0].innerHTML + ' | ';
-        x[0].appendChild(a);
-    }
+    x = $x('//*[@id="linkline"]');
+    x.forEach(function(block) {
+        block.innerHTML = block.innerHTML + ' | ';
+        block.appendChild(a);
+    });
 }
 
 function Galaxy() {
