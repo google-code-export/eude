@@ -20,8 +20,6 @@ class tpl_stats extends output {
 
     private $colsid=0;
     protected $total = null;
-    protected $currow = '';
-    protected $curtpl;
 
     public function __construct() {
         $this->BASE_FILE = ROOT_URL."stats.php";
@@ -126,7 +124,6 @@ ROW;
         }
         $this->PushOutput($this->currow);
         call_user_func(array($this,$this->curtpl), $this);
-       // $this->curtpl();
     }
 
     public function DoOutput($include_menu=true, $include_header=true) {

@@ -261,14 +261,14 @@ class ownuniverse {
             $query = sprintf($query, $qp[0],$qc[0],$qdataa[0], $qp[1],$qc[1],$qdataa[1], $qp[2],$qc[2],$qdataa[2], $qp[3],$qc[3],$qdataa[3], $qp[4],$qc[4],$qdataa[4], $qnom);
             $array = DataEngine::sql($query);
             if (mysql_affected_rows() > 0)
-                $info.="Information de votre univers mise a jour.<br/>";
+                $info.=$this->lng['universe_updated'];
             else
-                $warn.="Aucune différence, donnée inchangée.<br/>";
+                $warn.=$this->lng['universe_nochange'];
         } else {
             $query    = "INSERT INTO SQL_PREFIX_ownuniverse (UTILISATEUR, `planet0`,`coord0`,`data0`, `planet1`,`coord1`,`data1`, `planet2`,`coord2`,`data2`, `planet3`,`coord3`,`data3`, `planet4`,`coord4`,`data4`) VALUES ('%s', '%s','%s','%s', '%s','%s','%s', '%s','%s','%s', '%s','%s','%s', '%s','%s','%s')";
             $query = sprintf($query,$qnom, $qp[0],$qc[0],$qdataa[0], $qp[1],$qc[1],$qdataa[1], $qp[2],$qc[2],$qdataa[2], $qp[3],$qc[3],$qdataa[3], $qp[4],$qc[4],$qdataa[4]);
             DataEngine::sql($query);
-            $info .= "Information de votre univers ajouté.<br/>";
+            $info .= $this->lng['universe_added'];
         }
         return array($info, $warn);
     }
@@ -276,7 +276,7 @@ class ownuniverse {
 
     public function add_planet($id, $data) {
         if ($this->readonly) return false;
-        $info=$warn="";
+        $info=$warn='';
         $qnom  = sqlesc($_SESSION['_login']);
 
         $query = "SELECT planet{$id} as name FROM SQL_PREFIX_ownuniverse where UTILISATEUR='$qnom'";
@@ -287,9 +287,9 @@ class ownuniverse {
             $query = sprintf($query, sqlesc(serialize($data)), $qnom);
             $array = DataEngine::sql($query);
             if (mysql_affected_rows() > 0)
-                $info.="Information de la planète {$name['name']} ajouté.<br/>";
+                $info.=sprintf($this->lng['planet_added'], $name['name']);
             else
-                $warn.="Aucune différence, donnée inchangée.<br/>";
+                $warn.=$this->lng['planet_nochange'];
         }
         return array($info, $warn);
     }

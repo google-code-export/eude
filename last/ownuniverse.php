@@ -22,7 +22,7 @@ $info = $warn ='';
 
 if (isset($_GET['reset']) && $_GET['reset'] == $_SESSION['_permkey']) {
     DataEngine::sql('DELETE FROM `SQL_PREFIX_ownuniverse` WHERE `UTILISATEUR` = \''.$_SESSION['_login'].'\' LIMIT 1');
-    output::Boink('./ownuniverse.php');
+    output::Boink('%ROOT_URL%ownuniverse.php');
 }
 
 if ($_GET['showuser'] != '' && Members::CheckPerms('PERSO_OWNUNIVERSE_READONLY')) {
@@ -114,7 +114,7 @@ if ($cleandata && is_array($cleandata[0])) {
         $total_all["total"] +=$pt;
     }
 
-    //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
     $tpl->RowHeader();
 
@@ -122,42 +122,38 @@ if ($cleandata && is_array($cleandata[0])) {
 
         $tpl->Planet_Header($cleandata[$i]);
         if (isset($cleandata[$i]['percent_'.$keys[0]]))
-            $tpl->Add_PercentRow($cleandata[$i],'Concentration','percent_','imperium_row0');
+            $tpl->Add_PercentRow($cleandata[$i],$lng['row_concentration'],'percent_','imperium_row0');
 
-        $tpl->Add_RessRow($cleandata[$i],'Prod/h','','imperium_row1');
+        $tpl->Add_RessRow($cleandata[$i],$lng['row_prod/h'],'','imperium_row1');
 
         $tpl->Add_Current_Ress($cleandata[$i]);
 
     }
     $tpl->RowHeader();
 
-    $tpl->Add_RessRow($total_all,'Total','','imperium_row1');
+    $tpl->Add_RessRow($total_all,$lng['row_Total'],'','imperium_row1');
 
     if ($ownuniverse->get_race()!='')
-        $tpl->Add_PercentRow(DataEngine::a_race_ressources($ownuniverse->get_race()),'Consomation','','imperium_row1');
+        $tpl->Add_PercentRow(DataEngine::a_race_ressources($ownuniverse->get_race()),$lng['row_race_needed'],'','imperium_row1');
 
-    //--------------------------------------------------------------------------
-    $tpl->PushOutput('<tr><td id="TDtableau" colspan=12>&nbsp;</td></tr>');
-    //--------------------------------------------------------------------------
-
-    $tpl->PushOutput('<tr id="imperium_header"><td id="TDtableau">Planète(s)</td>');
+//------------------------------------------------------------------------------
 
     $BatimentsName = $lng['batiments'];
-    foreach ($BatimentsName as $name) {
-        $tpl->PushOutput('<td id="TDtableau">'.$name.'</td>');
-    }
-    $tpl->PushOutput('</tr>');
+    $tpl->SetheaderBatiments();
 
+    foreach ($BatimentsName as $k => $name)
+        $tpl->AddToRow($name, $k);
+    $tpl->PushRow();
+    
     foreach ($cleandata as $k => $planet) {
         $id = $k%2;
-        $tpl->PushOutput('<tr><td id="imperium_row'.$id.'">'.$planet['Name'].'</td>');
-
-        foreach ($BatimentsName as $k => $name) {
-            $tpl->PushOutput('<td id="imperium_row'.$id.'">'.
-                    DataEngine::format_number($planet[$k]).'</td>');
-        }
-        $tpl->PushOutput('</tr>');
+        $tpl->AddToRow($id, 'class');
+        $tpl->AddToRow($planet['Name'], 'Name');
+        foreach ($BatimentsName as $k => $name)
+            $tpl->AddToRow($planet[$k], $k);
+        $tpl->PushRow();
     }
+    
 }
 $tpl->DoOutput();
 

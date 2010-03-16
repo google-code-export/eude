@@ -29,6 +29,13 @@ abstract class output {
      */
     public $css_file;
 
+    /**
+     * Generic template routines
+     * @since 1.4.2
+     */
+    protected $currow = '';
+    protected $curtpl;
+
     public function __construct() {
         $this->version = DataEngine::Get_Version();
         $this->page_title = 'EU2: Data Engine ('.$this->version.')';
@@ -67,6 +74,14 @@ abstract class output {
                 $this->PushOutput("\t\t<option value='$k'$selected>$v</option>\n");
         }
     }
+
+    public function AddToRow($value, $key) {
+        $this->currow = str_replace("%%$key%%", $value, $this->currow);
+    }
+//    public function PushRow() {
+//        $this->PushOutput($this->currow);
+//        call_user_func(array($this,$this->curtpl), $this);
+//    }
     /**
      * Ajout de donnée au début de document
      * @param mixed $value

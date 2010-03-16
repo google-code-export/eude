@@ -22,26 +22,20 @@ class tpl_ownuniverse extends output {
 
     public function Setheader($info, $warn, $include_form) {
         if ($include_form) {
-            $bulle = <<<bulle
-            Coller ici les détails du '<b>Centre de contrôle</b>' puis '<b>Planètes</b>'<br/>
-(Ctrl+A puis Ctrl+C après avoir ouvert la page)<br/>
-<br/>
-Suivit après par planète un copier/coller de la page 'Aperçu' pour les informations complémentaire
-bulle;
-            $bulle = bulle($bulle);
+            $bulle = bulle($this->lng['tips_header']);
             $out =<<<h
 	<TABLE id='imperium_header'>
 	<form name='data' method='post' action='{$this->BASE_FILE}'>
 	<TR id='imperium_header'>
-		<TD id='titreTDtableau' colspan=12><img {$bulle} src='%IMAGES_URL%help.png'/> Ajout de l'info... (centre de controle niv2 mini)</TD>
+		<TD id='titreTDtableau' colspan=12><img {$bulle} src='%IMAGES_URL%help.png'/> {$this->lng['header']}</TD>
 	</tr>
 	<TR id='imperium_header'>
 		<td id="TDtableau">&nbsp;</TD>
 		<TD id="TDtableau" colspan=8>
 			<TEXTAREA id="INTableau" cols="50" rows="4" name='importation'></TEXTAREA>
 		</TD>		
-		<TD id="TDtableau" colspan=2><input id="INTableau" type=submit value='Interpréter'><br/>
-                <input id="INTableau" type=button onclick="location.href='{$this->BASE_FILE}?reset={$_SESSION['_permkey']}';" value='Reset'></td>
+		<TD id="TDtableau" colspan=2><input id="INTableau" type=submit value='{$this->lng['btn_submit']}'><br/>
+                <input id="INTableau" type=button onclick="location.href='{$this->BASE_FILE}?reset={$_SESSION['_permkey']}';" value='{$this->lng['btn_reset']}'></td>
 		<td id="TDtableau">&nbsp;</TD>
 	</tr>
         </form>
@@ -76,7 +70,7 @@ info;
 		<td id="TDtableau"><img src='%IMAGES_URL%Krypton.png'>&nbsp;{$this->ress[7]['Nom']}</TD>
 		<td id="TDtableau"><img src='%IMAGES_URL%Azote.png'>&nbsp;{$this->ress[8]['Nom']}</TD>
 		<td id="TDtableau"><img src='%IMAGES_URL%Hydrogene.png'>&nbsp;{$this->ress[9]['Nom']}</TD>
-		<td id="TDtableau">Total</TD>
+		<td id="TDtableau">{$this->lng['cols_Total']}</TD>
 	</TR>
 h;
         $this->PushOutput($out);
@@ -95,7 +89,7 @@ h;
 
     public function Planet_Header($planet) {
         if ($planet['percent_water'])
-            $bulle = bulle('Pourcentage d\'eau');
+            $bulle = bulle($this->lng['planet_key_4']);
         $out=<<<ph
 	<TR id='imperium_header'>
 		<td id="TDtableau" colspan=2>{$planet['Name']}: {$planet['Coord']}</td>
@@ -136,13 +130,7 @@ ph;
             $tb		+= $data["bunker_{$v}"];
             $tc		+= $data["current_{$v}"];
             $row[$v] = $data["current_{$v}"]+$data["bunker_{$v}"];
-
-            $bulle = <<<bulle
-<br/>
-Sur planète: {$c}<br/>
-Dans le bunker: {$b}
-bulle;
-            $bulles[$v] = bulle($this->RessToImgAndText($v).$bulle);
+            $bulles[$v] = bulle(sprintf($this->lng['current_ress_row_1'], $this->RessToImgAndText($v), $c, $b));
         }
 
         $row['total'] 	 = $tb+$tc;
@@ -150,11 +138,12 @@ bulle;
         $tf		 = ($maxbunker>0) ? DataEngine::format_number( ($tb/$maxbunker)*100 ):0;
         $tb		 = DataEngine::format_number($tb);
         $tc		 = DataEngine::format_number($tc);
-        $bulles['total'] = bulle('Sur planète: '.$tc
-                .'<br/>Dans le bunker: '.$tb.'<br/>En sécurité: '.$tp.'%'
-                .'<br/>Utilisation bunker: '.$tf.'%');
+        $bulles['total'] = bulle(sprintf($this->lng['current_ress_row_2'], $tc, $tb, $tp, $tf));
+//        $bulles['total'] = bulle('Sur planète: '.$tc
+//                .'<br/>Dans le bunker: '.$tb.'<br/>En sécurité: '.$tp.'%'
+//                .'<br/>Utilisation bunker: '.$tf.'%');
 
-        $this->Add_RessRow($row, 'Stocks', '', 'imperium_row0', $bulles);
+        $this->Add_RessRow($row, $this->lng['row_stocks'], '', 'imperium_row0', $bulles);
     }
 
     public function Add_RessRow($data, $title, $key='',$style='imperium_header',$bulles=array()) {
@@ -223,11 +212,60 @@ f2;
         $this->PushOutput($out.'	</tr>');
     }
 
+
+    private function SetRowtplBatiments() {
+        $this->currow = <<<ROW
+    <tr>
+        <td id="imperium_row%%class%%">%%Name%%</td>
+        <td id="imperium_row%%class%%">%%control%%</td>
+        <td id="imperium_row%%class%%">%%communication%%</td>
+        <td id="imperium_row%%class%%">%%university%%</td>
+        <td id="imperium_row%%class%%">%%technology%%</td>
+        <td id="imperium_row%%class%%">%%gouv%%</td>
+        <td id="imperium_row%%class%%">%%defense%%</td>
+        <td id="imperium_row%%class%%">%%shipyard%%</td>
+        <td id="imperium_row%%class%%">%%spacedock%%</td>
+        <td id="imperium_row%%class%%">%%bunker%%</td>
+        <td id="imperium_row%%class%%">%%tradepost%%</td>
+        <td id="imperium_row%%class%%">%%ressource%%</td>
+    </tr>
+ROW;
+
+    }
+    public function SetheaderBatiments() {
+        $this->curtpl = 'SetRowtplBatiments';        
+        
+        $this->currow = <<<ROW
+    <tr>
+        <td id="TDtableau" colspan=12>&nbsp;</td>
+    </tr>
+    <tr id="imperium_header">
+        <td id="TDtableau">{$this->lng['cols_planets']}</td>
+        <td id="TDtableau">%%control%%</td>
+        <td id="TDtableau">%%communication%%</td>
+        <td id="TDtableau">%%university%%</td>
+        <td id="TDtableau">%%technology%%</td>
+        <td id="TDtableau">%%gouv%%</td>
+        <td id="TDtableau">%%defense%%</td>
+        <td id="TDtableau">%%shipyard%%</td>
+        <td id="TDtableau">%%spacedock%%</td>
+        <td id="TDtableau">%%bunker%%</td>
+        <td id="TDtableau">%%tradepost%%</td>
+        <td id="TDtableau">%%ressource%%</td>
+    </tr>
+ROW;
+
+    }
+
     public function DoOutput($include_menu=true, $include_header=true) {
         $this->PushOutput('</table>');
         parent::DoOutput(); // false false ? header menu
     }
 
+    public function PushRow() {
+        $this->PushOutput($this->currow);
+        call_user_func(array($this,$this->curtpl), $this);
+    }
     /**
      * @return tpl_ownuniverse
      */
