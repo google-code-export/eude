@@ -388,6 +388,10 @@ ead;
         return intval(str_replace(' ','',str_replace('.','',$number)));
     }
 
+    static public function a_shiplist() {
+        $lng = language::getinstance()->GetLngBlock('dataengine');
+        return $lng['shiplist'];
+    }
     static public function a_batiments() {
         $lng = language::getinstance()->GetLngBlock('dataengine');
         return $lng['batiments'];

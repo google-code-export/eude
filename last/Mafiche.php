@@ -12,31 +12,33 @@ require_once(CLASS_PATH.'parser.class.php');
 
 DataEngine::CheckPermsOrDie('PERSO');
 
+$lng = language::getinstance()->GetLngBlock('personal');
+
 if(isset($_POST['importation'])) {
 //    $data = file_get_contents('./test/data/mafiche_ff.txt');
     $data = gpc_esc($_POST['importation']);
-    $parser = new parser();
+    $parser = parser::getinstance();
 
     // simple détection...
-    if (stripos($parser->GetValueByLabel($data, 'Nom'), $_SESSION['_login']) !== false) {
+    if (stripos($parser->GetValueByLabel($data, $lng['ident']), $_SESSION['_login']) !== false) {
         $matrix = explode("\n",trim($data));
         $info = array();
         $info['GameGrade'] = trim($matrix[0]);
-        $info['Race'] = $parser->GetValueByLabel($data, 'Race');
-        $info['Titre'] = $parser->GetValueByLabel($data, 'Titre');
-        $info['Commerce'] = $parser->GetValueByLabel($data, 'Commerce');
-        $info['Recherche'] = $parser->GetValueByLabel($data, 'Recherche');
-        $info['Combat'] = $parser->GetValueByLabel($data, 'Combat');
-        $info['Construction'] = $parser->GetValueByLabel($data, 'Construction');
-        $info['Economie'] = $parser->GetValueByLabel($data, 'Économie');
-        $info['Navigation'] = $parser->GetValueByLabel($data, 'Navigation');
-        $info['POINTS'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, 'Points total'));
-        $info['pts_architecte'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, 'Points architecte'));
-        $info['pts_mineur'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, 'Points mineur'));
-        $info['pts_science'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, 'Points science'));
-        $info['pts_commercant'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, 'Points commerçant'));
-        $info['pts_amiral'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, 'Points amiral'));
-        $info['pts_guerrier'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, 'Points guerrier'));
+        $info['Race'] = $parser->GetValueByLabel($data, $lng['Race'] );
+        $info['Titre'] = $parser->GetValueByLabel($data, $lng['Titre'] );
+        $info['Commerce'] = $parser->GetValueByLabel($data, $lng['Commerce'] );
+        $info['Recherche'] = $parser->GetValueByLabel($data, $lng['Recherche'] );
+        $info['Combat'] = $parser->GetValueByLabel($data, $lng['Combat'] );
+        $info['Construction'] = $parser->GetValueByLabel($data, $lng['Construction'] );
+        $info['Economie'] = $parser->GetValueByLabel($data, $lng['Economie'] );
+        $info['Navigation'] = $parser->GetValueByLabel($data, $lng['Navigation'] );
+        $info['POINTS'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['POINTS'] ));
+        $info['pts_architecte'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['pts_architecte'] ));
+        $info['pts_mineur'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['pts_mineur'] ));
+        $info['pts_science'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['pts_science'] ));
+        $info['pts_commercant'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['pts_commercant'] ));
+        $info['pts_amiral'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['pts_amiral'] ));
+        $info['pts_guerrier'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['pts_guerrier'] ));
 
 
         foreach ($info as $k => $v) $info[$k] = sqlesc($v, true);
@@ -108,68 +110,35 @@ if (isset($_POST['pwd']) && !($_SESSION['_login'] == 'test' && DE_DEMO)) {
 $mysql_result = DataEngine::sql("Select m.*,g.Grade from SQL_PREFIX_Membres as m, SQL_PREFIX_Grade as g WHERE Joueur='".$_SESSION['_login']."' AND (m.Grade=g.GradeId)");
 $ligne = mysql_fetch_assoc($mysql_result);
 
-//$tabrace[0]='Cyborg';
-//$tabrace[1]='Humain';
-//$tabrace[2]='Jamazoide';
-//$tabrace[3]='Magumar';
-//$tabrace[4]='Mosoran';
-//$tabrace[5]='Ozoidien';
-//$tabrace[6]='Plentropien';
-//$tabrace[7]='Weganien';
-//$tabrace[8]='Zuup';
-
-$shiplist[]='Sonde';
-$shiplist[]='Navette';
-$shiplist[]='Chasseur';
-$shiplist[]='Corvette';
-$shiplist[]='Frégate';
-$shiplist[]='Cargo';
-$shiplist[]='Croiseur';
-$shiplist[]='Intercepteur';
-$shiplist[]='Croiseur interstellaire';
-$shiplist[]='Sentinelle';
-$shiplist[]='Vaisseau de guerre';
-$shiplist[]='Centaure';
-$shiplist[]='Minotaure';
-$shiplist[]='Transporteur';
-$shiplist[]='Cerbère';
-$shiplist[]='Kraken';
-$shiplist[]='Hadès';
-$shiplist[]='Léviathan';
-$shiplist[]='Transporteur intergalactique';
-$shiplist[]='Station de guerre';
-$shiplist[]='SG Armaggedon';
-
-
 require_once(TEMPLATE_PATH.'mafiche.tpl.php');
 
 $tpl = tpl_mafiche::getinstance();
-$tpl->page_title = 'EU2: Ma fiche';
+$tpl->page_title = $lng['page_title'];
 
 $tpl->header($ligne);
-$tpl->add_row('Points','Points',$ligne['Points']);
-$tpl->add_row('Points architecte','pts_architecte',$ligne['pts_architecte']);
-$tpl->add_row('Points mineur','pts_mineur',$ligne['pts_mineur']);
-$tpl->add_row('Points science','pts_science',$ligne['pts_science']);
-$tpl->add_row('Points commerçant','pts_commercant',$ligne['pts_commercant']);
-$tpl->add_row('Points amiral','pts_amiral',$ligne['pts_amiral']);
-$tpl->add_row('Points guerrier','pts_guerrier',$ligne['pts_guerrier']);
+$tpl->add_row($lng['POINTS'], 'Points',$ligne['Points']);
+$tpl->add_row($lng['pts_architecte'], 'pts_architecte',$ligne['pts_architecte']);
+$tpl->add_row($lng['pts_mineur'], 'pts_mineur',$ligne['pts_mineur']);
+$tpl->add_row($lng['pts_science'], 'pts_science',$ligne['pts_science']);
+$tpl->add_row($lng['pts_commercant'], 'pts_commercant',$ligne['pts_commercant']);
+$tpl->add_row($lng['pts_amiral'], 'pts_amiral',$ligne['pts_amiral']);
+$tpl->add_row($lng['pts_guerrier'], 'pts_guerrier',$ligne['pts_guerrier']);
 
 
-$tpl->add_row('Commerce','Commerce',$ligne['Commerce']);
-$tpl->add_row('Recherche','Recherche',$ligne['Recherche']);
-$tpl->add_row('Combat','Combat',$ligne['Combat']);
-$tpl->add_row('Construction','Construction',$ligne['Construction']);
-$tpl->add_row('Économie','Economie',$ligne['Economie']);
-$tpl->add_row('Navigation','Navigation',$ligne['Navigation']);
+$tpl->add_row($lng['Commerce'], 'Commerce',$ligne['Commerce']);
+$tpl->add_row($lng['Recherche'], 'Recherche',$ligne['Recherche']);
+$tpl->add_row($lng['Combat'], 'Combat',$ligne['Combat']);
+$tpl->add_row($lng['Construction'], 'Construction',$ligne['Construction']);
+$tpl->add_row($lng['Economie'], 'Economie',$ligne['Economie']);
+$tpl->add_row($lng['Navigation'], 'Navigation',$ligne['Navigation']);
 
-$tpl->add_row('Race','',$ligne['Race']);
-//$tpl->add_row_select('Race', '', $tabrace, $ligne['Race']);
-$tpl->add_row_select('Dernier chassis disponible', 'ship', $shiplist, $ligne['ship']);
+$tpl->add_row($lng['Race'],'',$ligne['Race']);
+//$tpl->add_row_select($lng['Race'], '', $tabrace, $ligne['Race']);
+$tpl->add_row_select($lng['lastship'], 'ship', DataEngine::a_shiplist(), $ligne['ship']);
 
-$tpl->add_row('Titre','',$ligne['Titre']);
-$tpl->add_row('Grade','',$ligne['GameGrade']);
-$tpl->add_row('Grade dans l\'alliance','',$ligne['Grade']);
+$tpl->add_row($lng['Titre'],'',$ligne['Titre']);
+$tpl->add_row($lng['grade_ingame'],'',$ligne['GameGrade']);
+$tpl->add_row($lng['grade_eude'],'',$ligne['Grade']);
 
 $tpl->footer();
 $tpl->doOutput();

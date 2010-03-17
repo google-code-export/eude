@@ -7,34 +7,33 @@
  *
  **/
 if (!SCRIPT_IN) die('Need by included');
-/*
-$tpl = tpl_mafiche::getinstance();
-$tpl->DoOutput();
-*/
+
 class tpl_mafiche extends output {
     protected $BASE_FILE = '';
+    private $lng;
 
     public function __construct() {
         $this->BASE_FILE = ROOT_URL.'Mafiche.php';
-
+        $this->lng = language::getinstance()->GetLngBlock('personal');
         parent::__construct();
     }
 
     public function header($ligne) {
-        $j = ucfirst($ligne['Joueur']);
+        $lng['page_intro'] = sprintf($this->lng['page_intro'], ucfirst($ligne['Joueur']));
+
         $out = <<<h
 <Table align=center id='Ttableau' width=500px>
 
-    <tr><td id='TDtableau' colspan=2 align=center>Copier/Coller après avoir cliqué sur la planète à droite:</td></tr>
+    <tr><td id='TDtableau' colspan=2 align=center>{$this->lng['auto_intro']}</td></tr>
     <tr id='TRtableau'><td align=center id='TDtableau' colspan=2>
     <form id='mafiche' method='post' action='Mafiche.php'>
         <TEXTAREA cols="50" rows="4" name='importation'></TEXTAREA><br/>
-        <input id='INtableau' type="submit" value="Automatique"/>
+        <input id='INtableau' type="submit" value="{$this->lng['auto_btn']}"/>
     </form>
         </td></tr>
     <tr><td id='TDtableau' colspan=2>&nbsp;</td></tr>
 
-    <tr id='TRtableau'><td id='TDtableau' colspan=2 align=center>Bonjour, {$j},</td></tr>
+    <tr id='TRtableau'><td id='TDtableau' colspan=2 align=center>{$lng['page_intro']}</td></tr>
     <form id='mafiche' method='post' action='Mafiche.php'>
         <input type='hidden' name='JOUEUR' value='{$ligne['Joueur']}'>
 h;
@@ -82,21 +81,21 @@ ar;
     public function footer() {
         $out = <<<f
 <tr id='TRtableau'>
-<td align=center id='TDtableau' colspan=2><input id='INBTtableau' type='submit' value='Modification manuelle'</td>
+<td align=center id='TDtableau' colspan=2><input id='INBTtableau' type='submit' value='{$this->lng['manual_btn']}'</td>
 </tr>
 </form>
 
     <tr id='TRtableau'><td id='TDtableau' colspan=2>&nbsp;</td></tr>
 
 <tr id='TRtableau'><td align=center id='TDtableau' colspan=2>
-Login : {$_SESSION['_login']}<br/><form method='post'>Nouveau mot de passe :<br>
-<input id='INtableau' type='password' name='pwd'><input id='INBTtableau' type='submit' value='Valider'></form>
+<form method='post'>{$this->lng['pwd_new']}
+<input id='INtableau' type='password' name='pwd'><input id='INBTtableau' type='submit' value='{$this->lng['pwd_btn']}'></form>
 </td></tr>
 
     <tr id='TRtableau'><td  id='TDtableau' colspan=2>&nbsp;</td></tr>
 
 <tr id='TRtableau' id='TRtableau'><td align=center id='TDtableau' colspan=2>
-<input id='INtableau' type='button' value='Deconnexion' onclick='location.href="%ROOT_URL%logout.php"'>
+<input id='INtableau' type='button' value='{$this->lng['logout_btn']}' onclick='location.href="%ROOT_URL%logout.php"'>
 </td></tr>
 
 </table>

@@ -31,6 +31,29 @@ $lng['batiments']['bunker']        = 'Bunker';
 $lng['batiments']['tradepost']     = 'Poste de commerce';
 $lng['batiments']['ressource']     = 'Complexe d\'extraction';
 
+
+$lng['shiplist'][]='Sonde';
+$lng['shiplist'][]='Navette';
+$lng['shiplist'][]='Chasseur';
+$lng['shiplist'][]='Corvette';
+$lng['shiplist'][]='Frégate';
+$lng['shiplist'][]='Cargo';
+$lng['shiplist'][]='Croiseur';
+$lng['shiplist'][]='Intercepteur';
+$lng['shiplist'][]='Croiseur interstellaire';
+$lng['shiplist'][]='Sentinelle';
+$lng['shiplist'][]='Vaisseau de guerre';
+$lng['shiplist'][]='Centaure';
+$lng['shiplist'][]='Minotaure';
+$lng['shiplist'][]='Transporteur';
+$lng['shiplist'][]='Cerbère';
+$lng['shiplist'][]='Kraken';
+$lng['shiplist'][]='Hadès';
+$lng['shiplist'][]='Léviathan';
+$lng['shiplist'][]='Transporteur intergalactique';
+$lng['shiplist'][]='Station de guerre';
+$lng['shiplist'][]='SG Armaggedon';
+
 $cxx = array();
 $cxx[] = 'Partie administrative';
 $cxx['MEMBRES_ADMIN'] = 'Page admin';
