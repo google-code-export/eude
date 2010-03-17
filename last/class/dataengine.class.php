@@ -190,24 +190,24 @@ class DataEngine extends Members {
 
             // Initialisations particulières
             {
-                if (!isset(self::$settings['perms'])) self::Perms();
-
-                if (self::$conf_load['EmpireAllys'] &&
-                        !isset(self::$settings['EmpireAllys']))
-                    self::conf_add('EmpireAllys', '');
-
-                if (self::$conf_load['EmpireEnnemy'] &&
-                        !isset(self::$settings['EmpireEnnemy']))
-                    self::conf_add('EmpireEnnemy', '');
-
-                if (self::$conf_load['wormhole_cleaning']) {
-                    if (!isset(self::$settings['wormhole_cleaning'])) {
-                        self::conf_add('wormhole_cleaning',
-                                array('enabled' => false,
-                                'lastrun' => 0)
-                        );
-                    }
-                    $wormhole_cleaning = self::$settings['wormhole_cleaning'];
+//                if (!isset(self::$settings['perms'])) self::Perms();
+//
+//                if (self::$conf_load['EmpireAllys'] &&
+//                        !isset(self::$settings['EmpireAllys']))
+//                    self::conf_add('EmpireAllys', '');
+//
+//                if (self::$conf_load['EmpireEnnemy'] &&
+//                        !isset(self::$settings['EmpireEnnemy']))
+//                    self::conf_add('EmpireEnnemy', '');
+//
+//                if (self::$conf_load['wormhole_cleaning']) {
+//                    if (!isset(self::$settings['wormhole_cleaning'])) {
+//                        self::conf_add('wormhole_cleaning',
+//                                array('enabled' => false,
+//                                'lastrun' => 0)
+//                        );
+//                    }
+//                    $wormhole_cleaning = self::$settings['wormhole_cleaning'];
                     if (date('w')==0 && $wormhole_cleaning['enabled']) {
                         $runat = mktime(2, 10, 0, date("m"), date("d"), date("Y"));
                         $now   = time();
@@ -220,46 +220,46 @@ class DataEngine extends Members {
                             self::sql_do_spool(); // Mettre à jour maintenant, pas que deux membres le fasse a 1/2sec d'intervalle.
                         }
                     }
-                }
+//                }
 
 
-                if (self::$conf_load['MapColors'] &&
-                        !isset(self::$settings['MapColors'])) {
-                    $cls = array();
-                    $cls[0]['0'] = '#232323';
-                    $cls[0]['1'] = '#444444';
-                    $cls[0]['2'] = '#3333FF';
-                    $cls[0]['20'] = '#FF0080';
-                    $cls[0]['21'] = '#00DD00';
-                    $cls[0]['22'] = '#FF9933';
-                    $cls[0]['24'] = '#FF9933';
-                    $cls[0]['25'] = '#787878';
-                    $cls[1]['0'] = '#232323';
-                    $cls[1]['1'] = '#FF8000';
-                    $cls[1]['2'] = '#008800';
-                    $cls[1]['3'] = '#444444';
-                    $cls[1]['4'] = '#3333FF';
-                    $cls[1]['5'] = '#787878';
-                    $cls[1]['6'] = '#00DD00';
-                    $cls[1]['7'] = '#FF00FF';
-                    $cls[1]['11'] = '#00DD00';
-                    $cls[1]['8'] = '#DD0000';
-                    $cls[1]['9'] = '#FFFF00';
-                    $cls[1]['10'] = '#FF00FF';
-                    $cls[2]['0'] = '#232323';
-                    $cls[2]['1'] = '#FF8000';
-                    $cls[2]['2'] = '#008800';
-                    $cls[2]['3'] = '#444444';
-                    $cls[2]['4'] = '#444444';
-                    $cls[2]['5'] = '#444444';
-                    $cls[2]['6'] = '#00DD00';
-                    $cls[2]['7'] = '#444444';
-                    $cls[2]['11'] = '#00DD00';
-                    $cls[2]['8'] = '#444444';
-                    $cls[2]['9'] = '#444444';
-                    $cls[2]['10'] = '#FF00FF';
-                    self::conf_add('MapColors', $cls);
-                }
+//                if (self::$conf_load['MapColors'] &&
+//                        !isset(self::$settings['MapColors'])) {
+//                    $cls = array();
+//                    $cls[0]['0'] = '#232323';
+//                    $cls[0]['1'] = '#444444';
+//                    $cls[0]['2'] = '#3333FF';
+//                    $cls[0]['20'] = '#FF0080';
+//                    $cls[0]['21'] = '#00DD00';
+//                    $cls[0]['22'] = '#FF9933';
+//                    $cls[0]['24'] = '#FF9933';
+//                    $cls[0]['25'] = '#787878';
+//                    $cls[1]['0'] = '#232323';
+//                    $cls[1]['1'] = '#FF8000';
+//                    $cls[1]['2'] = '#008800';
+//                    $cls[1]['3'] = '#444444';
+//                    $cls[1]['4'] = '#3333FF';
+//                    $cls[1]['5'] = '#787878';
+//                    $cls[1]['6'] = '#00DD00';
+//                    $cls[1]['7'] = '#FF00FF';
+//                    $cls[1]['11'] = '#00DD00';
+//                    $cls[1]['8'] = '#DD0000';
+//                    $cls[1]['9'] = '#FFFF00';
+//                    $cls[1]['10'] = '#FF00FF';
+//                    $cls[2]['0'] = '#232323';
+//                    $cls[2]['1'] = '#FF8000';
+//                    $cls[2]['2'] = '#008800';
+//                    $cls[2]['3'] = '#444444';
+//                    $cls[2]['4'] = '#444444';
+//                    $cls[2]['5'] = '#444444';
+//                    $cls[2]['6'] = '#00DD00';
+//                    $cls[2]['7'] = '#444444';
+//                    $cls[2]['11'] = '#00DD00';
+//                    $cls[2]['8'] = '#444444';
+//                    $cls[2]['9'] = '#444444';
+//                    $cls[2]['10'] = '#FF00FF';
+//                    self::conf_add('MapColors', $cls);
+//                }
             }
             self::$conf_load=array();
         }
@@ -562,7 +562,7 @@ class Members {
         if (isset($perms[$NeededAXX]))
             return $_SESSION['_Perm']>=$perms[$NeededAXX];
         else {
-            trigger_error('CXX not found '.$NeededAXX.'. option disabled for all instead', E_USER_WARNING);
+            trigger_error('CXX not found '.$NeededAXX.'. option disabled for all instead. Verify installation, or configure it admin panel', E_USER_WARNING);
             return false;
         }
     }

@@ -12,6 +12,7 @@ define('IS_IMG', true);
 require_once('./init.php');
 require_once(INCLUDE_PATH.'Script.php');
 require_once(CLASS_PATH.'map.class.php');
+require_once(CLASS_PATH.'parser.class.php');
 require_once(CLASS_PATH.'ownuniverse.class.php');
 
 DataEngine::conf_cache('EmpireAllys');
