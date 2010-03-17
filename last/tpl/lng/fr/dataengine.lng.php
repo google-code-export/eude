@@ -17,7 +17,7 @@ $lng['Silicium'] = 'Silicium';
 $lng['Uranium'] = 'Uranium';
 $lng['Krypton'] = 'Krypton';
 $lng['Azote'] = 'Azote';
-$lng['Hydrogene'] = 'Hydrog&egrave;ne';
+$lng['Hydrogene'] = 'Hydrogène';
 
 $lng['batiments']['control']       = 'Centre de contrôle';
 $lng['batiments']['communication'] = 'Centre de communication';

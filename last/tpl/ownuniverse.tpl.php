@@ -88,12 +88,14 @@ h;
     }
 
     public function Planet_Header($planet) {
-        if ($planet['percent_water'])
+        if ($planet['percent_water']) {
             $bulle = bulle($this->lng['planet_key_4']);
+            $planet['percent_water'] .= '%';
+        } else $planet['percent_water'] = '&nbsp;';
         $out=<<<ph
 	<TR id='imperium_header'>
 		<td id="TDtableau" colspan=2>{$planet['Name']}: {$planet['Coord']}</td>
-		<td id="TDtableau" {$bulle}>{$planet['percent_water']}&nbsp;</td>
+		<td id="TDtableau" {$bulle}>{$planet['percent_water']}</td>
 		<td id="TDtableau" colspan=9>&nbsp;</td>
 	</tr>
 ph;
@@ -241,17 +243,17 @@ ROW;
     </tr>
     <tr id="imperium_header">
         <td id="TDtableau">{$this->lng['cols_planets']}</td>
-        <td id="TDtableau">%%control%%</td>
-        <td id="TDtableau">%%communication%%</td>
-        <td id="TDtableau">%%university%%</td>
-        <td id="TDtableau">%%technology%%</td>
-        <td id="TDtableau">%%gouv%%</td>
-        <td id="TDtableau">%%defense%%</td>
-        <td id="TDtableau">%%shipyard%%</td>
-        <td id="TDtableau">%%spacedock%%</td>
-        <td id="TDtableau">%%bunker%%</td>
-        <td id="TDtableau">%%tradepost%%</td>
-        <td id="TDtableau">%%ressource%%</td>
+        <td id="TDtableau"><img src="%IMAGES_URL%control.gif" title="%%control%%"/></td>
+        <td id="TDtableau"><img src="%IMAGES_URL%communication.gif" title="%%communication%%"/></td>
+        <td id="TDtableau"><img src="%IMAGES_URL%university.gif" title="%%university%%"/></td>
+        <td id="TDtableau"><img src="%IMAGES_URL%technology.gif" title="%%technology%%"/></td>
+        <td id="TDtableau"><img src="%IMAGES_URL%gouv.gif" title="%%gouv%%"/></td>
+        <td id="TDtableau"><img src="%IMAGES_URL%defense.gif" title="%%defense%%"/></td>
+        <td id="TDtableau"><img src="%IMAGES_URL%shipyard.gif" title="%%shipyard%%"/></td>
+        <td id="TDtableau"><img src="%IMAGES_URL%spacedock.gif" title="%%spacedock%%"/></td>
+        <td id="TDtableau"><img src="%IMAGES_URL%bunker.gif" title="%%bunker%%"/></td>
+        <td id="TDtableau"><img src="%IMAGES_URL%tradepost.gif" title="%%tradepost%%"/></td>
+        <td id="TDtableau"><img src="%IMAGES_URL%ressource.gif" title="%%ressource%%"/></td>
     </tr>
 ROW;
 
