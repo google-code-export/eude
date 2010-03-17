@@ -35,18 +35,6 @@ $lng['block_bunker_1'] = 'Zaopatrzenie ludności na dzień';
 $lng['block_sell_0'] = $lng['block_bunker_1'];
 $lng['block_sell_1'] = 'Oczekiwanie na następne zaopatrzenie';
 
-$lng['batiments']['control']       = 'Centrum kontroli';
-$lng['batiments']['communication'] = 'Centrum komunikacji';
-$lng['batiments']['university']    = 'Uniwersytet';
-$lng['batiments']['technology']    = 'Centrum badań';
-$lng['batiments']['gouv']          = 'Centrum dowodzenia';
-$lng['batiments']['defense']       = 'Koszary';
-$lng['batiments']['shipyard']      = 'Stocznia';
-$lng['batiments']['spacedock']     = 'Dok';
-$lng['batiments']['bunker']        = 'Bunkier';
-$lng['batiments']['tradepost']     = 'Placówka handlowa';
-$lng['batiments']['ressource']     = 'Fabryka surowców';
-
 $lng['planet_error'] = 'Cette planète ne fait pas partie de votre univers (voir centre de controle)';
 $lng['planet_added']    = 'Information de la planète %s ajouté.';
 $lng['planet_nochange'] = 'Aucune différence, donnée inchangée.';

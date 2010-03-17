@@ -45,7 +45,7 @@ class ownuniverse {
         $this->lng = language::getinstance()->GetLngBlock('ownuniverse');
         foreach (DataEngine::a_ressources() as $v)
             $this->ressourcesnames[$v['Field']] = $v['Nom'];
-        $this->BatimentsName = $this->lng['batiments'];
+        $this->BatimentsName = DataEngine::a_batiments();
     }
 
     /**

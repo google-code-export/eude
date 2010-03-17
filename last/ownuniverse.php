@@ -138,7 +138,7 @@ if ($cleandata && is_array($cleandata[0])) {
 
 //------------------------------------------------------------------------------
 
-    $BatimentsName = $lng['batiments'];
+    $BatimentsName = DataEngine::a_batiments();
     $tpl->SetheaderBatiments();
 
     foreach ($BatimentsName as $k => $name)

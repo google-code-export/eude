@@ -35,18 +35,6 @@ $lng['block_bunker_1'] = 'population supply per day';
 $lng['block_sell_0'] = $lng['block_bunker_1'];
 $lng['block_sell_1'] = 'Estimated next supply';
 
-$lng['batiments']['control']       = 'Control Center';
-$lng['batiments']['communication'] = 'Communication Center';
-$lng['batiments']['university']    = 'University';
-$lng['batiments']['technology']    = 'Research Facility';
-$lng['batiments']['gouv']          = 'Government Building';
-$lng['batiments']['defense']       = 'Barracks';
-$lng['batiments']['shipyard']      = 'Shipyard';
-$lng['batiments']['spacedock']     = 'Dock';
-$lng['batiments']['bunker']        = 'Bunker';
-$lng['batiments']['tradepost']     = 'Trading Post';
-$lng['batiments']['ressource']     = 'Resource Facilities';
-
 $lng['planet_error'] = 'Cette planète ne fait pas partie de votre univers (voir centre de controle)';
 $lng['planet_added']    = 'Information de la planète %s ajouté.';
 $lng['planet_nochange'] = 'Aucune différence, donnée inchangée.';

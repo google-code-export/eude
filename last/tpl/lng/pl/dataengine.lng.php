@@ -20,6 +20,18 @@ $lng['Krypton'] = 'Krypton';
 $lng['Azote'] = 'Azot';
 $lng['Hydrogene'] = 'Wodór';
 
+$lng['batiments']['control']       = 'Centrum kontroli';
+$lng['batiments']['communication'] = 'Centrum komunikacji';
+$lng['batiments']['university']    = 'Uniwersytet';
+$lng['batiments']['technology']    = 'Centrum badań';
+$lng['batiments']['gouv']          = 'Centrum dowodzenia';
+$lng['batiments']['defense']       = 'Koszary';
+$lng['batiments']['shipyard']      = 'Stocznia';
+$lng['batiments']['spacedock']     = 'Dok';
+$lng['batiments']['bunker']        = 'Bunkier';
+$lng['batiments']['tradepost']     = 'Placówka handlowa';
+$lng['batiments']['ressource']     = 'Fabryka surowców';
+
 $cxx = array();
 $cxx[] = 'Partie administrative';
 $cxx['MEMBRES_ADMIN'] = 'Page admin';
