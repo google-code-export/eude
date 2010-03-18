@@ -59,9 +59,24 @@ $doctype='';
 <script type="text/javascript" src="%INCLUDE_URL%prototype.js?1.6.1"></script>
 <script type="text/javascript" src="%INCLUDE_URL%Script.js?{$version}"></script>
 <div id="curseur" class="infobulle" style="z-index:7; position:absolute; visibility:hidden; border: 1px solid White; padding: 10px; font-family: Verdana, Arial, Times; font-size: 10px; background-color: #C0C0C0;white-space:nowrap;"></div>
-
+%NEW_MESSAGE_ENTRY%
 EOF;
 
 	}
+        static function messager(&$data, &$msg) {
+            $html = <<<h
+<div id="newmessage" style="z-index:99; position:absolute; top:0px; right:0px; bottom:0px; left:0px; background-color:#330033;"
+ Onclick="$('newmessage').style.visibility='hidden';">
+ <div class="color_header text_center" style="position:absolute; top:200px; right:100px; left:100px;">
+    {$msg}
+ </div>
+</div>
+h;
+            if ($msg)
+                $data = str_replace('%NEW_MESSAGE_ENTRY%',$html, $data);
+            else
+                $data = str_replace('%NEW_MESSAGE_ENTRY%','', $data);
+            $msg='';
+        }
 }
 

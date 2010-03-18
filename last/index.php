@@ -20,6 +20,7 @@ if (!DataEngine::CheckPerms('CARTOGRAPHIE')) {
     else
         output::Boink(ROOT_URL.'Mafiche.php');
 }
+//else output::Boink(ROOT_URL.'cartographie.php');
 
 $where = "WHERE 1=1 ";
 if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {

@@ -169,7 +169,8 @@ abstract class output {
         $data = str_replace('%IMAGES_URL%', IMAGES_URL, $data);
         $data = str_replace('%TEMPLATE_URL%', TEMPLATE_URL, $data);
         $data = str_replace('%ADDONS_URL%', ADDONS_URL, $data);
-
+        tpl_header::messager($data, $_SESSION['messager']);
+        
         header('Cache-Control: no-cache, must-revalidate'); // HTTP/1.1
         header('Expires: Mon, 16 Jul 2008 04:21:44 GMT'); // HTTP/1.0 Date dans le passé
 
