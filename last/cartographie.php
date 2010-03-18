@@ -13,6 +13,9 @@ require_once(CLASS_PATH.'parser.class.php');
 require_once(CLASS_PATH.'cartographie.class.php');
 require_once(CLASS_PATH.'map.class.php');
 
+$_SESSION['messager'] = 'Rien a voir pour l\'instant, OMG';
+output::Boink('%ROOT_URL%');
+
 if (!DataEngine::CheckPerms('CARTOGRAPHIE')) {
     if (DataEngine::CheckPerms('CARTE'))
         output::Boink(ROOT_URL.'Carte.php');
@@ -28,10 +31,28 @@ $carto = cartographie::getinstance();
 //--- Insertion des données ----------------------------------------------------
 
 
+if (isset($_POST['Type']) && isset($_POST['COORIN'])) {
+
+    // SS brut
+    if ($_POST['phpparser'] == 1) {
+        $carto->add_solar_ss(gpc_esc($_POST['importation']));
+        $parsed = true;
+    } // SS brut
+
+    // check if all needed fields...
+    if ($_POST['phpparser'] != 1) {
+        if ($_POST['Type'] != 1 and $_POST['COORIN'] == '') $erreur = 'Les coordonnés d\'entrée doivent-être renseigné';
+        if ($_POST['Type'] != 1 and $_POST['COOROUT'] != '') $erreur = 'Les coordonnés de sortie ne sont à renseigner que pour les Vortex';
+        if ($_POST['Type'] == 1 and $_POST['COOROUT'] == '') $erreur = 'Il faut impérativement renseigner Les coordonnés de sortie pour les Vortex';
+        if ($_POST['Type'] == 0 and $_POST['USER'] == '') $erreur = 'Merci de renseigner le nom du joueur';
+    }
+
+    // TODO ....
+}
 
 //--- Insertion des données ----------------------------------------------------
 //------------------------------------------------------------------------------
-//-- Listing & tri -------------------------------------------------------------
+//--- Listing & tri ------------------------------------------------------------
 
 $where = 'WHERE 1=1 ';
 $Recherche = array();
@@ -55,6 +76,7 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     $fieldtable['Empire'] = '`EMPIRE` like \'%%%s%%\' ';
     $fieldtable['Infos']  = '`INFOS` like \'%%%s%%\' ';
     $fieldtable['Note']   = '`NOTE` like \'%%%s%%\' ';
+    if (isset ($_POST['Recherche']))
     foreach ($_POST['Recherche'] as $key => $value) {
         $value = gpc_esc($value);
 
@@ -88,12 +110,18 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     }
 
     //Traitement recherche planete uniquement si type = planete
-    if($Recherche['Type']==2) {
+    if(in_array($Recherche['Type'], array(2,4))) {
         foreach(DataEngine::a_ressources() as $id => $Ress) {
             if (($Recherche['Ressource'.$id] != '') && ($Recherche['Type'] != '-1')) {
-                $where.= ' AND (SELECT CASE WHEN '.$Ress['Field'].'="beaucoup" THEN 70 ';
-                $where.= 'WHEN '.$Ress['Field'].'="normal" THEN 40 ';
-                $where.= 'WHEN '.$Ress['Field'].'="peu" THEN 20 ';
+                $where.= ' AND (SELECT CASE ';
+
+                $where.= 'WHEN '.$Ress['Field'].'=\''.$lng['ress10%'].'\' THEN 10 ';
+                $where.= 'WHEN '.$Ress['Field'].'=\''.$lng['ress20%'].'\' THEN 20 ';
+                $where.= 'WHEN '.$Ress['Field'].'=\''.$lng['ress40%'].'\' THEN 40 ';
+                $where.= 'WHEN '.$Ress['Field'].'=\''.$lng['ress50%'].'\' THEN 50 ';
+                $where.= 'WHEN '.$Ress['Field'].'=\''.$lng['ress70%'].'\' THEN 70 ';
+                $where.= 'WHEN '.$Ress['Field'].'=\''.$lng['ress80%'].'\' THEN 80 ';
+                $where.= 'WHEN '.$Ress['Field'].'=\''.$lng['ress90%'].'\' THEN 90 ';
                 $where.= 'ELSE substring('.$Ress['Field'].',1,length('.$Ress['Field'].')-1) ';
                 $where.= ' END) '.$Rech['Ressource'.$id];
             }
@@ -107,15 +135,15 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
 $sort=array();
 $sort[] = 'INACTIF ASC';
 // TODO Check security issues... /!\
+if (isset ($_GET['SORT']))
 foreach ($_GET['SORT'] as $key => $value) {
     if ($value != 'ASC' && $value != 'DESC') continue;
     $sort[] = ''.$key.' '.$value;
 }
 $sort[] = 'ID DESC';
-$sort = 'ORDER BY '.impode(', ', $sort);
+$sort = 'ORDER BY '.implode(', ', $sort);
 
-//-- Listing & tri -------------------------------------------------------------
+//--- Listing & tri ------------------------------------------------------------
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
-//output::
