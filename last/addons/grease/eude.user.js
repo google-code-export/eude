@@ -663,18 +663,26 @@ function Index() {
     '\x61\x6c\x29\x3b\x0d\x0a\x7d';
     $x('/html/body')[0].appendChild(script);
 
-    var a = document.createElement('a');
-    a.href='javascript:;';
-    a.innerHTML = 'Log Data Engine';
-    a.addEventListener('click', function() {
+    var aserver = document.createElement('a');
+    aserver.href=GM_getValue(c_prefix+'serveur','');
+    aserver.target='_blank';
+    aserver.innerHTML = 'Data Engine';
+
+    var alog = document.createElement('a');
+    alog.href='javascript:;';
+    alog.innerHTML = 'Log';
+    alog.addEventListener('click', function() {
         top.window.document.getElementById('chat_motd').style.display='';
         top.window.document.getElementById('chat').style.display='none';
     }, false);
-
+    
     x = $x('//*[@id="linkline"]');
     x.forEach(function(block) {
-        block.innerHTML = block.innerHTML + ' | ';
-        block.appendChild(a);
+        block.innerHTML = block.innerHTML + ' | (';
+        block.appendChild(aserver);
+        block.innerHTML = block.innerHTML + ', ';
+        block.appendChild(alog);
+        block.innerHTML = block.innerHTML + ')';
     });
 }
 
