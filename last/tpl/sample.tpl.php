@@ -7,10 +7,7 @@
  *
  **/
 if (!SCRIPT_IN) die('Need by included');
-/*
-$tpl = tpl_sample::getinstance();
-$tpl->DoOutput();
-*/
+
 class tpl_sample extends output {
     protected $BASE_FILE = '';
 
@@ -24,6 +21,25 @@ class tpl_sample extends output {
         $this->PushOutput($out);
     }
 
+    public function Setheader() {
+        $this->curtpl = 'SetRowtpl';        
+        
+        $this->currow = <<<ROW
+    <tr class="%%class%%">
+        <td colspan="2">%%Title header%%</td>
+    </tr>
+ROW;
+    }
+
+    private function SetRowtpl() {
+        $this->currow = <<<ROW
+    <tr class="%%class%%">
+        <td>%%Name%%</td>
+        <td>%%value%%</td>
+    </tr>
+ROW;
+    }
+   
     /**
      * Génère la page
      * @param boolean,array $include_menu Inclure le menu ? (voir son propre menu)
@@ -32,6 +48,13 @@ class tpl_sample extends output {
     public function DoOutput($include_menu=true, $include_header=true) {
         $this->PushOutput('');
         parent::DoOutput($include_menu, $include_header);
+    }
+    /**
+     * Next row, same tpl
+     */
+    public function PushRow() {
+        $this->PushOutput($this->currow);
+        call_user_func(array($this,$this->curtpl), $this);
     }
     /**
      *

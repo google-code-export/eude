@@ -44,7 +44,7 @@ function bulle ($texte,$addover='',$addout='') {
     return ("onmouseover='montre(\"".$texte."\");$addover' onmouseout='cache();$addout'");
 }
 
-parse_str($_GET, $current_get); // => http_build_query($current_get)
+parse_str($_SERVER["QUERY_STRING"], $current_get); // => http_build_query($current_get)
 
 // TODO REMOVE THIS STUPID/USELESS(?) THINGS (AlterGet/$myget)
 //Fonction permettant de modifier la valeur d'une clef GET dans un ensemble passé en parametre
@@ -78,7 +78,7 @@ if ($myget!='') $myget = '?'.substr($myget,0,strlen($myget)-1);
  * @param boolean $skip_gpc
  * @return string Value ready for mysql
  */
-function sqlesc($value,$skip_gpc=false) {
+function sqlesc($value,$skip_gpc=true) {
     if (!get_magic_quotes_gpc() || $skip_gpc) {
         return mysql_real_escape_string($value);
     } else {
