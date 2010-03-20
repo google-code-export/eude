@@ -671,10 +671,9 @@ function Index() {
     var alog = document.createElement('a');
     alog.href='javascript:;';
     alog.innerHTML = 'Log';
-    alog.addEventListener('click', function() {
-        top.window.document.getElementById('chat_motd').style.display='';
-        top.window.document.getElementById('chat').style.display='none';
-    }, false);
+    var js_OnClick = document.createAttribute('OnClick');
+    js_OnClick.value = "top.window.document.getElementById('chat_motd').style.display='';top.window.document.getElementById('chat').style.display='none';";
+    alog.setAttributeNode(js_OnClick);
     
     x = $x('//*[@id="linkline"]');
     x.forEach(function(block) {
