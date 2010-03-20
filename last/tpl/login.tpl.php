@@ -88,8 +88,8 @@ $out .=<<<FOOTER
 </CENTER>
 <div style="position:absolute; bottom:5px; right:5px">
 <address>
-- Site officel & support du <a href="http://app216.free.fr/eu2/tracker/main_page.php" target="_top" title="Site officiel">Data Engine</a><br/>
-- <a href="http://app216.free.fr/eu2/dist/" target="_top" title="Téléchargement">Téléchargement</a>
+- Site officel & support du <a href="https://code.google.com/p/eude/" target="_top" title="Site officiel">Data Engine</a><br/>
+- <a href="https://code.google.com/p/eude/downloads/list" target="_top" title="Téléchargement">Téléchargement</a>
 </address>
 </div>
 </body></html>

@@ -65,10 +65,9 @@ EOF;
 	}
         static function messager(&$data, &$msg) {
             $html = <<<h
-<div id="newmessage" style="z-index:99; position:absolute; top:0px; right:0px; bottom:0px; left:0px;"
- class="color_bg" Onclick="$('newmessage').style.visibility='hidden';">
-    <div style="position:absolute; top:100px; width:100%">
-      <table class="table_center text_center color_header" width="700px">
+<div id="newmessage" Onclick="$('newmessage').style.visibility='hidden';">
+    <div class="newmessage">
+      <table class="newmessage">
         <tr>
             <td colspan="3">&nbsp;</td>
         </tr>

@@ -335,8 +335,10 @@ td#imperium_row2 {
 .color_header {
     background-color: #800040;
     color: white;
+    font-weight: bold;
 }
 .color_bigheader {
+    background-color: #800040;
     color: white;
     font-size: 20px;
     font-weight: bold;
@@ -355,12 +357,29 @@ td#imperium_row2 {
     margin-right:auto;
 }
 .table_nospacing {
+    border-width: 0px;
     border-spacing: 0px;
     border-collapse: collapse;
+}
+.spacing_row {
+    padding: 2px 6px;
+}
+.spacing_row0 {
+    border-right: solid 3px #480038;
+    padding: 2px 6px;
+}
+.spacing_row1 {
+    border-right: solid 3px #660050;
+    padding: 2px 6px;
 }
 
 .color_titre {
     background-color: #800040;
+    color: #FFCCCC;
+    font-weight: bold;
+}
+.color_cols {
+    background-color: #480038;
     color: #FFCCCC;
     font-weight: bold;
 }
@@ -373,4 +392,52 @@ td#imperium_row2 {
 
 .link {
     cursor: pointer;
+}
+
+.size60  {width:60px;}
+.size80  {width:80px;}
+.size110 {width:110px;}
+.size180 {width:180px;}
+
+/* Vous avez un nouveau message, cliquez pour supprimer, ne rien toucher pour conserver... */
+div#newmessage {
+    z-index:99;
+    position:absolute;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    left:0px;
+    background-color: #330033;
+    filter: alpha(opacity=75);
+    opacity: 0.75;
+}
+.newmessage {
+    filter: alpha(opacity=100);
+    opacity: 1;
+}
+table.newmessage {
+    background-color: #800040;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    margin-left:auto;
+    margin-right:auto;
+    width: 700px;
+    filter: alpha(opacity=100);
+    opacity: 1;
+}
+
+div.newmessage {
+    position:absolute;
+    bottom:50%;
+    width:100%;
+}
+
+.alpha75 {
+    filter: alpha(opacity=75);
+    opacity: .75;
+}
+.alpha100 {
+    filter: alpha(opacity=100);
+    opacity: 1;
 }
