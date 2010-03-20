@@ -676,13 +676,11 @@ function Index() {
     alog.setAttributeNode(js_OnClick);
     
     x = $x('//*[@id="linkline"]');
-    x.forEach(function(block) {
-        block.innerHTML = block.innerHTML + ' | (';
-        block.appendChild(aserver);
-        block.innerHTML = block.innerHTML + ', ';
-        block.appendChild(alog);
-        block.innerHTML = block.innerHTML + ')';
-    });
+    block = x[x.length-1];
+    block.innerHTML = block.innerHTML + ' | ';
+    block.appendChild(aserver);
+    block.innerHTML = block.innerHTML + ', ';
+    block.appendChild(alog);
 }
 
 function Galaxy() {
