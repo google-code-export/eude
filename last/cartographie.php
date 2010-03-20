@@ -10,11 +10,11 @@
 require_once('./init.php');
 require_once(INCLUDE_PATH.'Script.php');
 require_once(CLASS_PATH.'parser.class.php');
-require_once(CLASS_PATH.'cartographie.class.php');
+require_once(CLASS_PATH.'cartographie_new.class.php');
 require_once(CLASS_PATH.'map.class.php');
 
 $_SESSION['messager'] = 'Rien a voir pour l\'instant, OMG';
-output::Boink('%ROOT_URL%');
+//output::Boink('%ROOT_URL%');
 
 if (!DataEngine::CheckPerms('CARTOGRAPHIE')) {
     if (DataEngine::CheckPerms('CARTE'))
@@ -31,23 +31,39 @@ $carto = cartographie::getinstance();
 //--- Insertion des données ----------------------------------------------------
 
 
-if (isset($_POST['Type']) && isset($_POST['COORIN'])) {
+if (isset($_POST['Type'])) {
+
+    if (isset ($_POST['importation'])) $_POST['importation']  = gpc_esc($_POST['importation']);
+    if (isset ($_POST['COORIN']))      $_POST['COORIN']       = gpc_esc($_POST['COORIN']);
+    if (isset ($_POST['COORIN']))      $_POST['COOROUT']      = gpc_esc($_POST['COOROUT']);
 
     // SS brut
     if ($_POST['phpparser'] == 1) {
-        $carto->add_solar_ss(gpc_esc($_POST['importation']));
+        $carto->add_solar_ss($_POST['importation']);
         $parsed = true;
     } // SS brut
-
-    // check if all needed fields...
-    if ($_POST['phpparser'] != 1) {
-        if ($_POST['Type'] != 1 and $_POST['COORIN'] == '') $erreur = 'Les coordonnés d\'entrée doivent-être renseigné';
-        if ($_POST['Type'] != 1 and $_POST['COOROUT'] != '') $erreur = 'Les coordonnés de sortie ne sont à renseigner que pour les Vortex';
-        if ($_POST['Type'] == 1 and $_POST['COOROUT'] == '') $erreur = 'Il faut impérativement renseigner Les coordonnés de sortie pour les Vortex';
-        if ($_POST['Type'] == 0 and $_POST['USER'] == '') $erreur = 'Merci de renseigner le nom du joueur';
-    }
+//
+//    // check if all needed fields...
+//    if ($_POST['phpparser'] != 1) {
+//        if ($_POST['Type'] != 1 and $_POST['COORIN'] == '') $erreur = 'Les coordonnés d\'entrée doivent-être renseigné';
+//        if ($_POST['Type'] != 1 and $_POST['COOROUT'] != '') $erreur = 'Les coordonnés de sortie ne sont à renseigner que pour les Vortex';
+//        if ($_POST['Type'] == 1 and $_POST['COOROUT'] == '') $erreur = 'Il faut impérativement renseigner Les coordonnés de sortie pour les Vortex';
+//        if ($_POST['Type'] == 0 and $_POST['USER'] == '') $erreur = 'Merci de renseigner le nom du joueur';
+//    }
 
     // TODO ....
+    //
+    // Vortex...
+    if ($_POST['Type'] == 1) {
+        $carto->add_vortex($_POST['COORIN'],$_POST['COOROUT']);
+        _Boink(ROOT_URL.basename(__file__));
+    }
+    // Planète...
+    if ($_POST["Type"] == 2) {
+        foreach(DataEngine::a_Ressources() as $id => $dummy) $Ress[$id] = gpc_esc($_POST["RESSOURCE".$id]);
+        $carto->add_planet($_POST['COORIN'], $Ress);
+        _Boink(ROOT_URL.basename(__file__));
+    } // Planète/Astéroïde
 }
 
 //--- Insertion des données ----------------------------------------------------
@@ -77,26 +93,26 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     $fieldtable['Infos']  = '`INFOS` like \'%%%s%%\' ';
     $fieldtable['Note']   = '`NOTE` like \'%%%s%%\' ';
     if (isset ($_POST['Recherche']))
-    foreach ($_POST['Recherche'] as $key => $value) {
-        $value = gpc_esc($value);
+        foreach ($_POST['Recherche'] as $key => $value) {
+            $value = gpc_esc($value);
 
-        switch ($key) {
-            case 'Pos':
-            case 'Rayon':
-                SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()+3600*24,ROOT_URL);
-                $Recherche[$key] = $_POST['Recherche'][$key];
-                break;
-            case 'Moi':
-                SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()+3600*24,ROOT_URL);
-                $Recherche[$key] = $_POST['Recherche'][$key];
-                $where.= ' AND UTILISATEUR=\''.strtolower($_SESSION['_login']).'\' ';
-                break;
-            default:
-                SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()+3600*24,ROOT_URL);
-                $Recherche[$key] = $_POST['Recherche'][$key];
-                $where.= 'AND '.sprintf($fieldtable[$key], sqlesc($value, true));
+            switch ($key) {
+                case 'Pos':
+                case 'Rayon':
+                    SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()+3600*24,ROOT_URL);
+                    $Recherche[$key] = $_POST['Recherche'][$key];
+                    break;
+                case 'Moi':
+                    SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()+3600*24,ROOT_URL);
+                    $Recherche[$key] = $_POST['Recherche'][$key];
+                    $where.= ' AND UTILISATEUR=\''.strtolower($_SESSION['_login']).'\' ';
+                    break;
+                default:
+                    SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()+3600*24,ROOT_URL);
+                    $Recherche[$key] = $_POST['Recherche'][$key];
+                    $where.= 'AND '.sprintf($fieldtable[$key], sqlesc($value, true));
+            }
         }
-    }
 
     //Traitement de recherche par position et rayon
     if ($Recherche['Pos'] != '') {
@@ -109,41 +125,44 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
         }
     }
 
-    //Traitement recherche planete uniquement si type = planete
-    if(in_array($Recherche['Type'], array(2,4))) {
-        foreach(DataEngine::a_ressources() as $id => $Ress) {
-            if (($Recherche['Ressource'.$id] != '') && ($Recherche['Type'] != '-1')) {
-                $where.= ' AND (SELECT CASE ';
-
-                $where.= 'WHEN '.$Ress['Field'].'=\''.$lng['ress10%'].'\' THEN 10 ';
-                $where.= 'WHEN '.$Ress['Field'].'=\''.$lng['ress20%'].'\' THEN 20 ';
-                $where.= 'WHEN '.$Ress['Field'].'=\''.$lng['ress40%'].'\' THEN 40 ';
-                $where.= 'WHEN '.$Ress['Field'].'=\''.$lng['ress50%'].'\' THEN 50 ';
-                $where.= 'WHEN '.$Ress['Field'].'=\''.$lng['ress70%'].'\' THEN 70 ';
-                $where.= 'WHEN '.$Ress['Field'].'=\''.$lng['ress80%'].'\' THEN 80 ';
-                $where.= 'WHEN '.$Ress['Field'].'=\''.$lng['ress90%'].'\' THEN 90 ';
-                $where.= 'ELSE substring('.$Ress['Field'].',1,length('.$Ress['Field'].')-1) ';
-                $where.= ' END) '.$Rech['Ressource'.$id];
-            }
-            else $Recherche['Ressource'.$id] = '-1';
-        }
-    } else
-        for($id=0;$id<10;$id++)
-            $Recherche['Ressource'.$id] = '-1';
+    // TOD ? Traitement recherche planete uniquement si type = planete
 } // SEARCH
 
 $sort=array();
 $sort[] = 'INACTIF ASC';
 // TODO Check security issues... /!\
 if (isset ($_GET['SORT']))
-foreach ($_GET['SORT'] as $key => $value) {
-    if ($value != 'ASC' && $value != 'DESC') continue;
-    $sort[] = ''.$key.' '.$value;
-}
+    foreach ($_GET['SORT'] as $key => $value) {
+        if ($value != 'ASC' && $value != 'DESC') continue;
+        $sort[] = ''.$key.' '.$value;
+    }
 $sort[] = 'ID DESC';
 $sort = 'ORDER BY '.implode(', ', $sort);
 
 //--- Listing & tri ------------------------------------------------------------
 //------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
+//--- partie html --------------------------------------------------------------
 
+include_once(TEMPLATE_PATH.'cartographie.tpl.php');
+$tpl = tpl_cartographie::getinstance();
+$tpl->AddToRow(bulle("Coller ici les détails d'une planète, joueur ou d'un vortex<br/>(Ctrl+A puis Ctrl+C après avoir ouvert une fiche)"), 'bulle');
+$tpl->PushRow(); // -> SetRowInsertManual
+
+$tpl->SelectOptions($cctype,$_POST['Type'],'Type');
+$tpl->PushRow(); // -> SetRowInsertManualExtended
+
+
+
+$tpl->PushRow(); // -> null
+$tpl->DoOutput();
+
+function _Boink() {
+    $carto = cartographie::getinstance();
+    $w = $carto->Warns();
+    $i = $carto->Infos();
+    $m = ($w != '' && $i != '') ? $w.'<br/>'.$i: '';
+    $m = ($w != '' && $i == '') ? $w: $m;
+    $m = ($w == '' && $i != '') ? $i: $m;
+    $_SESSION['messager'] = $m;
+    output::Boink(ROOT_URL.basename(__file__));
+}
