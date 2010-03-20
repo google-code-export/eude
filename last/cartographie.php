@@ -13,7 +13,7 @@ require_once(CLASS_PATH.'parser.class.php');
 require_once(CLASS_PATH.'cartographie_new.class.php');
 require_once(CLASS_PATH.'map.class.php');
 
-$_SESSION['messager'] = 'Rien a voir pour l\'instant, OMG';
+//$_SESSION['messager'] = 'Rien a voir pour l\'instant, OMG';
 //output::Boink('%ROOT_URL%');
 
 if (!DataEngine::CheckPerms('CARTOGRAPHIE')) {
@@ -35,13 +35,16 @@ if (isset($_POST['Type'])) {
 
     if (isset ($_POST['importation'])) $_POST['importation']  = gpc_esc($_POST['importation']);
     if (isset ($_POST['COORIN']))      $_POST['COORIN']       = gpc_esc($_POST['COORIN']);
-    if (isset ($_POST['COORIN']))      $_POST['COOROUT']      = gpc_esc($_POST['COOROUT']);
-
-    // SS brut
-    if ($_POST['phpparser'] == 1) {
-        $carto->add_solar_ss($_POST['importation']);
-        $parsed = true;
-    } // SS brut
+    if (isset ($_POST['COOROUT']))     $_POST['COOROUT']      = gpc_esc($_POST['COOROUT']);
+    if (isset ($_POST['USER']))        $_POST['USER']         = gpc_esc($_POST['USER']);
+    if (isset ($_POST['EMPIRE']))      $_POST['EMPIRE']       = gpc_esc($_POST['EMPIRE']);
+    if (isset ($_POST['INFOS']))       $_POST['INFOS']        = gpc_esc($_POST['INFOS']);
+    
+//    // SS brut
+//    if ($_POST['phpparser'] == 1) {
+//        $carto->add_solar_ss($_POST['importation']);
+//        _Boink(ROOT_URL.basename(__file__));
+//    } // SS brut
 //
 //    // check if all needed fields...
 //    if ($_POST['phpparser'] != 1) {
@@ -52,18 +55,46 @@ if (isset($_POST['Type'])) {
 //    }
 
     // TODO ....
-    //
-    // Vortex...
-    if ($_POST['Type'] == 1) {
-        $carto->add_vortex($_POST['COORIN'],$_POST['COOROUT']);
-        _Boink(ROOT_URL.basename(__file__));
+
+    /*
+$stype[0] = 'Joueur';
+$stype[1] = 'Vortex';
+$stype[2] = 'Planète';
+$stype[3] = 'Alliés';
+$stype[4] = 'Astéroïde';
+$stype[5] = 'Ennemi';
+$stype[6] = 'PNJ';
+    */
+    switch ($_POST['Type']) {
+        case '0': // Joueur
+        case '3': // Allié
+        case '5': // Ennemi
+            $carto->add_player($_POST['COORIN'], $_POST['INFOS'], $_POST['USER'],$_POST['EMPIRE']);
+            _Boink(ROOT_URL.basename(__file__));
+            break;
+        case '1': // vortex
+            $carto->add_vortex($_POST['COORIN'],$_POST['COOROUT']);
+            _Boink(ROOT_URL.basename(__file__));
+            break;
+        case '2': // planet
+            foreach(DataEngine::a_Ressources() as $id => $dummy) $Ress[$id] = gpc_esc($_POST['RESSOURCE'.$id]);
+            $carto->add_planet($_POST['COORIN'], $Ress);
+            _Boink(ROOT_URL.basename(__file__));
+            break;
+        case '4': // asteroid
+            foreach(DataEngine::a_Ressources() as $id => $dummy) $Ress[$id] = gpc_esc($_POST['RESSOURCE'.$id]);
+            $carto->add_asteroid($_POST['COORIN'], $Ress);
+            _Boink(ROOT_URL.basename(__file__));
+            break;
+        case '6': // flotte PNJ
+            $carto->add_PNJ($_POST['COORIN'], $_POST['USER'],$_POST['EMPIRE']);
+            _Boink(ROOT_URL.basename(__file__));
+            break;
+        default:
+            $carto->AddWarn('Type demandé non pris en charge !');
+//            _Boink(ROOT_URL.basename(__file__));
+
     }
-    // Planète...
-    if ($_POST["Type"] == 2) {
-        foreach(DataEngine::a_Ressources() as $id => $dummy) $Ress[$id] = gpc_esc($_POST["RESSOURCE".$id]);
-        $carto->add_planet($_POST['COORIN'], $Ress);
-        _Boink(ROOT_URL.basename(__file__));
-    } // Planète/Astéroïde
 }
 
 //--- Insertion des données ----------------------------------------------------

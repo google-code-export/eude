@@ -106,6 +106,7 @@ function GestionFormulaire(id) {
         if($n(id+'3')[0].selected) Check=$n(id+'3')[0].value;
         if($n(id+'4')[0].selected) Check=$n(id+'4')[0].value;
         if($n(id+'5')[0].selected) Check=$n(id+'5')[0].value;
+        if($n(id+'6')[0].selected) Check=$n(id+'6')[0].value;
     } catch(err) {
 		
     }
@@ -121,24 +122,30 @@ function affichage_formulaire(Check) {
             masquer("COOROUT",0);
             afficher("USER",0);
             afficher("EMPIRE",0);
+            afficher("INFOS",0);
             masquer("AddTabRessource",0);
             break;
         case '1':
             afficher("COOROUT",0);
             masquer("USER",0);
             masquer("EMPIRE",0);
+            masquer("INFOS",0);
             masquer("AddTabRessource",0);
             break;
         case '2':
-            masquer("COOROUT",0);
-            afficher("USER",0);
-            afficher("AddTabRessource",0);
-            break;
         case '4':
             masquer("COOROUT",0);
             masquer("USER",0);
             masquer("EMPIRE",0);
+            masquer("INFOS",0);
             afficher("AddTabRessource",0);
+            break;
+        case '6':
+            masquer("COOROUT",0);
+            afficher("USER",0);
+            afficher("EMPIRE",0);
+            masquer("INFOS",0);
+            masquer("AddTabRessource",0);
             break;
     }
 }
