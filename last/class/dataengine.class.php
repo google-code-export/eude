@@ -200,14 +200,14 @@ class DataEngine extends Members {
 //                        !isset(self::$settings['EmpireEnnemy']))
 //                    self::conf_add('EmpireEnnemy', '');
 //
-//                if (self::$conf_load['wormhole_cleaning']) {
+                if (self::$conf_load['wormhole_cleaning']) {
 //                    if (!isset(self::$settings['wormhole_cleaning'])) {
 //                        self::conf_add('wormhole_cleaning',
 //                                array('enabled' => false,
 //                                'lastrun' => 0)
 //                        );
 //                    }
-//                    $wormhole_cleaning = self::$settings['wormhole_cleaning'];
+                    $wormhole_cleaning = self::$settings['wormhole_cleaning'];
                     if (date('w')==0 && $wormhole_cleaning['enabled']) {
                         $runat = mktime(2, 10, 0, date("m"), date("d"), date("Y"));
                         $now   = time();
@@ -220,7 +220,7 @@ class DataEngine extends Members {
                             self::sql_do_spool(); // Mettre à jour maintenant, pas que deux membres le fasse a 1/2sec d'intervalle.
                         }
                     }
-//                }
+                }
 
 
 //                if (self::$conf_load['MapColors'] &&
