@@ -264,7 +264,7 @@ class cartographie {
     public function add_PNJ($coords, $nom='', $empire='') {
         if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS'))
             return $this->AddErreur('Permissions manquante');
-        
+
         $qnom     = sqlesc(trim($nom));
         $qempire  = sqlesc(trim($empire));
 
@@ -302,15 +302,136 @@ class cartographie {
         }
     }
 
+    /**
+     *  @param string	Données contenant tout (+/- brut)...
+     */
+    public function add_solar_ss($importation) {
+        $cur_ss = false;
+        $del_planet = $curss_info = array();
+        if (DataEngine::$browser->getBrowser() == Browser::BROWSER_IE)
+            $sep = '  ';
+        else
+            $sep = "\t\t";
+        $info=$warn='';
+        $SS_A = array();
+        $lignes = explode("\n", $importation);
+        for($i=0,$size=count($lignes);$i<$size;$i++) {
+            $ligne = trim($lignes[$i]);
+            if ($ligne=='') continue;
+            list($coords, $planete, $nom) = explode($sep, $ligne);
+            $coords = trim($coords);
+            $planete = trim($planete);
+            $nom = trim($nom);
+            if ( (strlen($coords)<6) ) continue;
+            if (!$cur_ss) if (!$this->FormatId($coords,$cur_ss,$dummy,'')) $cur_ss = false;
+            if ( trim($lignes[$i+1]) != '') { // Empire ?
+                list($empire) = explode($sep, trim($lignes[$i+1]));
+                $empire = trim($empire);
+                if (!$this->FormatId($empire,$dummy,$dummy,'')) { // n'est pas une coords
+                    $SS_A[$i] = array($coords, $planete, $nom, $empire); // Joueur avec empire
+                    $i++;
+                } elseif ($nom != '')
+                    $SS_A[$i] = array($coords, $planete, $nom, ''); // Joueur sans empire
+            } elseif ($nom != '') {
+                $SS_A[$i] = array($coords, $planete, $nom, ''); // Joueur sans empire
+            }
+            if ($nom == '' && $this->FormatId($coords, $dummy, $sys,'')) // Planète inoccupée
+                $del_planet[] = $sys;
+        }
+
+        if (count($del_planet)>0) {
+            $del_planet = "'".implode("','",$del_planet)."'";
+            $query = "DELETE FROM SQL_PREFIX_Coordonnee where Type in (0,3,5) AND POSIN='{$cur_ss}' AND COORDET in ({$del_planet})";
+            $array = DataEngine::sql($query);
+            if ( ($num = mysql_affected_rows()) > 0)
+                $this->AddInfo($num.' planète(s) devenue inoccupée dans le système '.$cur_ss);
+        }
+
+        $query = "SELECT USER,EMPIRE FROM SQL_PREFIX_Coordonnee where POSIN='{$cur_ss}' AND TYPE in (0,3,5)";
+        $sql_result = DataEngine::sql($query);
+        while ($row = mysql_fetch_assoc($sql_result))
+        // par nom de joueur
+            $curss_info[$row['USER']] = $row['EMPIRE'];
+
+        foreach($SS_A as $v) {
+            $result = $this->add_player($v);
+            if ($result) { // uniquement si changement, vide autrement.
+                list($dummy, $dummy, $nom, $empire) = $v;
+                if (isset($curss_info[$nom])) {
+                    if ($curss_info[$nom] != $empire) {
+                        $qnom    = sqlesc($nom, true);
+                        $qempire = sqlesc($empire, true);
+                        $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}' WHERE USER='{$qnom}'";
+                        DataEngine::sql($query);
+                        $this->AddInfo('Changement d\'empire du joueur: \''.$nom.'\' ['.mysql_affected_rows().']');
+                        unset($curss_info[$nom]);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @param integer/string $ident entry key (by id or posin)
+     * @param array $data key = sql field, value = value!
+     * @return boolean
+     */
+    public function Edit_Entry($ident, $data) {
+        $where = array();
+
+        if ($this->FormatId($ident,$sys,$det,'')) {
+            $where[] = '`POSIN`=\''.$sys.'\'';
+            $where[] = '`COORDET`=\''.$det.'\'';
+        } else
+            $where[] = '`ID`=\''.$ident.'\'';
+
+        $where = implode(' AND ',$where);
+
+        $query = 'SELECT TYPE FROM SQL_PREFIX_Coordonnee WHERE '.$where;
+        $sql_result = DataEngine::sql($query);
+        if (mysql_num_rows($sql_result)==0) return $this->AddErreur('Élément non trouvé');
+
+        $item = mysql_fetch_assoc($sql_result);
+
+        $value = array();
+        foreach($data as $k => $v) {
+            if (preg_match('/[^a-zA-Z_]+/', $k)>0) return $this->AddErreur('$key syntax invalid');
+            $value[] = sprintf('`%s`=\'%s\'', $k, sqlesc($v));
+        }
+        $value = implode(',',$value);
+        $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET %s,`UTILISATEUR`=\'%s\',`DATE`=now() WHERE %s',
+            $value, $_SESSION['_login'], $where);
+        $sql_result = DataEngine::sql($query);
+//        if (mysql_affected_rows()==0) return false;
+
+        $this->AddInfo('Mise a jour du type '.$item['TYPE'].' identifié par '.$ident);
+        return true;
+    }
+
 // --- Routines... -------------------------------------------------------------
+    public function Boink($url) {
+        if ($this->Infos()!='')   output::Messager($this->Infos());
+        if ($this->Warns()!='')   output::Messager($this->Warns());
+        if ($this->Erreurs()!='') output::Messager($this->Erreurs());
+
+        if ($url!='') output::Boink($url);
+    }
     public function FormatId($id,&$idsys,&$iddet,$part) {
         $tmppos = str_replace(':','-',$id);
         $tmppos = explode('-',$tmppos);
 
-        if (count($tmppos) != 4)
-            return $this->AddErreur('Erreur, le format de coordonnée ('.$part.') doit-être xxxx-xx-xx-xx ou xxxx:xx:xx:xx');
-        if ((!is_numeric($tmppos[0]) || !is_numeric($tmppos[1]) || !is_numeric($tmppos[2]) || !is_numeric($tmppos[3])))
-            return $this->AddErreur('Erreur, le format de coordonnée ('.$part.') doit-être numérique au format xxxx-xx-xx-xx ou xxxx:xx:xx:xx');
+        if (count($tmppos) != 4) {
+            if ($part=='')
+                return false;
+            else
+                return $this->AddErreur('Erreur, le format de coordonnée ('.$part.') doit-être xxxx-xx-xx-xx ou xxxx:xx:xx:xx');
+        }
+        if ((!is_numeric($tmppos[0]) || !is_numeric($tmppos[1]) || !is_numeric($tmppos[2]) || !is_numeric($tmppos[3]))) {
+            if ($part=='')
+                return false;
+            else
+                return $this->AddErreur('Erreur, le format de coordonnée ('.$part.') doit-être numérique au format xxxx-xx-xx-xx ou xxxx:xx:xx:xx');
+        }
 
         $idsys = $tmppos[0];
         $iddet = intval($tmppos[1]).'-'.intval($tmppos[2]).'-'.intval($tmppos[3]);

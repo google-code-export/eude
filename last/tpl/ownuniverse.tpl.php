@@ -20,7 +20,7 @@ class tpl_ownuniverse extends output {
         parent::__construct();
     }
 
-    public function Setheader($info, $warn, $include_form) {
+    public function Setheader($include_form) {
         if ($include_form) {
             $bulle = bulle($this->lng['tips_header']);
             $out =<<<h
@@ -41,16 +41,6 @@ class tpl_ownuniverse extends output {
         </form>
 h;
             $this->PushOutput($out);
-            if ($info != "" or $warn !="") {
-                $info = "<font color=green>$info</font>";
-                $warn = "<font color=red>$warn</font>";
-                $out=<<<info
-	<TR id='imperium_header'>
-		<TD colspan=12>{$info}{$warn}</td>
-	</tr>
-info;
-                $this->PushOutput($out);
-            }
         } else {
             $this->PushOutput('<br/><TABLE id="imperium_header">');
         }

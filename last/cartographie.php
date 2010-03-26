@@ -13,7 +13,8 @@ require_once(CLASS_PATH.'parser.class.php');
 require_once(CLASS_PATH.'cartographie_new.class.php');
 require_once(CLASS_PATH.'map.class.php');
 
-//$_SESSION['messager'] = 'Rien a voir pour l\'instant, OMG';
+output::Messager('In work, OMG');
+//output::Messager('really ;)');
 //output::Boink('%ROOT_URL%');
 
 if (!DataEngine::CheckPerms('CARTOGRAPHIE')) {
@@ -26,6 +27,17 @@ if (!DataEngine::CheckPerms('CARTOGRAPHIE')) {
 $map = map::getinstance();
 $carto = cartographie::getinstance();
 
+//$carto->Edit_Entry('31917',
+//$carto->Edit_Entry('1-95-15-79',
+//$carto->Edit_Entry('1:95:15:79',
+//            array('INFOS'=> time(),
+//                'NOTE'=> 'incrustation...',
+//                'INFOS_'=> time(),
+//                'xxx_999'=> time(),
+//                'xxx/*-+'=> time(),
+//                )
+//        );
+//    $carto->Boink('');
 
 //------------------------------------------------------------------------------
 //--- Insertion des données ----------------------------------------------------
@@ -33,26 +45,27 @@ $carto = cartographie::getinstance();
 
 if (isset($_POST['Type'])) {
 
-    if (isset ($_POST['importation'])) $_POST['importation']  = gpc_esc($_POST['importation']);
     if (isset ($_POST['COORIN']))      $_POST['COORIN']       = gpc_esc($_POST['COORIN']);
     if (isset ($_POST['COOROUT']))     $_POST['COOROUT']      = gpc_esc($_POST['COOROUT']);
     if (isset ($_POST['USER']))        $_POST['USER']         = gpc_esc($_POST['USER']);
     if (isset ($_POST['EMPIRE']))      $_POST['EMPIRE']       = gpc_esc($_POST['EMPIRE']);
     if (isset ($_POST['INFOS']))       $_POST['INFOS']        = gpc_esc($_POST['INFOS']);
     
-//    // SS brut
-//    if ($_POST['phpparser'] == 1) {
-//        $carto->add_solar_ss($_POST['importation']);
-//        _Boink(ROOT_URL.basename(__file__));
-//    } // SS brut
-//
-//    // check if all needed fields...
-//    if ($_POST['phpparser'] != 1) {
-//        if ($_POST['Type'] != 1 and $_POST['COORIN'] == '') $erreur = 'Les coordonnés d\'entrée doivent-être renseigné';
-//        if ($_POST['Type'] != 1 and $_POST['COOROUT'] != '') $erreur = 'Les coordonnés de sortie ne sont à renseigner que pour les Vortex';
-//        if ($_POST['Type'] == 1 and $_POST['COOROUT'] == '') $erreur = 'Il faut impérativement renseigner Les coordonnés de sortie pour les Vortex';
-//        if ($_POST['Type'] == 0 and $_POST['USER'] == '') $erreur = 'Merci de renseigner le nom du joueur';
-//    }
+    // SS brut
+    if ($_POST['phpparser'] == 1) {
+        $carto->add_solar_ss(gpc_esc($_POST['importation']));
+        $carto->Boink(ROOT_URL.basename(__file__));
+    } // SS brut
+
+    // check if all needed fields...
+    if ($_POST['phpparser'] != 1) {
+        if ($_POST['Type'] != 1 and $_POST['COORIN'] == '')  $carto->AddErreur('Les coordonnés d\'entrée doivent-être renseigné');
+        if ($_POST['Type'] != 1 and $_POST['COOROUT'] != '') $carto->AddErreur('Les coordonnés de sortie ne sont à renseigner que pour les Vortex');
+        if ($_POST['Type'] == 1 and $_POST['COOROUT'] == '') $carto->AddErreur('Il faut impérativement renseigner Les coordonnés de sortie pour les Vortex');
+        if ($_POST['Type'] == 0 and $_POST['USER'] == '')    $carto->AddErreur('Merci de renseigner le nom du joueur');
+        
+        if ($carto->Messages()>0) $carto->Boink(ROOT_URL.basename(__file__));
+    }
 
     // TODO ....
 
@@ -70,31 +83,27 @@ $stype[6] = 'PNJ';
         case '3': // Allié
         case '5': // Ennemi
             $carto->add_player($_POST['COORIN'], $_POST['INFOS'], $_POST['USER'],$_POST['EMPIRE']);
-            _Boink(ROOT_URL.basename(__file__));
             break;
         case '1': // vortex
             $carto->add_vortex($_POST['COORIN'],$_POST['COOROUT']);
-            _Boink(ROOT_URL.basename(__file__));
             break;
         case '2': // planet
             foreach(DataEngine::a_Ressources() as $id => $dummy) $Ress[$id] = gpc_esc($_POST['RESSOURCE'.$id]);
             $carto->add_planet($_POST['COORIN'], $Ress);
-            _Boink(ROOT_URL.basename(__file__));
             break;
         case '4': // asteroid
             foreach(DataEngine::a_Ressources() as $id => $dummy) $Ress[$id] = gpc_esc($_POST['RESSOURCE'.$id]);
             $carto->add_asteroid($_POST['COORIN'], $Ress);
-            _Boink(ROOT_URL.basename(__file__));
             break;
         case '6': // flotte PNJ
             $carto->add_PNJ($_POST['COORIN'], $_POST['USER'],$_POST['EMPIRE']);
-            _Boink(ROOT_URL.basename(__file__));
             break;
         default:
             $carto->AddWarn('Type demandé non pris en charge !');
 //            _Boink(ROOT_URL.basename(__file__));
 
     }
+    if ($carto->Messages()>0) $carto->Boink(ROOT_URL.basename(__file__));
 }
 
 //--- Insertion des données ----------------------------------------------------
@@ -110,7 +119,7 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
                 SetCookie('Recherche['.$key.']','',time()-1,ROOT_URL);
             }
         }
-        output::boink(ROOT_URL.basename(__file__));
+        $carto->boink(ROOT_URL.basename(__file__));
     }
     if (isset($_COOKIE['Recherche']))
         foreach ($_COOKIE['Recherche'] as $key => $value)
@@ -186,14 +195,3 @@ $tpl->PushRow(); // -> SetRowInsertManualExtended
 
 $tpl->PushRow(); // -> null
 $tpl->DoOutput();
-
-function _Boink() {
-    $carto = cartographie::getinstance();
-    $w = $carto->Warns();
-    $i = $carto->Infos();
-    $m = ($w != '' && $i != '') ? $w.'<br/>'.$i: '';
-    $m = ($w != '' && $i == '') ? $w: $m;
-    $m = ($w == '' && $i != '') ? $i: $m;
-    $_SESSION['messager'] = $m;
-    output::Boink(ROOT_URL.basename(__file__));
-}
