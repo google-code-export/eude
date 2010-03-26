@@ -42,11 +42,17 @@ abstract class output {
         $this->css_file = INCLUDE_URL.'EU2DE.css';
     }
 
+    static public function Messager($msg) {
+        if (!is_array($_SESSION['messager'])) $_SESSION['messager'] = array();
+        array_push($_SESSION['messager'], $msg);
+    }
     /**
      * Redirige vers une autre page
      * @param string $url
      */
-    static public function Boink($data='./') {
+    static public function Boink($data='./', $messager='') {
+        if ($messager!='') self::Messager($messager);
+        
         DataEngine::sql_log();
         // Remplacement de variable...
         $data = str_replace('%ROOT_URL%', ROOT_URL, $data);

@@ -64,6 +64,7 @@ EOF;
 
 	}
         static function messager(&$data, &$msg) {
+            $html = (is_array($msg)) ? implode('<br/>',$msg): $msg;
             $html = <<<h
 <div id="newmessage" Onclick="$('newmessage').style.visibility='hidden';">
     <div class="newmessage">
@@ -73,7 +74,7 @@ EOF;
         </tr>
         <tr>
             <td width="50px">&nbsp;</td>
-            <td class="color_row0">{$msg}</td>
+            <td class="color_row0">{$html}</td>
             <td width="50px">&nbsp;</td>
         </tr>
         <tr>
@@ -81,7 +82,11 @@ EOF;
         </tr>
      </table>
    </div>
+   <div class="messagerbg"></div>
 </div>
+<script type="text/javascript">
+setTimeout("$('newmessage').style.visibility='hidden';",5000);
+</script>
 h;
             if ($msg)
                 $data = str_replace('%NEW_MESSAGE_ENTRY%',$html, $data);

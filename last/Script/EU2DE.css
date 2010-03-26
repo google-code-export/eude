@@ -400,21 +400,23 @@ td#imperium_row2 {
 .size180 {width:180px;}
 
 /* Vous avez un nouveau message, cliquez pour supprimer, ne rien toucher pour conserver... */
-div#newmessage {
-    z-index:99;
-    position:absolute;
-    top:0px;
-    right:0px;
-    bottom:0px;
-    left:0px;
-    background-color: #330033;
-    opacity: 0.75;
+div.messagerbg {
+    background-color:#330033;
+    bottom:0;
+    height:100%;
+    left:0;
+    opacity:0.75;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:89;
 }
 div.newmessage {
     position:absolute;
     bottom:50%;
     width:100%;
     opacity: 1;
+    z-index:90;
 }
 table.newmessage {
     background-color: #800040;
@@ -425,9 +427,7 @@ table.newmessage {
     margin-right:auto;
     width: 700px;
 }
-table.newmessage tr td {
-    opacity: 1;
-}
+
 .alpha75 {
     opacity: .75;
 }
