@@ -39,6 +39,8 @@ $carto = cartographie::getinstance();
 //        );
 //    $carto->Boink('');
 
+//$_POST['Recherche'] = array();
+//$_POST['Recherche']['Pos'] = 1;
 //------------------------------------------------------------------------------
 //--- Insertion des données ----------------------------------------------------
 
@@ -50,7 +52,7 @@ if (isset($_POST['Type'])) {
     if (isset ($_POST['USER']))        $_POST['USER']         = gpc_esc($_POST['USER']);
     if (isset ($_POST['EMPIRE']))      $_POST['EMPIRE']       = gpc_esc($_POST['EMPIRE']);
     if (isset ($_POST['INFOS']))       $_POST['INFOS']        = gpc_esc($_POST['INFOS']);
-    
+
     // SS brut
     if ($_POST['phpparser'] == 1) {
         $carto->add_solar_ss(gpc_esc($_POST['importation']));
@@ -63,21 +65,10 @@ if (isset($_POST['Type'])) {
         if ($_POST['Type'] != 1 and $_POST['COOROUT'] != '') $carto->AddErreur('Les coordonnés de sortie ne sont à renseigner que pour les Vortex');
         if ($_POST['Type'] == 1 and $_POST['COOROUT'] == '') $carto->AddErreur('Il faut impérativement renseigner Les coordonnés de sortie pour les Vortex');
         if ($_POST['Type'] == 0 and $_POST['USER'] == '')    $carto->AddErreur('Merci de renseigner le nom du joueur');
-        
+
         if ($carto->Messages()>0) $carto->Boink(ROOT_URL.basename(__file__));
     }
 
-    // TODO ....
-
-    /*
-$stype[0] = 'Joueur';
-$stype[1] = 'Vortex';
-$stype[2] = 'Planète';
-$stype[3] = 'Alliés';
-$stype[4] = 'Astéroïde';
-$stype[5] = 'Ennemi';
-$stype[6] = 'PNJ';
-    */
     switch ($_POST['Type']) {
         case '0': // Joueur
         case '3': // Allié
@@ -100,7 +91,6 @@ $stype[6] = 'PNJ';
             break;
         default:
             $carto->AddWarn('Type demandé non pris en charge !');
-//            _Boink(ROOT_URL.basename(__file__));
 
     }
     if ($carto->Messages()>0) $carto->Boink(ROOT_URL.basename(__file__));
@@ -145,35 +135,42 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
                 case 'Moi':
                     SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()+3600*24,ROOT_URL);
                     $Recherche[$key] = $_POST['Recherche'][$key];
-                    $where.= ' AND UTILISATEUR=\''.strtolower($_SESSION['_login']).'\' ';
                     break;
                 default:
                     SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()+3600*24,ROOT_URL);
                     $Recherche[$key] = $_POST['Recherche'][$key];
-                    $where.= 'AND '.sprintf($fieldtable[$key], sqlesc($value, true));
             }
         }
 
-    //Traitement de recherche par position et rayon
-    if ($Recherche['Pos'] != '') {
-        if(!is_numeric($Recherche['Rayon']) ||($Recherche['Rayon']<0) ) $Recherche['Rayon']='';
-        if($Rech['Rayon']=='') {
-            $where.= 'AND (POSIN like \''.$Recherche['Pos'].'\' OR POSOUT like \''.$Recherche['Pos'].'\') ';
-        } else {
-            $ListeCoor = implode(',',$map->Parcours()->GetListeCoorByRay($Recherche['Pos'],$Recherche['Rayon']));
-            $where.= 'AND (POSIN IN ('.$ListeCoor.') OR POSOUT IN ('.$ListeCoor.')) ';
+    foreach ($Recherche as $key => $value) {
+        $value = gpc_esc($value);
+
+        switch ($key) {
+            case 'Pos':
+                if ($key=='Pos' && $Recherche['Rayon']!='') {
+                    $ListeCoor = implode(',',$map->Parcours()->GetListeCoorByRay($Recherche['Pos'],$Recherche['Rayon']));
+                    $where.= 'AND (POSIN IN ('.$ListeCoor.') OR POSOUT IN ('.$ListeCoor.'))';
+                } else if ($key=='Pos')
+                    $where.= 'AND (POSIN=\''.$value.'\' OR POSOUT=\''.$value.'\') ';
+                break;
+            case 'Moi':
+                $where.= ' AND UTILISATEUR=\''.strtolower($_SESSION['_login']).'\' ';
+                break;
+            default:
+                if (isset ($fieldtable[$key]))
+                    $where.= 'AND '.sprintf($fieldtable[$key], $value);
         }
     }
 
-    // TOD ? Traitement recherche planete uniquement si type = planete
+    // TODO ? Traitement recherche planete uniquement si type = planete
 } // SEARCH
 
 $sort=array();
 $sort[] = 'INACTIF ASC';
-// TODO Check security issues... /!\
-if (isset ($_GET['SORT']))
-    foreach ($_GET['SORT'] as $key => $value) {
+if (isset ($_GET['sort']))
+    foreach ($_GET['sort'] as $key => $value) {
         if ($value != 'ASC' && $value != 'DESC') continue;
+        if (preg_match('/[^a-zA-Z_]+/', $key)>0) continue;
         $sort[] = ''.$key.' '.$value;
     }
 $sort[] = 'ID DESC';
@@ -191,7 +188,27 @@ $tpl->PushRow(); // -> SetRowInsertManual
 $tpl->SelectOptions($cctype,$_POST['Type'],'Type');
 $tpl->PushRow(); // -> SetRowInsertManualExtended
 
+//------------------------------------------------------------------------------
 
+$PageCurr = (isset($_GET['Page'])) ? int($_GET['Page']): 0;
+$Maxline = 20;
+$limit = ' LIMIT '.($PageCurr*$Maxline).','.$Maxline;
+
+$query = 'SELECT count(*) as Nb from SQL_PREFIX_Coordonnee a left outer join SQL_PREFIX_Coordonnee_Planetes b on (a.ID=b.pID) '.$where;
+$mysql_result = DataEngine::sql($query);// or output::_DoOutput('Ooops');
+//        output::Boink(ROOT_URL, 'Ooops');
+
+$ligne=mysql_fetch_assoc($mysql_result);
+$NbLigne = $ligne['Nb'];
+FB::info($NbLigne, 'NB lines');
+$MaxPage = ceil($NbLigne / $Maxline)-1;
+if($PageCurr > $MaxPage)
+    $PageCurr = $MaxPage;
+else if ($PageCurr < 0)
+    $PageCurr = 0;
+
+$sql='SELECT * from SQL_PREFIX_Coordonnee a left outer join SQL_PREFIX_Coordonnee_Planetes b on (a.ID=b.pID) '.$where.' '.$sort.$limit;
+$mysql_result = DataEngine::sql($sql);
 
 $tpl->PushRow(); // -> null
 $tpl->DoOutput();
