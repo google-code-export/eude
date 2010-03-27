@@ -13,7 +13,7 @@ require_once(CLASS_PATH.'parser.class.php');
 require_once(CLASS_PATH.'cartographie_new.class.php');
 require_once(CLASS_PATH.'map.class.php');
 
-output::Messager('In work, OMG');
+//output::Messager('In work, OMG');
 //output::Messager('really ;)');
 //output::Boink('%ROOT_URL%');
 
@@ -39,8 +39,6 @@ $carto = cartographie::getinstance();
 //        );
 //    $carto->Boink('');
 
-//$_POST['Recherche'] = array();
-//$_POST['Recherche']['Pos'] = 1;
 //------------------------------------------------------------------------------
 //--- Insertion des données ----------------------------------------------------
 
@@ -115,46 +113,43 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
         foreach ($_COOKIE['Recherche'] as $key => $value)
             $Recherche[$key] = $value;
 
+    if (isset ($_POST['Recherche']))
+        foreach ($_POST['Recherche'] as $key => $value) {
+            $value = gpc_esc($value);
+            if ($value != '') {
+                SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()+3600*24,ROOT_URL);
+                $Recherche[$key] = $_POST['Recherche'][$key];
+            } else {
+                SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()-10,ROOT_URL);
+                unset($Recherche[$key]);
+            }
+        }
+
     $fieldtable = array();
-    $fieldtable['Statut'] = '`Inactif`=\'%s\' ';
+    $fieldtable['Status'] = '`Inactif`=\'%s\' ';
     $fieldtable['Type']   = '`TYPE` IN (%d) ';
     $fieldtable['User']   = '`USER` like \'%%%s%%\' ';
     $fieldtable['Empire'] = '`EMPIRE` like \'%%%s%%\' ';
     $fieldtable['Infos']  = '`INFOS` like \'%%%s%%\' ';
     $fieldtable['Note']   = '`NOTE` like \'%%%s%%\' ';
-    if (isset ($_POST['Recherche']))
-        foreach ($_POST['Recherche'] as $key => $value) {
-            $value = gpc_esc($value);
-
-            switch ($key) {
-                case 'Pos':
-                case 'Rayon':
-                    SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()+3600*24,ROOT_URL);
-                    $Recherche[$key] = $_POST['Recherche'][$key];
-                    break;
-                case 'Moi':
-                    SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()+3600*24,ROOT_URL);
-                    $Recherche[$key] = $_POST['Recherche'][$key];
-                    break;
-                default:
-                    SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()+3600*24,ROOT_URL);
-                    $Recherche[$key] = $_POST['Recherche'][$key];
-            }
-        }
-
     foreach ($Recherche as $key => $value) {
         $value = gpc_esc($value);
 
         switch ($key) {
             case 'Pos':
                 if ($key=='Pos' && $Recherche['Rayon']!='') {
-                    $ListeCoor = implode(',',$map->Parcours()->GetListeCoorByRay($Recherche['Pos'],$Recherche['Rayon']));
+                    $ListeCoor = implode(',',$map->Parcours()->GetListeCoorByRay($Recherche['Pos'],max($Recherche['Rayon'],10)));
                     $where.= 'AND (POSIN IN ('.$ListeCoor.') OR POSOUT IN ('.$ListeCoor.'))';
                 } else if ($key=='Pos')
                     $where.= 'AND (POSIN=\''.$value.'\' OR POSOUT=\''.$value.'\') ';
                 break;
             case 'Moi':
                 $where.= ' AND UTILISATEUR=\''.strtolower($_SESSION['_login']).'\' ';
+                break;
+            case 'Status':
+            case 'Type':
+                if ($value==-1) break;
+                $where.= 'AND '.sprintf($fieldtable[$key], $value);
                 break;
             default:
                 if (isset ($fieldtable[$key]))
@@ -182,12 +177,15 @@ $sort = 'ORDER BY '.implode(', ', $sort);
 include_once(TEMPLATE_PATH.'cartographie.tpl.php');
 $tpl = tpl_cartographie::getinstance();
 $tpl->AddToRow(bulle("Coller ici les détails d'une planète, joueur ou d'un vortex<br/>(Ctrl+A puis Ctrl+C après avoir ouvert une fiche)"), 'bulle');
-$tpl->PushRow(); // -> SetRowInsertManual
 
 $lngmain = language::getinstance()->GetLngBlock('dataengine');
-$tpl->SelectOptions($lngmain['types']['dropdown'],$_POST['Type'],'Type');
-$tpl->PushRow(); // -> SetRowInsertManualExtended
+$tpl->AddToRow($tpl->SelectOptions2($lngmain['types']['dropdown'],''), 'Type');
+$tpl->PushRow();
 
+//------------------------------------------------------------------------------
+$tpl->SearchForm();
+$tpl->AddToRow($tpl->SelectOptions2($lngmain['types']['dropdown'],$Recherche['Type']), 'Type');
+$tpl->PushRow();
 //------------------------------------------------------------------------------
 
 $PageCurr = (isset($_GET['Page'])) ? int($_GET['Page']): 0;
@@ -199,15 +197,21 @@ $mysql_result = DataEngine::sql($query);
 
 $ligne=mysql_fetch_assoc($mysql_result);
 $NbLigne = $ligne['Nb'];
-FB::info($NbLigne, 'NB lines');
 $MaxPage = ceil($NbLigne / $Maxline)-1;
 if($PageCurr > $MaxPage)
     $PageCurr = $MaxPage;
 else if ($PageCurr < 0)
     $PageCurr = 0;
 
+
+FB::info($NbLigne, 'NB lines');
+FB::info($MaxPage, 'NB pages');
+
 $sql='SELECT * from SQL_PREFIX_Coordonnee a left outer join SQL_PREFIX_Coordonnee_Planetes b on (a.ID=b.pID) '.$where.' '.$sort.$limit;
 $mysql_result = DataEngine::sql($sql);
+$tpl->SearchResult();
 
-$tpl->PushRow(); // -> null
+$tpl->AddToRow($MaxPage+1, 'maxpage');
+
+$tpl->PushRow();
 $tpl->DoOutput();

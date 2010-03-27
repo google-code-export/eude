@@ -81,6 +81,22 @@ abstract class output {
         }
     }
 
+    /**
+     * Returne une liste déroulante générique
+     * @param array $array Tableau de donnée ($k=>$v)
+     * @param integer $selected id selectionné ($selected=$k)
+     * @param boolean $flip inverser les clé/valeurs ($v=>$k $id=$v)
+     */
+    public function SelectOptions2($array,$selected,$flip=false) {
+        $result='';
+        if ($flip) $array = array_flip($array);
+        foreach($array as $k => $v) {
+            $selected = ($flip) ? (($v==$selected) ? ' selected':'') : (($k==$selected) ? ' selected':'');
+            $result .= "\t\t<option value='$k'$selected>$v</option>\n";
+        }
+        return $result;
+    }
+
     public function AddToRow($value, $key) {
         $this->currow = str_replace("%%$key%%", $value, $this->currow);
     }

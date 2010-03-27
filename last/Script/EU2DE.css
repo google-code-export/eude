@@ -364,13 +364,16 @@ td#imperium_row2 {
 .spacing_row {
     padding: 2px 6px;
 }
-.spacing_row0 {
+td.spacing_row0 {
     border-right: solid 3px #480038;
     padding: 2px 6px;
 }
-.spacing_row1 {
+td.spacing_row1 {
     border-right: solid 3px #660050;
     padding: 2px 6px;
+}
+tr.spacing_header {
+    border-top: solid 3px #800040;
 }
 
 .color_titre {
@@ -383,6 +386,9 @@ td#imperium_row2 {
     color: #FFCCCC;
     font-weight: bold;
 }
+.color_pagination {
+    color: #FF944E;
+}
 .text_center {
     text-align: center;
 }
@@ -394,6 +400,7 @@ td#imperium_row2 {
     cursor: pointer;
 }
 
+.size40  {width:40px;}
 .size60  {width:60px;}
 .size80  {width:80px;}
 .size110 {width:110px;}

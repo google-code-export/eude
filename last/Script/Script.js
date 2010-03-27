@@ -96,23 +96,6 @@ function afficher(name,nb) {
     $n(name)[nb].style.position="";
 }
 
-function GestionFormulaire(id) {
-    var Check=-1
-    try
-    {
-        if($n(id+'0')[0].selected) Check=$n(id+'0')[0].value;
-        if($n(id+'1')[0].selected) Check=$n(id+'1')[0].value;
-        if($n(id+'2')[0].selected) Check=$n(id+'2')[0].value;
-        if($n(id+'3')[0].selected) Check=$n(id+'3')[0].value;
-        if($n(id+'4')[0].selected) Check=$n(id+'4')[0].value;
-        if($n(id+'5')[0].selected) Check=$n(id+'5')[0].value;
-        if($n(id+'6')[0].selected) Check=$n(id+'6')[0].value;
-    } catch(err) {
-		
-    }
-    affichage_formulaire(Check);
-}
-
 function affichage_formulaire(Check) {
     switch (Check)
     {
