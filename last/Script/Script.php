@@ -92,31 +92,3 @@ function gpc_esc($value) {
     else
         return stripslashes($value);
 }
-
-// Codage en 'dur' des types...
-// 'C'orps 'C'eleste 'type'
-$cctype[0] = 'Joueur';
-$cctype[3] = 'Alliés';
-$cctype[5] = 'Ennemis';
-$cctype[6] = 'Flotte PNJ';
-$cctype[1] = 'Vortex';
-$cctype[2] = 'Planète';
-$cctype[4] = 'Astéroïdes';
-
-// Même chose, utilisé par Cartedetail.php
-$ccimg[0] = 'Joueur.jpg';
-$ccimg[3] = 'fleet_own.gif';
-$ccimg[5] = 'fleet_enemy.gif';
-$ccimg[6] = 'fleet_npc.gif';
-$ccimg[1] = 'Vortex.jpg';
-$ccimg[2] = 'Planete.jpg';
-$ccimg[4] = 'Asteroide.jpg';
-
-// Même chose, `TYPE` en version hummainement lisible
-$stype[0] = 'Joueur';
-$stype[1] = 'Vortex';
-$stype[2] = 'Planète';
-$stype[3] = 'Alliés';
-$stype[4] = 'Astéroïde';
-$stype[5] = 'Ennemi';
-$stype[6] = 'PNJ';

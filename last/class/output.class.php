@@ -175,6 +175,7 @@ abstract class output {
         $data = str_replace('%IMAGES_URL%', IMAGES_URL, $data);
         $data = str_replace('%TEMPLATE_URL%', TEMPLATE_URL, $data);
         $data = str_replace('%ADDONS_URL%', ADDONS_URL, $data);
+        $data = str_replace('%LNG_URL%', TEMPLATE_URL.'lng'.DIRECTORY_SEPARATOR.LNG_CODE.DIRECTORY_SEPARATOR, $data);
         if (!USE_AJAX) tpl_header::messager($data, $_SESSION['messager']);
         
         header('Cache-Control: no-cache, must-revalidate'); // HTTP/1.1

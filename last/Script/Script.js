@@ -158,14 +158,14 @@ function interpreter(text,insert) {
 	
 
     //Recherche "nous avons les informations de la planète identifiée"  = information planète
-    if(mystring.indexOf("nous avons les informations de la planète identifiée") > 0)
+    if(mystring.indexOf(i18n.PlayerPlanet) > 0)
     {
-        if(mystring.interpreter_getvalue("Joueur") != "") {
-            if(mystring.interpreter_getvalue("Utilisateur") != "") {
+        if(mystring.interpreter_getvalue(i18n.Player) != "") {
+            if(mystring.interpreter_getvalue(i18n.User) != "") {
                 interpreter_joueur(mystring);
                 parsed = true;
             } else {
-                alert('merci de cliquer sur "Info joueur" et de coller le détail a la suite');
+                alert(i18n.PlayerIncomplete);
                 needmore = true;
             }
         } else {
@@ -174,46 +174,46 @@ function interpreter(text,insert) {
         }
     }
 	
-    if(mystring.indexOf("Départ du vortex") > 0) {
+    if(mystring.indexOf(i18n.WormholeStart) > 0) {
         interpreter_vortex(mystring);
         parsed = true;
     }
 
-    if(mystring.indexOf("Numéro du système stellaire :") > 0) {
+    if(mystring.indexOf(i18n.Sun_page) > 0) {
         interpreter_system(mystring);
         parsed = true;
     }
-    if(mystring.indexOf("Informations sur les astéroïdes") > 0) {
+    if(mystring.indexOf(i18n.Asteroid) > 0) {
         interpreter_asteroide(mystring);
         parsed = true;
     }
-    if(mystring.indexOf("PNJ") > 0 && mystring.indexOf("pirate") > 0) {
+    if(mystring.indexOf(i18n.NPC1) > 0 && mystring.indexOf(i18n.NPC2) > 0) {
         interpreter_fleet_pnj(mystring);
         parsed = true;
     }
 
-    if (!parsed && !needmore) alert("Information non reconnue\n\nN'oubliez pas, après avoir ouvert un vortex(par exemple)\nDe cliquer sur la fenêtre de celui avant le Ctrl+A,Ctrl+C.");
+    if (!parsed && !needmore) alert(i18n.UnknownData);
     if (parsed && !needmore && insert) document.forms['data'].submit();
 }
 
 function interpreter_system(mystring) {
-    pos = mystring.indexOf("Proprétaire");
+    pos = mystring.indexOf(i18n.Owner);
     $n('importation')[0].value = mystring.substr(pos+12);
     $n('phpparser')[0].value = 1;
     document.forms['data'].submit();
 }
 
 function interpreter_vortex(mystring) {
-    pos1 = mystring.indexOf("Départ du vortex");
-    pos2 = mystring.indexOf("Destination du vortex");
+    pos1 = mystring.indexOf(i18n.WormholeStart);
+    pos2 = mystring.indexOf(i18n.WormholeEnd);
     depart = mystring.substr(pos1,pos2);
     arrive = mystring.substr(pos2);
 	
-    cooD = depart.interpreter_getvalue("ID Système stellaire");
-    detD = depart.interpreter_getvalue("Coordonnées");
+    cooD = depart.interpreter_getvalue(i18n.WormholeSS);
+    detD = depart.interpreter_getvalue(i18n.Coords);
 	
-    cooA = arrive.interpreter_getvalue("ID Système stellaire");
-    detA = arrive.interpreter_getvalue("Coordonnées");
+    cooA = arrive.interpreter_getvalue(i18n.WormholeSS);
+    detA = arrive.interpreter_getvalue(i18n.Coords);
 		
     $n("Type1")[0].selected=true;
     $n("COORIN")[0].value=cooD+":"+detD;
@@ -223,10 +223,10 @@ function interpreter_vortex(mystring) {
 
 
 function interpreter_joueur(mystring) {
-    jou = mystring.interpreter_getvalue("Utilisateur");
-    coo = mystring.interpreter_getvalue("Coordonnées");
-    emp = mystring.interpreter_getvalue("Empire");
-    nom = mystring.interpreter_getvalue("Nom");
+    jou = mystring.interpreter_getvalue(i18n.User);
+    coo = mystring.interpreter_getvalue(i18n.Coords);
+    emp = mystring.interpreter_getvalue(i18n.Empire);
+    nom = mystring.interpreter_getvalue(i18n.UserName);
     $n("Type")[0].value=0;
     $n("COORIN")[0].value=coo;
     $n("COOROUT")[0].value="";
@@ -236,30 +236,30 @@ function interpreter_joueur(mystring) {
 }
 
 function interpreter_fleet_pnj(mystring) {
-    jou = mystring.interpreter_getvalue("Propriétaire");
-    nom = mystring.interpreter_getvalue("Nom de la flotte");
-    coo = mystring.interpreter_getvalue("Coordonnées");
+    jou = mystring.interpreter_getvalue(i18n.Owner);
+    nom = mystring.interpreter_getvalue(i18n.FleetName);
+    coo = mystring.interpreter_getvalue(i18n.Coords);
 
     $n("Type")[0].value=6;
     $n("USER")[0].value=jou;
     $n("COORIN")[0].value=coo.replace(/(\ )/g, "");
-    $n("COOROUT")[0].value="";
+    $n("COOROUT")[0].value='';
     $n("EMPIRE")[0].value=nom;
-    $n("INFOS")[0].value="";
+    $n("INFOS")[0].value='';
 }
 
 function interpreter_planete(mystring) {
-    coo = mystring.interpreter_getvalue("Coordonnées");
-    tit	= mystring.interpreter_getvalue("Titane");
-    cui	= mystring.interpreter_getvalue("Cuivre");
-    fer	= mystring.interpreter_getvalue("Fer");
-    alu	= mystring.interpreter_getvalue("Aluminium");
-    mer	= mystring.interpreter_getvalue("Mercure");
-    sil	= mystring.interpreter_getvalue("Silicium");
-    ura	= mystring.interpreter_getvalue("Uranium");
-    kry	= mystring.interpreter_getvalue("Krypton");
-    azo	= mystring.interpreter_getvalue("Azote");
-    hyd	= mystring.interpreter_getvalue("Hydrogène");
+    coo = mystring.interpreter_getvalue(i18n.Coords);
+    tit	= mystring.interpreter_getvalue(i18n.Ressources0);
+    cui	= mystring.interpreter_getvalue(i18n.Ressources1);
+    fer	= mystring.interpreter_getvalue(i18n.Ressources2);
+    alu	= mystring.interpreter_getvalue(i18n.Ressources3);
+    mer	= mystring.interpreter_getvalue(i18n.Ressources4);
+    sil	= mystring.interpreter_getvalue(i18n.Ressources5);
+    ura	= mystring.interpreter_getvalue(i18n.Ressources6);
+    kry	= mystring.interpreter_getvalue(i18n.Ressources7);
+    azo	= mystring.interpreter_getvalue(i18n.Ressources8);
+    hyd	= mystring.interpreter_getvalue(i18n.Ressources9);
 	
     $n("Type")[0].value=2;
     $n("COORIN")[0].value=coo;
@@ -277,17 +277,17 @@ function interpreter_planete(mystring) {
 }
 
 function interpreter_asteroide(mystring) {
-    coo = mystring.interpreter_getvalue("Coordonnées");
-    tit	= mystring.interpreter_getvalue("Titane");
-    cui	= mystring.interpreter_getvalue("Cuivre");
-    fer	= mystring.interpreter_getvalue("Fer");
-    alu	= mystring.interpreter_getvalue("Aluminium");
-    mer	= mystring.interpreter_getvalue("Mercure");
-    sil	= mystring.interpreter_getvalue("Silicium");
-    ura	= mystring.interpreter_getvalue("Uranium");
-    kry	= mystring.interpreter_getvalue("Krypton");
-    azo	= mystring.interpreter_getvalue("Azote");
-    hyd	= mystring.interpreter_getvalue("Hydrogène");
+    coo = mystring.interpreter_getvalue(i18n.Coords);
+    tit	= mystring.interpreter_getvalue(i18n.Ressources0);
+    cui	= mystring.interpreter_getvalue(i18n.Ressources1);
+    fer	= mystring.interpreter_getvalue(i18n.Ressources2);
+    alu	= mystring.interpreter_getvalue(i18n.Ressources3);
+    mer	= mystring.interpreter_getvalue(i18n.Ressources4);
+    sil	= mystring.interpreter_getvalue(i18n.Ressources5);
+    ura	= mystring.interpreter_getvalue(i18n.Ressources6);
+    kry	= mystring.interpreter_getvalue(i18n.Ressources7);
+    azo	= mystring.interpreter_getvalue(i18n.Ressources8);
+    hyd	= mystring.interpreter_getvalue(i18n.Ressources9);
 
     $n("Type")[0].value=4;
     $n("COORIN")[0].value=coo;
@@ -405,10 +405,134 @@ function validateform(form) {
     submit=true;
     while (eval("form.Suppr"+i)) {
         if (eval("form.Suppr"+i+".checked == true")) {
-            submit = confirm('Suppression d\'un/plusieurs joueur(s) demandé\n\nÊtes vous bien sur ?');
+            submit = confirm(i18n.DeleteUsers);
             break;
         }
         i++;
     }
     return submit;
 }
+
+var sprintfWrapper = {
+
+	init : function () {
+
+		if (typeof arguments == "undefined") { return null; }
+		if (arguments.length < 1) { return null; }
+		if (typeof arguments[0] != "string") { return null; }
+		if (typeof RegExp == "undefined") { return null; }
+
+		var string = arguments[0];
+		var exp = new RegExp(/(%([%]|(\-)?(\+|\x20)?(0)?(\d+)?(\.(\d)?)?([bcdfosxX])))/g);
+		var matches = new Array();
+		var strings = new Array();
+		var convCount = 0;
+		var stringPosStart = 0;
+		var stringPosEnd = 0;
+		var matchPosEnd = 0;
+		var newString = '';
+		var match = null;
+
+		while (match = exp.exec(string)) {
+			if (match[9]) { convCount += 1; }
+
+			stringPosStart = matchPosEnd;
+			stringPosEnd = exp.lastIndex - match[0].length;
+			strings[strings.length] = string.substring(stringPosStart, stringPosEnd);
+
+			matchPosEnd = exp.lastIndex;
+			matches[matches.length] = {
+				match: match[0],
+				left: match[3] ? true : false,
+				sign: match[4] || '',
+				pad: match[5] || ' ',
+				min: match[6] || 0,
+				precision: match[8],
+				code: match[9] || '%',
+				negative: parseInt(arguments[convCount]) < 0 ? true : false,
+				argument: String(arguments[convCount])
+			};
+		}
+		strings[strings.length] = string.substring(matchPosEnd);
+
+		if (matches.length == 0) { return string; }
+		if ((arguments.length - 1) < convCount) { return null; }
+
+		var code = null;
+		var match = null;
+		var i = null;
+
+		for (i=0; i<matches.length; i++) {
+
+			if (matches[i].code == '%') { substitution = '%' }
+			else if (matches[i].code == 'b') {
+				matches[i].argument = String(Math.abs(parseInt(matches[i].argument)).toString(2));
+				substitution = sprintfWrapper.convert(matches[i], true);
+			}
+			else if (matches[i].code == 'c') {
+				matches[i].argument = String(String.fromCharCode(parseInt(Math.abs(parseInt(matches[i].argument)))));
+				substitution = sprintfWrapper.convert(matches[i], true);
+			}
+			else if (matches[i].code == 'd') {
+				matches[i].argument = String(Math.abs(parseInt(matches[i].argument)));
+				substitution = sprintfWrapper.convert(matches[i]);
+			}
+			else if (matches[i].code == 'f') {
+				matches[i].argument = String(Math.abs(parseFloat(matches[i].argument)).toFixed(matches[i].precision ? matches[i].precision : 6));
+				substitution = sprintfWrapper.convert(matches[i]);
+			}
+			else if (matches[i].code == 'o') {
+				matches[i].argument = String(Math.abs(parseInt(matches[i].argument)).toString(8));
+				substitution = sprintfWrapper.convert(matches[i]);
+			}
+			else if (matches[i].code == 's') {
+				matches[i].argument = matches[i].argument.substring(0, matches[i].precision ? matches[i].precision : matches[i].argument.length)
+				substitution = sprintfWrapper.convert(matches[i], true);
+			}
+			else if (matches[i].code == 'x') {
+				matches[i].argument = String(Math.abs(parseInt(matches[i].argument)).toString(16));
+				substitution = sprintfWrapper.convert(matches[i]);
+			}
+			else if (matches[i].code == 'X') {
+				matches[i].argument = String(Math.abs(parseInt(matches[i].argument)).toString(16));
+				substitution = sprintfWrapper.convert(matches[i]).toUpperCase();
+			}
+			else {
+				substitution = matches[i].match;
+			}
+
+			newString += strings[i];
+			newString += substitution;
+
+		}
+		newString += strings[i];
+
+		return newString;
+
+	},
+
+	convert : function(match, nosign){
+		if (nosign) {
+			match.sign = '';
+		} else {
+			match.sign = match.negative ? '-' : match.sign;
+		}
+		var l = match.min - match.argument.length + 1 - match.sign.length;
+		var pad = new Array(l < 0 ? 0 : l).join(match.pad);
+		if (!match.left) {
+			if (match.pad == "0" || nosign) {
+				return match.sign + pad + match.argument;
+			} else {
+				return pad + match.sign + match.argument;
+			}
+		} else {
+			if (match.pad == "0" || nosign) {
+				return match.sign + match.argument + pad.replace(/0/g, ' ');
+			} else {
+				return match.sign + match.argument + pad;
+			}
+		}
+	}
+}
+
+sprintf = sprintfWrapper.init;

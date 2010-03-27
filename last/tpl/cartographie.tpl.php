@@ -123,7 +123,6 @@ ROW;
      * @param boolean $include_header Inclure l'entete ?
      */
     public function DoOutput($include_menu=true, $include_header=true) {
-        $this->PushOutput('');
         parent::DoOutput($include_menu, $include_header);
     }
     /**

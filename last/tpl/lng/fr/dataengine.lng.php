@@ -99,3 +99,32 @@ $lng['axx'] = array(
 
 $lng['minimalpermsneeded'] = 'Permission minimale manquante (<b>%s</b> ou supérieur)';
 $lng['nopermsanddie'] = 'Permission minimale manquante ou option désactivée.';
+
+// Types pris en charge !
+$lng['types'] = array();
+$lng['types']['dropdown'] = array(); // alias cctype
+$lng['types']['dropdown'][0] = 'Joueur';
+$lng['types']['dropdown'][3] = 'Alliés';
+$lng['types']['dropdown'][5] = 'Ennemis';
+$lng['types']['dropdown'][6] = 'Flotte PNJ';
+$lng['types']['dropdown'][1] = 'Vortex';
+$lng['types']['dropdown'][2] = 'Planète';
+$lng['types']['dropdown'][4] = 'Astéroïdes';
+
+$lng['types']['imgurl'] = array(); // alias ccimg (xml/cartedetail.php)
+$lng['types']['imgurl'][0] = IMAGES_URL.'Joueur.jpg';
+$lng['types']['imgurl'][3] = IMAGES_URL.'fleet_own.gif';
+$lng['types']['imgurl'][5] = IMAGES_URL.'fleet_enemy.gif';
+$lng['types']['imgurl'][6] = IMAGES_URL.'fleet_npc.gif';
+$lng['types']['imgurl'][1] = IMAGES_URL.'Vortex.jpg';
+$lng['types']['imgurl'][2] = IMAGES_URL.'Planete.jp';
+$lng['types']['imgurl'][4] = IMAGES_URL.'Asteroide.jpg';
+
+$lng['types']['string'] = array(); // alias stype (utilisé pour les messages cartographie)
+$lng['types']['string'][0] = 'Joueur';
+$lng['types']['string'][3] = 'Alliés';
+$lng['types']['string'][5] = 'Ennemi';
+$lng['types']['string'][6] = 'PNJ';
+$lng['types']['string'][1] = 'Vortex';
+$lng['types']['string'][2] = 'Planète';
+$lng['types']['string'][4] = 'Astéroïde';

@@ -19,11 +19,14 @@ class tpl_cartedetails extends output {
 	protected $BASE_FILE = '';
 	private $bulle1="Faire une recherche sur ce nom de joueur";
 	private $bulle2="Faire une recherche sur ce nom d'empire";
+	private $lngtype;
 
 	public function __construct() {
 		$this->BASE_FILE = ROOT_URL."Cartedetail.php";
 		$this->bulle1 = bulle($this->bulle1);
 		$this->bulle2 = bulle($this->bulle2);
+                $this->lngtype = language::getinstance()->GetLngBlock('dataengine');
+                $this->lngtype = $this->lngtype['types']['imgurl'];
 		parent::__construct();
 	}
 
@@ -49,14 +52,13 @@ EOF;
 	}
 
 	public function AddRow($ligne) {
-		global $ccimg;
 		$ligne["USER"]   = htmlspecialchars($ligne["USER"], ENT_QUOTES, 'utf-8');
 		$ligne["EMPIRE2"] = addslashes(DataEngine::xml_fix51($ligne["EMPIRE"]));
 		$ligne["EMPIRE"] = DataEngine::xml_fix51(htmlspecialchars($ligne["EMPIRE"], ENT_QUOTES, 'utf-8'));
 		$ligne["INFOS"]  = htmlspecialchars($ligne["INFOS"], ENT_QUOTES, 'utf-8');
 		$ligne["NOTE"]   = htmlspecialchars($ligne["NOTE"], ENT_QUOTES, 'utf-8');
 
-		$Image = $ccimg[$ligne["TYPE"]];
+		$Image = $this->lngtype['types']['imgurl'][$ligne["TYPE"]];
 		$posout = ($ligne["POSOUT"] !="") ? "<br>".$ligne["POSOUT"]."-".$ligne["COORDET"]: "";
 		$user = ($ligne["USER"]=="" ? "-" : $ligne["USER"]);
 		$info = ($ligne["INFOS"]=="" ? "-" : $ligne["INFOS"]);

@@ -162,7 +162,6 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
         }
     }
 
-    // TODO ? Traitement recherche planete uniquement si type = planete
 } // SEARCH
 
 $sort=array();
@@ -171,7 +170,7 @@ if (isset ($_GET['sort']))
     foreach ($_GET['sort'] as $key => $value) {
         if ($value != 'ASC' && $value != 'DESC') continue;
         if (preg_match('/[^a-zA-Z_]+/', $key)>0) continue;
-        $sort[] = ''.$key.' '.$value;
+        $sort[] = $key.' '.$value;
     }
 $sort[] = 'ID DESC';
 $sort = 'ORDER BY '.implode(', ', $sort);
@@ -185,7 +184,8 @@ $tpl = tpl_cartographie::getinstance();
 $tpl->AddToRow(bulle("Coller ici les détails d'une planète, joueur ou d'un vortex<br/>(Ctrl+A puis Ctrl+C après avoir ouvert une fiche)"), 'bulle');
 $tpl->PushRow(); // -> SetRowInsertManual
 
-$tpl->SelectOptions($cctype,$_POST['Type'],'Type');
+$lngmain = language::getinstance()->GetLngBlock('dataengine');
+$tpl->SelectOptions($lngmain['types']['dropdown'],$_POST['Type'],'Type');
 $tpl->PushRow(); // -> SetRowInsertManualExtended
 
 //------------------------------------------------------------------------------
@@ -195,8 +195,7 @@ $Maxline = 20;
 $limit = ' LIMIT '.($PageCurr*$Maxline).','.$Maxline;
 
 $query = 'SELECT count(*) as Nb from SQL_PREFIX_Coordonnee a left outer join SQL_PREFIX_Coordonnee_Planetes b on (a.ID=b.pID) '.$where;
-$mysql_result = DataEngine::sql($query);// or output::_DoOutput('Ooops');
-//        output::Boink(ROOT_URL, 'Ooops');
+$mysql_result = DataEngine::sql($query);
 
 $ligne=mysql_fetch_assoc($mysql_result);
 $NbLigne = $ligne['Nb'];

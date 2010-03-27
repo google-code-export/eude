@@ -13,7 +13,7 @@ var Navigateur = {
 			if (fleet > 0)
 				document.forms['calculer'].submit();
 			else
-				alert("Aucun parcours sélectionné.");
+				alert(i18n.Map.NoneSelected);
 		},
 	SaveFleet: function()
 		{
@@ -23,10 +23,10 @@ var Navigateur = {
 			if (dd.selectedIndex > 0)
 				fleetname = dd[dd.selectedIndex].text;
 			else
-				fleetname = "Nouvelle Flotte";
+				fleetname = i18n.Map.NewFleet;
 
-			if (vout == "" || vin =="") return alert('Coords incomplète...');
-			if ( (val = prompt("Retenir ce parcours ?\n\nDépart: "+vin+"\nArrivée: "+vout,fleetname)) )
+			if (vout == "" || vin =="") return alert(i18n.Map.IncompleteForm);
+			if ( (val = prompt(sprintf(i18n.Map.Save,vin,vout),fleetname)) )
 				location.href = "?savefleet="+val+"&in="+vin+"&out="+vout;
                         return true;
 		},
@@ -35,8 +35,8 @@ var Navigateur = {
 			dd = $('fleet');
 			fleetname = dd[dd.selectedIndex].text;
 			fleet = dd.value;
-			if (fleet == 0)	return alert("Aucun parcours sélectionné.");
-			if (fleet >0 && confirm("Suppression du parcours '"+fleetname+"' ?")) location.href = "?delfleet="+fleet;
+			if (fleet == 0)	return alert(i18n.Map.NoneSelected);
+			if (fleet >0 && confirm(sprintf(i18n.Map.Delete,fleetname))) location.href = "?delfleet="+fleet;
                         return true;
 		},
 	invertcoords: function()
@@ -72,15 +72,14 @@ var Navigateur = {
 
 			new Ajax.Request('xml/carte.php',{
 				method:'post',parameters:{'emp':emp,'jou':jou,'ss':Carte.GetLastSearch()},
-				onCreate:function(){$('ajaxstatus').update('Demande en cours...');},
+				onCreate:function(){$('ajaxstatus').update(i18n.Ajax.onCreate);},
 				onSuccess:function(t){
 					var xml = '';
-					$('ajaxstatus').update('Traitement en cours...');
+					$('ajaxstatus').update(i18n.Ajax.onSuccess);
 					if (Prototype.Browser.Gecko) xml = t.responseXML; else xml = t.responseText.ToXML();
 						if (xml==null) {
-							alert('erreur xml, annulation...');
+							alert(i18n.Ajax.XML_Error);
 							Carte.SetLastSearch("");
-// 							$('ajaxstatus').update("");
 							$('carteunivers').src="./img.php?"+Math.random();
 							return false;
 						}
@@ -91,9 +90,8 @@ var Navigateur = {
                                         return true;
 				},
 				onFailure:function(t){
-// 					$('ajaxstatus').update('');
 					$('carteunivers').src="./img.php?"+Math.random();
-					alert('erreur reponse serveur, annulation...');
+					alert(i18n.Ajax.onFailure);
 				}
 			});
 			return false;
@@ -158,13 +156,13 @@ function CCarte(tc,nbc,td){
 		if (popup) {
 			new Ajax.Request('xml/cartedetail.php',{
 				method:'get',parameters:{'ID':CO},
-				onCreate:function(){Carte.DetailsShow(true); $('AjaxCarteDetails').update('Demande en cours...');},
+				onCreate:function(){Carte.DetailsShow(true); $('AjaxCarteDetails').update(i18n.Ajax.onCreate);},
 				onSuccess:function(t){
 					var xml = '';
-					$('ajaxstatus').update('Traitement en cours...');
+					$('ajaxstatus').update(i18n.Ajax.onSuccess);
 					if (Prototype.Browser.Gecko) xml = t.responseXML; else xml = t.responseText.ToXML();
 						if (xml==null) {
-							alert('erreur xml, annulation...');
+							alert(i18n.Ajax.XML_Error);
 							Carte.DetailsShow(false);
 							return false;
 						}
@@ -172,7 +170,7 @@ function CCarte(tc,nbc,td){
 					$('AjaxCarteDetails').update(DataEngine.GetNode(xml,'content'));
                                         return true;
 				},
-				onFailure:function(t){$('AjaxCarteDetails').update(t.statusText);}
+				onFailure:function(t){alert(i18n.Ajax.onFailure);}
 			});
 	  } else if (dest) { 
 			$n('loadfleet')[0].selectedIndex = 0;
