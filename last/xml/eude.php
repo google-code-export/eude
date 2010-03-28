@@ -17,7 +17,7 @@ define('USE_AJAX',true);	// mode xml
 require_once('../init.php');
 require_once(INCLUDE_PATH.'Script.php');
 require_once(CLASS_PATH.'parser.class.php');
-require_once(CLASS_PATH.'cartographie.class.php');
+require_once(CLASS_PATH.'cartographie_new.class.php');
 
 if (!DataEngine::CheckPerms('CARTOGRAPHIE_GREASE')) {
     header('HTTP/1.1 403 Forbidden');
@@ -55,7 +55,8 @@ switch ($_GET['act']) {
             break;
         }
         $page = gpc_esc($_POST['data']);
-
+        $cur_ss = $_POST['ss'];
+        
         preg_match_all('#class="table_entry_onclick".*width="100">(\d+-\d+-\d+-\d+)</td>\n'.
                 '.*\n.*width="150">(.*)</td>\n'.
                 '.*\n.*width="284">(.*)</td>#',
@@ -89,26 +90,22 @@ switch ($_GET['act']) {
         // repiquage cartographie->add_solar_ss
         if (count($del_planet)>0) {
             $del_planet = "'".implode("','",$del_planet)."'";
-            $query = "DELETE FROM SQL_PREFIX_Coordonnee where Type in (0,5) AND POSIN='{$_POST['ss']}' AND COORDET in ({$del_planet})";
+            $query = "DELETE FROM SQL_PREFIX_Coordonnee where Type in (0,5) AND POSIN='{$cur_ss}' AND COORDET in ({$del_planet})";
             $array = DataEngine::sql($query);
             if ( ($num = mysql_affected_rows()) > 0)
                 $carto->AddInfo($num.' planète(s) devenue inoccupée');
         }
 
-        $query = "SELECT USER,EMPIRE FROM SQL_PREFIX_Coordonnee where POSIN='{$cur_ss}' AND TYPE=0";
+        $query = "SELECT USER,EMPIRE FROM SQL_PREFIX_Coordonnee where POSIN='{$cur_ss}' AND TYPE in (0,3,5)";
         $sql_result = DataEngine::sql($query);
-        while ($row = mysql_fetch_assoc($sql_result)) {
-            // par nom de joueur
+        while ($row = mysql_fetch_assoc($sql_result))
+        // par nom de joueur
             $curss_info[$row['USER']] = $row['EMPIRE'];
-        }
-
 
         foreach($SS_A as $v) {
             $result = $carto->add_player($v);
             if ($result) { // uniquement si changement, vide autrement.
                 list($dummy, $dummy, $nom, $empire) = $v;
-                $nom    = gpc_esc($nom);
-                $empire = gpc_esc($empire);
                 if (isset($curss_info[$nom])) {
                     if ($curss_info[$nom] != $empire) {
                         $qnom    = sqlesc($nom, true);
@@ -121,6 +118,7 @@ switch ($_GET['act']) {
                 }
             }
         }
+        // fin du repiquage cartographie->add_solar_ss
 
         $xml['log']='Ajout du système N°'. $_POST['ss'].' ('.$max.' éléments)';
         break;
@@ -135,7 +133,7 @@ switch ($_GET['act']) {
         foreach(DataEngine::a_Ressources() as $id => $dummy)
             $Ress[$id] = gpc_esc($_POST[$id]);
 
-        $ok = $carto->add_planet_asteroid(gpc_esc($_POST['COORIN']), $Ress, 2) ? ' a été ajouté': 'n\'a pût être ajouté';
+        $ok = $carto->add_planet(gpc_esc($_POST['COORIN']), $Ress) ? ' a été ajouté': 'n\'a pût être ajouté';
         $xml['log']='La planète '.$_POST['COORIN'].$ok;
         break;
     case 'asteroid': // --------------------------------------------------------
@@ -147,7 +145,7 @@ switch ($_GET['act']) {
         foreach(DataEngine::a_Ressources() as $id => $dummy)
             $Ress[$id] = gpc_esc($_POST[$id]);
 
-        $ok = $carto->add_planet_asteroid(gpc_esc($_POST['COORIN']), $Ress, 4) ? ' a été ajouté': 'n\'a pût être ajouté';
+        $ok = $carto->add_asteroid(gpc_esc($_POST['COORIN']), $Ress) ? ' a été ajouté': 'n\'a pût être ajouté';
         $xml['log']='L\'astéroïde '.$_POST['COORIN'].$ok;
         break;
 
@@ -158,7 +156,7 @@ switch ($_GET['act']) {
             break;
         }
         $_POST['fleetname'] = gpc_esc($_POST['fleetname']);
-        $ok = $carto->add_player($_POST['coords'], '', $_POST['owner'], $_POST['fleetname'], '', 6);
+        $ok = $carto->add_PNJ($_POST['coords'], gpc_esc($_POST['owner']), $_POST['fleetname']);
         $xml['log']= ($ok ? 'Ajout: ':'Ignoré: ').$_POST['fleetname'];
         break;
 

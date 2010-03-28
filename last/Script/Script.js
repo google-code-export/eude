@@ -96,6 +96,10 @@ function afficher(name,nb) {
     $n(name)[nb].style.position="";
 }
 
+function GestionFormulaire() {
+    affichage_formulaire($n('Type')[0].value);
+}
+
 function affichage_formulaire(Check) {
     switch (Check)
     {
@@ -143,8 +147,8 @@ function interpreter(text,insert) {
     //Recherche "nous avons les informations de la planète identifiée"  = information planète
     if(mystring.indexOf(i18n.PlayerPlanet) > 0)
     {
-        if(mystring.interpreter_getvalue(i18n.Player) != "") {
-            if(mystring.interpreter_getvalue(i18n.User) != "") {
+        if(mystring.interpreter_getvalue(i18n.User) != "") {
+            if(mystring.interpreter_getvalue(i18n.Player) != "") {
                 interpreter_joueur(mystring);
                 parsed = true;
             } else {
@@ -197,8 +201,8 @@ function interpreter_vortex(mystring) {
 	
     cooA = arrive.interpreter_getvalue(i18n.WormholeSS);
     detA = arrive.interpreter_getvalue(i18n.Coords);
-		
-    $n("Type1")[0].selected=true;
+
+    $n("Type")[0].value=1;
     $n("COORIN")[0].value=cooD+":"+detD;
     $n("COOROUT")[0].value=cooA+":"+detA;
     affichage_formulaire(1);
@@ -400,10 +404,10 @@ var sprintfWrapper = {
 
 	init : function () {
 
-		if (typeof arguments == "undefined") { return null; }
-		if (arguments.length < 1) { return null; }
-		if (typeof arguments[0] != "string") { return null; }
-		if (typeof RegExp == "undefined") { return null; }
+		if (typeof arguments == "undefined") {return null;}
+		if (arguments.length < 1) {return null;}
+		if (typeof arguments[0] != "string") {return null;}
+		if (typeof RegExp == "undefined") {return null;}
 
 		var string = arguments[0];
 		var exp = new RegExp(/(%([%]|(\-)?(\+|\x20)?(0)?(\d+)?(\.(\d)?)?([bcdfosxX])))/g);
@@ -417,7 +421,7 @@ var sprintfWrapper = {
 		var match = null;
 
 		while (match = exp.exec(string)) {
-			if (match[9]) { convCount += 1; }
+			if (match[9]) {convCount += 1;}
 
 			stringPosStart = matchPosEnd;
 			stringPosEnd = exp.lastIndex - match[0].length;
@@ -438,8 +442,8 @@ var sprintfWrapper = {
 		}
 		strings[strings.length] = string.substring(matchPosEnd);
 
-		if (matches.length == 0) { return string; }
-		if ((arguments.length - 1) < convCount) { return null; }
+		if (matches.length == 0) {return string;}
+		if ((arguments.length - 1) < convCount) {return null;}
 
 		var code = null;
 		var match = null;
@@ -447,7 +451,7 @@ var sprintfWrapper = {
 
 		for (i=0; i<matches.length; i++) {
 
-			if (matches[i].code == '%') { substitution = '%' }
+			if (matches[i].code == '%') {substitution = '%'}
 			else if (matches[i].code == 'b') {
 				matches[i].argument = String(Math.abs(parseInt(matches[i].argument)).toString(2));
 				substitution = sprintfWrapper.convert(matches[i], true);

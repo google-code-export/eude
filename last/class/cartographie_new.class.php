@@ -69,7 +69,7 @@ class cartographie {
 
         foreach ($ress_val as $id => $value) {
             if (!is_numeric($id)) continue;
-            if(!$this->Ressources_Check_Value($value, $type)) {
+            if(!$this->Ressources_Check_Value($value, true)) {
                 return $this->AddErreur('Format de la valeur de la ressource '.$Ressource[$id]['Nom'].' incorrecte ('.$value.'), autorisé : peu,normal,beaucoup,[...],xx,xx%');
             }
 
@@ -136,7 +136,7 @@ class cartographie {
 
         foreach ($ress_val as $id => $value) {
             if (!is_numeric($id)) continue;
-            if(!$this->Ressources_Check_Value($value, $type)) {
+            if(!$this->Ressources_Check_Value($value, false)) {
                 return $this->AddErreur('Format de la valeur de la ressource '.$Ressource[$id]['Nom'].' incorrecte ('.$value.'), autorisé : peu,normal,beaucoup,[...],xx,xx%');
             }
 
@@ -438,13 +438,13 @@ class cartographie {
 
         return true;
     }
-    private function Ressources_Check_Value(&$value, $type) {
+    private function Ressources_Check_Value(&$value, $checkpercent) {
         if(is_numeric($value) && $value > 0) return true;
 //        $value=strtolower($value);
 //        if( ($value=='b') || ($value=='bcp') || ($value=='beaucoup')) $value= 'beaucoup';
 //        if( ($value=='p') || ($value=='peu') || ($value=='pe') ) $value= 'peu';
 //        if( ($value=='n') || ($value=='nor') || ($value=='normal') ) $value= 'normal';
-        switch ($value) {
+        switch (strtolower($value)) {
             case $this->lng['ress10%']:
             case $this->lng['ress20%']:
             case $this->lng['ress40%']:
@@ -454,7 +454,7 @@ class cartographie {
             case $this->lng['ress90%']:
                 return true;
         }
-        if ($type == 2) {
+        if ($checkpercent) {
             if(!is_numeric($value) && is_numeric(substr($value,0,strlen($value)-1))) $value=substr($value,0,strlen($value)-1);
             if(is_numeric($value) && $value >=100) $value = 100;
             if(is_numeric($value) && $value <0) $value=0;

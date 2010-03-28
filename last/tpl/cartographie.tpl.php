@@ -32,10 +32,10 @@ class tpl_cartographie extends output {
                     <TEXTAREA class="color_row0" cols="50" rows="4" name="importation"></TEXTAREA>
                     </TD>
                     <TD class="color_header">
-                        <input class="color_header" onclick="interpreter(document.getElementsByName('importation')[0].value, true); GestionFormulaire('Type');" type="button" value="Automatique">
+                        <input class="color_header" onclick="interpreter(document.getElementsByName('importation')[0].value, true); GestionFormulaire();" type="button" value="Automatique">
                         <br/>
                         <br/>
-                        <input class="color_header" onclick="interpreter(document.getElementsByName('importation')[0].value, false); GestionFormulaire('Type');" type="button" value="Manuel">
+                        <input class="color_header" onclick="interpreter(document.getElementsByName('importation')[0].value, false); GestionFormulaire();" type="button" value="Manuel">
                     </TD>
                 </tr>
 		</TR>

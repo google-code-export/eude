@@ -8,36 +8,36 @@
 */
 
 var i18n = {
-    Ressources0: 'Titane',
-    Ressources1: 'Cuivre',
-    Ressources2: 'Fer',
+    Ressources0: 'Titanium',
+    Ressources1: 'Copper',
+    Ressources2: 'Iron',
     Ressources3: 'Aluminium',
-    Ressources4: 'Mercure',
-    Ressources5: 'Silicium',
+    Ressources4: 'Mercury',
+    Ressources5: 'Silicon',
     Ressources6: 'Uranium',
     Ressources7: 'Krypton',
-    Ressources8: 'Azote',
-    Ressources9: 'Hydrogène',
+    Ressources8: 'Nitrogen',
+    Ressources9: 'Hydrogen',
 
     // Détections javascript:
-    PlayerPlanet: 'nous avons les informations de la planète identifiée',
-    Player: 'Joueur',
-    User: 'Utilisateur',
-    UserName: 'Nom',
-    Owner: 'Proprétaire',
-    Coords: 'Coordonnées',
+    PlayerPlanet: 'we were able to determine the planet\'s data!',
+    Player: 'Player',
+    User: 'User',
+    UserName: 'Name',
+    Owner: 'Owner',
+    Coords: 'Coordinates',
     Empire: 'Empire',
 
-    WormholeStart: 'Départ du vortex',
-    WormholeEnd: 'Destination du vortex',
-    WormholeSS: 'ID Système stellaire',
+    WormholeStart: 'Start of the wormhole',
+    WormholeEnd: 'Aim of the wormhole - FID',
+    WormholeSS: 'Star system ID',
 
-    Asteroid: 'Informations sur les astéroïdes',
-    Sun_page: 'Numéro du système stellaire :',
-    NPC1: 'PNJ',
-    NPC2: 'pirate',
+    Asteroid: 'Information about the asteroid',
+    Sun_page: 'Starsystem number:',
+    NPC1: 'NPC',
+    NPC2: 'Pirate',
 
-    FleetName: 'Nom de la flotte',
+    FleetName: 'Fleet name',
 
 
     // Messages d'information javascript:

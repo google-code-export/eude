@@ -58,7 +58,7 @@ EOF;
 		$ligne["INFOS"]  = htmlspecialchars($ligne["INFOS"], ENT_QUOTES, 'utf-8');
 		$ligne["NOTE"]   = htmlspecialchars($ligne["NOTE"], ENT_QUOTES, 'utf-8');
 
-		$Image = $this->lngtype['types']['imgurl'][$ligne["TYPE"]];
+		$Image = $this->lngtype[$ligne["TYPE"]];
 		$posout = ($ligne["POSOUT"] !="") ? "<br>".$ligne["POSOUT"]."-".$ligne["COORDET"]: "";
 		$user = ($ligne["USER"]=="" ? "-" : $ligne["USER"]);
 		$info = ($ligne["INFOS"]=="" ? "-" : $ligne["INFOS"]);
@@ -70,7 +70,7 @@ EOF;
 		}
 $out = <<<EOF
 		<tr bgcolor='#222222'>
-			<td><img width=48 height=48 src="%IMAGES_URL%{$Image}"></img></td>
+			<td><img width=48 height=48 src="{$Image}"></img></td>
 			<td><Font color='#FFFFFF'>{$ligne["POSIN"]}-{$ligne["COORDET"]}{$posout}</font></td>
 			<td>
 				<a href='javascript:void(0);' {$this->bulle1} Onclick="Navigateur.InitSearch('{$ligne["USER"]}',1);">{$user}</a>

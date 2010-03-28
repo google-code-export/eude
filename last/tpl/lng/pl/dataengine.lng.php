@@ -116,7 +116,7 @@ $lng['types']['imgurl'][3] = IMAGES_URL.'fleet_own.gif';
 $lng['types']['imgurl'][5] = IMAGES_URL.'fleet_enemy.gif';
 $lng['types']['imgurl'][6] = IMAGES_URL.'fleet_npc.gif';
 $lng['types']['imgurl'][1] = IMAGES_URL.'Vortex.jpg';
-$lng['types']['imgurl'][2] = IMAGES_URL.'Planete.jp';
+$lng['types']['imgurl'][2] = IMAGES_URL.'Planete.jpg';
 $lng['types']['imgurl'][4] = IMAGES_URL.'Asteroide.jpg';
 
 $lng['types']['string'] = array(); // alias stype (utilisé pour les messages cartographie)
