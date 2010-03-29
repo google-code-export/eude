@@ -420,8 +420,9 @@ div.messagerbg {
 }
 div.newmessage {
     position:absolute;
-    bottom:50%;
-    width:100%;
+    top:25%;
+    height:50%;
+    width: 100%;
     opacity: 1;
     z-index:90;
 }
@@ -435,9 +436,74 @@ table.newmessage {
     width: 700px;
 }
 
-.alpha75 {
-    opacity: .75;
+.ress_0 {
+    position: absolute;
+    background-color: red;
+    width: 3px;
 }
-.alpha100 {
-    opacity: 1;
+.ress_1 {
+    position: absolute;
+    background-color: red;
+    width: 10px;
+}
+
+.ress_2 {
+    position: absolute;
+    background-color: red;
+    width: 20px;
+}
+
+.ress_3{
+    position: absolute;
+    background-color: red;
+    width: 20px;
+}
+
+.ress_4 {
+    position: absolute;
+    background-color: darkorange;
+    width: 40px;
+}
+
+.ress_5 {
+    position: absolute;
+    background-color: darkorange;
+    width: 50px;
+}
+
+.ress_6 {
+    position: absolute;
+    background-color: darkorange;
+    width: 60px;
+}
+
+.ress_7 {
+    position: absolute;
+    background-color: darkgreen;
+    width: 70px;
+}
+
+.ress_8 {
+    position: absolute;
+    background-color: darkgreen;
+    width: 80px;
+}
+
+.ress_9 {
+    position: absolute;
+    background-color: darkgreen;
+    width: 90px;
+}
+
+.ress_10 {
+    position: absolute;
+    background-color: darkgreen;
+    width: 100px;
+}
+.ress_text {
+    position: relative;
+}
+.ress_img {
+    position: relative;
+    padding-right: 3px;
 }
