@@ -227,11 +227,6 @@ class cartographie {
         $ligne = mysql_fetch_assoc($array);
         if($ligne['ID'] > 0) {
             if (!$updatetype) $type = $ligne['TYPE'];
-            if ($note)
-                $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET `TYPE`=%d,`POSOUT`=\'\',`COORDETOUT`=\'\',`USER`=\'%s\',`EMPIRE`=\'%s\','.
-                        '`INFOS`=\'%s\',`UTILISATEUR`=\'%s\',DATE=NOW() WHERE ID=%s',
-                        $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login'], true), $ligne['ID'] );
-            else
                 $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET `TYPE`=%d,`POSOUT`=\'\',`COORDETOUT`=\'\',`USER`=\'%s\',`EMPIRE`=\'%s\','.
                         '`INFOS`=\'%s\',`UTILISATEUR`=\'%s\',DATE=NOW() WHERE ID=%s',
                         $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login'], true), $ligne['ID'] );
@@ -361,7 +356,7 @@ class cartographie {
                     if ($curss_info[$nom] != $empire) {
                         $qnom    = sqlesc($nom, true);
                         $qempire = sqlesc($empire, true);
-                        $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}' WHERE USER='{$qnom}'";
+                        $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}',DATE=now() WHERE USER='{$qnom}'";
                         DataEngine::sql($query);
                         $this->AddInfo('Changement d\'empire du joueur: \''.$nom.'\' ['.mysql_affected_rows().']');
                         unset($curss_info[$nom]);
@@ -408,22 +403,16 @@ class cartographie {
     }
 
     public function Delete_Entry($ident,$type) {
-        $where = array();
 
-        if ($this->FormatId($ident,$sys,$det,'')) {
-            $where[] = '`POSIN`=\''.$sys.'\'';
-            $where[] = '`COORDET`=\''.$det.'\'';
-        } else
-            $where[] = '`ID`=\''.$ident.'\'';
-
-        $where = implode(' AND ',$where);
+        $where = '`ID`=\''.$ident.'\'';
+        $where2 = '`pID`=\''.$ident.'\'';
 
         $query = 'DELETE FROM SQL_PREFIX_Coordonnee WHERE '.$where;
         $sql_result = DataEngine::sql($query);
         if (mysql_affected_rows()==0) return $this->AddErreur('Élément non trouvé');
 
         if (in_array($type,array(2,4))) {
-            $query = 'DELETE FROM SQL_PREFIX_Coordonnee_Planetes WHERE '.$where;
+            $query = 'DELETE FROM SQL_PREFIX_Coordonnee_Planetes WHERE '.$where2;
             $sql_result = DataEngine::sql($query);
             if (mysql_affected_rows()==0) return $this->AddErreur('Élément non trouvé');
         }

@@ -81,7 +81,7 @@ switch ($_GET['act']) {
                 $empire = '';
             }
 
-            if (trim($galaxy_info[$i][3]) == '' && $carto->FormatId($galaxy_info[$i][1], $dummy, $sys) == '') // Planète inoccupée
+            if (trim($galaxy_info[$i][3]) == '' && $carto->FormatId($galaxy_info[$i][1], $dummy, $sys, '')) // Planète inoccupée
                 $del_planet[] = $sys;
             else
                 $SS_A[] = array($galaxy_info[$i][1], $galaxy_info[$i][2], $joueur, $empire);
@@ -110,9 +110,9 @@ switch ($_GET['act']) {
                     if ($curss_info[$nom] != $empire) {
                         $qnom    = sqlesc($nom, true);
                         $qempire = sqlesc($empire, true);
-                        $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}' WHERE USER='{$qnom}'";
+                        $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}',DATE=now() WHERE USER='{$qnom}'";
                         DataEngine::sql($query);
-                        $carto->AddInfo('Changement d\'empire du joueur: \''.$nom.'\' ['.mysql_affected_rows().']');
+                        $carto->AddInfo('Changement d\'empire du joueur: \''.$nom.'\'');
                         unset($curss_info[$nom]);
                     }
                 }

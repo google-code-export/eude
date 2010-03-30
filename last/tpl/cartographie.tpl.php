@@ -149,19 +149,20 @@ ROW;
                     %%Type%%
                     </select>
                 </td>
-                <td class="spacing_row1"><INPUT class="color_row1 size40" type="text" name="Recherche[Pos]" value="" /></td>
-                <td class="spacing_row1"><INPUT class="color_row1 size60" type="text" name="Recherche[Rayon]" value="" /></td>
-                <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[User]" value="" /></td>
-                <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[Empire]" value="" /></td>
-                <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[Infos]" value="" /></td>
-                <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[Note]" value="" /></td>
-                <td class="spacing_row1"><INPUT class="color_row1" type="checkbox" name="Recherche[Moi]" value="1" %%checkedmoi%%/></td>
+                <td class="spacing_row1"><INPUT class="color_row1 size40" type="text" name="Recherche[Pos]" value="%%Pos%%" /></td>
+                <td class="spacing_row1"><INPUT class="color_row1 size60" type="text" name="Recherche[Rayon]" value="%%Rayon%%" /></td>
+                <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[User]" value="%%User%%" /></td>
+                <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[Empire]" value="%%Empire%%" /></td>
+                <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[Infos]" value="%%Infos%%" /></td>
+                <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[Note]" value="%%Note%%" /></td>
+                <td class="spacing_row1"><INPUT class="color_row1" type="checkbox" name="Recherche[Moi]" value="1"%%checkedmoi%%/></td>
                 <td class="color_header"><input class="color_header" type="submit" value="Rechercher"/></td>
             </tr>
         </table>
-        </form>
+        </form></td>
+    </tr>
 ROW;
-        $this->curtpl = 'SearchResult';
+        $this->curtpl = '';
     }
 
     public function GetPagination($current, $max) {
@@ -177,6 +178,8 @@ ROW;
 
     public function SearchResult() {
         $this->currow = <<<ROW
+    <tr>
+        <td>
         <form name="searchresult" method="post" action="{$this->BASE_FILE}">
         <table class="table_center table_nospacing" width="100%">
             <tr>

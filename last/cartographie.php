@@ -44,18 +44,18 @@ $carto = cartographie::getinstance();
 if (isset($_POST['massedit'])) {
 
 
-        foreach($_POST['item'] as $k => $arr) {
-            if ($arr['delete']) {
-                $carto->Delete_Entry($k, $arr['type']);
-            } else
-            if ($arr['edit']) {
-                unset($arr['edit']);
-                $carto->Edit_Entry($k,$arr);
-            }
-            
-
+    foreach($_POST['item'] as $k => $arr) {
+        if ($arr['delete']) {
+            $carto->Delete_Entry($k, $arr['type']);
+        } else
+        if ($arr['edit']) {
+            unset($arr['edit']);
+            $carto->Edit_Entry($k,$arr);
         }
-        $carto->Boink(ROOT_URL.basename(__file__), 'not implemented yet !');
+
+
+    }
+    $carto->Boink(ROOT_URL.basename(__file__), 'not implemented yet !');
 }
 
 //--- Modification manuelle ----------------------------------------------------
@@ -132,6 +132,10 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     if (isset($_COOKIE['Recherche']))
         foreach ($_COOKIE['Recherche'] as $key => $value)
             $Recherche[$key] = $value;
+    
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' &&
+        !isset ($_POST['Recherche']['Moi']))
+        $_POST['Recherche']['Moi'] = '';
 
     if (isset ($_POST['Recherche']))
         foreach ($_POST['Recherche'] as $key => $value) {
@@ -203,11 +207,26 @@ $tpl->AddToRow($tpl->SelectOptions2($lngmain['types']['dropdown'],''), 'Type');
 $tpl->PushRow();
 
 //------------------------------------------------------------------------------
-$tpl->SearchForm();
-$tpl->AddToRow($tpl->SelectOptions2($lngmain['types']['dropdown'],$Recherche['Type']), 'Type');
-$tpl->PushRow();
-//------------------------------------------------------------------------------
 
+if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
+    $tpl->SearchForm();
+    if (!isset ($Recherche['Status'])) $Recherche['Status'] = -1;
+    if (!isset ($Recherche['Type'])) $Recherche['Type'] = -1;
+    $tpl->AddToRow(($Recherche['Status']==-1 ? ' selected="true"':''), 'status-1');
+    $tpl->AddToRow(($Recherche['Status']==0 ? ' selected="true"':''), 'status0');
+    $tpl->AddToRow(($Recherche['Status']==1 ? ' selected="true"':''), 'status1');
+    $tpl->AddToRow($tpl->SelectOptions2($lngmain['types']['dropdown'],$Recherche['Type']), 'Type');
+    $tpl->AddToRow($Recherche['Pos'], 'Pos');
+    $tpl->AddToRow($Recherche['Rayon'], 'Rayon');
+    $tpl->AddToRow($Recherche['User'], 'User');
+    $tpl->AddToRow($Recherche['Empire'], 'Empire');
+    $tpl->AddToRow($Recherche['Infos'], 'Infos');
+    $tpl->AddToRow($Recherche['Note'], 'Note');
+    $tpl->AddToRow(($Recherche['Moi']==1 ? ' checked':''), 'checkedmoi');
+    $tpl->PushRow();
+}
+//------------------------------------------------------------------------------
+$tpl->SearchResult();
 $PageCurr = (isset($_GET['page'])) ? max(intval($_GET['page']),1): 1;
 $Maxline = 20;
 $limit = ' LIMIT '.(($PageCurr-1)*$Maxline).','.$Maxline;
@@ -223,16 +242,7 @@ if($PageCurr > $MaxPage+1)
 else if ($PageCurr < 1)
     $PageCurr = 1;
 
-
-FB::info($NbLigne, 'NB lines');
-FB::info($MaxPage, 'NB pages');
-FB::info($limit, 'sql limit');
 $tpl->AddToRow($tpl->GetPagination($PageCurr, $MaxPage+1), 'pagination');
-//$tpl->AddToRow(max($PageCurr-1,1), 'pg_prec');
-//$tpl->AddToRow(max($PageCurr,0), 'curpage');
-//$tpl->AddToRow($MaxPage+1, 'maxpage');
-//$tpl->AddToRow(min($PageCurr+1,$MaxPage+1), 'pg_next');
-//$tpl->AddToRow($MaxPage+1, 'pg_end');
 $tpl->PushRow();
 
 $sql='SELECT * from SQL_PREFIX_Coordonnee a left outer join SQL_PREFIX_Coordonnee_Planetes b on (a.ID=b.pID) '.$where.$sort.$limit;
