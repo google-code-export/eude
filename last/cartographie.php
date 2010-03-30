@@ -13,7 +13,8 @@ require_once(CLASS_PATH.'parser.class.php');
 require_once(CLASS_PATH.'cartographie_new.class.php');
 require_once(CLASS_PATH.'map.class.php');
 
-//output::Messager('In work, OMG');
+//for ($i=0;$i<50;$i++)
+//output::Messager('In work, OMG'.$i);
 //output::Messager('really ;)');
 //output::Boink('%ROOT_URL%');
 
@@ -39,6 +40,25 @@ $carto = cartographie::getinstance();
 //        );
 //    $carto->Boink('');
 
+
+if (isset($_POST['massedit'])) {
+
+
+        foreach($_POST['item'] as $k => $arr) {
+            if ($arr['delete']) {
+                $carto->Delete_Entry($k, $arr['type']);
+            } else
+            if ($arr['edit']) {
+                unset($arr['edit']);
+                $carto->Edit_Entry($k,$arr);
+            }
+            
+
+        }
+        $carto->Boink(ROOT_URL.basename(__file__), 'not implemented yet !');
+}
+
+//--- Modification manuelle ----------------------------------------------------
 //------------------------------------------------------------------------------
 //--- Insertion des données ----------------------------------------------------
 
@@ -188,9 +208,9 @@ $tpl->AddToRow($tpl->SelectOptions2($lngmain['types']['dropdown'],$Recherche['Ty
 $tpl->PushRow();
 //------------------------------------------------------------------------------
 
-$PageCurr = (isset($_GET['Page'])) ? int($_GET['Page']): 0;
+$PageCurr = (isset($_GET['page'])) ? max(intval($_GET['page']),1): 1;
 $Maxline = 20;
-$limit = ' LIMIT '.($PageCurr*$Maxline).','.$Maxline;
+$limit = ' LIMIT '.(($PageCurr-1)*$Maxline).','.$Maxline;
 
 $query = 'SELECT count(*) as Nb from SQL_PREFIX_Coordonnee a left outer join SQL_PREFIX_Coordonnee_Planetes b on (a.ID=b.pID) '.$where;
 $mysql_result = DataEngine::sql($query);
@@ -198,20 +218,86 @@ $mysql_result = DataEngine::sql($query);
 $ligne=mysql_fetch_assoc($mysql_result);
 $NbLigne = $ligne['Nb'];
 $MaxPage = ceil($NbLigne / $Maxline)-1;
-if($PageCurr > $MaxPage)
-    $PageCurr = $MaxPage;
-else if ($PageCurr < 0)
-    $PageCurr = 0;
+if($PageCurr > $MaxPage+1)
+    $PageCurr = $MaxPage+1;
+else if ($PageCurr < 1)
+    $PageCurr = 1;
 
 
 FB::info($NbLigne, 'NB lines');
 FB::info($MaxPage, 'NB pages');
+FB::info($limit, 'sql limit');
+$tpl->AddToRow($tpl->GetPagination($PageCurr, $MaxPage+1), 'pagination');
+//$tpl->AddToRow(max($PageCurr-1,1), 'pg_prec');
+//$tpl->AddToRow(max($PageCurr,0), 'curpage');
+//$tpl->AddToRow($MaxPage+1, 'maxpage');
+//$tpl->AddToRow(min($PageCurr+1,$MaxPage+1), 'pg_next');
+//$tpl->AddToRow($MaxPage+1, 'pg_end');
+$tpl->PushRow();
 
-$sql='SELECT * from SQL_PREFIX_Coordonnee a left outer join SQL_PREFIX_Coordonnee_Planetes b on (a.ID=b.pID) '.$where.' '.$sort.$limit;
+$sql='SELECT * from SQL_PREFIX_Coordonnee a left outer join SQL_PREFIX_Coordonnee_Planetes b on (a.ID=b.pID) '.$where.$sort.$limit;
 $mysql_result = DataEngine::sql($sql);
 $tpl->SearchResult();
 
-$tpl->AddToRow($MaxPage+1, 'maxpage');
+$lngmain = language::getinstance()->GetLngBlock('dataengine');
+$a_Ress  = DataEngine::a_ressources();
+$stype   = $lngmain['types']['string'];
+$i=0;
+$cmdinput = '<input class="color_row%%rowA%%" type="checkbox" value="1" id="item[%%id%%][%%cmd%%]" name="item[%%id%%][%%cmd%%]" %%bulle%%/>';
+while ($ligne=mysql_fetch_assoc($mysql_result)) {
+    switch ($ligne['TYPE']) {
+        case 1:
+            $tpl->SetRowModelTypeA();
+            $coords= $ligne['POSIN'].'-'.$ligne['COORDET'].'<br/>'.$ligne['POSOUT'].'-'.$ligne['COORDETOUT'];
+            break;
+        case 2:
+        case 4:
+            $tpl->SetRowModelTypeB();
+            $coords= $ligne['POSIN'].'-'.$ligne['COORDET'];
+            foreach ($a_Ress as $k => $v)
+                $tpl->AddToRow($tpl->GetRessources($ligne[$v['Field']], $v), $v['Field']);
+            break;
+        default:
+            $tpl->SetRowModelTypeA();
+            $coords= $ligne['POSIN'].'-'.$ligne['COORDET'];
+    }
 
+
+    $tpl->AddToRow($ligne['TYPE'], 'typeid');
+    $tpl->AddToRow($stype[$ligne['TYPE']], 'type');
+    $tpl->AddToRow($coords, 'coords');
+    if ($ligne['EMPIRE'])
+        $tpl->AddToRow($ligne['USER'] ? $ligne['USER'].'<br/>'.$ligne['EMPIRE'] : $ligne['EMPIRE'], 'player');
+    else
+        $tpl->AddToRow($ligne['USER'] ? $ligne['USER'] : '-', 'player');
+    $tpl->AddToRow($ligne['INFOS'] ? $ligne['INFOS'] : '-', 'infos');
+    $tpl->AddToRow($ligne['NOTES'], 'notes');
+
+    $tpl->AddToRow(bulle($ligne['DATE']), 'date');
+    $tpl->AddToRow($ligne['UTILISATEUR'], 'user');
+
+
+    if (Members::CheckPerms('CARTOGRAPHIE_DELETE')) {
+        $tpl->AddToRow($cmdinput, 'cmd_delete');
+        $tpl->AddToRow('delete', 'cmd');
+        $tpl->AddToRow(bulle('Delete it ?!'), 'bulle');
+    } else $tpl->AddToRow('', 'cmd_delete');
+
+    if (Members::CheckPerms('CARTOGRAPHIE_EDIT')) {
+        $tpl->AddToRow($cmdinput, 'cmd_edit');
+        $tpl->AddToRow('edit', 'cmd');
+        $tpl->AddToRow(bulle('Edit it ?!'), 'bulle');
+    } else $tpl->AddToRow('', 'cmd_edit');
+
+    $tpl->AddToRow($i%2, 'rowA');
+    $tpl->AddToRow(($i+1)%2, 'rowB');
+    $tpl->AddToRow($ligne['ID'], 'id');
+    $tpl->PushRow();
+    $i++;
+}
+
+$tpl->SearchResult_End();
+$tpl->AddToRow($tpl->GetPagination($PageCurr, $MaxPage+1), 'pagination');
 $tpl->PushRow();
+
 $tpl->DoOutput();

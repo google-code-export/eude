@@ -24,7 +24,7 @@ var i18n = {
     Player: 'Joueur',
     User: 'Utilisateur',
     UserName: 'Nom',
-    Owner: 'Proprétaire',
+    Owner: 'Propriétaire',
     Coords: 'Coordonnées',
     Empire: 'Empire',
     

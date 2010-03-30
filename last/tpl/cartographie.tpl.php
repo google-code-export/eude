@@ -10,11 +10,12 @@ if (!SCRIPT_IN) die('Need by included');
 
 class tpl_cartographie extends output {
     protected $BASE_FILE = '';
+    protected $lng;
 
     public function __construct() {
         $this->BASE_FILE = ROOT_URL.'cartographie.php';
         $this->SetheaderInput();
-
+        $this->lng = language::getinstance()->GetLngBlock('cartographie');
         parent::__construct();
     }
 
@@ -71,16 +72,16 @@ class tpl_cartographie extends output {
                 <td colspan="10">Informations détaillées planète/Astéroïde</td>
             </tr>
             <tr class="color_row1">
-                <td><img width="15" height"15" src="%IMAGES_URL%Titane.png"/></td>
-                <td><img width="15" height"15" src="%IMAGES_URL%Cuivre.png"/></td>
-                <td><img width="15" height"15" src="%IMAGES_URL%Fer.png"/></td>
-                <td><img width="15" height"15" src="%IMAGES_URL%Aluminium.png"/></td>
-                <td><img width="15" height"15" src="%IMAGES_URL%Mercure.png"/></td>
-                <td><img width="15" height"15" src="%IMAGES_URL%Silicium.png"/></td>
-                <td><img width="15" height"15" src="%IMAGES_URL%Uranium.png"/></td>
-                <td><img width="15" height"15" src="%IMAGES_URL%Krypton.png"/></td>
-                <td><img width="15" height"15" src="%IMAGES_URL%Azote.png"/></td>
-                <td><img width="15" height"15" src="%IMAGES_URL%Hydrogene.png"/></td>
+                <td><img width="15" height="15" src="%IMAGES_URL%Titane.png"/></td>
+                <td><img width="15" height="15" src="%IMAGES_URL%Cuivre.png"/></td>
+                <td><img width="15" height="15" src="%IMAGES_URL%Fer.png"/></td>
+                <td><img width="15" height="15" src="%IMAGES_URL%Aluminium.png"/></td>
+                <td><img width="15" height="15" src="%IMAGES_URL%Mercure.png"/></td>
+                <td><img width="15" height="15" src="%IMAGES_URL%Silicium.png"/></td>
+                <td><img width="15" height="15" src="%IMAGES_URL%Uranium.png"/></td>
+                <td><img width="15" height="15" src="%IMAGES_URL%Krypton.png"/></td>
+                <td><img width="15" height="15" src="%IMAGES_URL%Azote.png"/></td>
+                <td><img width="15" height="15" src="%IMAGES_URL%Hydrogene.png"/></td>
             </tr>
             <tr class="color_row1">
                 <td><INPUT class="color_row0 size80" type="text" name="RESSOURCE0" value="" /></td>
@@ -154,76 +155,149 @@ ROW;
                 <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[Empire]" value="" /></td>
                 <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[Infos]" value="" /></td>
                 <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[Note]" value="" /></td>
-                <td class="spacing_row1"><INPUT class="color_row1" type="checkbox" name="Recherche[Moi]" value="1"%%checkedmoi%%/></td>
+                <td class="spacing_row1"><INPUT class="color_row1" type="checkbox" name="Recherche[Moi]" value="1" %%checkedmoi%%/></td>
                 <td class="color_header"><input class="color_header" type="submit" value="Rechercher"/></td>
             </tr>
         </table>
         </form>
 ROW;
-        $this->curtpl = '';
+        $this->curtpl = 'SearchResult';
     }
 
+    public function GetPagination($current, $max) {
+        $result = '';
+        if ($current>2)      $result .= '<a href="'.$this->BASE_FILE.'?page=1"><img src="%IMAGES_URL%/Btn-Debut.png"/></a>';
+        if ($current>1)      $result .= '<a href="'.$this->BASE_FILE.'?page='.($current-1).'"><img src="%IMAGES_URL%/Btn-Precedent.png"/></a>';
+        $result .= $current.' / '.$max;
+        if ($current<$max)   $result .= '<a href="'.$this->BASE_FILE.'?page='.($current+1).'"><img src="%IMAGES_URL%/Btn-Suivant.png"/></a>';
+        if ($current<$max-1) $result .= '<a href="'.$this->BASE_FILE.'?page='.($max).'"><img src="%IMAGES_URL%/Btn-Fin.png"/></a>';
+
+        return $result;
+    }
 
     public function SearchResult() {
         $this->currow = <<<ROW
         <form name="searchresult" method="post" action="{$this->BASE_FILE}">
         <table class="table_center table_nospacing" width="100%">
             <tr>
-                <TD colspan="5">&nbsp;</TD>
-                <TD class="text_right color_pagination size180">
-                    <a href="{$this->BASE_FILE}?%%pg_0%%"><img src="%IMAGES_URL%/Btn-Debut.png"/></a>
-                    <a href="{$this->BASE_FILE}?%%pg_prec%%"><img src="%IMAGES_URL%/Btn-Precedent.png"/></a>
-                    1 / %%maxpage%%
-                    <a href="{$this->BASE_FILE}?%%pg_prec%%"><img src="%IMAGES_URL%/Btn-Suivant.png"/></a>
-                    <a href="{$this->BASE_FILE}?%%pg_end%%"><img src="%IMAGES_URL%/Btn-Fin.png"/></a>
-                    </TD>
+                <TD colspan="4">&nbsp;</TD>
+                <TD class="text_right color_pagination" colspan="2">
+                    %%pagination%%
+                </TD>
             </tr>
             <tr class="text_center color_header">
                 <TD class="spacing_row0">Type</TD>
-                <TD class="spacing_row0">Coords (in/out)</TD>
+                <TD class="spacing_row0">Coordonnées</TD>
                 <TD class="spacing_row0">Joueur/Empire</TD>
                 <TD class="spacing_row0">Infos/Notes</TD>
-                <TD class="spacing_row0">Date/User</TD>
-                <TD class="text_right">Btns</td>
+                <TD class="spacing_row0">Par / le</TD>
+                <TD class="text_right">&nbsp;</td>
             </tr>
 
-            </tr>
-            <tr class="text_center color_row0 spacing_header">
-                <TD class="spacing_row0">Type  (2,4)</TD>
-                <TD class="spacing_row0">Coords (in)</TD>
-                <TD class="spacing_row0">Joueur</TD>
-                <TD class="spacing_row0">Infos/Notes</TD>
-                <TD class="spacing_row0">Date/User</TD>
-                <TD class="text_right color_row0" rowspan="2">Btns</td>
-            </tr>
-            <tr class="text_center color_row0">
-                <TD class="spacing_row0">Titane<br/>Silicium</TD>
-                <TD class="spacing_row0">Cuivre<br/>Uranium</TD>
-                <TD class="spacing_row0">Fer<br/>Krypton</TD>
-                <TD class="spacing_row0">Aluminium<br/>Azote</TD>
-                <TD class="spacing_row0">Mercure<br/>Hydrogène</TD>
-            </tr>
+ROW;
+        $this->curtpl = '';
+    }
 
-            <tr class="text_center color_row1 spacing_header">
-                <TD class="spacing_row1">Type (0,1,3,5,6)</TD>
-                <TD class="spacing_row1">Coords (in/out?)</TD>
-                <TD class="spacing_row1">Joueur/Empire</TD>
-                <TD class="spacing_row1">Infos/Notes</TD>
-                <TD class="spacing_row1">Date/User</TD>
-                <TD class="text_right color_row1">Btns</td>
+    public function SetRowModelTypeA () {
+        $this->currow = <<<ROW
+            <input type="hidden" name="item[%%id%%][type]" value="%%typeid%%" />
+
+            <tr class="text_center color_row%%rowA%% spacing_header">
+                <TD class="color_bg">%%type%%</TD>
+                <TD class="spacing_row%%rowA%%">%%coords%%</TD>
+                <TD class="spacing_row%%rowA%%">%%player%%</TD>
+                <TD class="spacing_row%%rowA%%">%%infos%% <br/>
+                            <input class="color_row%%rowA%%" type="text" name="item[%%id%%][NOTE]" value="%%notes%%" OnChange="CheckOn('item[%%id%%][edit]');"/></TD>
+                <TD class="spacing_row%%rowA%%"%%date%%>%%user%%</TD>
+                <TD class="text_right color_row%%rowA%%">%%cmd_delete%%%%cmd_edit%%</td>
             </tr>
-            <tr class="text_center color_row0 spacing_header">
-                <TD class="spacing_row0">Type (0,1,3,5,6)</TD>
-                <TD class="spacing_row0">Coords (in/out?)</TD>
-                <TD class="spacing_row0">Joueur/Empire</TD>
-                <TD class="spacing_row0">Infos/Notes</TD>
-                <TD class="spacing_row0">Date/User</TD>
-                <TD class="text_right color_row0">Btns</td>
+ROW;
+        $this->curtpl = 'SetRowModelTypeA';
+
+    }
+
+    public function SetRowModelTypeB () {
+        $this->currow = <<<ROW
+            <input type="hidden" name="item[%%id%%][type]" value="%%typeid%%" />
+                
+            <tr class="text_center color_row%%rowA%% spacing_header">
+                <TD class="color_bg">%%type%%</TD>
+                <TD class="spacing_row%%rowA%%">%%coords%%</TD>
+                <TD class="spacing_row%%rowA%%">%%player%%</TD>
+                <TD class="spacing_row%%rowA%%">%%infos%% <br/>
+                            <input class="color_row%%rowA%%" type="text" name="item[%%id%%][NOTE]" value="%%notes%%" OnChange="CheckOn('item[%%id%%][edit]');"/></TD>
+                <TD class="spacing_row%%rowA%%"%%date%%>%%user%%</TD>
+                <TD class="text_right color_row%%rowA%%" rowspan="3">%%cmd_delete%%%%cmd_edit%%</td>
+            </tr>
+            <tr class="color_row%%rowB%%">
+                <TD class="spacing_row%%rowA%%">%%Titane%%</TD>
+                <TD class="spacing_row%%rowA%%">%%Cuivre%%</TD>
+                <TD class="spacing_row%%rowA%%">%%Fer%%</TD>
+                <TD class="spacing_row%%rowA%%">%%Aluminium%%</TD>
+                <TD class="spacing_row%%rowA%%">%%Mercure%%</TD>
+            </tr>
+            <tr class="color_row%%rowA%%">
+                <TD class="spacing_row%%rowA%%">%%Silicium%%</TD>
+                <TD class="spacing_row%%rowA%%">%%Uranium%%</TD>
+                <TD class="spacing_row%%rowA%%">%%Krypton%%</TD>
+                <TD class="spacing_row%%rowA%%">%%Azote%%</TD>
+                <TD class="spacing_row%%rowA%%">%%Hydrogene%%</TD>
+            </tr>
+ROW;
+        $this->curtpl = 'SetRowModelTypeB';
+
+    }
+
+    public function GetRessources($value, $a_ress) {
+        $percent=0;
+
+        if (is_numeric($value)) $percent = min(floor(max(4000,$value)/4000),10);
+        elseif ($value=='') {
+            return '<div class="text_center">-</div>';
+        } else {
+            if (strpos($value,'%') !== false) $percent = floor(substr($value,0,-1)/10);
+            else
+                switch (strtolower($value)) {
+                    case $this->lng['ress10%']: $percent = 1; break;
+                    case $this->lng['ress20%']: $percent = 2; break;
+                    case $this->lng['ress40%']: $percent = 4; break;
+                    case $this->lng['ress50%']: $percent = 5; break;
+                    case $this->lng['ress70%']: $percent = 7; break;
+                    case $this->lng['ress80%']: $percent = 8; break;
+                    case $this->lng['ress90%']: $percent = 9; break;
+                }
+        }
+
+        $bulle = <<<o
+   <img class='ress_text' src='{$a_ress['Image']}'/> &nbsp;{$a_ress['Nom']}
+o;
+        $bulle = bulle($bulle);
+        $result = <<<o
+   <span {$bulle}>
+   <span class="ress_img"><img class="ress_text" src="{$a_ress['Image']}"/></span>
+   <span class="ress_{$percent}">&nbsp;</span>
+   <span id="ress_text">{$value}</span>
+   </span>
+o;
+
+        return $result;
+    }
+
+    public function SearchResult_End () {
+        $this->currow = <<<ROW
+            <tr class="color_bg spacing_header">
+                <TD class="text_center" colspan="4">
+                    <input type="hidden" name="massedit" value="1"/>
+                    <input class="color_row0" type="submit" value="Valider Les modifications"/></TD>
+                <TD class="text_right color_pagination" colspan="2">
+                    %%pagination%%
+                </TD>
             </tr>
         </table>
         </form>
 ROW;
         $this->curtpl = '';
+
     }
 
     /**
@@ -232,7 +306,10 @@ ROW;
      * @param boolean $include_header Inclure l'entete ?
      */
     public function DoOutput($include_menu=true, $include_header=true) {
-        $this->PushOutput('        </td>    </tr></table>');
+        $this->PushOutput('
+        </td>
+    </tr>
+</table>');
         parent::DoOutput($include_menu, $include_header);
     }
     /**

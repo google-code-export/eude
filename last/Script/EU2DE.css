@@ -500,10 +500,25 @@ table.newmessage {
     background-color: darkgreen;
     width: 100px;
 }
-.ress_text {
+#ress_text {
     position: relative;
+    color: transparent;
+}
+#ress_text:hover {
+    color: white;
 }
 .ress_img {
     position: relative;
     padding-right: 3px;
+    padding-left: 20px;
+}
+
+.infobulle {
+    z-index:7;
+    position:absolute;
+    visibility:hidden;
+    border: 1px solid White;
+    padding: 10px;    
+    background-color: FFE38F;
+    white-space:nowrap;
 }

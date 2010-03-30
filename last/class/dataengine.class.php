@@ -481,6 +481,8 @@ class Members {
         $cxx['CARTOGRAPHIE_PLAYERS'] = AXX_MEMBER;
         $cxx['CARTOGRAPHIE_PLANETS'] = AXX_MEMBER;
         $cxx['CARTOGRAPHIE_ASTEROID'] = AXX_MEMBER;
+        $cxx['CARTOGRAPHIE_DELETE'] = AXX_SUPMODO;
+        $cxx['CARTOGRAPHIE_EDIT'] = AXX_MODO;
         $cxx['CARTOGRAPHIE_GREASE'] = AXX_MEMBER;
 
         $cxx['CARTE'] = AXX_MEMBER;

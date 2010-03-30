@@ -21,35 +21,45 @@ function move(e) {
     if(bullevisible) {  // Si la bulle est visible, on calcul en temps reel sa position ideale
         if (!Prototype.Browser.IE) { // Si on est pas sous IE
             Mousex = e.pageX;
-            spacingx=5;
             Mousey = e.pageY;
-            spacingy=10;
+//            scrollx= document.body.scrollLeft;
+//            scrolly= document.body.scrollTop;
+            spacingx=5;
+            spacingy=15;
         } else {
             spacingx=20;
             spacingy=10;
-            if(document.documentElement.clientWidth>0) {
-                Mousex = event.x+document.documentElement.scrollLeft;
-                Mousey = event.y+document.documentElement.scrollTop;
-            } else {
-                Mousex = event.x+document.body.scrollLeft;
-                Mousey = event.y+document.body.scrollTop;
-            }
+            Mousex = event.x;
+            Mousey = event.y;
+//            if(document.documentElement.clientWidth>0) {
+//                scrollx = document.documentElement.scrollLeft;
+//                scrolly = document.documentElement.scrollTop;
+//            } else {
+//                scrollx = document.body.scrollLeft;
+//                scrolly = document.body.scrollTop;
+//            }
         }
 
         cw = ( window.innerWidth ) ? window.innerWidth: document.body.clientWidth;
-        if ( cw < ($("curseur").clientWidth+Mousex+spacingx+5))
-            Mousex = cw-spacingx-$("curseur").clientWidth-5;
+        if ( cw < ($("curseur").clientWidth+Mousex+spacingx+15))
+            Posx = Mousex-(spacingx*2)-$("curseur").clientWidth;
         else
-            Mousex = spacingx+Mousex;
+            Posx = spacingx+Mousex;
 
         ch = ( window.innerHeight ) ? window.innerHeight: document.body.clientHeight;
-        if ( ch < ($("curseur").clientHeight+Mousey+spacingy+5))
-            Mousey = ch-spacingy-$("curseur").clientHeight-5;
+        if ( ch < ($("curseur").clientHeight+Mousey+spacingy+15))
+            Posy = Mousey-spacingy-$("curseur").clientHeight;
         else
-            Mousey = spacingy+Mousey;
+            Posy = spacingy+Mousey;
 
-        $("curseur").style.left=Mousex+"px";
-        $("curseur").style.top=Mousey+"px";
+        $("curseur").style.left = Posx+"px";
+        $("curseur").style.top  = Posy+"px";
+//        $("debug").innerHTML  = 'w:'+$("curseur").clientWidth+'<br/>h:'+$("curseur").clientHeight+'<br/>';
+//        $("debug").innerHTML += 'Mousex:'+Mousex+'<br/>Mousey:'+Mousey+'<br/>';
+//        $("debug").innerHTML += 'scrollx:'+scrollx+'<br/>scrolly:'+scrolly+'<br/>';
+//        $("debug").innerHTML += 'cw:'+cw+' < '+($("curseur").clientWidth+Mousex+spacingx+5)+'<br/>';
+//        $("debug").innerHTML += 'ch:'+ch+' < '+($("curseur").clientHeight+Mousey+spacingy+5)+'<br/>';
+//        $("debug").innerHTML += 'Posx:'+Posx+'<br/>Posy:'+Posy+'<br/>';
 
     } else {
         $("curseur").style.left="-1000px";
@@ -379,6 +389,10 @@ function getCheckedValue(radioObj) {
         }
     }
     return "";
+}
+
+function CheckOn(name) {
+    $(name).checked=true;
 }
 
 function $n (name) {

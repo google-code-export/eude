@@ -400,11 +400,34 @@ class cartographie {
         }
         $value = implode(',',$value);
         $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET %s,`UTILISATEUR`=\'%s\',`DATE`=now() WHERE %s',
-            $value, $_SESSION['_login'], $where);
+                $value, $_SESSION['_login'], $where);
         $sql_result = DataEngine::sql($query);
-//        if (mysql_affected_rows()==0) return false;
 
         $this->AddInfo('Mise a jour du type '.$item['TYPE'].' identifié par '.$ident);
+        return true;
+    }
+
+    public function Delete_Entry($ident,$type) {
+        $where = array();
+
+        if ($this->FormatId($ident,$sys,$det,'')) {
+            $where[] = '`POSIN`=\''.$sys.'\'';
+            $where[] = '`COORDET`=\''.$det.'\'';
+        } else
+            $where[] = '`ID`=\''.$ident.'\'';
+
+        $where = implode(' AND ',$where);
+
+        $query = 'DELETE FROM SQL_PREFIX_Coordonnee WHERE '.$where;
+        $sql_result = DataEngine::sql($query);
+        if (mysql_affected_rows()==0) return $this->AddErreur('Élément non trouvé');
+
+        if (in_array($type,array(2,4))) {
+            $query = 'DELETE FROM SQL_PREFIX_Coordonnee_Planetes WHERE '.$where;
+            $sql_result = DataEngine::sql($query);
+            if (mysql_affected_rows()==0) return $this->AddErreur('Élément non trouvé');
+        }
+        $this->AddInfo('Deleted: '.$ident);
         return true;
     }
 

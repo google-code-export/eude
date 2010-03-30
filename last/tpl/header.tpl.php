@@ -59,7 +59,8 @@ $doctype='';
 <script type="text/javascript" src="%INCLUDE_URL%prototype.js?1.6.1"></script>
 <script type="text/javascript" src="%LNG_URL%eude.local.js?{$version}"></script>
 <script type="text/javascript" src="%INCLUDE_URL%Script.js?{$version}"></script>
-<div id="curseur" class="infobulle" style="z-index:7; position:absolute; visibility:hidden; border: 1px solid White; padding: 10px; font-family: Verdana, Arial, Times; font-size: 10px; background-color: #C0C0C0;white-space:nowrap;"></div>
+<div id="curseur" class="infobulle"></div>
+<div id="debug" style="z-index:8; position:fixed; visibility:visible; background-color: #C0C0C0;white-space:nowrap; top:50px; left:5px"></div>
 %NEW_MESSAGE_ENTRY%
 EOF;
 

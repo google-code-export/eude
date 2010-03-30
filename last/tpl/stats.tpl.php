@@ -56,7 +56,7 @@ ROW;
     }
     public function Setheader() {
         $this->curtpl = 'SetRowtpl';
-        $this->PushOutput('<TABLE class="color_header table_nospacing" width=900px>');
+        $this->PushOutput('<TABLE class="table_nospacing" width=900px>');
         $this->AddToRow('Membres', -2);
         $this->AddToRow('Joueurs', 0);
         $this->AddToRow('Alliés', 3);
