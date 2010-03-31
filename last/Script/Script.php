@@ -44,37 +44,11 @@ function bulle ($texte,$addover='',$addout='') {
     return ("onmouseover='montre(\"".$texte."\");$addover' onmouseout='cache();$addout'");
 }
 
-function Get_string($newvalue) {
+function Get_string($newvalue=array()) {
     parse_str($_SERVER["QUERY_STRING"], $current_get);
     $result = array_merge($current_get, $newvalue);
     return http_build_query($result);
 }
-// TODO REMOVE THIS STUPID/USELESS(?) THINGS (AlterGet/$myget)
-//Fonction permettant de modifier la valeur d'une clef GET dans un ensemble passé en parametre
-function AlterGet($get,$clef,$valeur) {
-    $toanalyse = substr($get,1); //enleve le ? forme de la chaine : var=x&var2=y ...
-    $tabvar = explode('&',$toanalyse); //explosion en tableau
-    $replace = 0;
-    $tabresult[0]='';
-    foreach ($tabvar as $key => $oldvalue) {
-        $traitement = explode('=',$oldvalue);
-
-        if($traitement[0] == $clef) {
-            $oldvalue = $traitement[0].'='.$valeur;
-            $replace=1;
-            array_unshift($tabresult,$oldvalue);
-        } else array_push($tabresult,$oldvalue);//array_push($tabvar,$oldvalue);
-    }
-    if(!$replace) array_unshift($tabresult, $clef.'='.$valeur);
-    return ('?'.implode('&',$tabresult));
-}
-
-$myget = '';
-foreach ($_GET as $key => $value) {
-    $myget .= $key.'='.$value.'&';
-//SC=ONVortex=ONJoueur=ONPlanete=ON
-}
-if ($myget!='') $myget = '?'.substr($myget,0,strlen($myget)-1);
 
 /**
  * @param string $value from $_POST/$_GET

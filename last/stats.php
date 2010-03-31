@@ -27,7 +27,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'pts') {
     foreach($sort_key as $v) {
         $newvalue = array('sort' => array($v=>$invert_sort[$_GET['sort'][$v]]));
         $tpl->AddToRow(Get_string($newvalue), $v);
-        if ($_GET['sort'][$v]) $sort= $v.' '.$_GET['sort'][$v];
+        if (isset($_GET['sort']) && $_GET['sort'][$v]) $sort= $v.' '.$_GET['sort'][$v];
     }
 
     $tpl->PushRow();

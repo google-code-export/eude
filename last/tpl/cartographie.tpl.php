@@ -14,6 +14,7 @@ class tpl_cartographie extends output {
 
     public function __construct() {
         $this->BASE_FILE = ROOT_URL.'cartographie.php';
+        $this->BASE_GET  = Get_string();
         $this->SetheaderInput();
         $this->lng = language::getinstance()->GetLngBlock('cartographie');
         parent::__construct();
@@ -21,7 +22,7 @@ class tpl_cartographie extends output {
 
     private function SetheaderInput() {
         $this->currow = <<<ROW
-<form name="data" method="post" action="{$this->BASE_FILE}">
+<form name="data" method="post" action="{$this->BASE_FILE}?{$this->BASE_GET}">
 <table class="table_nospacing table_center">
     <tr class="color_header">
         <td>
@@ -117,7 +118,7 @@ ROW;
     </tr>
     <tr>
         <td>
-        <form name="search" method="post" action="{$this->BASE_FILE}">
+        <form name="search" method="post" action="{$this->BASE_FILE}?{$this->BASE_GET}">
         <table class="table_center table_nospacing color_row0" width="100%">
             <tr>
                 <TD class="text_center color_bigheader" colspan="9">Recherche des corps célestes</TD>
@@ -180,7 +181,7 @@ ROW;
         $this->currow = <<<ROW
     <tr>
         <td>
-        <form name="searchresult" method="post" action="{$this->BASE_FILE}">
+        <form name="searchresult" method="post" action="{$this->BASE_FILE}?{$this->BASE_GET}">
         <table class="table_center table_nospacing" width="100%">
             <tr>
                 <TD colspan="4">&nbsp;</TD>
@@ -189,11 +190,11 @@ ROW;
                 </TD>
             </tr>
             <tr class="text_center color_header">
-                <TD class="spacing_row0">Type</TD>
+                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_type%%">Type</a></TD>
                 <TD class="spacing_row0">Coordonnées</TD>
-                <TD class="spacing_row0">Joueur/Empire</TD>
-                <TD class="spacing_row0">Infos/Notes</TD>
-                <TD class="spacing_row0">Par / le</TD>
+                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_user%%">Joueur</a>/Empire</TD>
+                <TD class="spacing_row0">Infos/<a href="{$this->BASE_FILE}?%%sort_note%%">Notes</a></TD>
+                <TD class="spacing_row0">Par / <a href="{$this->BASE_FILE}?%%sort_date%%">le</a></TD>
                 <TD class="text_right">&nbsp;</td>
             </tr>
 
