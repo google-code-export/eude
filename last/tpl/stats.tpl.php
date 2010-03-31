@@ -7,14 +7,7 @@
  *
  **/
 if (!SCRIPT_IN) die('Need by included');
-/*
-$tpl = new tpl_stats;
-	$tpl->AddToRow($line["Joueur"], -2);
-		$tpl->AddToRow($line2['Nb'], $line2['Type']);
-	$tpl->AddToRow($ut, -1);
-	$tpl->PushRow();
-$tpl->DoOutput();
-*/
+
 class tpl_stats extends output {
     protected $BASE_FILE = '';
 
@@ -90,19 +83,20 @@ ROW;
 	</TR>
 ROW;
 
-    }
-    public function SetheaderPoints() {
         $this->curtpl = 'SetRowtplPoints';
+    }
+
+    public function SetheaderPoints() {
+        $this->SetRowtplPoints();
         $this->PushOutput('<TABLE class="color_header table_nospacing" width=900px>');
         $this->AddToRow('Joueurs', -2);
-        $this->AddToRow('Points total', 'Points');
-        $this->AddToRow('Architecte', 'pts_architecte');
-        $this->AddToRow('Mineur', 'pts_mineur');
-        $this->AddToRow('Science', 'pts_science');
-        $this->AddToRow('Commerçant', 'pts_commercant');
-        $this->AddToRow('Amiral', 'pts_amiral');
-        $this->AddToRow('Guerrier', 'pts_guerrier');
-        $this->PushRow(true);
+        $this->AddToRow('<a href="'.$this->BASE_FILE.'?%%Points%%">Points total</a>', 'Points');
+        $this->AddToRow('<a href="'.$this->BASE_FILE.'?%%pts_architecte%%">Architecte</a>', 'pts_architecte');
+        $this->AddToRow('<a href="'.$this->BASE_FILE.'?%%pts_mineur%%">Mineur</a>', 'pts_mineur');
+        $this->AddToRow('<a href="'.$this->BASE_FILE.'?%%pts_science%%">Science</a>', 'pts_science');
+        $this->AddToRow('<a href="'.$this->BASE_FILE.'?%%pts_commercant%%">Commerçant</a>', 'pts_commercant');
+        $this->AddToRow('<a href="'.$this->BASE_FILE.'?%%pts_amiral%%">Amiral</a>', 'pts_amiral');
+        $this->AddToRow('<a href="'.$this->BASE_FILE.'?%%pts_guerrier%%">Guerrier</a>', 'pts_guerrier');
 
     }
 
@@ -133,11 +127,9 @@ ROW;
     }
 
     /**
-     *
      * @return tpl_stats
      */
-    static public
-    function getinstance() {
+    static public function getinstance() {
         if ( ! DataEngine::_tpl_defined(get_class()) )
             DataEngine::_set_tpl(get_class(),new self());
 

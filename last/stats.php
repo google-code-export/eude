@@ -17,12 +17,22 @@ $tpl = tpl_stats::getinstance();
 //$tpl->css_file=false;
 $tpl->page_title = "EU2: Statistiques";
 
+$invert_sort = array(''=>'ASC','DESC' => 'ASC', 'ASC' => 'DESC');
 if (isset($_GET['act']) && $_GET['act'] == 'pts') {
 
-    $sql='SELECT * FROM SQL_PREFIX_Membres ORDER BY POINTS DESC';
-    $mysql_result = DataEngine::sql($sql);
-    $tpl->SetRowtplPoints();
     $tpl->SetheaderPoints();
+    $sort_key = array('Points', 'pts_architecte', 'pts_mineur', 'pts_commercant',
+        'pts_science', 'pts_amiral', 'pts_guerrier');    
+    $sort='Points DESC';
+    foreach($sort_key as $v) {
+        $newvalue = array('sort' => array($v=>$invert_sort[$_GET['sort'][$v]]));
+        $tpl->AddToRow(Get_string($newvalue), $v);
+        if ($_GET['sort'][$v]) $sort= $v.' '.$_GET['sort'][$v];
+    }
+
+    $tpl->PushRow();
+    $sql='SELECT * FROM SQL_PREFIX_Membres ORDER BY '.$sort;
+    $mysql_result = DataEngine::sql($sql);
 
     $cols = array('Points', 'pts_architecte', 'pts_mineur', 'pts_commercant',
         'pts_science', 'pts_amiral', 'pts_guerrier');

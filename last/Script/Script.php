@@ -44,8 +44,11 @@ function bulle ($texte,$addover='',$addout='') {
     return ("onmouseover='montre(\"".$texte."\");$addover' onmouseout='cache();$addout'");
 }
 
-parse_str($_SERVER["QUERY_STRING"], $current_get); // => http_build_query($current_get)
-
+function Get_string($newvalue) {
+    parse_str($_SERVER["QUERY_STRING"], $current_get);
+    $result = array_merge($current_get, $newvalue);
+    return http_build_query($result);
+}
 // TODO REMOVE THIS STUPID/USELESS(?) THINGS (AlterGet/$myget)
 //Fonction permettant de modifier la valeur d'une clef GET dans un ensemble passé en parametre
 function AlterGet($get,$clef,$valeur) {
