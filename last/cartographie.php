@@ -13,36 +13,12 @@ require_once(CLASS_PATH.'parser.class.php');
 require_once(CLASS_PATH.'cartographie_new.class.php');
 require_once(CLASS_PATH.'map.class.php');
 
-//for ($i=0;$i<50;$i++)
-//output::Messager('In work, OMG'.$i);
-//output::Messager('really ;)');
-//output::Boink('%ROOT_URL%');
-
-if (!DataEngine::CheckPerms('CARTOGRAPHIE')) {
-    if (DataEngine::CheckPerms('CARTE'))
-        output::Boink(ROOT_URL.'Carte.php');
-    else
-        output::Boink(ROOT_URL.'Mafiche.php');
-}
+if (!DataEngine::CheckPermsOrDie('CARTOGRAPHIE'));
 
 $map = map::getinstance();
 $carto = cartographie::getinstance();
 
-//$carto->Edit_Entry('31917',
-//$carto->Edit_Entry('1-95-15-79',
-//$carto->Edit_Entry('1:95:15:79',
-//            array('INFOS'=> time(),
-//                'NOTE'=> 'incrustation...',
-//                'INFOS_'=> time(),
-//                'xxx_999'=> time(),
-//                'xxx/*-+'=> time(),
-//                )
-//        );
-//    $carto->Boink('');
-
-
 if (isset($_POST['massedit'])) {
-
 
     foreach($_POST['item'] as $k => $arr) {
         if ($arr['delete']) {
@@ -52,8 +28,6 @@ if (isset($_POST['massedit'])) {
             unset($arr['edit']);
             $carto->Edit_Entry($k,$arr);
         }
-
-
     }
     $carto->Boink(ROOT_URL.basename(__file__).'?'.Get_string());
 }
