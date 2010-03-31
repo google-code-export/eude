@@ -17,7 +17,7 @@ define('USE_AJAX',true);	// mode xml
 require_once('../init.php');
 require_once(INCLUDE_PATH.'Script.php');
 require_once(CLASS_PATH.'parser.class.php');
-require_once(CLASS_PATH.'cartographie_new.class.php');
+require_once(CLASS_PATH.'cartographie.class.php');
 
 if (!DataEngine::CheckPerms('CARTOGRAPHIE_GREASE')) {
     header('HTTP/1.1 403 Forbidden');
