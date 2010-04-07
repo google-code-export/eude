@@ -35,7 +35,7 @@ var i18n = {
     Asteroid: 'Information about the asteroid',
     Sun_page: 'Starsystem number:',
     NPC1: 'NPC',
-    NPC2: 'Pirate',
+    NPC2: 'Reaper',
 
     FleetName: 'Fleet name',
 

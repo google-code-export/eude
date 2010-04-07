@@ -12,6 +12,7 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.*/galaxy/galaxy_overview.php*
 // @include      http://*eu2.looki.*/galaxy/galaxy_info.php*
 // @include      http://*eu2.looki.*/planet/planet_info.php*
+// @include      http://*eu2.looki.*/fleet/fleet_info.php*
 // @include      http://*eu2.looki.*/wormhole/wormhole_info.php*
 // @include      http://*eu2.looki.*/user/settings_overview.php?area=options
 // @exclude      http://vs.eu2.looki.*/*
@@ -790,22 +791,25 @@ function Asteroid() {
 }
 
 function Fleet() {
-
+    
     var a = Array();
+    var npc = false;
     a['owner']     = $x('/html/body/div[2]/div/table/tbody/tr[2]/td[4]')[0].innerHTML;
     a['fleetname'] = $x('/html/body/div[2]/div/table/tbody/tr[3]/td[4]')[0].innerHTML;
     a['coords']    = $x('/html/body/div[2]/div/table/tbody/tr[4]/td[4]')[0].innerHTML;
-    if (!a['coords'].match(/\d+\s+-\s+\d+\s+-\s+\d+\s+-\s+\d+/)) // PNJ only ?
-        a['coords'] = $x('/html/body/div[2]/div/table/tbody/tr[5]/td[4]')[0].innerHTML;    
+    if (!a['coords'].match(/\d+\s+-\s+\d+\s+-\s+\d+\s+-\s+\d+/)) { // PNJ only ?
+        npc = true;
+        a['coords'] = $x('/html/body/div[2]/div/table/tbody/tr[5]/td[4]')[0].innerHTML;
+    }
     a['coords'] = a['coords'].replace(/\s*/g,'');
 
-    if (a['owner'] =='PNJ' && GM_getValue(c_prefix+'pnj_info',false)) get_xml('pnj', a);
+    if (npc && GM_getValue(c_prefix+'pnj_info',false)) get_xml('pnj', a);
 
-    if (a['owner'] !='PNJ') {
+    if (!npc) {
         a['owner'] = a['owner'].replace(/<\/?[^>]+>/gi, '')
     //    get_xml('pnj', a);
     }
-//        alert('Fleet called:\nCoords: '+a['coords']+'\nProprio: '+a['owner']+'\nNom: '+a['fleetname']);
+    alert('Fleet called:\nCoords: '+a['coords']+'\nProprio: '+a['owner']+'\nNom: '+a['fleetname']);
 
 }
 
