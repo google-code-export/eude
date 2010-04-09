@@ -228,21 +228,21 @@ $stype   = $lngmain['types']['string'];
 $i=0;
 $cmdinput = '<input class="color_row%%rowA%%" type="checkbox" value="1" id="item[%%id%%][%%cmd%%]" name="item[%%id%%][%%cmd%%]" %%bulle%%/>';
 while ($ligne=mysql_fetch_assoc($mysql_result)) {
+    $coords= $ligne['POSIN'].'-'.$ligne['COORDET'];
     switch ($ligne['TYPE']) {
         case 1:
-            $tpl->SetRowModelTypeA();
             $coords= $ligne['POSIN'].'-'.$ligne['COORDET'].'<br/>'.$ligne['POSOUT'].'-'.$ligne['COORDETOUT'];
+        case 6:
+            $tpl->SetRowModelTypeC();
             break;
         case 2:
         case 4:
-            $tpl->SetRowModelTypeB();
-            $coords= $ligne['POSIN'].'-'.$ligne['COORDET'];
+            $tpl->SetRowModelTypeA();
             foreach ($a_Ress as $k => $v)
                 $tpl->AddToRow($tpl->GetRessources($ligne[$v['Field']], $v), $v['Field']);
             break;
         default:
-            $tpl->SetRowModelTypeA();
-            $coords= $ligne['POSIN'].'-'.$ligne['COORDET'];
+            $tpl->SetRowModelTypeB();
     }
 
 
@@ -253,11 +253,14 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
         $tpl->AddToRow($ligne['USER'] ? $ligne['USER'].'<br/>'.$ligne['EMPIRE'] : $ligne['EMPIRE'], 'player');
     else
         $tpl->AddToRow($ligne['USER'] ? $ligne['USER'] : '-', 'player');
-    $tpl->AddToRow($ligne['INFOS'] ? $ligne['INFOS'] : '-', 'infos');
+        $tpl->AddToRow($ligne['INFOS'] ? $ligne['INFOS'] : '-', 'infos');
     $tpl->AddToRow($ligne['NOTES'], 'notes');
+    $tpl->AddToRow($ligne['water'], 'water');
+    $tpl->AddToRow($ligne['troop'], 'troop');
 
-    $tpl->AddToRow(bulle($ligne['DATE']), 'date');
-    $tpl->AddToRow($ligne['UTILISATEUR'], 'user');
+    $tmp = sprintf('Par <b>%s</b><br/>Le: %s', $ligne['UTILISATEUR'], $ligne['DATE']);
+    $tpl->AddToRow(bulle($tmp), 'userdate');
+//    $tpl->AddToRow($ligne['UTILISATEUR'], 'user');
 
 
     if (Members::CheckPerms('CARTOGRAPHIE_DELETE')) {

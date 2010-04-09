@@ -193,8 +193,8 @@ ROW;
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_type%%">Type</a></TD>
                 <TD class="spacing_row0">Coordonnées</TD>
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_user%%">Joueur</a>/Empire</TD>
-                <TD class="spacing_row0">Infos/<a href="{$this->BASE_FILE}?%%sort_note%%">Notes</a></TD>
-                <TD class="spacing_row0">Par / <a href="{$this->BASE_FILE}?%%sort_date%%">le</a></TD>
+                <TD class="spacing_row0">Nom planète/flotte<br/><a href="{$this->BASE_FILE}?%%sort_note%%">Notes</a></TD>
+                <TD class="spacing_row0">% d'eau <br/> Soldats</TD>
                 <TD class="text_right">&nbsp;</td>
             </tr>
 
@@ -205,33 +205,15 @@ ROW;
     public function SetRowModelTypeA () {
         $this->currow = <<<ROW
             <input type="hidden" name="item[%%id%%][type]" value="%%typeid%%" />
-
-            <tr class="text_center color_row%%rowA%% spacing_header">
-                <TD class="color_bg">%%type%%</TD>
-                <TD class="spacing_row%%rowA%%">%%coords%%</TD>
-                <TD class="spacing_row%%rowA%%">%%player%%</TD>
-                <TD class="spacing_row%%rowA%%">%%infos%% <br/>
-                            <input class="color_row%%rowA%%" type="text" name="item[%%id%%][NOTE]" value="%%notes%%" OnChange="CheckOn('item[%%id%%][edit]');"/></TD>
-                <TD class="spacing_row%%rowA%%"%%date%%>%%user%%</TD>
-                <TD class="text_right color_row%%rowA%%">%%cmd_delete%%%%cmd_edit%%</td>
-            </tr>
-ROW;
-        $this->curtpl = 'SetRowModelTypeA';
-
-    }
-
-    public function SetRowModelTypeB () {
-        $this->currow = <<<ROW
-            <input type="hidden" name="item[%%id%%][type]" value="%%typeid%%" />
                 
             <tr class="text_center color_row%%rowA%% spacing_header">
-                <TD class="color_bg">%%type%%</TD>
+                <TD class="color_bg"%%userdate%%>%%type%%</TD>
                 <TD class="spacing_row%%rowA%%">%%coords%%</TD>
-                <TD class="spacing_row%%rowA%%">%%player%%</TD>
+                <TD class="spacing_row%%rowA%%">-<br/>-</TD>
                 <TD class="spacing_row%%rowA%%">%%infos%% <br/>
                             <input class="color_row%%rowA%%" type="text" name="item[%%id%%][NOTE]" value="%%notes%%" OnChange="CheckOn('item[%%id%%][edit]');"/></TD>
-                <TD class="spacing_row%%rowA%%"%%date%%>%%user%%</TD>
-                <TD class="text_right color_row%%rowA%%" rowspan="3">%%cmd_delete%%%%cmd_edit%%</td>
+                <TD class="spacing_row%%rowA%%">-<br/>-</TD>
+                <TD class="text_right color_row%%rowA%%" rowspan="3">%%cmd_edit%%%%cmd_delete%%</td>
             </tr>
             <tr class="color_row%%rowB%%">
                 <TD class="spacing_row%%rowA%%">%%Titane%%</TD>
@@ -248,7 +230,47 @@ ROW;
                 <TD class="spacing_row%%rowA%%">%%Hydrogene%%</TD>
             </tr>
 ROW;
+        $this->curtpl = 'SetRowModelTypeA';
+
+    }
+
+    public function SetRowModelTypeB () {
+        $this->currow = <<<ROW
+            <input type="hidden" name="item[%%id%%][type]" value="%%typeid%%" />
+
+            <tr class="text_center color_row%%rowA%% spacing_header">
+                <TD class="color_bg"%%userdate%%>%%type%%</TD>
+                <TD class="spacing_row%%rowA%%">%%coords%%</TD>
+                <TD class="spacing_row%%rowA%%">%%player%%</TD>
+                <TD class="spacing_row%%rowA%%">%%infos%%<br/>
+                    <input class="color_row%%rowA%%" type="text" name="item[%%id%%][NOTE]" value="%%notes%%" OnChange="CheckOn('item[%%id%%][edit]');"/>
+                </TD>
+                <TD class="spacing_row%%rowA%%">
+                    <input class="color_row%%rowA%% text_center size40" type="text" name="item[%%id%%][WATER]" value="%%water%%" OnChange="CheckOn('item[%%id%%][edit]');"/> %<br/>
+                    <input class="color_row%%rowA%% text_center size110" type="text" name="item[%%id%%][TROOP]" value="%%troop%%" OnChange="CheckOn('item[%%id%%][edit]');"/></TD>
+                <TD class="text_right color_row%%rowA%%">%%cmd_edit%%%%cmd_delete%%</td>
+            </tr>
+ROW;
         $this->curtpl = 'SetRowModelTypeB';
+
+    }
+
+    public function SetRowModelTypeC () {
+        $this->currow = <<<ROW
+            <input type="hidden" name="item[%%id%%][type]" value="%%typeid%%" />
+
+            <tr class="text_center color_row%%rowA%% spacing_header">
+                <TD class="color_bg"%%userdate%%>%%type%%</TD>
+                <TD class="spacing_row%%rowA%%">%%coords%%</TD>
+                <TD class="spacing_row%%rowA%%">%%player%%</TD>
+                <TD class="spacing_row%%rowA%%">%%infos%%<br/>
+                    <input class="color_row%%rowA%%" type="text" name="item[%%id%%][NOTE]" value="%%notes%%" OnChange="CheckOn('item[%%id%%][edit]');"/>
+                </TD>
+                <TD class="spacing_row%%rowA%%">-<br/>-</TD>
+                <TD class="text_right color_row%%rowA%%">%%cmd_edit%%%%cmd_delete%%</td>
+            </tr>
+ROW;
+        $this->curtpl = 'SetRowModelTypeC';
 
     }
 

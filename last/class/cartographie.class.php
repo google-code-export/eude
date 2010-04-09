@@ -256,12 +256,12 @@ class cartographie {
     }
 
 
-    public function add_PNJ($coords, $nom='', $empire='') {
+    public function add_PNJ($coords, $nom='', $fleet='') {
         if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS'))
             return $this->AddErreur('Permissions manquante');
 
         $qnom     = sqlesc(trim($nom));
-        $qempire  = sqlesc(trim($empire));
+        $qfleet  = sqlesc(trim($fleet));
 
         if (!$this->FormatId(trim($coords), $uni, $sys,'')) return false;
 
@@ -269,9 +269,9 @@ class cartographie {
         $array = DataEngine::sql($query);
         $ligne = mysql_fetch_assoc($array);
         if($ligne['ID'] > 0) {
-            $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET `TYPE`=6,`POSOUT`=\'\',`COORDETOUT`=\'\',`USER`=\'%s\',`EMPIRE`=\'%s\','.
+            $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET `TYPE`=6,`POSOUT`=\'\',`COORDETOUT`=\'\',`USER`=\'%s\',`INFOS`=\'%s\','.
                     '`UTILISATEUR`=\'%s\' WHERE ID=%s',
-                    $qnom, $qempire, sqlesc($_SESSION['_login'], true), $ligne['ID'] );
+                    $qnom, $qfleet, sqlesc($_SESSION['_login'], true), $ligne['ID'] );
 
             DataEngine::sql($query);
             if (mysql_affected_rows() > 0) {
@@ -288,7 +288,7 @@ class cartographie {
         } else {
             $query = sprintf('INSERT INTO SQL_PREFIX_Coordonnee (TYPE,POSIN,POSOUT,COORDET,COORDETOUT,USER,EMPIRE,DATE,UTILISATEUR)'.
                     ' VALUES (6,\'%s\',\'\',\'%s\',\'\',\'%s\',\'%s\',now(),\'%s\')',
-                    $uni, $sys, $qnom, $qempire, sqlesc($_SESSION['_login'],true));
+                    $uni, $sys, $qnom, $qfleet, sqlesc($_SESSION['_login'],true));
             DataEngine::sql($query);
             if (NO_SESSIONS)
                 return $this->AddInfo('Ajout '.$sys.': La flotte '.$nom);
