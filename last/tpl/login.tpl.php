@@ -5,34 +5,31 @@
  * @license GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  *
-**/
+ **/
 if (!SCRIPT_IN) die('Need by included');
-/*
-$tpl = new tpl_login;
-$tpl->DoOutput($login_msg,$register);
-*/
+
 class tpl_login extends output {
-	protected $BASE_FILE = '';
-	protected $lng = '';
+    protected $BASE_FILE = '';
+    protected $lng = '';
 
-	public function __construct() {
-		$this->BASE_FILE = ROOT_URL."register.php";
-                $this->lng = language::getinstance()->GetLngBlock('login');
+    public function __construct() {
+        $this->BASE_FILE = ROOT_URL.'register.php';
+        $this->lng = language::getinstance()->GetLngBlock('login');
 
-		parent::__construct();
-	}
+        parent::__construct();
+    }
 
-	public function DoOutput($login_msg='',$register=false) {
-		$action = ($register) ? $this->BASE_FILE: '';
-		$btn_text = ($register) ? $this->lng['register']: $this->lng['signin'];
-$out =<<<BASE
+    public function DoOutput($login_msg='',$register=false) {
+        $action = ($register) ? $this->BASE_FILE: '?'.Get_string();
+        $btn_text = ($register) ? $this->lng['register']: $this->lng['signin'];
+        $out =<<<BASE
 <CENTER>
+    <form name="LOG" method="post" action="{$action}">
 	<table class="table_nospacing color_bg">
 	<tr class="text_center color_bigheader">
 		<td colspan="3">Empire Universe 2: Data Engine ({$this->version})<br/><br/></td>
 	</tr>
 	<tr class="color_row0">
-		<Form name="LOG" method="post" action='{$action}'>
 		<td>{$this->lng['player']} :</td>
 		<td><input class="color_row0" tabindex=1 type="text" value="" name="login" /></td>
 		<td rowspan=2 style='valign=center'><input class="color_row0" type="submit" value="{$btn_text}" /></td>
@@ -42,9 +39,9 @@ $out =<<<BASE
 		<td><input class="color_row0" tabindex=2 type="password" value="" name="mdp" /></td>
 	</tr>
 BASE;
-	if (DE_DEMO) {
+        if (DE_DEMO) {
             $demo = bulle('L\'insertion automatique des points');
-$out .= <<<LOGIN
+            $out .= <<<LOGIN
 	<tr class="color_row1">
 		<td colspan=3><pre>
 Ce serveur est là pour tracker les bug, tester, ainsi que voir les fonctionnalité fournie dans une version ultérieure.
@@ -61,30 +58,31 @@ Il peut être remit à "zéro" à tout moment (avec la base de vortex, et autres
 	</tr>
 LOGIN;
         }
-	if (!$register && Config::CanRegister())
-$out .= <<<LOGIN
+        if (!$register && Config::CanRegister())
+            $out .= <<<LOGIN
 	<tr class="color_row0 text_center">
 		<td colspan=3><a href='register.php'>{$this->lng['newaccount']}</a></td>
 	</tr>
 LOGIN;
-	elseif ($register)
-$out .= <<<REGISTER
+        elseif ($register)
+            $out .= <<<REGISTER
 	<tr>
 		<td colspan=3 align=center>{$this->lng['newaccount_warn']}<br/>
 			<input class="color_row0" type="button" value="{$this->lng['allreadyhaveone']}" Onclick="location.href='./logout.php'" /></td>
 	</tr>
 REGISTER;
 
-	if ($login_msg)
-$out .=<<<MSG
+        if ($login_msg)
+            $out .=<<<MSG
 	<tr>
 		<td colspan=3 id='titreTDtableau'><font color=red>$login_msg</font></td>
 	</tr>
 MSG;
 
-$out .=<<<FOOTER
-{$login_msg}
+        $out .=<<<FOOTER
+                {$login_msg}
 	</table>
+    </form>
 </CENTER>
 <div style="position:absolute; bottom:5px; right:5px">
 <address>
@@ -94,19 +92,19 @@ $out .=<<<FOOTER
 </div>
 </body></html>
 FOOTER;
-		$this->PushOutput($out);
+        $this->PushOutput($out);
 
-		parent::DoOutput(false); // false false ? menu header
-	}
+        parent::DoOutput(false); // false false ? menu header
+    }
 
-/**
- *
- * @return tpl_login
- */
-	static public function getinstance() {
-		if ( ! DataEngine::_tpl_defined(get_class()) )
-			DataEngine::_set_tpl(get_class(),new self());
+    /**
+     *
+     * @return tpl_login
+     */
+    static public function getinstance() {
+        if ( ! DataEngine::_tpl_defined(get_class()) )
+            DataEngine::_set_tpl(get_class(),new self());
 
-			return DataEngine::tpl(get_class());
-	}
+        return DataEngine::tpl(get_class());
+    }
 }

@@ -10,6 +10,7 @@ if (!SCRIPT_IN) die('Need by included');
 
 class tpl_cartographie extends output {
     protected $BASE_FILE = '';
+    protected $BASE_GET = '';
     protected $lng;
 
     public function __construct() {
