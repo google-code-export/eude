@@ -52,9 +52,14 @@ Serveur de démo: http://app216.free.fr/eu2/test/
 + Droits d'accès modifiable directement par la page admin (#169)
 + Empires Alliés/Ennemis modifiable directement par la page admin (#176)
 + Accès en lecture seule de la page de production des autres joueurs pour les admins (#215)
++ Tri selon les point sur la page statistique (Issue 54)
++ Prise en charge des % d'eau et du nombre de troupe des joueurs (Issue 17)
 
 <b>Modification:</b>
 - Maj du parseur de ownuniverse (#180, merci looki...)
+- Modification du menu pour l'ajout de liens externes (issue 32)
+- Refonte complète de la page cartographie (Issue 17)
+
 <b>Correctifs:</b>
 #183 Bug avec la bulle de la carte
 #116 Prise en charge de Iceweasel (Firefox 100% libre)
@@ -63,6 +68,9 @@ Serveur de démo: http://app216.free.fr/eu2/test/
 #217 Affichage de l'image 'addons'.
 #228 Gestion des dates revues.
 #198 Champ NOTES
+Issue 31: Rectification de l'image des alliés sur cartedetails.php
+Issue 27: Modification des requêtes pour un serveur Mysql 5.1.x
+Issue 24: Orthographe de la race 'Weganien'
 
 --------------------------------------------------------------------------------
 * prototype: Puisque presque rien ne fonctionnais correctement...
