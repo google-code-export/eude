@@ -23,15 +23,16 @@ class tpl_cartographie extends output {
 
     private function SetheaderInput() {
         $this->currow = <<<ROW
-<form name="data" method="post" action="{$this->BASE_FILE}?{$this->BASE_GET}">
 <table class="table_nospacing table_center">
-    <tr class="color_header">
-        <td>
+    <tr><td>
+        <form name="data" method="post" action="{$this->BASE_FILE}?{$this->BASE_GET}">
+        <table class="table_nospacing table_center color_row0">
+        <tr><td>
             <table class="table_nospacing color_row0">
                 <tr><TD class="text_center color_bigheader" colspan="7">Ajout des corps célestes</TD></tr>
-                <input name="phpparser" type="hidden" value="0">
                 <tr class="text_center">
                     <TD %%bulle%% colspan="6">
+                    <input name="phpparser" type="hidden" value="0"/>
                     <TEXTAREA class="color_row0" cols="50" rows="4" name="importation"></TEXTAREA>
                     </TD>
                     <TD class="color_header">
@@ -41,14 +42,13 @@ class tpl_cartographie extends output {
                         <input class="color_header" onclick="interpreter(document.getElementsByName('importation')[0].value, false); GestionFormulaire();" type="button" value="Manuel">
                     </TD>
                 </tr>
-		</TR>
 		<TR class="color_cols text_center">
                     <TD class="spacing_row1">Type</TD>
                     <TD class="spacing_row1">Coordonnée Entrée</TD>
                     <TD class="spacing_row1">Coordonnée Sortie</TD>
                     <TD class="spacing_row1">Nom du joueur</TD>
-                    <TD class="spacing_row1">Empire/Flotte</TD>
-                    <TD class="spacing_row1">Nom de planète</TD>
+                    <TD class="spacing_row1">Empire</TD>
+                    <TD class="spacing_row1">Planète/Flotte</TD>
                     <TD class="color_header">&nbsp;</TD>
 		</TR>
 		<TR class="text_center color_row1">
@@ -98,16 +98,12 @@ class tpl_cartographie extends output {
                 <td><INPUT class="color_row0 size80" type="text" name="RESSOURCE9" value="" /></td>
             </tr>
         </table>
-</form>
-<SCRIPT type="text/javascript">
-masquer("COOROUT",0);
-afficher("USER",0);
-afficher("EMPIRE",0);
-afficher("INFOS",0);
-masquer("AddTabRessource",0);
-</SCRIPT>
+    </td></tr>
+    </table>
+    </form>
         </td>
-    </tr>
+    </tr>  
+
 ROW;
         $this->curtpl = '';
     }
@@ -161,7 +157,8 @@ ROW;
                 <td class="color_header"><input class="color_header" type="submit" value="Rechercher"/></td>
             </tr>
         </table>
-        </form></td>
+        </form>
+        </td>
     </tr>
 ROW;
         $this->curtpl = '';
@@ -169,11 +166,11 @@ ROW;
 
     public function GetPagination($current, $max) {
         $result = '';
-        if ($current>2)      $result .= '<a href="'.$this->BASE_FILE.'?page=1"><img src="%IMAGES_URL%/Btn-Debut.png"/></a>';
-        if ($current>1)      $result .= '<a href="'.$this->BASE_FILE.'?page='.($current-1).'"><img src="%IMAGES_URL%/Btn-Precedent.png"/></a>';
+        if ($current>2)      $result .= '<a href="'.$this->BASE_FILE.'?page=1"><img src="%IMAGES_URL%Btn-Debut.png"/></a>';
+        if ($current>1)      $result .= '<a href="'.$this->BASE_FILE.'?page='.($current-1).'"><img src="%IMAGES_URL%Btn-Precedent.png"/></a>';
         $result .= $current.' / '.$max;
-        if ($current<$max)   $result .= '<a href="'.$this->BASE_FILE.'?page='.($current+1).'"><img src="%IMAGES_URL%/Btn-Suivant.png"/></a>';
-        if ($current<$max-1) $result .= '<a href="'.$this->BASE_FILE.'?page='.($max).'"><img src="%IMAGES_URL%/Btn-Fin.png"/></a>';
+        if ($current<$max)   $result .= '<a href="'.$this->BASE_FILE.'?page='.($current+1).'"><img src="%IMAGES_URL%Btn-Suivant.png"/></a>';
+        if ($current<$max-1) $result .= '<a href="'.$this->BASE_FILE.'?page='.($max).'"><img src="%IMAGES_URL%Btn-Fin.png"/></a>';
 
         return $result;
     }
@@ -182,8 +179,8 @@ ROW;
         $this->currow = <<<ROW
     <tr>
         <td>
-        <form name="searchresult" method="post" action="{$this->BASE_FILE}?{$this->BASE_GET}">
         <table class="table_center table_nospacing" width="100%">
+        <form name="searchresult" method="post" action="{$this->BASE_FILE}?{$this->BASE_GET}">
             <tr>
                 <TD colspan="4">&nbsp;</TD>
                 <TD class="text_right color_pagination" colspan="2">
@@ -193,9 +190,11 @@ ROW;
             <tr class="text_center color_header">
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_type%%">Type</a></TD>
                 <TD class="spacing_row0">Coordonnées</TD>
-                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_user%%">Joueur</a>/Empire</TD>
-                <TD class="spacing_row0">Nom planète/flotte<br/><a href="{$this->BASE_FILE}?%%sort_note%%">Notes</a></TD>
-                <TD class="spacing_row0">% d'eau <br/> Soldats</TD>
+                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_user%%">Joueur</a>/<a href="{$this->BASE_FILE}?%%sort_empire%%">Empire</a></TD>
+                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_infos%%">Nom de la planète/flotte</a><br/>
+                                         <a href="{$this->BASE_FILE}?%%sort_note%%">Notes</a></TD>
+                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_water%%">% d'eau</a><br/>
+                                         <a href="{$this->BASE_FILE}?%%sort_troop%%">Soldats</a></TD>
                 <TD class="text_right">&nbsp;</td>
             </tr>
 
@@ -205,16 +204,20 @@ ROW;
 
     public function SetRowModelTypeA () {
         $this->currow = <<<ROW
-            <input type="hidden" name="item[%%id%%][type]" value="%%typeid%%" />
+            
                 
             <tr class="text_center color_row%%rowA%% spacing_header">
-                <TD class="color_bg"%%userdate%%>%%type%%</TD>
+                <TD class="color_bg" %%userdate%%>%%type%%</TD>
                 <TD class="spacing_row%%rowA%%">%%coords%%</TD>
                 <TD class="spacing_row%%rowA%%">-<br/>-</TD>
                 <TD class="spacing_row%%rowA%%">%%infos%% <br/>
                             <input class="color_row%%rowA%%" type="text" name="item[%%id%%][NOTE]" value="%%notes%%" OnChange="CheckOn('item[%%id%%][edit]');"/></TD>
                 <TD class="spacing_row%%rowA%%">-<br/>-</TD>
-                <TD class="text_right color_row%%rowA%%" rowspan="3">%%cmd_edit%%%%cmd_delete%%</td>
+                <TD class="text_right color_row%%rowA%%" rowspan="3">
+                    <input type="hidden" name="item[%%id%%][type]" value="%%typeid%%" />
+                    %%cmd_edit%%
+                    %%cmd_delete%%
+                </TD>
             </tr>
             <tr class="color_row%%rowB%%">
                 <TD class="spacing_row%%rowA%%">%%Titane%%</TD>
@@ -237,10 +240,9 @@ ROW;
 
     public function SetRowModelTypeB () {
         $this->currow = <<<ROW
-            <input type="hidden" name="item[%%id%%][type]" value="%%typeid%%" />
 
             <tr class="text_center color_row%%rowA%% spacing_header">
-                <TD class="color_bg"%%userdate%%>%%type%%</TD>
+                <TD class="color_bg" %%userdate%%>%%type%%</TD>
                 <TD class="spacing_row%%rowA%%">%%coords%%</TD>
                 <TD class="spacing_row%%rowA%%">%%player%%</TD>
                 <TD class="spacing_row%%rowA%%">%%infos%%<br/>
@@ -249,7 +251,11 @@ ROW;
                 <TD class="spacing_row%%rowA%%">
                     <input class="color_row%%rowA%% text_center size40" type="text" name="item[%%id%%][WATER]" value="%%water%%" OnChange="CheckOn('item[%%id%%][edit]');"/> %<br/>
                     <input class="color_row%%rowA%% text_center size110" type="text" name="item[%%id%%][TROOP]" value="%%troop%%" OnChange="CheckOn('item[%%id%%][edit]');"/></TD>
-                <TD class="text_right color_row%%rowA%%">%%cmd_edit%%%%cmd_delete%%</td>
+                <TD class="text_right color_row%%rowA%%">
+                    <input type="hidden" name="item[%%id%%][type]" value="%%typeid%%" />
+                    %%cmd_edit%%
+                    %%cmd_delete%%
+                </TD>
             </tr>
 ROW;
         $this->curtpl = 'SetRowModelTypeB';
@@ -258,17 +264,20 @@ ROW;
 
     public function SetRowModelTypeC () {
         $this->currow = <<<ROW
-            <input type="hidden" name="item[%%id%%][type]" value="%%typeid%%" />
 
             <tr class="text_center color_row%%rowA%% spacing_header">
-                <TD class="color_bg"%%userdate%%>%%type%%</TD>
+                <TD class="color_bg" %%userdate%%>%%type%%</TD>
                 <TD class="spacing_row%%rowA%%">%%coords%%</TD>
                 <TD class="spacing_row%%rowA%%">%%player%%</TD>
                 <TD class="spacing_row%%rowA%%">%%infos%%<br/>
                     <input class="color_row%%rowA%%" type="text" name="item[%%id%%][NOTE]" value="%%notes%%" OnChange="CheckOn('item[%%id%%][edit]');"/>
                 </TD>
                 <TD class="spacing_row%%rowA%%">-<br/>-</TD>
-                <TD class="text_right color_row%%rowA%%">%%cmd_edit%%%%cmd_delete%%</td>
+                <TD class="text_right color_row%%rowA%%">
+                    <input type="hidden" name="item[%%id%%][type]" value="%%typeid%%" />
+                    %%cmd_edit%%
+                    %%cmd_delete%%
+                </TD>
             </tr>
 ROW;
         $this->curtpl = 'SetRowModelTypeC';
@@ -322,6 +331,7 @@ o;
             </tr>
         </table>
         </form>
+        
 ROW;
         $this->curtpl = '';
 
@@ -333,10 +343,19 @@ ROW;
      * @param boolean $include_header Inclure l'entete ?
      */
     public function DoOutput($include_menu=true, $include_header=true) {
-        $this->PushOutput('
+        $out = <<<ROW
         </td>
     </tr>
-</table>');
+</table>
+<SCRIPT type="text/javascript">
+masquer("COOROUT",0);
+afficher("USER",0);
+afficher("EMPIRE",0);
+afficher("INFOS",0);
+masquer("AddTabRessource",0);
+</SCRIPT></body></html>
+ROW;
+        $this->PushOutput($out);
         parent::DoOutput($include_menu, $include_header);
     }
     /**

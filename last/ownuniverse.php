@@ -71,8 +71,8 @@ require_once(TEMPLATE_PATH.'ownuniverse.tpl.php');
 $tpl = tpl_ownuniverse::getinstance();
 $tpl->page_title = $lng['page_title'];
 
-if ($info!='') output::Messager($info);
-if ($warn!='') output::Messager('<font color="red">'.$warn.'</font>');
+output::Messager($info);
+output::Messager('<font color="red">'.$warn.'</font>');
 if (!$IsEnabled) output::Messager($lng['ownuniverse_info']);
 
 $tpl->Setheader($include_form);

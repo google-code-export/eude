@@ -140,8 +140,8 @@ function affichage_formulaire(Check) {
         case '6':
             masquer("COOROUT",0);
             afficher("USER",0);
-            afficher("EMPIRE",0);
-            masquer("INFOS",0);
+            masquer("EMPIRE",0);
+            afficher("INFOS",0);
             masquer("AddTabRessource",0);
             break;
     }
@@ -241,8 +241,8 @@ function interpreter_fleet_pnj(mystring) {
     $n("USER")[0].value=jou;
     $n("COORIN")[0].value=coo.replace(/(\ )/g, "");
     $n("COOROUT")[0].value='';
-    $n("EMPIRE")[0].value=nom;
-    $n("INFOS")[0].value='';
+    $n("EMPIRE")[0].value='';
+    $n("INFOS")[0].value=nom;
 }
 
 function interpreter_planete(mystring) {

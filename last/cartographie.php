@@ -79,7 +79,7 @@ if (isset($_POST['Type'])) {
             $carto->add_asteroid($_POST['COORIN'], $Ress);
             break;
         case '6': // flotte PNJ
-            $carto->add_PNJ($_POST['COORIN'], $_POST['USER'],$_POST['EMPIRE']);
+            $carto->add_PNJ($_POST['COORIN'], $_POST['USER'],$_POST['INFOS']);
             break;
         default:
             $carto->AddWarn('Type demandé non pris en charge !');
@@ -208,13 +208,17 @@ else if ($PageCurr < 1)
 $tpl->AddToRow($tpl->GetPagination($PageCurr, $MaxPage+1), 'pagination');
 
 $invert_sort = array(''=>'ASC','DESC' => 'ASC', 'ASC' => 'DESC');
-$sort_key = array('type', 'user', 'note', 'date');
+$sort_key = array('type', 'user', 'empire', 'infos', 'note', 'date', 'water', 'troop');
 
-$sort='ORDER BY ID DESC';
+$sort='ORDER BY DATE DESC';
 foreach($sort_key as $v) {
+    if (isset($_GET['sort']) && in_array($_GET['sort'][$v],$invert_sort))
+            $sort= 'ORDER BY '.$v.' '.$_GET['sort'][$v].' ';
+    else if (isset($_GET['sort'][$v]))
+        $_GET['sort'][$v] = '';
+
     $newvalue = array('sort' => array($v=>$invert_sort[$_GET['sort'][$v]]));
     $tpl->AddToRow(Get_string($newvalue), 'sort_'.$v);
-    if (isset($_GET['sort']) && $_GET['sort'][$v]) $sort= 'ORDER BY '.$v.' '.$_GET['sort'][$v].' ';
 }
 
 $tpl->PushRow();

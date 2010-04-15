@@ -43,8 +43,10 @@ abstract class output {
     }
 
     static public function Messager($msg) {
+        if (preg_replace('/<[^>]*>/', '', $msg) == '') return false;
         if (!is_array($_SESSION['messager'])) $_SESSION['messager'] = array();
         array_push($_SESSION['messager'], $msg);
+        return true;
     }
     /**
      * Redirige vers une autre page
@@ -84,14 +86,14 @@ abstract class output {
     /**
      * Returne une liste déroulante générique
      * @param array $array Tableau de donnée ($k=>$v)
-     * @param integer $selected id selectionné ($selected=$k)
+     * @param integer $key id selectionné ($selected=$k)
      * @param boolean $flip inverser les clé/valeurs ($v=>$k $id=$v)
      */
-    public function SelectOptions2($array,$selected,$flip=false) {
+    public function SelectOptions2($array,$key,$flip=false) {
         $result='';
         if ($flip) $array = array_flip($array);
         foreach($array as $k => $v) {
-            $selected = ($flip) ? (($v==$selected) ? ' selected':'') : (($k==$selected) ? ' selected':'');
+            $selected = ($flip) ? (($v==$key) ? ' selected':'') : (($k==$key) ? ' selected':'');
             $result .= "\t\t<option value='$k'$selected>$v</option>\n";
         }
         return $result;
