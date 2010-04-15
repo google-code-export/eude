@@ -30,7 +30,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'pts') {
         if (isset($_GET['sort']) && $_GET['sort'][$v]) $sort= $v.' '.$_GET['sort'][$v];
     }
 
-    $tpl->PushRow();
+    $tpl->PushRow(true);
     $sql='SELECT * FROM SQL_PREFIX_Membres ORDER BY '.$sort;
     $mysql_result = DataEngine::sql($sql);
 

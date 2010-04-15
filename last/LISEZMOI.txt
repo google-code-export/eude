@@ -37,9 +37,9 @@ Pré-requis (utilisateur):
 Serveur de démo: http://app216.free.fr/eu2/test/
 
 --------------------------------------------------------------------------------
---- Installation: http://app216.free.fr/wordpress/?p=30
+--- Installation: http://code.google.com/p/eude/wiki/Installation
 --------------------------------------------------------------------------------
---- Mise à jour: http://app216.free.fr/eu2/tracker/news_view_page.php?news_id=9
+--- Mise à jour: http://code.google.com/p/eude/wiki/maj141
 --------------------------------------------------------------------------------
 1. Écrasez tout les fichiers par les nouveaux
 2. Supprimer le fichier '/Script/update.php' (obsolète)
@@ -47,22 +47,22 @@ Serveur de démo: http://app216.free.fr/eu2/test/
 --------------------------------------------------------------------------------
 
 <b>Nouveauté:</b>
-+ Prise en charge de chrome pour la partie production (#141)
-+ Prise en charge de la consommation des races... (#148)
-+ Reconnaissance alliés (#100)
-+ Reconnaissance des ennemis a l insertion (#99)
-+ Amélioration de gestion des droits (#86)
++ Prise en charge d'un script GreaseMonkey (#162)
++ Nettoyage automatique des vortex en option (#115)
++ Droits d'accès modifiable directement par la page admin (#169)
++ Empires Alliés/Ennemis modifiable directement par la page admin (#176)
++ Accès en lecture seule de la page de production des autres joueurs pour les admins (#215)
+
 <b>Modification:</b>
-- MAJ de 'ownuniverse' suite à une maj de looki. (#107)
+- Maj du parseur de ownuniverse (#180, merci looki...)
 <b>Correctifs:</b>
-#93 La bulle ne fonctionne plus avec un parcours
-#98 Suppression Ennemis quand planète abandonnée
-#105 Calcul recherche ne fait rien
-#109 Config::init pas pris en charge (ie. page sans le fond et autre drolerie avec certaines config)
-#117 Ligne manquete sur 'ma fiche'
-#135 Diverses correction sur l'installation
-#121 Page de création de compte
-#143 Retour du Changement mot de passe d'un joueur pour les admins (oops)
+#183 Bug avec la bulle de la carte
+#116 Prise en charge de Iceweasel (Firefox 100% libre)
+#192 Orthographe de la race 'Jamozoïde'
+#216 Léger problème de couleur de carte
+#217 Affichage de l'image 'addons'.
+#228 Gestion des dates revues.
+#198 Champ NOTES
 
 --------------------------------------------------------------------------------
 * prototype: Puisque presque rien ne fonctionnais correctement...

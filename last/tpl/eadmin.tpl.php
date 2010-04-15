@@ -54,7 +54,7 @@ o;
         <TR class="base_row1">
             <TD align=right><b>Mysql <br/>PHP <br/>GD </b></td><TD colspan="{$colsminus}">{$version[0]}<br/>{$version[1]}<br/>{$version[2]}</TD>
 	</TR>
-        <TR class="text_center">
+        <TR class="text_center spacing_header">
 		<TD OnClick="location.href='{$this->BASE_FILE}';" class="color_{$links_1}">{$this->lng['page_links1']}</td>
 		<TD OnClick="location.href='{$this->BASE_FILE}?act=perms';" class="color_{$links_2}">{$this->lng['page_links2']}</td>
 		<TD OnClick="location.href='{$this->BASE_FILE}?act=mapcolor';" class="color_{$links_3}">{$this->lng['page_links3']}</td>

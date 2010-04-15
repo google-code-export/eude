@@ -375,6 +375,9 @@ td.spacing_row1 {
 tr.spacing_header {
     border-top: solid 3px #800040;
 }
+tr.spacing_header td {
+    border-right: solid 2px black;
+}
 
 .color_titre {
     background-color: #800040;
