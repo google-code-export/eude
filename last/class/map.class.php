@@ -540,31 +540,28 @@ class map /*extends parcours*/ {
         if($planete>0) $total++;
         if($asteroide>0) $total++;
 
-        $result = '11';
+        $result = -1;
 
-        if ($joueur>0)		$result = '3';
-        if ($planete>0 && $joueur==0)		$result = '6';
-        if ($asteroide>0)	$result = '5';
-        if ($vortex>0)		$result = '4';
+        if ($joueur>0||$planete>0)  $result = 3;
+        if ($asteroide>0)           $result = 5;
+        if ($vortex>0)              $result = 4;
 
-        if ($moi>0 && $total>1)			$result = '6';
-        if ($empire>0 && $total>1)		$result = '7';
-        // 		if ($joueur>0 && $planete>0)	$result = '9';
-        if ($pnj>0)						$result = '9';
-        // 		if ($joueur>0 && $vortex>0)		$result = '10';
+        if ($moi>0 && $total>1)     $result = 6;
+        if ($empire>0 && $total>1)  $result = 7;
+        if ($pnj>0)                 $result = 9;
 
-        if ($alliance>0)        $result = '11';
-        if ($ennemi>0)		$result = '8';
-        if ($empire>0)		$result = '1';
-        if ($search>0)		$result = '10';
-        if ($moi>0)			$result = '2';
+        if ($alliance>0)            $result = 11;
+        if ($ennemi>0)              $result = 8;
+        if ($empire>0)              $result = 1;
+        if ($search>0)              $result = 10;
+        if ($moi>0)                 $result = 2;
 
         if ($this->itineraire) {
-            $result = '1';
-            if ($moi>0)			$result = '2';
-            if ($chemin==1)		$result = '20';
-            if ($chemin==3)		$result = '21';
-            if ($chemin==2)		$result = '22';
+            $result = 1;
+            if ($moi>0)             $result = 2;
+            if ($chemin==1)         $result = 20;
+            if ($chemin==3)         $result = 21;
+            if ($chemin==2)         $result = 22;
         }
 
         return $result;
