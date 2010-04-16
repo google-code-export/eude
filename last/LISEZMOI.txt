@@ -42,8 +42,9 @@ Serveur de démo: http://app216.free.fr/eu2/test/
 --- Mise à jour: http://code.google.com/p/eude/wiki/maj141
 --------------------------------------------------------------------------------
 1. Écrasez tout les fichiers par les nouveaux
-2. Supprimer le fichier '/Script/update.php' (obsolète)
-3. Dans PhpMyAdmin importer le fichier UPGRADE.sql.
+2. Supprimer le fichier '/tpl/index.tpl.php' (obsolète)
+3. Mettez à jour le fichier '/Script/Entete.php'
+4. Dans PhpMyAdmin? importer le fichier UPGRADE.sql.
 --------------------------------------------------------------------------------
 
 <b>Nouveauté:</b>
