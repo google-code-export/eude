@@ -92,7 +92,7 @@ final class Config implements iDataEngine_Config {
      * @return string(100) Nom de l'empire
      */
     static function GetMyEmpire() {
-        return '%empire%';
+        return '';
     }
     /**
      * Temps max de recherche avant abandon pour le meilleurs recensé

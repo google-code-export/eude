@@ -124,7 +124,7 @@ class tpl_carte extends output {
 				<A id="Map_Btn" {$msg_pirate} HREF="{$this->BASE_FILE}?pnj={$get_pnj}">
 				<img width=18 height=18 src="%IMAGES_URL%fleet_{$img_pnj}.gif"></A>
 			</TD>
-			<TD id="coord2">&nbsp;Coordonnée&nbsp;</td>
+			<TD id="coord2">&nbsp;{$this->lng['msg_coords']}&nbsp;</td>
 			<td id="Coord">&nbsp;0000&nbsp;</td>	
 NAV;
         if (DataEngine::CheckPerms('CARTE_SEARCH'))

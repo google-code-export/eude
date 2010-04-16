@@ -465,9 +465,9 @@ ead;
      */
     static public function Get_Version() {
         if (DE_DEMO)
-            return '1.4.x.r83 démo';
+            return '1.4.2 démo';
         elseif (IN_DEV)
-            return '1.4.svn'.time();
+            return 'svn-'.time();
         else
             return '1.4.2';
     }
@@ -621,12 +621,10 @@ PERM;
 interface iDataEngine_Config {
     static public function DB_Connect();
     static public function init();
-//    static public function perms();
     static public function GetForumLink();
     static public function GetDefaultGrade();
     static public function GetMyEmpire();
 
-//    static public function GetMapColor($id);
     static public function Parcours_Max_Time();
     static public function Parcours_Nearest();
 

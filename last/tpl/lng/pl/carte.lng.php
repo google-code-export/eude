@@ -29,6 +29,7 @@ $lng['msg_asteroide'] = 'Asteroidy: %s';
 $lng['msg_ennemis']   = 'Wrogowie: %s';
 $lng['msg_allys']     = 'Sojusznicy: %s';
 $lng['msg_pirate']    = 'Floty Pirackie: %s';
+$lng['msg_coords']    = 'Coordonnée';
 $lng['msg_search1']   = 'Wybierz Imperium lub Gracza';
 $lng['msg_search2']   = 'Enter:Wyszukaj';
 $lng['msg_search_emp']= 'Imperium';

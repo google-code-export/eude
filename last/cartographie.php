@@ -258,7 +258,7 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
     else
         $tpl->AddToRow($ligne['USER'] ? $ligne['USER'] : '-', 'player');
         $tpl->AddToRow($ligne['INFOS'] ? $ligne['INFOS'] : '-', 'infos');
-    $tpl->AddToRow($ligne['NOTES'], 'notes');
+    $tpl->AddToRow($ligne['NOTE'], 'notes');
     $tpl->AddToRow($ligne['water'], 'water');
     $tpl->AddToRow($ligne['troop'], 'troop');
 
@@ -270,13 +270,13 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
     if (Members::CheckPerms('CARTOGRAPHIE_DELETE')) {
         $tpl->AddToRow($cmdinput, 'cmd_delete');
         $tpl->AddToRow('delete', 'cmd');
-        $tpl->AddToRow(bulle('Delete it ?!'), 'bulle');
+        $tpl->AddToRow(bulle('Supprimer la ligne ?<br/><br/><b>Attention</b>: Aucune confirmation demandé !'), 'bulle');
     } else $tpl->AddToRow('', 'cmd_delete');
 
     if (Members::CheckPerms('CARTOGRAPHIE_EDIT')) {
         $tpl->AddToRow($cmdinput, 'cmd_edit');
         $tpl->AddToRow('edit', 'cmd');
-        $tpl->AddToRow(bulle('Edit it ?!'), 'bulle');
+        $tpl->AddToRow(bulle('Modifier cette ligne ?'), 'bulle');
     } else $tpl->AddToRow('', 'cmd_edit');
 
     $tpl->AddToRow($i%2, 'rowA');

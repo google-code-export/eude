@@ -20,7 +20,8 @@ if (!Members::CheckPerms(AXX_ROOTADMIN) && !Members::CheckPerms('MEMBRES_ADMIN')
 
 $lng = language::getinstance()->GetLngBlock('admin');
 
-// Modification 'base'
+// -----------------------------------------------------------------------------
+// -- Nettoyage vortex périmé --------------------------------------------------
 if(isset($_POST['cleanvortex'])) {
     $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE INACTIF=1 AND TYPE=1 AND `DATE`<'{$_POST['cleanvortex_inactif']}'");
     $cleanvortex_delete = mysql_affected_rows();
@@ -39,17 +40,22 @@ if(isset($_GET['switch']) && $_GET['switch'] =='vortex_cron') {
     DataEngine::conf_update('wormhole_cleaning', $tmp);
 }
 
+// -- Nettoyage vortex périmé --------------------------------------------------
+// -----------------------------------------------------------------------------
+// -- Partie Nettoyage ---------------------------------------------------------
+
 $cleaning=false;
-if(isset($_POST['asteroides']) && $_POST['asteroides'] != '-1') {
-    $tmp = array();
-    $mysql_result = DataEngine::sql("SELECT ID FROM SQL_PREFIX_Coordonnee WHERE TYPE=4 AND `DATE`<'{$_POST['asteroides']}'");
-    $cleaning['cleaning_asteroides_result'] = mysql_num_rows($mysql_result);
-    if ($cleaning['cleaning_asteroides_result'] > 0) {
-        while ($row = mysql_fetch_assoc($mysql_result)) $tmp[] = $row['ID'];
-        $tmp = implode(',',$tmp);
-        DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE ID in ($tmp)");
-        DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee_Planetes WHERE pID in ($tmp)");
-    }
+if(isset($_POST['joueurs']) && $_POST['joueurs'] != '-1') {
+    $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE TYPE IN (0,3,5) AND `DATE`<'{$_POST['joueurs']}'");
+    $cleaning['cleaning_joueurs_result'] = mysql_affected_rows();
+}
+if(isset($_POST['pnj']) && $_POST['pnj'] != '-1') {
+    $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE TYPE=6 AND `DATE`<'{$_POST['pnj']}'");
+    $cleaning['cleaning_pnj_result'] = mysql_affected_rows();
+}
+if(isset($_POST['wormshole']) && $_POST['wormshole'] != '-1') {
+    $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE TYPE=1 AND `DATE`<'{$_POST['wormshole']}'");
+    $cleaning['cleaning_wormshole_result'] = mysql_affected_rows();
 }
 if(isset($_POST['planetes']) && $_POST['planetes'] != '-1') {
     $tmp = array();
@@ -62,19 +68,24 @@ if(isset($_POST['planetes']) && $_POST['planetes'] != '-1') {
         DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee_Planetes WHERE pID in ($tmp)");
     }
 }
-if(isset($_POST['pnj']) && $_POST['pnj'] != '-1') {
-    $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE TYPE=6 AND `DATE`<'{$_POST['pnj']}'");
-    $cleaning['cleaning_pnj_result'] = mysql_affected_rows();
-}
-if(isset($_POST['joueurs']) && $_POST['joueurs'] != '-1') {
-    $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE TYPE = 0 AND `DATE`<'{$_POST['joueurs']}'");
-    $cleaning['cleaning_joueurs_result'] = mysql_affected_rows();
+if(isset($_POST['asteroides']) && $_POST['asteroides'] != '-1') {
+    $tmp = array();
+    $mysql_result = DataEngine::sql("SELECT ID FROM SQL_PREFIX_Coordonnee WHERE TYPE=4 AND `DATE`<'{$_POST['asteroides']}'");
+    $cleaning['cleaning_asteroides_result'] = mysql_num_rows($mysql_result);
+    if ($cleaning['cleaning_asteroides_result'] > 0) {
+        while ($row = mysql_fetch_assoc($mysql_result)) $tmp[] = $row['ID'];
+        $tmp = implode(',',$tmp);
+        DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE ID in ($tmp)");
+        DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee_Planetes WHERE pID in ($tmp)");
+    }
 }
 if(isset($_POST['inactif']) && $_POST['inactif'] != '-1') {
     $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE inactif=1");
     $cleaning['cleaning_inactif_result'] = mysql_affected_rows();
 }
-
+// -- Partie Nettoyage ---------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -- Gestion des empires ------------------------------------------------------
 
 $emp_upd = false;
 if(isset($_POST['emp_upd']) && $_POST['emp_upd'] != '') {
@@ -150,19 +161,27 @@ if(isset($_GET['emp_allys_rm']) && $_GET['emp_allys_rm'] != '') {
     }
 }
 
-// Modification 'couleurs'
+// -- Gestion des empires ------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -- Modification 'couleurs' --------------------------------------------------
+
 if(isset($_POST['majcolors']) && $_POST['majcolors']) {
     DataEngine::conf_update('MapColors', $_POST['cls']);
 }
 
-// Modification 'Permissions'
+// -- Modification 'couleurs' --------------------------------------------------
+// -----------------------------------------------------------------------------
+// -- Modification 'Permissions' -----------------------------------------------
+
 if (isset ($_POST['cxx'])) {
     DataEngine::conf_update('perms', $_POST['cxx']);
 }
 
+// -- Modification 'Permissions' -----------------------------------------------
+// -----------------------------------------------------------------------------
 // exécution du spooleur sql...
 DataEngine::sql_do_spool();
-///---------------------------------------------------------------------------------------------------------------
+///-----------------------------------------------------------------------------
 
 include_once(TEMPLATE_PATH.'eadmin.tpl.php');
 $tpl = tpl_eadmin::getinstance();
@@ -227,11 +246,12 @@ if (!isset($_REQUEST['act'])) {
     $dates[$lng['dates'][16]] = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-9, date('d')	    ) );
     $dates[$lng['dates'][17]] = date('Y-m-d H:i:s', mktime(0, 0, 0, date('m')-12, date('d')	    ) );
 
-    $tpl->cleaning_header(5);
-    $tpl->cleaning_row('asteroides',$lng['cleaning_asteroides'], $dates);
-    $tpl->cleaning_row('planetes',$lng['cleaning_planetes'], $dates);
+    $tpl->cleaning_header(6);
     $tpl->cleaning_row('joueurs',$lng['cleaning_joueurs'], $dates);
     $tpl->cleaning_row('pnj',$lng['cleaning_pnj'], $dates);
+    $tpl->cleaning_row('wormshole',$lng['cleaning_wormshole'], $dates);
+    $tpl->cleaning_row('planetes',$lng['cleaning_planetes'], $dates);
+    $tpl->cleaning_row('asteroides',$lng['cleaning_asteroides'], $dates);
     $tpl->cleaning_row('inactif', $lng['cleaning_inactif'],
             array($lng['dates'][0] => '-1', $lng['dates'][20] => '1'));
     if (is_array($cleaning)) $tpl->cleaning_msg($cleaning);

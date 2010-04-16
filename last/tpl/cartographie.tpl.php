@@ -206,8 +206,8 @@ ROW;
         $this->currow = <<<ROW
             
                 
-            <tr class="text_center color_row%%rowA%% spacing_header">
-                <TD class="color_bg" %%userdate%%>%%type%%</TD>
+            <tr class="text_center color_row%%rowA%% spacing_row">
+                <TD class="color_bg spacing_row%%rowA%%" %%userdate%%>%%type%%</TD>
                 <TD class="spacing_row%%rowA%%">%%coords%%</TD>
                 <TD class="spacing_row%%rowA%%">-<br/>-</TD>
                 <TD class="spacing_row%%rowA%%">%%infos%% <br/>
@@ -219,7 +219,7 @@ ROW;
                     %%cmd_delete%%
                 </TD>
             </tr>
-            <tr class="color_row%%rowB%%">
+            <tr class="color_row%%rowA%%">
                 <TD class="spacing_row%%rowA%%">%%Titane%%</TD>
                 <TD class="spacing_row%%rowA%%">%%Cuivre%%</TD>
                 <TD class="spacing_row%%rowA%%">%%Fer%%</TD>
@@ -241,8 +241,8 @@ ROW;
     public function SetRowModelTypeB () {
         $this->currow = <<<ROW
 
-            <tr class="text_center color_row%%rowA%% spacing_header">
-                <TD class="color_bg" %%userdate%%>%%type%%</TD>
+            <tr class="text_center color_row%%rowA%% spacing_row">
+                <TD class="color_bg spacing_row%%rowA%%" %%userdate%%>%%type%%</TD>
                 <TD class="spacing_row%%rowA%%">%%coords%%</TD>
                 <TD class="spacing_row%%rowA%%">%%player%%</TD>
                 <TD class="spacing_row%%rowA%%">%%infos%%<br/>
@@ -265,8 +265,8 @@ ROW;
     public function SetRowModelTypeC () {
         $this->currow = <<<ROW
 
-            <tr class="text_center color_row%%rowA%% spacing_header">
-                <TD class="color_bg" %%userdate%%>%%type%%</TD>
+            <tr class="text_center color_row%%rowA%% spacing_row">
+                <TD class="color_bg spacing_row%%rowA%%" %%userdate%%>%%type%%</TD>
                 <TD class="spacing_row%%rowA%%">%%coords%%</TD>
                 <TD class="spacing_row%%rowA%%">%%player%%</TD>
                 <TD class="spacing_row%%rowA%%">%%infos%%<br/>
@@ -321,7 +321,7 @@ o;
 
     public function SearchResult_End () {
         $this->currow = <<<ROW
-            <tr class="color_bg spacing_header">
+            <tr class="color_bg spacing_row">
                 <TD class="text_center" colspan="4">
                     <input type="hidden" name="massedit" value="1"/>
                     <input class="color_row0" type="submit" value="Valider Les modifications"/></TD>
