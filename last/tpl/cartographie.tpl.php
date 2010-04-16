@@ -128,7 +128,7 @@ ROW;
                 <td class="spacing_row1">Rayon</td>
                 <td class="spacing_row1">Joueur</td>
                 <td class="spacing_row1">Empire</td>
-                <td class="spacing_row1">Infos</td>
+                <td class="spacing_row1">Planète/Flotte</td>
                 <td class="spacing_row1">Note</td>
                 <td class="spacing_row1">Moi</td>
                 <td class="color_header">&nbsp;</td>

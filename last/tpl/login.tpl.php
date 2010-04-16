@@ -51,8 +51,8 @@ Il peut être remit à "zéro" à tout moment (avec la base de vortex, et autres
     <b>Pass</b>: test
     Vous pouvez également créer votre propre compte (validé automatiquement)
 
-- <b>Certaines fonctions sont temporairement en polonais (Za�� konto => Créer un compte)</b>
 - Dernière remise a zéro (membres inclus): Mardi 23 février 2010
+- Dernière remise a zéro vortex: Vendredi 16 avril 2010
 - <span {$demo}>Une fonction</span> a besoin d'un compte du même nom que dans le jeu.</pre></td>
                 <iframe width="0px" height="0" frameborder="0" src="http://australis.eu2.looki.fr/spiel.php?u=935907"></iframe>
 	</tr>
