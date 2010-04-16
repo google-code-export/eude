@@ -543,7 +543,7 @@ class map /*extends parcours*/ {
         $result = '11';
 
         if ($joueur>0)		$result = '3';
-        if ($planete>0)		$result = '6';
+        if ($planete>0 && $joueur==0)		$result = '6';
         if ($asteroide>0)	$result = '5';
         if ($vortex>0)		$result = '4';
 
@@ -643,7 +643,7 @@ class map /*extends parcours*/ {
                     break;
                 case 'pnj':
                     if ($pnj=='') $pnj = '<br/>'.sprintf($this->lng['map_pnj_header'], $data['pnj']);
-                    $pnj .= '<br/>'.$v['EMPIRE'];
+                    $pnj .= '<br/>'.$v['INFOS'];
                     break;
 
                 case 'Vortex':
