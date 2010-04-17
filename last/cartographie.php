@@ -26,6 +26,7 @@ if (isset($_POST['massedit'])) {
         } else
         if ($arr['edit']) {
             unset($arr['edit']);
+            if (isset($arr['TROOP'])) $arr['TROOP'] = DataEngine::strip_number($arr['TROOP']);
             $carto->Edit_Entry($k,$arr);
         }
     }
@@ -260,7 +261,7 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
         $tpl->AddToRow($ligne['INFOS'] ? $ligne['INFOS'] : '-', 'infos');
     $tpl->AddToRow($ligne['NOTE'], 'notes');
     $tpl->AddToRow($ligne['water'], 'water');
-    $tpl->AddToRow($ligne['troop'], 'troop');
+    $tpl->AddToRow(DataEngine::format_number($ligne['troop'], true), 'troop');
 
     $tmp = sprintf('Par <b>%s</b><br/>Le: %s', $ligne['UTILISATEUR'], $ligne['DATE']);
     $tpl->AddToRow(bulle($tmp), 'userdate');
