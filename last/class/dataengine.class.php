@@ -330,7 +330,7 @@ ead;
     }
 
     static public function strip_number($number) {
-        return intval(str_replace(' ','',str_replace('.','',$number)));
+        return intval(preg_replace('/[^0-9]*/', '', $number));
     }
 
     static public function a_shiplist() {
