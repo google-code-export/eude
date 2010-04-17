@@ -398,7 +398,7 @@ class cartographie {
                 $value, $_SESSION['_login'], $where);
         $sql_result = DataEngine::sql($query);
 
-        $this->AddInfo('Mise a jour du type '.$item['TYPE'].' identifié par '.$ident);
+        $this->AddInfo('Mise à jour du "'.$this->lngmain['types']['string'][$item['TYPE']].'" (identifié par '.$ident.')');
         return true;
     }
 
@@ -528,6 +528,7 @@ class cartographie {
     public function __construct() {
         $this->reset();
         $this->lng = language::getinstance()->GetLngBlock('cartographie');
+        $this->lngmain = language::getinstance()->GetLngBlock('dataengine');
 
         $this->allys = DataEngine::config('EmpireAllys');
         $this->wars  = DataEngine::config('EmpireEnnemy');
