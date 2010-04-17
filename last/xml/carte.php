@@ -25,12 +25,14 @@ o;
 }
 
 // Partie recherche
-$_SESSION['emp']	= ( isset($_POST['emp'])		&& $_POST['emp'] != "") 			? stripslashes($_POST['emp']): "";
-$_SESSION['jou']	= ( isset($_POST['jou'])		&& $_POST['jou'] != "") 			? stripslashes($_POST['jou']): "";
+$_SESSION['emp']	= ( ($_POST['s']!='')	&& $_POST['type'] == 'emp') ? stripslashes($_POST['s']): '';
+$_SESSION['jou']	= ( ($_POST['s']!='')	&& $_POST['type'] == 'jou') ? stripslashes($_POST['s']): '';
+$_SESSION['inf']	= ( ($_POST['s']!='')	&& $_POST['type'] == 'inf') ? stripslashes($_POST['s']): '';
 
 $search = '';
 if ($_SESSION['emp'] != "") $search = "`EMPIRE`='".sqlesc($_SESSION['emp'])."' ";
 if ($_SESSION['jou'] != "") $search = "`USER`='".sqlesc($_SESSION['jou'])."' ";
+if ($_SESSION['inf'] != "") $search = "`INFOS`='".sqlesc($_SESSION['inf'])."' ";
 
 if ( isset($_POST['ss']) && $_POST['ss'] != "") {
     if ($search != '') $search = "($search OR ";

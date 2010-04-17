@@ -30,10 +30,11 @@ $lng['msg_ennemis']   = 'Wrogowie: %s';
 $lng['msg_allys']     = 'Sojusznicy: %s';
 $lng['msg_pirate']    = 'Floty Pirackie: %s';
 $lng['msg_coords']    = 'Coordonnée';
-$lng['msg_search1']   = 'Wybierz Imperium lub Gracza';
+$lng['msg_search1']   = 'Wybierz Imperium lub Gracza'; // 'Choix empire/joueur/planète/flotte'
 $lng['msg_search2']   = 'Enter:Wyszukaj';
 $lng['msg_search_emp']= 'Imperium';
 $lng['msg_search_jou']= 'Gracz';
+$lng['msg_search_info']= 'Nom de planète/flotte';
 
 // Menu pour le calcul
 $lng['parcours_header']= 'Navigator';

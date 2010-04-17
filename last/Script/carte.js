@@ -62,16 +62,17 @@ var Navigateur = {
 		},
 	DoSearch: function()
 		{
-			var input = $('searchempire')['search'];
-			var emp=jou='';
-			if ($('searchempire')['type'][0].checked)
-				emp = Form.Element.getValue(input);
-			else
-				jou = Form.Element.getValue(input);
+			var input = $('searchempire')['search'].value;
+			var type  = $('searchempire')['type'].value;
+//                     return false;
+//			if ($('searchempire')['type'][0].checked)
+//				emp = Form.Element.getValue(input);
+//			else
+//				jou = Form.Element.getValue(input);
 				$('carteunivers').src="./Images/loading.gif";
 
 			new Ajax.Request('xml/carte.php',{
-				method:'post',parameters:{'emp':emp,'jou':jou,'ss':Carte.GetLastSearch()},
+				method:'post',parameters:{type:type,s:input,'ss':Carte.GetLastSearch()},
 				onCreate:function(){$('ajaxstatus').update(i18n.Ajax.onCreate);},
 				onSuccess:function(t){
 					var xml = '';

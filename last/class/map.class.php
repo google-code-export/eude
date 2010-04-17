@@ -506,6 +506,8 @@ class map /*extends parcours*/ {
             if( stristr($line['EMPIRE'], $_SESSION['emp']) !== FALSE) return 'search';
         if ($_SESSION['jou'] != '')
             if( stristr($line['USER'], $_SESSION['jou']) !== FALSE) return 'search';
+        if ($_SESSION['inf'] != '')
+            if( stristr($line['INFOS'], $_SESSION['inf']) !== FALSE) return 'search';
 
         if( $this->empire != '' && $line['EMPIRE'] == $this->empire &&
                 $this->cxx_empires) return 'empire';
@@ -621,7 +623,7 @@ class map /*extends parcours*/ {
                     break;
                 case 'search':
                     if ($search=='') $search = '<br/>'.sprintf($this->lng['map_search_header'], $data['search']);
-                    $search .= '<br/>'.sprintf($this->lng['map_row_player3'], $v['USER'], $v['EMPIRE']);
+                    $search .= '<br/>'.sprintf($this->lng['map_row_player3'], $v['USER'], $v['TYPE'] != 6 ? $v['EMPIRE']: $v['INFOS']);
                     break;
 
                 case 'Joueur':

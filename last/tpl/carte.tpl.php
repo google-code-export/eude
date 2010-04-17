@@ -8,19 +8,6 @@
  **/
 if (!SCRIPT_IN) die('Need by included');
 
-/*
-$tpl = new tpl_carte($map);
-$tpl->navigation();
-$tpl->maparea();
-$tpl->itineraire_header();
-$tpl->itineraire_form();
-$tpl->Parcours_Start();
-$tpl->Parcours_Row();
-$tpl->Parcours_End();
-$tpl->Legend();
-$tpl->javascript();
-$tpl->DoOutput();
-*/
 class tpl_carte extends output {
     protected $BASE_FILE = '';
     private $map;
@@ -130,8 +117,12 @@ NAV;
         if (DataEngine::CheckPerms('CARTE_SEARCH'))
             $out.=<<<SEARCH
 <form id="searchempire" action="Carte.php" method="post" OnSubmit="return Navigateur.DoSearch();">
-			<td id="Map_Entete" {$msg_search1} align=right><input type=radio name="type" value="emp"> {$this->lng['msg_search_emp']}
-                        <input type=radio name="type" value="jou" checked> {$this->lng['msg_search_jou']} :</td>
+			<td id="Map_Entete" {$msg_search1} align=right>
+                        <select class="color_header" name="type">
+                            <option value="emp">{$this->lng['msg_search_emp']}</option>
+                            <option value="jou" selected="true">{$this->lng['msg_search_jou']}</option>
+                            <option value="inf">{$this->lng['msg_search_info']}</option>
+                        </select></td>
 			<td id="Map_Entete" {$msg_search2}><input id="Map_Itineraire" type=text name=search value="{$search}"></td>
 </form>
 SEARCH;
