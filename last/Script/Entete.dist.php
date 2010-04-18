@@ -59,7 +59,7 @@ final class Config implements iDataEngine_Config {
          * par défaut vide
          * @staticvar SQL_PREFIX_ ''
          */
-        define('SQL_PREFIX_','SQL_PREFIX_');
+        define('SQL_PREFIX_','');
 
         /**
          * Quel pack de langue utiliser ?
