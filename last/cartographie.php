@@ -106,20 +106,20 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     }
     if (isset($_COOKIE['Recherche']))
         foreach ($_COOKIE['Recherche'] as $key => $value)
-            $Recherche[$key] = $value;
+            $Recherche[$key] = stripslashes($value);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' &&
             !isset ($_POST['Recherche']['Moi']))
-        $_POST['Recherche']['Moi'] = '';
+        unset($_POST['Recherche']['Moi']);
 
     if (isset ($_POST['Recherche']))
         foreach ($_POST['Recherche'] as $key => $value) {
             $value = gpc_esc($value);
             if ($value != '') {
-                SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()+3600*24,ROOT_URL);
-                $Recherche[$key] = $_POST['Recherche'][$key];
+                SetCookie('Recherche['.$key.']',$value,time()+3600*24,ROOT_URL);
+                $Recherche[$key] = $value;
             } else {
-                SetCookie('Recherche['.$key.']',$_POST['Recherche'][$key],time()-10,ROOT_URL);
+                SetCookie('Recherche['.$key.']','',time()-10,ROOT_URL);
                 unset($Recherche[$key]);
             }
         }
@@ -132,7 +132,7 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     $fieldtable['Infos']  = '`INFOS` like \'%%%s%%\' ';
     $fieldtable['Note']   = '`NOTE` like \'%%%s%%\' ';
     foreach ($Recherche as $key => $value) {
-        $value = gpc_esc($value);
+        $value = sqlesc($value);
 
         switch ($key) {
             case 'Pos':
@@ -182,10 +182,10 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     $tpl->AddToRow($tpl->SelectOptions2($lngmain['types']['dropdown'],$Recherche['Type']), 'Type');
     $tpl->AddToRow($Recherche['Pos'], 'Pos');
     $tpl->AddToRow($Recherche['Rayon'], 'Rayon');
-    $tpl->AddToRow($Recherche['User'], 'User');
-    $tpl->AddToRow($Recherche['Empire'], 'Empire');
-    $tpl->AddToRow($Recherche['Infos'], 'Infos');
-    $tpl->AddToRow($Recherche['Note'], 'Note');
+    $tpl->AddToRow(htmlentities($Recherche['User'], ENT_QUOTES, 'utf-8'), 'User');
+    $tpl->AddToRow(htmlentities($Recherche['Empire'], ENT_QUOTES, 'utf-8'), 'Empire');
+    $tpl->AddToRow(htmlentities($Recherche['Infos'], ENT_QUOTES, 'utf-8'), 'Infos');
+    $tpl->AddToRow(htmlentities($Recherche['Note'], ENT_QUOTES, 'utf-8'), 'Note');
     $tpl->AddToRow(($Recherche['Moi']==1 ? ' checked':''), 'checkedmoi');
     $tpl->PushRow();
 }
