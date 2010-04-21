@@ -112,6 +112,9 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
             !isset ($_POST['Recherche']['Moi']))
         $_POST['Recherche']['Moi'] = '';
 
+    if (isset($_POST['Recherche']['Troop']))
+        $_POST['Recherche']['Troop'] = DataEngine::strip_number($_POST['Recherche']['Troop']);
+
     if (isset ($_POST['Recherche']))
         foreach ($_POST['Recherche'] as $key => $value) {
             $value = gpc_esc($value);
@@ -124,12 +127,11 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
             }
         }
 
-    if (DataEngine::strip_number($Recherche['Troop']>0))
-        $Recherche['Type'] = 0;
+    if ($Recherche['Troop']>0) $Recherche['Type'] = '0,3,5';
     
     $fieldtable = array();
     $fieldtable['Status'] = '`Inactif`=\'%s\' ';
-    $fieldtable['Type']   = '`TYPE` IN (%d) ';
+    $fieldtable['Type']   = '`TYPE` IN (%s) ';
     $fieldtable['User']   = '`USER` like \'%%%s%%\' ';
     $fieldtable['Empire'] = '`EMPIRE` like \'%%%s%%\' ';
     $fieldtable['Infos']  = '`INFOS` like \'%%%s%%\' ';
@@ -179,6 +181,12 @@ $tpl->AddToRow(bulle("Coller ici les détails d'une planète, joueur ou d'un vor
 
 $lngmain = language::getinstance()->GetLngBlock('dataengine');
 $tpl->AddToRow($tpl->SelectOptions2($lngmain['types']['dropdown'],''), 'Type');
+$tpl->AddToRow(bulle('Position de départ'), 'bulle1');
+$tpl->AddToRow(bulle('Position de de sortie (vortex)'), 'bulle2');
+$tpl->AddToRow(bulle('Nom du Joueur'), 'bulle3');
+$tpl->AddToRow(bulle('Nom de l\'empire'), 'bulle4');
+$tpl->AddToRow(bulle('Nom de la planète<br/>ou<br/>Nom de la flotte'), 'bulle5');
+
 $tpl->PushRow();
 
 //------------------------------------------------------------------------------

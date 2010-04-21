@@ -11,7 +11,7 @@ class devissues_addons implements addon_config {
 
     public function Is_Enabled () {
         if (!Members::CheckPermsKey('in_dev'))
-            Members::CheckPermsKeyAdd('in_dev', AXX_ROOTADMIN);
+            Members::CheckPermsKeyAdd('in_dev', AXX_DISABLED);
         return true;
 
     }
@@ -63,7 +63,10 @@ class devissues_addons implements addon_config {
         return true;
     }
     public function GetCustomPerms() {
-        return array('in_dev'=>'Menu pour le dev');
+        srand();
+        return array(rand()+100=>'Config de dev...',
+            'in_dev'=>'Menu pour le dev',
+            rand()+100=>'&nbsp;');
     }
 }
 

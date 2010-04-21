@@ -57,12 +57,12 @@ class tpl_cartographie extends output {
                         %%Type%%
                     </select>
 		</TD>
-	 	<TD class="spacing_row1"><input class="color_row1 size110" maxlength="16" type="text" name="COORIN"  value="" $bulle1/></TD>
-	 	<TD class="spacing_row1"><input class="color_row1 size110" maxlength="16" type="text" name="COOROUT" value="" $bulle2/></TD>
-	 	<TD class="spacing_row1"><input class="color_row1 size110" maxlength="30" type="text" name="USER"    value="" $bulle3/></TD>
-	 	<TD class="spacing_row1"><input class="color_row1 size110" maxlength="100" type="text" name="EMPIRE"  value="" $bulle4/></TD>
-	 	<TD class="spacing_row1"><input class="color_row1 size110" maxlength="100" type="text" name="INFOS"  value="" $bulle4/></TD>
-	 	<TD class="color_header"><input class="color_header" type="submit" value="Insérer" $bulle6/></TD>
+	 	<TD class="spacing_row1"><input class="color_row1 size110" maxlength="16" type="text" name="COORIN"  value="" %%bulle1%%/></TD>
+	 	<TD class="spacing_row1"><input class="color_row1 size110" maxlength="16" type="text" name="COOROUT" value="" %%bulle2%%/></TD>
+	 	<TD class="spacing_row1"><input class="color_row1 size110" maxlength="30" type="text" name="USER"    value="" %%bulle3%%/></TD>
+	 	<TD class="spacing_row1"><input class="color_row1 size110" maxlength="100" type="text" name="EMPIRE"  value="" %%bulle4%%/></TD>
+	 	<TD class="spacing_row1"><input class="color_row1 size110" maxlength="100" type="text" name="INFOS"  value="" %%bulle5%%/></TD>
+	 	<TD class="color_header"><input class="color_header" type="submit" value="Insérer"/></TD>
 	 	</TR>	 
             </table>
         </td>
