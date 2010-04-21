@@ -110,7 +110,7 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' &&
             !isset ($_POST['Recherche']['Moi']))
-        unset($_POST['Recherche']['Moi']);
+        $_POST['Recherche']['Moi'] = '';
 
     if (isset ($_POST['Recherche']))
         foreach ($_POST['Recherche'] as $key => $value) {
@@ -124,6 +124,9 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
             }
         }
 
+    if (DataEngine::strip_number($Recherche['Troop']>0))
+        $Recherche['Type'] = 0;
+    
     $fieldtable = array();
     $fieldtable['Status'] = '`Inactif`=\'%s\' ';
     $fieldtable['Type']   = '`TYPE` IN (%d) ';
@@ -131,6 +134,7 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     $fieldtable['Empire'] = '`EMPIRE` like \'%%%s%%\' ';
     $fieldtable['Infos']  = '`INFOS` like \'%%%s%%\' ';
     $fieldtable['Note']   = '`NOTE` like \'%%%s%%\' ';
+    $fieldtable['Troop']   = '`TROOP`<%d ';
     foreach ($Recherche as $key => $value) {
         $value = sqlesc($value);
 
@@ -151,8 +155,15 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
                 $where.= 'AND '.sprintf($fieldtable[$key], $value);
                 break;
             default:
-                if (isset ($fieldtable[$key]))
-                    $where.= 'AND '.sprintf($fieldtable[$key], $value);
+                if (isset ($fieldtable[$key])) {
+                    switch ($key) {
+                        case 'Troop':
+                            $value = DataEngine::strip_number($value);
+                            if ($value==0) break;
+                        default:
+                            $where.= 'AND '.sprintf($fieldtable[$key], $value);
+                    }
+                }
         }
     }
 
@@ -186,6 +197,7 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     $tpl->AddToRow(htmlentities($Recherche['Empire'], ENT_QUOTES, 'utf-8'), 'Empire');
     $tpl->AddToRow(htmlentities($Recherche['Infos'], ENT_QUOTES, 'utf-8'), 'Infos');
     $tpl->AddToRow(htmlentities($Recherche['Note'], ENT_QUOTES, 'utf-8'), 'Note');
+    $tpl->AddToRow(DataEngine::format_number($Recherche['Troop'], true), 'Troop');
     $tpl->AddToRow(($Recherche['Moi']==1 ? ' checked':''), 'checkedmoi');
     $tpl->PushRow();
 }
@@ -214,7 +226,7 @@ $sort_key = array('type', 'user', 'empire', 'infos', 'note', 'date', 'water', 't
 $sort='ORDER BY DATE DESC';
 foreach($sort_key as $v) {
     if (isset($_GET['sort']) && in_array($_GET['sort'][$v],$invert_sort))
-            $sort= 'ORDER BY '.$v.' '.$_GET['sort'][$v].' ';
+        $sort= 'ORDER BY '.$v.' '.$_GET['sort'][$v].' ';
     else if (isset($_GET['sort'][$v]))
         $_GET['sort'][$v] = '';
 
@@ -258,7 +270,7 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
         $tpl->AddToRow($ligne['USER'] ? $ligne['USER'].'<br/>'.$ligne['EMPIRE'] : $ligne['EMPIRE'], 'player');
     else
         $tpl->AddToRow($ligne['USER'] ? $ligne['USER'] : '-', 'player');
-        $tpl->AddToRow($ligne['INFOS'] ? $ligne['INFOS'] : '-', 'infos');
+    $tpl->AddToRow($ligne['INFOS'] ? $ligne['INFOS'] : '-', 'infos');
     $tpl->AddToRow($ligne['NOTE'], 'notes');
     $tpl->AddToRow($ligne['water'], 'water');
     $tpl->AddToRow(DataEngine::format_number($ligne['troop'], true), 'troop');

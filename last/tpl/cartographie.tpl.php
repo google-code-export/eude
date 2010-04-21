@@ -118,7 +118,7 @@ ROW;
         <form name="search" method="post" action="{$this->BASE_FILE}?{$this->BASE_GET}">
         <table class="table_center table_nospacing color_row0" width="100%">
             <tr>
-                <TD class="text_center color_bigheader" colspan="9">Recherche des corps célestes</TD>
+                <TD class="text_center color_bigheader" colspan="10">Recherche des corps célestes</TD>
                 <td class="text_center color_header"><input OnClick="location.href='{$this->BASE_FILE}?ResetSearch=1';" class="color_header" type="button" value="Afficher tout"/></td>
             </tr>
             <tr class="color_cols text_center">
@@ -130,6 +130,7 @@ ROW;
                 <td class="spacing_row1">Empire</td>
                 <td class="spacing_row1">Planète/Flotte</td>
                 <td class="spacing_row1">Note</td>
+                <td class="spacing_row1">Troupes Max</td>
                 <td class="spacing_row1">Moi</td>
                 <td class="color_header">&nbsp;</td>
             </tr>
@@ -153,6 +154,7 @@ ROW;
                 <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[Empire]" value="%%Empire%%" /></td>
                 <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[Infos]" value="%%Infos%%" /></td>
                 <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[Note]" value="%%Note%%" /></td>
+                <td class="spacing_row1"><INPUT class="color_row1 size80 text_center" type="text" name="Recherche[Troop]" value="%%Troop%%" /></td>
                 <td class="spacing_row1"><INPUT class="color_row1" type="checkbox" name="Recherche[Moi]" value="1"%%checkedmoi%%/></td>
                 <td class="color_header"><input class="color_header" type="submit" value="Rechercher"/></td>
             </tr>
@@ -194,7 +196,7 @@ ROW;
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_infos%%">Nom de la planète/flotte</a><br/>
                                          <a href="{$this->BASE_FILE}?%%sort_note%%">Notes</a></TD>
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_water%%">% d'eau</a><br/>
-                                         <a href="{$this->BASE_FILE}?%%sort_troop%%">Soldats</a></TD>
+                                         <a href="{$this->BASE_FILE}?%%sort_troop%%">Troupes</a></TD>
                 <TD class="text_right">&nbsp;</td>
             </tr>
 
