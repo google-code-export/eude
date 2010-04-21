@@ -168,11 +168,15 @@ ROW;
 
     public function GetPagination($current, $max) {
         $result = '';
-        if ($current>2)      $result .= '<a href="'.$this->BASE_FILE.'?page=1"><img src="%IMAGES_URL%Btn-Debut.png"/></a>';
-        if ($current>1)      $result .= '<a href="'.$this->BASE_FILE.'?page='.($current-1).'"><img src="%IMAGES_URL%Btn-Precedent.png"/></a>';
+        $page1  = Get_string(array('page'=>1));
+        $page2  = Get_string(array('page'=>($current-1)));
+        $page3  = Get_string(array('page'=>($current+1)));
+        $page4  = Get_string(array('page'=>($max)));
+        if ($current>2)      $result .= '<a href="'.$this->BASE_FILE.'?'.$page1.'"><img src="%IMAGES_URL%Btn-Debut.png"/></a>';
+        if ($current>1)      $result .= '<a href="'.$this->BASE_FILE.'?'.$page2.'"><img src="%IMAGES_URL%Btn-Precedent.png"/></a>';
         $result .= $current.' / '.$max;
-        if ($current<$max)   $result .= '<a href="'.$this->BASE_FILE.'?page='.($current+1).'"><img src="%IMAGES_URL%Btn-Suivant.png"/></a>';
-        if ($current<$max-1) $result .= '<a href="'.$this->BASE_FILE.'?page='.($max).'"><img src="%IMAGES_URL%Btn-Fin.png"/></a>';
+        if ($current<$max)   $result .= '<a href="'.$this->BASE_FILE.'?'.$page3.'"><img src="%IMAGES_URL%Btn-Suivant.png"/></a>';
+        if ($current<$max-1) $result .= '<a href="'.$this->BASE_FILE.'?'.$page4.'"><img src="%IMAGES_URL%Btn-Fin.png"/></a>';
 
         return $result;
     }

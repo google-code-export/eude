@@ -364,7 +364,7 @@ cleaning_footer;
         //"$num $tp supprimé";
         $msg = implode('<br/>',$msg);
         $out .=<<<cleaning_msg
-		<TR class="color_row0">
+		<TR class="color_row1">
 			<TD colspan=4>{$msg}</TD>
 		</TR>
 
