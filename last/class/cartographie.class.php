@@ -55,6 +55,9 @@ class cartographie {
      * @return boolean
      */
     public function add_planet($coords, $ress_val) {
+        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLANETS'))
+            return $this->AddErreur('Permissions manquante');
+
         $Ressource=DataEngine::a_Ressources();
         $warn='';
 
@@ -122,6 +125,9 @@ class cartographie {
      * @return boolean
      */
     public function add_asteroid($coords, $ress_val) {
+        if (!DataEngine::CheckPerms('CARTOGRAPHIE_ASTEROID'))
+            return $this->AddErreur('Permissions manquante');
+
         $Ressource=DataEngine::a_Ressources();
         $warn='';
 
