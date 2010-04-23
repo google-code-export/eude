@@ -26,7 +26,7 @@ class sample_addons implements addon_config {
         $menu = array('%ADDONS_URL%sample/index.php','%IMAGES_URL%test.png',125,'Members::CheckPerms(\'addons_sample\')', null);
 
         // menu + sous menu
-        $menu2 = array('%ADDONS_URL%sample/index.php','%IMAGES_URL%test.png',125,'DataEngine::CheckPerms(AXX_ROOTADMIN)',
+        $menu2 = array('%ADDONS_URL%sample/index.php','%IMAGES_URL%test.png',125,'DataEngine::CheckPerms(\'addons_sample\')',
                 array(
                         array('%ADDONS_URL%sample/index.php','%IMAGES_URL%test.png','true'), // sous-menu 1
                         array('%ROOT_URL%index.php','%IMAGES_URL%btn-cartographie.png','true'), // sous-menu 2
