@@ -136,7 +136,7 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     $fieldtable['Empire'] = '`EMPIRE` like \'%%%s%%\' ';
     $fieldtable['Infos']  = '`INFOS` like \'%%%s%%\' ';
     $fieldtable['Note']   = '`NOTE` like \'%%%s%%\' ';
-    $fieldtable['Troop']   = '`TROOP`<%d ';
+    $fieldtable['Troop']   = '`TROOP`<%d AND `TROOP`>=0 ';
     foreach ($Recherche as $key => $value) {
         $value = sqlesc($value);
 

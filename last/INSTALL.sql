@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `Coordonnee` (
   `DATE` datetime NOT NULL,
   `NOTE` varchar(100) NOT NULL,
   `water` varchar(3) NOT NULL default '',
-  `troop` int(10) unsigned NOT NULL,
+  `troop` int(10) NOT NULL default '-1',
   `INACTIF` tinyint(1) NOT NULL default '0',
   `UTILISATEUR` varchar(30) NOT NULL,
   PRIMARY KEY  (`ID`),
