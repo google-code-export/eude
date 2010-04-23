@@ -320,7 +320,7 @@ ead;
     }
 
     static public function format_number($number, $full_num=false) {
-        if ($number==0) {
+        if ($number<=0) {
             return '-';
         } elseif ($number >= 1000000 && !$full_num) {
             return number_format($number/1000000,2,',',' ').' M';
@@ -330,7 +330,7 @@ ead;
     }
 
     static public function strip_number($number) {
-        return intval(preg_replace('/[^0-9]*/', '', $number));
+        return intval(preg_replace('/[^0-9\-]*/', '', $number));
     }
 
     static public function a_shiplist() {
