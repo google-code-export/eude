@@ -89,8 +89,8 @@ if(isset($_POST['inactif']) && $_POST['inactif'] != '-1') {
 
 $emp_upd = false;
 if(isset($_POST['emp_upd']) && $_POST['emp_upd'] != '') {
-    $old_emp = sqlesc($_POST['emp_orig']);
-    $new_emp = sqlesc($_POST['emp_new']);
+    $old_emp = sqlesc($_POST['emp_orig'], false);
+    $new_emp = sqlesc($_POST['emp_new'], false);
     if ($old_emp!=$new_emp && $old_emp != "") {
         $mysql_result = DataEngine::sql("UPDATE SQL_PREFIX_Coordonnee SET EMPIRE='{$new_emp}' WHERE TYPE in (0,3,5) AND `EMPIRE` LIKE '{$old_emp}'");
         $emp_upd = mysql_affected_rows();
