@@ -302,7 +302,7 @@ class ownuniverse {
             $this->readonly = true;
         } else $player = $_SESSION['_login'];
         if (!$this->universe_data) {
-            $qnom  = sqlesc($player, false);
+            $qnom  = sqlesc($player);
             $query = "SELECT * FROM SQL_PREFIX_ownuniverse where UTILISATEUR='$qnom'";
             $sql_r = DataEngine::sql($query);
             $ligne = mysql_fetch_assoc($sql_r);

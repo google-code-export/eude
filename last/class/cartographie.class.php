@@ -235,7 +235,7 @@ class cartographie {
             if (!$updatetype) $type = $ligne['TYPE'];
                 $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET `TYPE`=%d,`POSOUT`=\'\',`COORDETOUT`=\'\',`USER`=\'%s\',`EMPIRE`=\'%s\','.
                         '`INFOS`=\'%s\',`UTILISATEUR`=\'%s\',DATE=NOW() WHERE ID=%s',
-                        $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login'], true), $ligne['ID'] );
+                        $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']), $ligne['ID'] );
 
             DataEngine::sql($query);
             if (mysql_affected_rows() > 0) {
@@ -252,7 +252,7 @@ class cartographie {
         } else {
             $query = sprintf('INSERT INTO SQL_PREFIX_Coordonnee (TYPE,POSIN,POSOUT,COORDET,COORDETOUT,USER,EMPIRE,INFOS,DATE,UTILISATEUR)'.
                     ' VALUES (%d,\'%s\',\'\',\'%s\',\'\',\'%s\',\'%s\',\'%s\',now(),\'%s\')',
-                    $type, $uni, $sys, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login'],true));
+                    $type, $uni, $sys, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']));
             DataEngine::sql($query);
             if (NO_SESSIONS)
                 return $this->AddInfo('Ajout '.$sys.': '.$stype.' '.$nom);
@@ -277,7 +277,7 @@ class cartographie {
         if($ligne['ID'] > 0) {
             $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET `TYPE`=6,`POSOUT`=\'\',`COORDETOUT`=\'\',`USER`=\'%s\',`INFOS`=\'%s\','.
                     '`UTILISATEUR`=\'%s\' WHERE ID=%s',
-                    $qnom, $qfleet, sqlesc($_SESSION['_login'], true), $ligne['ID'] );
+                    $qnom, $qfleet, sqlesc($_SESSION['_login']), $ligne['ID'] );
 
             DataEngine::sql($query);
             if (mysql_affected_rows() > 0) {
@@ -294,7 +294,7 @@ class cartographie {
         } else {
             $query = sprintf('INSERT INTO SQL_PREFIX_Coordonnee (TYPE,POSIN,POSOUT,COORDET,COORDETOUT,USER,EMPIRE,DATE,UTILISATEUR)'.
                     ' VALUES (6,\'%s\',\'\',\'%s\',\'\',\'%s\',\'%s\',now(),\'%s\')',
-                    $uni, $sys, $qnom, $qfleet, sqlesc($_SESSION['_login'],true));
+                    $uni, $sys, $qnom, $qfleet, sqlesc($_SESSION['_login']));
             DataEngine::sql($query);
             if (NO_SESSIONS)
                 return $this->AddInfo('Ajout '.$sys.': La flotte '.$nom);
@@ -360,8 +360,8 @@ class cartographie {
                 list($dummy, $dummy, $nom, $empire) = $v;
                 if (isset($curss_info[$nom])) {
                     if ($curss_info[$nom] != $empire) {
-                        $qnom    = sqlesc($nom, true);
-                        $qempire = sqlesc($empire, true);
+                        $qnom    = sqlesc($nom);
+                        $qempire = sqlesc($empire);
                         $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}',DATE=now() WHERE USER='{$qnom}'";
                         DataEngine::sql($query);
                         $this->AddInfo('Changement d\'empire du joueur: \''.$nom.'\' ['.mysql_affected_rows().']');

@@ -243,7 +243,7 @@ class DataEngine extends Members {
      */
     static public function conf_add($key, $value) {
         self::$settings[$key] = $value;
-        self::sql_spool('INSERT INTO SQL_PREFIX_Config (`key`,`value`) VALUES (\''.$key.'\',\''.sqlesc(serialize($value), true).'\')');
+        self::sql_spool('INSERT INTO SQL_PREFIX_Config (`key`,`value`) VALUES (\''.$key.'\',\''.sqlesc(serialize($value)).'\')');
     }
     static public function conf_del($key) {
         unset(self::$settings[$key]);

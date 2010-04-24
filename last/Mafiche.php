@@ -41,7 +41,7 @@ if(isset($_POST['importation'])) {
         $info['pts_guerrier'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['pts_guerrier'] ));
 
 
-        foreach ($info as $k => $v) $info[$k] = sqlesc($v, true);
+        foreach ($info as $k => $v) $info[$k] = sqlesc($v);
 
         $query = <<<q
             UPDATE SQL_PREFIX_Membres SET POINTS='%d',
@@ -81,7 +81,7 @@ if(isset($_POST["JOUEUR"])) {
     $_POST['pts_amiral'] = DataEngine::strip_number($_POST['pts_amiral']);
     $_POST['pts_guerrier'] = DataEngine::strip_number($_POST['pts_guerrier']);
 
-    foreach ($_POST as $k => $v) $_POST[$k] = sqlesc($v, true);
+    foreach ($_POST as $k => $v) $_POST[$k] = sqlesc($v);
 
     $query = <<<q
         UPDATE SQL_PREFIX_Membres SET POINTS='%d', ship='%s',
@@ -103,7 +103,7 @@ q;
 }
 
 if (isset($_POST['pwd']) && !($_SESSION['_login'] == 'test' && DE_DEMO)) {
-    $query = "UPDATE SQL_PREFIX_Users SET Password='".md5(sqlesc($_POST['pwd']))."' WHERE Login='".$_SESSION['_login']."'";
+    $query = "UPDATE SQL_PREFIX_Users SET Password='".md5(sqlesc($_POST['pwd'],false))."' WHERE Login='".$_SESSION['_login']."'";
     DataEngine::sql($query);
 }
 

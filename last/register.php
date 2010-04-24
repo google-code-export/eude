@@ -16,7 +16,7 @@ $lng = language::getinstance()->GetLngBlock('login');
 
 $erreur = '';
 if (isset($_POST['login']) && $_POST['login'] !='' && $_POST['mdp'] != '') {
-    $login = sqlesc($_POST['login']);
+    $login = sqlesc($_POST['login'],false);
     $pass  = md5($_POST['mdp']);
 
     $query = "SELECT LOWER(Login) as Login from SQL_PREFIX_Users WHERE LOWER(Login)=LOWER('$login')";

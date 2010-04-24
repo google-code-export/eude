@@ -108,8 +108,8 @@ switch ($_GET['act']) {
                 list($dummy, $dummy, $nom, $empire) = $v;
                 if (isset($curss_info[$nom])) {
                     if ($curss_info[$nom] != $empire) {
-                        $qnom    = sqlesc($nom, true);
-                        $qempire = sqlesc($empire, true);
+                        $qnom    = sqlesc($nom);
+                        $qempire = sqlesc($empire);
                         $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}',DATE=now() WHERE USER='{$qnom}'";
                         DataEngine::sql($query);
                         $carto->AddInfo('Changement d\'empire du joueur: \''.$nom.'\'');

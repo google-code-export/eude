@@ -121,7 +121,7 @@ if(isset($_POST['emp_allywars']) && $_POST['emp_allywars'] != '') {
     } else $warsnb = 0;
 }
 if(isset($_POST['emp_war_add']) && $_POST['emp_war_add'] != '') {
-    $emp = sqlesc($_POST['emp']);
+    $emp = sqlesc($_POST['emp'],false);
     if ($emp != "") {
         $wars = DataEngine::config('EmpireEnnemy');
         if (!in_array(gpc_esc($_POST['emp']), $wars)) {
@@ -133,7 +133,7 @@ if(isset($_POST['emp_war_add']) && $_POST['emp_war_add'] != '') {
 }
 if(isset($_GET['emp_war_rm']) && $_GET['emp_war_rm'] != '') {
     $wars = DataEngine::config('EmpireEnnemy');
-    $emp = sqlesc($wars[$_GET['emp_war_rm']]);
+    $emp = sqlesc($wars[$_GET['emp_war_rm']], false);
     if ($emp != "") {
         $mysql_result = DataEngine::sql("UPDATE SQL_PREFIX_Coordonnee SET TYPE=0 WHERE TYPE in (0,3,5) AND `EMPIRE` LIKE '{$emp}'");
         unset ($wars[$_GET['emp_war_rm']]);
@@ -141,7 +141,7 @@ if(isset($_GET['emp_war_rm']) && $_GET['emp_war_rm'] != '') {
     }
 }
 if(isset($_POST['emp_allys_add']) && $_POST['emp_allys_add'] != '') {
-    $emp = sqlesc($_POST['emp']);
+    $emp = sqlesc($_POST['emp'],false);
     if ($emp != "") {
         $allys = DataEngine::config('EmpireAllys');
         if (!in_array(gpc_esc($_POST['emp']), $allys)) {
@@ -153,7 +153,7 @@ if(isset($_POST['emp_allys_add']) && $_POST['emp_allys_add'] != '') {
 }
 if(isset($_GET['emp_allys_rm']) && $_GET['emp_allys_rm'] != '') {
     $allys = DataEngine::config('EmpireAllys');
-    $emp = sqlesc($allys[$_GET['emp_allys_rm']]);
+    $emp = sqlesc($allys[$_GET['emp_allys_rm']], false);
     if ($emp != "") {
         $mysql_result = DataEngine::sql("UPDATE SQL_PREFIX_Coordonnee SET TYPE=0 WHERE TYPE in (0,3,5) AND `EMPIRE` LIKE '{$emp}'");
         unset ($allys[$_GET['emp_allys_rm']]);
