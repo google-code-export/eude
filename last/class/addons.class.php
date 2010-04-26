@@ -104,6 +104,19 @@ class addons {
         return true;
     }
     /**
+     * La base de vortex vient de subir un nettoyage....
+     * @return boolean
+     */
+    public function VortexCleaned() {
+        foreach ($this->addons_list as $addon => $class) {
+            if (!$class->OnNewUser($user)) {
+                trigger_error('VortexCleaned from '.$addon.' failed',E_ERROR);
+                return false;
+            }
+        }
+        return true;
+    }
+    /**
      * Récupère les niveau d'accès perso
      * @return array ($key => $humain_value)
      */

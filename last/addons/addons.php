@@ -42,6 +42,11 @@ interface addon_config {
      */
     public function OnNewUser($user);
     /**
+     * La base de vortex vient de subir un nettoyage....
+     * @return boolean
+     */
+    public function OnVortexCleaned();
+    /**
      * Routine de gestion d'accès utilisateur pour les addons
      * @param string Nom d'utilisateur
      * @return array (identifiant => valeur humainement lisible)

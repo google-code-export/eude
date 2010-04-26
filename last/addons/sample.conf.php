@@ -62,6 +62,10 @@ class sample_addons implements addon_config {
 //        FB::info($user,'addons::OnNewUser');
         return true;
     }
+    public function OnVortexCleaned() {
+//        FB::info('addons::OnVortexCleaned');
+        return true;
+    }
     public function GetCustomPerms() {
         return array('addons_sample'=>'Addons d\'exemple...');
     }

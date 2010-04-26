@@ -32,6 +32,7 @@ if(isset($_POST['cleanvortex'])) {
     $tmp = DataEngine::config('wormhole_cleaning');
     $tmp['lastrun'] = time();
     DataEngine::conf_update('wormhole_cleaning', $tmp);
+    addons::getinstance()->VortexCleaned();
 }
 
 if(isset($_GET['switch']) && $_GET['switch'] =='vortex_cron') {

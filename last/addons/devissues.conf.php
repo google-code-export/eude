@@ -62,6 +62,10 @@ class devissues_addons implements addon_config {
 //        FB::info($user,'addons::OnNewUser');
         return true;
     }
+    public function OnVortexCleaned() {
+//        FB::info('addons::OnVortexCleaned');
+        return true;
+    }
     public function GetCustomPerms() {
         srand();
         return array(rand()+100=>'Config de dev...',

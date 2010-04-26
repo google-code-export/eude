@@ -202,6 +202,7 @@ class DataEngine extends Members {
                             $wormhole_cleaning['lastrun'] = $now;
                             self::conf_update('wormhole_cleaning', $wormhole_cleaning);
                             self::sql_do_spool(); // Mettre à jour maintenant, pas que deux membres le fasse a 1/2sec d'intervalle.
+                            addons::getinstance()->VortexCleaned();
                         }
                     }
                 }
