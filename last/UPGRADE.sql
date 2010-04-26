@@ -31,3 +31,5 @@ INSERT INTO `Config` (`key`, `value`) VALUES('perms', 'a:27:{s:13:"MEMBRES_ADMIN
 
 -- Pour ceux qui utilise le svn
 -- UPDATE `SQL_PREFIX_Coordonnee` SET `troop`=-1 WHERE `troop`=0;
+
+UPDATE  `ownuniverse` SET `ress0`='', `ress1`='', `ress2`='', `ress3`='', `ress4`='';
