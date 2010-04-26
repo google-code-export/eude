@@ -248,7 +248,14 @@ ROW;
         $this->currow = <<<ROW
 
             <tr class="text_center color_row%%rowA%% spacing_row">
-                <TD class="color_bg spacing_row%%rowA%%" %%userdate%%>%%type%%</TD>
+                <TD class="color_bg spacing_row%%rowA%%" %%userdate%%>
+                    <select class="color_row%%rowA%%" name="item[%%id%%][type]" OnChange="CheckOn('item[%%id%%][edit]');">
+                        <option value="%%typeid%%"">%%type%%</option>
+                        <option value="0">Joueur</option>
+                        <option value="3">Allié</option>
+                        <option value="5">Ennemi</option>
+                    </select>
+                </TD>
                 <TD class="spacing_row%%rowA%%">%%coords%%</TD>
                 <TD class="spacing_row%%rowA%%">%%player%%</TD>
                 <TD class="spacing_row%%rowA%%">%%infos%%<br/>
@@ -258,7 +265,6 @@ ROW;
                     <input class="color_row%%rowA%% text_center size40" type="text" name="item[%%id%%][WATER]" value="%%water%%" OnChange="CheckOn('item[%%id%%][edit]');"/> %<br/>
                     <input class="color_row%%rowA%% text_center size110" type="text" name="item[%%id%%][TROOP]" value="%%troop%%" OnChange="CheckOn('item[%%id%%][edit]');"/></TD>
                 <TD class="text_right color_row%%rowA%%">
-                    <input type="hidden" name="item[%%id%%][type]" value="%%typeid%%" />
                     %%cmd_edit%%
                     %%cmd_delete%%
                 </TD>

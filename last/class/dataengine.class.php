@@ -320,7 +320,9 @@ ead;
     }
 
     static public function format_number($number, $full_num=false) {
-        if ($number<=0) {
+        if ($number<0) {
+            return 'n/a';
+        } elseif ($number==0) {
             return '-';
         } elseif ($number >= 1000000 && !$full_num) {
             return number_format($number/1000000,2,',',' ').' M';
@@ -330,6 +332,7 @@ ead;
     }
 
     static public function strip_number($number) {
+        if ($number=='n/a') return -1;
         return intval(preg_replace('/[^0-9\-]*/', '', $number));
     }
 
