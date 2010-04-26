@@ -109,7 +109,7 @@ class addons {
      */
     public function VortexCleaned() {
         foreach ($this->addons_list as $addon => $class) {
-            if (!$class->OnNewUser($user)) {
+            if (!$class->OnVortexCleaned()) {
                 trigger_error('VortexCleaned from '.$addon.' failed',E_ERROR);
                 return false;
             }

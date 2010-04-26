@@ -28,7 +28,7 @@ var c_page = c_url.substr(7+c_host.length);
 var c_prefix = c_server+'.'+c_lang;
 metadata.search(/\@version\s+(\d+\.\d+\.\d+(\.\d+)?)/);
 var mversion=RegExp.$1.replace(/\.+/g, '');
-metadata.search(/\$Id\:\ eude\.user\.js\ (\d+)\ \d+\-\d+\-\d+\ .+\$/);
+metadata.search(/Id\:\ eude\.user\.js\ (\d+)\ \d+\-\d+\-\d+\ .+\$/);
 var revision=RegExp.$1;
 var version=mversion+'r'+revision;
 const debug=true;
