@@ -12,6 +12,7 @@
 
 $lng = array();
 $lng['page_title']     = 'EU2: Son univers';
+$lng['data_empty']     = 'Information non remplie par le joueur !';
 $lng['start_info']     = 'Lisez les infos sur le <b>i</b> pour commencer';
 $lng['data_error']     = 'Information collé non reconnue';
 $lng['control_center_error'] = 'Le centre de contrôle en premier !';

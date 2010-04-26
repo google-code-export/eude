@@ -73,7 +73,7 @@ $tpl->page_title = $lng['page_title'];
 
 output::Messager($info);
 output::Messager('<font color="red">'.$warn.'</font>');
-if (!$IsEnabled) output::Messager($lng['ownuniverse_info']);
+if (!$IsEnabled && !$include_form) output::Messager($lng['data_empty']);
 
 $tpl->Setheader($include_form);
 
