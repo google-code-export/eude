@@ -414,9 +414,9 @@ ead;
      */
     static public function Get_Version() {
         if (DE_DEMO)
-            return '1.4.2 démo';
+            return 'r203 démo';
         elseif (IN_DEV)
-            return 'svn-'.time();
+            return 'r203svn-'.time();
         else
             return '1.4.2';
     }
