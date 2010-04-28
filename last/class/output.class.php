@@ -179,6 +179,7 @@ abstract class output {
             if ($include_header) {
                 include_once(TEMPLATE_PATH.'header.tpl.php');
                 $this->ShiftOutput(tpl_header::Get_Header());
+                tpl_header::messager($this->output, $_SESSION['messager']);
             }
         }
         output::_DoOutput($this->output);
@@ -194,7 +195,6 @@ abstract class output {
         $data = str_replace('%TEMPLATE_URL%', TEMPLATE_URL, $data);
         $data = str_replace('%ADDONS_URL%', ADDONS_URL, $data);
         $data = str_replace('%LNG_URL%', TEMPLATE_URL.'lng'.DIRECTORY_SEPARATOR.LNG_CODE.DIRECTORY_SEPARATOR, $data);
-        if (!USE_AJAX) tpl_header::messager($data, $_SESSION['messager']);
         
         header('Cache-Control: no-cache, must-revalidate'); // HTTP/1.1
         header('Expires: Mon, 16 Jul 2008 04:21:44 GMT'); // HTTP/1.0 Date dans le passé
