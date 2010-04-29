@@ -64,7 +64,7 @@ if(isset($_POST['ModifJoueur0'])) {
         }
         if($modif) {
             DataEngine::sql_spool("INSERT INTO SQL_PREFIX_Membres_log(Joueur,Date,Points,Dons) SELECT Joueur,Date,Points,Don FROM SQL_PREFIX_Membres a WHERE a.Joueur='".$Joueur["ID"]."';");
-            DataEngine::sql_spool("UPDATE SQL_PREFIX_Membres SET Points='".$Joueur['ModifPoints']."', Don='".$Joueur['ModifDon']."', Date=now(), Grade='".$Joueur['ModifGrade']."', Race='".$Joueur['ModifRace']."' WHERE Joueur='".$Joueur["ID"]."';");
+            DataEngine::sql_spool("UPDATE SQL_PREFIX_Membres SET Points='".$Joueur['ModifPoints']."', Grade='".$Joueur['ModifGrade']."', Race='".$Joueur['ModifRace']."' WHERE Joueur='".$Joueur["ID"]."';");
         }
         if ($modifaxx)
             DataEngine::sql_spool('UPDATE SQL_PREFIX_Users SET Permission=\''.$Joueur['ModifPermission'].'\' WHERE Login=\''.$Joueur['ID'].'\'');
@@ -98,7 +98,6 @@ $TriPoints	= $_GET['TriPoints'];
 $TriRace	= $_GET['TriRace'];
 $TriShip	= $_GET['TriShip'];
 $TriModif	= $_GET['TriModif'];
-$TriDons	= $_GET['TriDons'];
 if($TriMembre != '') {
     if($TriMembre==1)	$Order = ' ORDER BY JOUEUR';
     else $Order = ' ORDER BY JOUEUR DESC';
@@ -115,10 +114,6 @@ if($TriPoints != '') {
     if($TriPoints==1)	$Order = ' ORDER BY Points';
     else $Order = ' ORDER BY Points DESC';
 } else $TriPoints='0';
-if($TriDons != '') {
-    if($TriDons==1)	$Order = ' ORDER BY Don';
-    else $Order = ' ORDER BY Don DESC';
-} else $TriDons='0';
 if($TriRace != '') {
     if($TriRace==1)	$Order = ' ORDER BY Race';
     else $Order = ' ORDER BY Race DESC';
@@ -153,7 +148,7 @@ if (mysql_num_rows($mysql_result) == 0)
     output::Boink('Membres.php');
 
 $tpl->header($myget, $TriMembre, $triPermission, $TriPoints,
-    $TriDons, $TriRace, $TriShip, $TriModif);
+    $TriRace, $TriShip, $TriModif);
 
 $i=0;
 while ($ligne=mysql_fetch_assoc($mysql_result))

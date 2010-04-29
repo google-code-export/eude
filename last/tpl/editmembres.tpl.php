@@ -23,7 +23,7 @@ class tpl_editmembres extends output {
     }
 
     public function header($myget, $TriMembre, $triPermission,
-            $TriPoints, $TriDons, $TriRace, $TriShip, $TriModif) {
+            $TriPoints, $TriRace, $TriShip, $TriModif) {
         $out = <<<h
 <TABLE align="center">
 <TR>
@@ -37,11 +37,10 @@ class tpl_editmembres extends output {
 <TD onclick="location.href='./editmembres.php?TriGrade={$TriGrade}';">Grade</TD>
 <TD onclick="location.href='./editmembres.php?TriPermission={$TriPermission}';">Accès</TD>
 <TD onclick="location.href='./editmembres.php?TriPoints={$TriPoints}';">Points</TD>
-<TD onclick="location.href='./editmembres.php?TriDons={$TriDons}';">Dons</TD>
 <TD>Eco/ Rec/ Comb/ Cons/ Navi</TD>
 <TD onclick="location.href='./editmembres.php?TriRace={$TriRace}';">Race</TD>
 <TD onclick="location.href='./editmembres.php?TriShip={$TriShip}';">Dernier Chassis dispo</TD>
-<TD onclick="location.href='./editmembres.php?TriModif={$TriModif}';">Dernière Modif</TD>
+<TD onclick="location.href='./editmembres.php?TriModif={$TriModif}';">Dernière connexion</TD>
 h;
         $this->PushOutput($out);
         if(DataEngine::CheckPerms('MEMBRES_NEWPASS'))
@@ -72,7 +71,6 @@ h;
     <input type="hidden" name="OldGrade{$i}" value="{$ligne['Grade']}">
     <input type="hidden" name="OldPermission{$i}" value="{$ligne['Permission']}">
     <input type="hidden" name="OldPoints{$i}" value="{$ligne['Points']}">
-    <input type="hidden" name="OldDon{$i}" value="{$ligne['Don']}">
     <input type="hidden" name="OldRace{$i}" value="{$ligne['Race']}">
     <TR bgcolor={$clr}>
     <TD>{$ligne['Joueur']}</TD>
@@ -93,7 +91,6 @@ r;
         $out = <<<r2
     </select></td>
     <TD><INPUT style="font-size:10; width=80;" type="text" name="ModifPoints{$i}" value="{$ligne['Points']}"></TD>
-    <TD><INPUT style="font-size:10; width=80;" type="text" name="ModifDon{$i}" value="{$ligne['Don']}"></TD>
     <TD>{$ligne['Economie']}/{$ligne['Commerce']}/{$ligne['Recherche']}/{$ligne['Combat']}/{$ligne['Construction']}/{$ligne['Navigation']}</TD>
     <TD><select id="INtableau" name="ModifRace{$i}">
     <option value="">&nbsp;</option>

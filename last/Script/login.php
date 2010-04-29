@@ -74,8 +74,8 @@ if($_POST && !empty($_POST['login']) && !empty($_POST['mdp'])) {
         $_SESSION['carte_prefs']  = $ligne['carte_prefs'];
         $_SESSION['_IP']  	= Get_IP();
         $_SESSION['_permkey']  = sha1($mdp.$_SESSION['_IP']);
-        $query = "INSERT INTO SQL_PREFIX_Log (DATE,LOGIN,IP) VALUES(NOW(),'$login','{$_SESSION['_IP']}')";
-        DataEngine::sql($query);
+        DataEngine::sql_spool("INSERT INTO SQL_PREFIX_Log (DATE,LOGIN,IP) VALUES(NOW(),'$login','{$_SESSION['_IP']}')");
+        DataEngine::sql_spool("UPDATE SQL_PREFIX_Membres SET Date=now() WHERE Joueur='$login'");
     } else { // login/pass pas bon...
         $validsession=-1;
         $login_msg = $lng['wronglogin'];

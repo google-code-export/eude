@@ -33,6 +33,9 @@ $carto = cartographie::getinstance();
 
 
 switch ($_GET['act']) {
+    case 'init': //-------------------------------------------------------------
+        DataEngine::sql_spool("UPDATE SQL_PREFIX_Membres SET Date=now() WHERE Joueur='".$_SESSION['_login']."'");
+
     case 'config': //-----------------------------------------------------------
         $msg = $xml['log'] = 'Initialisation au Data Engine Ok.';
         $xml['logtype']          = 'none';
