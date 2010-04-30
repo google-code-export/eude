@@ -46,6 +46,28 @@ switch ($_GET['act']) {
         $xml['GM_pnj_info']      = DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')  ? '1':'0';
         break;
 
+    case 'mafiche': //----------------------------------------------------------
+        $query = <<<q
+            UPDATE SQL_PREFIX_Membres SET POINTS='%d',
+        Economie='%d', Commerce='%d', Recherche='%d', Combat='%d',
+        Construction='%s', Navigation='%d', Race='%s',
+        Titre='%s', GameGrade='%s', pts_architecte='%d', pts_mineur='%d',
+        pts_science='%d', pts_commercant='%d', pts_amiral='%d',
+        pts_guerrier='%d', Date=now() WHERE Joueur='%s'
+q;
+        DataEngine::sql(sprintf($query, DataEngine::strip_number($_POST['POINTS']),
+            DataEngine::strip_number($_POST['Economie']), DataEngine::strip_number($_POST['Commerce']),
+            DataEngine::strip_number($_POST['Recherche']), DataEngine::strip_number($_POST['Combat']),
+            DataEngine::strip_number($_POST['Construction']), DataEngine::strip_number($_POST['Navigation']),
+            sqlesc(trim($_POST['Race']), false), sqlesc($_POST['Titre'], false),
+            sqlesc($_POST['GameGrade'], false), DataEngine::strip_number($_POST['pts_architecte']),
+            DataEngine::strip_number($_POST['pts_mineur']), DataEngine::strip_number($_POST['pts_science']),
+            DataEngine::strip_number($_POST['pts_commercant']), DataEngine::strip_number($_POST['pts_amiral']),
+            DataEngine::strip_number($_POST['pts_guerrier']), $_SESSION['_login']
+            )
+        );
+        $xml['log']='infomation joueur mis à jour';
+        break;
     case 'wormhole': //---------------------------------------------------------
         $carto->add_vortex($_POST['IN'], $_POST['OUT']);
         $xml['log']='Vortex '.$_POST['IN'].' <--> '.$_POST['OUT'];

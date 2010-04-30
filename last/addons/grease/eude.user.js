@@ -13,6 +13,7 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.*/galaxy/galaxy_info.php*
 // @include      http://*eu2.looki.*/planet/planet_info.php*
 // @include      http://*eu2.looki.*/fleet/fleet_info.php*
+// @include      http://*eu2.looki.*/fleet/commander_info.php?action=attribute*
 // @include      http://*eu2.looki.*/wormhole/wormhole_info.php*
 // @include      http://*eu2.looki.*/user/settings_overview.php?area=options
 // @exclude      http://vs.eu2.looki.*/*
@@ -812,6 +813,35 @@ function Fleet() {
 //    alert('Fleet called:\nCoords: '+a['coords']+'\nProprio: '+a['owner']+'\nNom: '+a['fleetname']);
 
 }
+function MaFiche() {
+    var a = Array();
+    a['Commerce'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[2]/td[3]')[0].innerHTML;
+    a['Recherche'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[4]/td[3]')[0].innerHTML;
+    a['Combat'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[6]/td[3]')[0].innerHTML;
+    a['Construction'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[8]/td[3]')[0].innerHTML;
+    a['Economie'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[10]/td[3]')[0].innerHTML;
+    a['Navigation'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[12]/td[3]')[0].innerHTML;
+    a['POINTS'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[4]/td[2]/b')[0].innerHTML;
+    a['pts_architecte'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[6]/td[2]')[0].innerHTML;
+    a['pts_mineur'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[7]/td[2]')[0].innerHTML;
+    a['pts_science'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[8]/td[2]')[0].innerHTML;
+    a['pts_commercant'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[9]/td[2]')[0].innerHTML;
+    a['pts_amiral'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[10]/td[2]')[0].innerHTML;
+    a['pts_guerrier'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[11]/td[2]')[0].innerHTML;
+
+    a['GameGrade'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center')[0].innerHTML;
+    i = a['GameGrade'].indexOf('>');
+    j = a['GameGrade'].indexOf('<', i);
+    a['GameGrade'] = a['GameGrade'].substr(i, j-i);
+    a['Race'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[3]/td[4]')[0].innerHTML;
+    a['Titre'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[4]/td[4]')[0].innerHTML;
+
+//    tmp = a['Commerce']+'-'+a['Recherche']+'-'+a['Combat']+'-'+a['Construction']+'-'+a['Economie']+'-'+a['Navigation'];
+//    tmp = a['POINTS']+'-'+a['pts_architecte']+'-'+a['pts_mineur']+'-'+a['pts_science']+'-'+a['pts_commercant']+'-'+a['pts_amiral']+'-'+a['pts_guerrier'];
+//    tmp = i+'--'+a['GameGrade']+'-'+a['Race']+'-'+a['Titre'];
+//    AddToMotd(tmp);
+    get_xml('mafiche', a);
+}
 
 function Options() {
     var node = document.getElementById('layer_site_content');
@@ -896,6 +926,7 @@ if (GM_getValue(c_prefix+'actived','0')!='0') {
             GM_getValue(c_prefix+'planet_info',false) )                Planet();
     }
     if (c_page.indexOf('fleet/fleet_info.php?')>0)                      Fleet();
+    if (c_page.indexOf('fleet/commander_info.php?action=attribute')>0) MaFiche();
 
 }
 
