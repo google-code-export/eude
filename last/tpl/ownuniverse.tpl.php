@@ -42,7 +42,7 @@ class tpl_ownuniverse extends output {
 h;
             $this->PushOutput($out);
         } else {
-            $this->PushOutput('<br/><TABLE>');
+            $this->PushOutput('<br/><TABLE class="table_center table_nospacing color_row0 text_center">');
         }
     }
 
