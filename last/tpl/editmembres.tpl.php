@@ -27,7 +27,7 @@ class tpl_editmembres extends output {
         $out = <<<h
 <TABLE align="center">
 <TR>
-<TD align="center" id="Grade">Liste des membres</TD>
+<TD class="color_bigheader text_center">Liste des membres</TD>
 </TR><TR>
 <TD>
 <TABLE bgcolor="#d6d6d6" style="font-size:11;">
