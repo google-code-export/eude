@@ -830,7 +830,7 @@ function MaFiche() {
     a['pts_guerrier'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[11]/td[2]')[0].innerHTML;
 
     a['GameGrade'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center')[0].innerHTML;
-    i = a['GameGrade'].indexOf('>');
+    i = a['GameGrade'].indexOf('>')+1;
     j = a['GameGrade'].indexOf('<', i);
     a['GameGrade'] = a['GameGrade'].substr(i, j-i);
     a['Race'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[3]/td[4]')[0].innerHTML;
