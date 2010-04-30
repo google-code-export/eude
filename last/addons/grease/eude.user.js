@@ -833,8 +833,8 @@ function MaFiche() {
     i = a['GameGrade'].indexOf('>')+1;
     j = a['GameGrade'].indexOf('<', i);
     a['GameGrade'] = a['GameGrade'].substr(i, j-i);
-    a['Race'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[3]/td[4]')[0].innerHTML;
-    a['Titre'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[4]/td[4]')[0].innerHTML;
+    a['Titre'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[3]/td[4]')[0].innerHTML;
+    a['Race'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[4]/td[4]')[0].innerHTML;
 
 //    tmp = a['Commerce']+'-'+a['Recherche']+'-'+a['Combat']+'-'+a['Construction']+'-'+a['Economie']+'-'+a['Navigation'];
 //    tmp = a['POINTS']+'-'+a['pts_architecte']+'-'+a['pts_mineur']+'-'+a['pts_science']+'-'+a['pts_commercant']+'-'+a['pts_amiral']+'-'+a['pts_guerrier'];
