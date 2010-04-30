@@ -69,61 +69,63 @@ class tpl_carte extends output {
         $can_search     = (DataEngine::CheckPerms('CARTE_SEARCH'));
         $nav_size       = $can_search ? 1000:540;
         $out = <<<NAV
-<div id="Map_Entete" style="width:100%; height:30px; top:50px; position:absolute;">
-	<TABLE id="Map_Entete" width={$nav_size}px>
-		<TR id="Map_Entete">	
-			<TD id="Map_Entete">
-				<A id="Map_Btn" {$msg_taill_inc} HREF="{$this->BASE_FILE}?taille={$taille_inc}">&nbsp;+&nbsp;</A>
+<div  class="color_header" style="width:100%; height:30px; top:50px; position:absolute;">
+	<TABLE class="color_header" width={$nav_size}px>
+		<TR>	
+			<TD>
+				<A {$msg_taill_inc} HREF="{$this->BASE_FILE}?taille={$taille_inc}">&nbsp;+&nbsp;</A>
 				&nbsp;&nbsp;
-				<A id="Map_Btn" {$msg_taill_dec} HREF="{$this->BASE_FILE}?taille={$taille_dec}">&#151;</A>
+				<A {$msg_taill_dec} HREF="{$this->BASE_FILE}?taille={$taille_dec}">&#151;</A>
 			</TD>
-			<TD id='Map_Entete'><img id="Map_Btn" {$helpmsg} width=20 height=20 src='%IMAGES_URL%help.png'></TD>
-			<TD id="Map_Entete">
+			<TD><img {$helpmsg} width=20 height=20 src='%IMAGES_URL%help.png'></TD>
+			<TD>
 				<A {$msg_cls} HREF="{$this->BASE_FILE}?sc={$get_sc}">
-				<img id="Map_Btn" width=20 height=20 src="%IMAGES_URL%Btn-Couleur-{$onoff_sc}.png"></A>
+				<imgwidth=20 height=20 src="%IMAGES_URL%Btn-Couleur-{$onoff_sc}.png"></A>
 			</TD>
-			<TD id="Map_Entete"><A id="Map_Btn" {$msg_all_on} HREF="{$this->BASE_FILE}?AllSwitch=1"><img width=10 height=10 src="%IMAGES_URL%Btn-Vortex-On.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Planete-On.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Joueur-On.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Asteroide-On.png"></A><br/><A id="Map_Btn" {$msg_all_off} HREF="{$this->BASE_FILE}?AllSwitch=0"><img width=10 height=10 src="%IMAGES_URL%Btn-Vortex-Off.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Planete-Off.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Joueur-Off.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Asteroide-Off.png"></A></TD>
-			<TD id="Map_Entete">
-				<A id="Map_Btn" {$msg_vortex} HREF="{$this->BASE_FILE}?vortex={$get_vortex}">
+			<TD>
+                            <A {$msg_all_on} HREF="{$this->BASE_FILE}?AllSwitch=1"><img width=10 height=10 src="%IMAGES_URL%Btn-Vortex-On.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Planete-On.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Joueur-On.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Asteroide-On.png"></A><br/>
+                            <A {$msg_all_off} HREF="{$this->BASE_FILE}?AllSwitch=0"><img width=10 height=10 src="%IMAGES_URL%Btn-Vortex-Off.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Planete-Off.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Joueur-Off.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Asteroide-Off.png"></A></TD>
+			<TD>
+				<A {$msg_vortex} HREF="{$this->BASE_FILE}?vortex={$get_vortex}">
 				<img width=18 height=18 src="%IMAGES_URL%Btn-Vortex-{$onoff_vortex}.png"></A>
 			</TD>
-			<TD id="Map_Entete">
-				<A id="Map_Btn" {$msg_joueur} HREF="{$this->BASE_FILE}?joueur={$get_joueur}">
-				<img id="Map_Btn" width=18 height=18 src="%IMAGES_URL%Btn-Joueur-{$onoff_joueur}.png"></A>
+			<TD>
+				<A {$msg_joueur} HREF="{$this->BASE_FILE}?joueur={$get_joueur}">
+				<img width=18 height=18 src="%IMAGES_URL%Btn-Joueur-{$onoff_joueur}.png"></A>
 			</TD>
-			<TD id="Map_Entete">
-				<A id="Map_Btn" {$msg_planete} HREF="{$this->BASE_FILE}?planete={$get_planete}">
+			<TD>
+				<A {$msg_planete} HREF="{$this->BASE_FILE}?planete={$get_planete}">
 				<img width=18 height=18 src="%IMAGES_URL%Btn-Planete-{$onoff_planete}.png"></A>
 			</TD>
-			<TD id="Map_Entete">
-				<A id="Map_Btn" {$msg_asteroide} HREF="{$this->BASE_FILE}?asteroide={$get_asteroide}">
+			<TD>
+				<A {$msg_asteroide} HREF="{$this->BASE_FILE}?asteroide={$get_asteroide}">
 				<img width=18 height=18 src="%IMAGES_URL%Btn-Asteroide-{$onoff_asteroide}.png"></A>
 			</TD>
-			<TD id="Map_Entete">
-				<A id="Map_Btn" {$msg_ennemis} HREF="{$this->BASE_FILE}?ennemis={$get_ennemis}">
+			<TD>
+				<A {$msg_ennemis} HREF="{$this->BASE_FILE}?ennemis={$get_ennemis}">
 				<img width=18 height=18 src="%IMAGES_URL%fleet_{$img_ennemis}.gif"></A>
 			</TD>
-			<TD id="Map_Entete">
-				<A id="Map_Btn" {$msg_allys} HREF="{$this->BASE_FILE}?allys={$get_allys}">
+			<TD>
+				<A {$msg_allys} HREF="{$this->BASE_FILE}?allys={$get_allys}">
 				<img width=18 height=18 src="%IMAGES_URL%fleet_{$img_allys}.gif"></A>
 			</TD>
-			<TD id="Map_Entete">
-				<A id="Map_Btn" {$msg_pirate} HREF="{$this->BASE_FILE}?pnj={$get_pnj}">
+			<TD>
+				<A {$msg_pirate} HREF="{$this->BASE_FILE}?pnj={$get_pnj}">
 				<img width=18 height=18 src="%IMAGES_URL%fleet_{$img_pnj}.gif"></A>
 			</TD>
-			<TD id="coord2">&nbsp;{$this->lng['msg_coords']}&nbsp;</td>
-			<td id="Coord">&nbsp;0000&nbsp;</td>	
+			<TD class="size110 text_right">{$this->lng['msg_coords']}&nbsp;</td>
+			<td id="Coord" class="size50 color_row0 text_center">&nbsp;0000&nbsp;</td>
 NAV;
         if (DataEngine::CheckPerms('CARTE_SEARCH'))
             $out.=<<<SEARCH
 <form id="searchempire" action="Carte.php" method="post" OnSubmit="return Navigateur.DoSearch();">
-			<td id="Map_Entete" {$msg_search1} align=right>
+			<td {$msg_search1} align=right>
                         <select class="color_header" name="type">
                             <option value="emp">{$this->lng['msg_search_emp']}</option>
                             <option value="jou" selected="true">{$this->lng['msg_search_jou']}</option>
                             <option value="inf">{$this->lng['msg_search_info']}</option>
                         </select></td>
-			<td id="Map_Entete" {$msg_search2}><input id="Map_Itineraire" type=text name=search value="{$search}"></td>
+			<td {$msg_search2}><input class="color_header" type=text name=search value="{$search}"></td>
 </form>
 SEARCH;
         $out.=<<<f
@@ -146,8 +148,8 @@ f;
 	<div id="divcarteunivers" style="font-size:2px; top:80px; left:0px; width:{$this->map->taille}px; height:{$this->map->taille}Px; position:absolute; cursor: crosshair; text-align:center">
 	<img id="carteunivers" src="{$img}?{$rnd}">
 	</div>   			
-	<div id="cibleurV" class="cibleur" style="width:1px; height:{$this->map->taille}px; z-index:3; position:absolute; visibility:hidden; font-size: 2px; background-color: #FFFFFF;cursor: crosshair">&nbsp;</div>
-	<div id="cibleurH" class="cibleur" style="width:{$this->map->taille}px; height:1px; z-index:3; position:absolute; visibility:hidden; font-size: 2px; background-color: #FFFFFF;cursor: crosshair">&nbsp;</div>
+	<div id="cibleurV" class="color_cibleur" style="width:1px; height:{$this->map->taille}px; z-index:3; position:absolute; visibility:hidden;cursor: crosshair"></div>
+	<div id="cibleurH" class="color_cibleur" style="width:{$this->map->taille}px; height:1px; z-index:3; position:absolute; visibility:hidden;cursor: crosshair"></div>
 
 MAP;
         $this->PushOutput($out);
@@ -160,16 +162,16 @@ MAP;
 	</div>
 	<div id="Map_Itineraire" style="position:absolute; left:{$this->map->taille}px; top:80px;">
 		<form name="calculer" method="post" action="Carte.php">
-			<Table id="Map_Itineraire" style="width:400px">
+			<Table class="color_row1" style="width:400px">
 				<tr>
-					<td id="Map_Itineraire" colspan=4 align=center>{$this->lng['parcours_header']}</td>
+					<td colspan=4 class="color_header text_center">{$this->lng['parcours_header']}</td>
 				</tr>
-				<tr id="Map_Itineraire">
-					<td id="Map_Itineraire">
+				<tr>
+					<td>
 						{$this->lng['parcours_select']}:
 					</td>
-					<td id="Map_Itineraire" colspan=2>
-						<select name="loadfleet" id="fleet">
+					<td colspan=2>
+						<select name="loadfleet" class="color_row1">
 							<option value=0>{$this->lng['parcours_option']}</option>
 iti_h;
         $this->PushOutput($out);
@@ -185,31 +187,31 @@ iti_h;
         $out = <<<iti_h
 					</select>
 					</td>
-					<td id="Map_Itineraire" align=right nowrap>
+					<td align=right nowrap>
 						<a href="javascript:void(0);" OnClick="Navigateur.LoadFleet();" {$msg_load}>C</a>-<a href="javascript:void(0);" OnClick="Navigateur.SaveFleet();" {$msg_save}>E</a>-<a  href="javascript:void(0);" OnClick="Navigateur.DelFleet();" {$msg_del}>S</a></td>
 				</tr>
-				<tr id="Map_Itineraire">
-					<td id="Map_Itineraire" colspan=2 nowrap>{$this->lng['parcours_start_ss']}:</td>
-					<td id="Map_Itineraire" align=center>
-						<input id="Map_Itineraire" MAXLENGTH=5 type="text" name="coorin" style="width:50;" value="{$this->map->IN}">
+				<tr>
+					<td colspan=2 nowrap>{$this->lng['parcours_start_ss']}:</td>
+					<td align=center>
+						<input class="color_row1" MAXLENGTH=5 type="text" name="coorin" style="width:50;" value="{$this->map->IN}">
 					</td>
-					<td id="Map_Itineraire" rowspan=2 align=right style="cursor: pointer" OnClick="Navigateur.invertcoords();" {$msg_inv}><a href="javascript:void(0);"><-<br/>|<br/><-</a></td>
+					<td rowspan=2 align=right style="cursor: pointer" OnClick="Navigateur.invertcoords();" {$msg_inv}><a href="javascript:void(0);"><-<br/>|<br/><-</a></td>
 				</tr>
-				<tr id="Map_Itineraire">
-					<td id="Map_Itineraire" colspan=2 nowrap>{$this->lng['parcours_end_ss']}:</td>
-					<td id="Map_Itineraire" align=center>
-						<input id="Map_Itineraire" MAXLENGTH=5 type="text" name="coorout" style="width:50;" value="{$this->map->OUT}">
-					</td>
-				</tr>
-				<tr id="Map_Itineraire">
-					<td id="Map_Itineraire" colspan=3>{$this->lng['parcours_old_wormhole']}</td>
-					<td id="Map_Itineraire" align=center>
-						<input id="Map_Itineraire" type="checkbox" name="inactif"{$checked}>
+				<tr>
+					<td colspan=2 nowrap>{$this->lng['parcours_end_ss']}:</td>
+					<td align=center>
+						<input class="color_row1" MAXLENGTH=5 type="text" name="coorout" style="width:50;" value="{$this->map->OUT}">
 					</td>
 				</tr>
-				<tr id="Map_Itineraire">
-					<td id="Map_Itineraire" align=center colspan=4>
-						<select name="method" id="fleet">
+				<tr>
+					<td colspan=3>{$this->lng['parcours_old_wormhole']}</td>
+					<td align=center>
+						<input class="color_row1" type="checkbox" name="inactif"{$checked}>
+					</td>
+				</tr>
+				<tr>
+					<td align=center colspan=4>
+						<select name="method" class="color_row1">
 							<option value="1">{$this->lng['parcours_method_1']}</option>
 							<option value="2">{$this->lng['parcours_method_2']}</option>
 							<option value="3">{$this->lng['parcours_method_3']}</option>
@@ -224,10 +226,10 @@ iti_h;
 
     public function Parcours_Start($ss) {
         $out = <<<ps
-				<TR id="Map_Itineraire">
-					<TD id="Map_Itineraire">{$this->lng['parcours_start']}</TD>
-					<TD id="Map_Itineraire" align=center colspan=2>{$ss}</TD>
-					<TD id="Map_Itineraire" align=center>0 pc</TD>
+				<TR>
+					<TD>{$this->lng['parcours_start']}</TD>
+					<TD align=center colspan=2>{$ss}</TD>
+					<TD align=center>0 pc</TD>
 				</TR>
 ps;
         $this->PushOutput($out);
@@ -236,10 +238,10 @@ ps;
     public function Parcours_Row($vortex,$IN,$OUT,$dist) {
         $vortex = sprintf($this->lng['parcours_bywormhole'], $vortex);
         $out = <<<pr
-				<TR id="Map_Itineraire">
-					<TD id="Map_Itineraire">{$vortex}</TD>
-					<TD id="Map_Itineraire" align=center colspan=2>{$IN} <-> {$OUT}</TD>
-					<TD id="Map_Itineraire" align=center>{$dist} pc</TD>
+				<TR>
+					<TD>{$vortex}</TD>
+					<TD align=center colspan=2>{$IN} <-> {$OUT}</TD>
+					<TD align=center>{$dist} pc</TD>
 				</TR>
 pr;
         $this->PushOutput($out);
@@ -247,16 +249,16 @@ pr;
 
     public function Parcours_End($d,$db,$dt,$dd,$p) {
         $out = <<<pe
-				<TR id="Map_Itineraire">
-					<TD id="Map_Itineraire">{$this->lng['parcours_end']}</TD>
-					<TD id="Map_Itineraire" align=center colspan=2>{$p}</TD>
-					<TD id="Map_Itineraire" align=center>{$d} pc</TD>
+				<TR>
+					<TD>{$this->lng['parcours_end']}</TD>
+					<TD align=center colspan=2>{$p}</TD>
+					<TD align=center>{$d} pc</TD>
 				</TR>
-				<TR id="Map_Itineraire">
-					<TD id="Map_Itineraire">{$this->lng['parcours_diff']}</TD>
-					<TD id="Map_Itineraire" align=right>{$db} pc</TD>
-					<TD id="Map_Itineraire" align=left>-{$dd} pc =</TD>
-					<TD id="Map_Itineraire" align=center>{$dt} pc</TD>
+				<TR>
+					<TD>{$this->lng['parcours_diff']}</TD>
+					<TD align=right>{$db} pc</TD>
+					<TD align=left>-{$dd} pc =</TD>
+					<TD align=center>{$dt} pc</TD>
 				</TR>
 pe;
         $this->PushOutput($out);
@@ -268,17 +270,17 @@ pe;
         $out = <<<h
             </Table>
 		</form>
-	<Table>
+	<Table class="color_row1">
 		<tr>
-			<td id="legendheader" colspan=2>{$this->lng['legend']}</td>
+			<td class="color_header text_center" colspan=2>{$this->lng['legend']}</td>
 		</tr>
 h;
         $legend  = $this->lng['maplegend'][$id];
         foreach($legend as $k => $v)
             $out .= <<<l
-		<tr id="legend">
-			<td id="legend" style="background-color: {$cls[$id][$k]};">&nbsp;</td>
-			<td id="Map_Itineraire">&nbsp;{$v}&nbsp;</td>
+		<tr class="color_row0">
+			<td class="size20" style="background-color: {$cls[$id][$k]};">&nbsp;</td>
+			<td>&nbsp;{$v}&nbsp;</td>
 		</tr>
 l;
         $out .=<<<f

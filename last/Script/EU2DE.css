@@ -25,105 +25,7 @@ a:hover {
 img {
     border: 0px;
 }
-
-table#Ttableau {
-    color: #ffffff;
-    background-color: #330033;
-    padding: 2px;
-    border-spacing: 2px;
-}
-
-tr#titreTRtableau {
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 16pt;
-    background-color: #000000;
-    text-align: center;
-}
-
-tr#teteTRtableau {
-    color: #ffffff;
-    font-weight: bold;
-    background-color: #550040;
-    text-align: center;
-}
-
-tr#TRtableau {
-    color: #ffffff;
-    background-color: #550040;
-}
-
-td#titreTDtableau {
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 16pt;
-    background-color: #000000;
-    text-align: center;
-}
-
-td#teteTDtableau {
-    color: #FFCCCC;
-    font-weight: bold;
-    background-color: #3C0026;
-    text-align: center;
-}
-
-td#teteTDtableau:hover {
-    color: #3C0026;
-    font-weight: bold;
-    background-color: #FFCCCC;
-    text-align: center;
-}
-
-td#TDtableau {
-    color: #ffffff;
-    background-color: #480038;
-}
-
-td#pages_tableau {
-    color: #FC944E;
-    background-color: #000000;
-}
-
-textarea#INtableau, select#INtableau, select#fleet {
-    color: #ffffff;
-    background-color: #660050;
-}
-
-input#INtableau,
-input#INtableau50,
-input#INtableau80,
-input#INtableau110,
-input#INtableau120,
-input#INtableau200 {
-    color: #ffffff;
-    background-color: #660050;
-}
-
-/**
-* @since 1.4.1
-*/
-input#INtableau50 {
-    width: 50px;
-}
-input#INtableau80 {
-    width: 80px;
-}
-input#INtableau110 {
-    width: 110px;
-}
-input#INtableau120 {
-    width: 120px;
-}
-input#INtableau200 {
-    width: 200px;
-}
-
-input#INBTtableau {
-    color: #ffffff;
-    background-color: #660050;
-}
-
+/*
 div#Map_Entete {
     font-size:16px;
     height:28Px;
@@ -143,13 +45,13 @@ td#Coord,td#Coord2  {
 td#Coord2  {
     /**
     * @since 1.4.1
-    */
+    * /
     width: 100px;
 }
 td#Coord  {
     /**
     * @since 1.4.1
-    */
+    * /
     width: 50px;
     text-align: center;
 }
@@ -170,7 +72,7 @@ input#Map_Itineraire {
 }
 /**
  * @since 1.4.1
-*/
+* /
 tr#legend, td#legendheader {
     color:white;
     background-color:#550040;
@@ -187,7 +89,7 @@ table#TabMembre {
     background-color: #330033;
     font-weight:bold;
     /*    filter : alpha(opacity=90);
-        opacity : 0.9;*/
+        opacity : 0.9;* /
 }
 
 td#TabMembre {
@@ -196,7 +98,7 @@ td#TabMembre {
     font-weight:bold;
     font-size:12px;
     /*    filter : alpha(opacity=90);
-        opacity : 0.9;*/
+        opacity : 0.9;* /
 }
 
 td#Grade {
@@ -206,7 +108,7 @@ td#Grade {
     font-size:14px;
     text-align: center;
     /*    filter : alpha(opacity=100);
-        opacity : 1.0;*/
+        opacity : 1.0;* /
 }
 
 table#TabMembreUser {
@@ -214,7 +116,7 @@ table#TabMembreUser {
     background-color: #330033;
     font-weight:normal;
     /*    filter : alpha(opacity=100);
-        opacity : 1.0;*/
+        opacity : 1.0;* /
 }
 
 td#TabMembreUser {
@@ -223,11 +125,11 @@ td#TabMembreUser {
     font-weight:normal;
     font-size:12px;
     /*    filter : alpha(opacity=100);
-        opacity : 1.0;*/
+        opacity : 1.0;* /
 }
 
-/*--------------------- Partie revue et 'corrigée'... ------------------------*/
-/*------------------------------- Membres.php --------------------------------*/
+/*--------------------- Partie revue et 'corrigée'... ------------------------* /
+/*------------------------------- Membres.php --------------------------------* /
 table#Membres_level
 td#Membres_level {
     background-color: #480038;
@@ -241,7 +143,7 @@ td#Membres_level {
 
 table#Membres_grade,
 td#Membres_grade {
-    /* trois lignes pour centrer un tableau... */
+    /* trois lignes pour centrer un tableau... * /
     margin-left:auto;
     margin-right:auto;
     text-align: center;
@@ -258,7 +160,7 @@ td#Membres_grade {
 }
 table#Membres,
 td#Membres {
-    /* trois lignes pour centrer un tableau... */
+    /* trois lignes pour centrer un tableau... * /
     margin-left:auto;
     margin-right:auto;
     text-align: center;
@@ -269,7 +171,7 @@ td#Membres {
     font-weight:bold;
     font-size:12px;
 }
-/*--------------------------- Carte.php --------------------------------------*/
+/*--------------------------- Carte.php --------------------------------------* /
 
 imput#search_empire {
     color: #ffffff;
@@ -277,7 +179,7 @@ imput#search_empire {
     height:20px;
 }
 
-/*--------------------------- ownuniverse.php --------------------------------*/
+/*--------------------------- ownuniverse.php --------------------------------* /
 
 table#imperium_header {
     margin-left:auto;
@@ -310,7 +212,7 @@ td#imperium_row1 {
 td#imperium_row2 {
     background-color: #FFAA55;
     width: 75px;
-}
+}*/
 
 /*--------------------------- admin/ 'in_dev' --------------------------------*/
 /* @since 1.4.2 */
@@ -326,6 +228,9 @@ td#imperium_row2 {
 }
 .base_row1 {
     background-color: #d6d6d6;
+}
+.color_cibleur {
+    background-color: white;
 }
 
 .color_bg {
@@ -403,6 +308,7 @@ tr.spacing_header td {
     cursor: pointer;
 }
 
+.size20  {width:20px;}
 .size40  {width:40px;}
 .size60  {width:60px;}
 .size80  {width:80px;}
