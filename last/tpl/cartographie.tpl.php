@@ -213,7 +213,8 @@ ROW;
             
                 
             <tr class="text_center color_row%%rowA%% spacing_row">
-                <TD class="color_bg spacing_row%%rowA%%" %%userdate%%>%%type%%</TD>
+                <TD class="color_bg spacing_row%%rowA%%" %%userdate%%>%%type%%
+                    <br/>%%udate%%</TD>
                 <TD class="spacing_row%%rowA%%">%%coords%%</TD>
                 <TD class="spacing_row%%rowA%%">-<br/>-</TD>
                 <TD class="spacing_row%%rowA%%">%%infos%% <br/>
@@ -255,6 +256,7 @@ ROW;
                         <option value="3">Allié</option>
                         <option value="5">Ennemi</option>
                     </select>
+                    <br/>%%udate%%
                 </TD>
                 <TD class="spacing_row%%rowA%%">%%coords%%</TD>
                 <TD class="spacing_row%%rowA%%">%%player%%</TD>
@@ -278,7 +280,8 @@ ROW;
         $this->currow = <<<ROW
 
             <tr class="text_center color_row%%rowA%% spacing_row">
-                <TD class="color_bg spacing_row%%rowA%%" %%userdate%%>%%type%%</TD>
+                <TD class="color_bg spacing_row%%rowA%%" %%userdate%%>%%type%%
+                    <br/>%%udate%%</TD>
                 <TD class="spacing_row%%rowA%%">%%coords%%</TD>
                 <TD class="spacing_row%%rowA%%">%%player%%</TD>
                 <TD class="spacing_row%%rowA%%">%%infos%%<br/>

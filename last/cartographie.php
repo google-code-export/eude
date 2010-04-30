@@ -244,7 +244,7 @@ foreach($sort_key as $v) {
 
 $tpl->PushRow();
 
-$sql='SELECT * from SQL_PREFIX_Coordonnee a left outer join SQL_PREFIX_Coordonnee_Planetes b on (a.ID=b.pID) '.$where.$sort.$limit;
+$sql='SELECT UNIX_TIMESTAMP(a.DATE) as udate,a.*,b.* from SQL_PREFIX_Coordonnee a left outer join SQL_PREFIX_Coordonnee_Planetes b on (a.ID=b.pID) '.$where.$sort.$limit;
 $mysql_result = DataEngine::sql($sql);
 
 $lngmain = language::getinstance()->GetLngBlock('dataengine');
@@ -283,8 +283,9 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
     $tpl->AddToRow($ligne['water'], 'water');
     $tpl->AddToRow(DataEngine::format_number($ligne['troop'], true), 'troop');
 
-    $tmp = sprintf('Par <b>%s</b><br/>Le: %s', $ligne['UTILISATEUR'], $ligne['DATE']);
+    $tmp = sprintf('Par <b>%s</b><br/>Le: %s', $ligne['UTILISATEUR'], date('d-m-Y à H:i:s',$ligne['udate']));
     $tpl->AddToRow(bulle($tmp), 'userdate');
+    $tpl->AddToRow(date('H:i d-m',$ligne['udate']), 'udate');
 //    $tpl->AddToRow($ligne['UTILISATEUR'], 'user');
 
 
