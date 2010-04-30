@@ -128,7 +128,6 @@ td#TabMembreUser {
         opacity : 1.0;* /
 }
 
-/*--------------------- Partie revue et 'corrigée'... ------------------------* /
 /*------------------------------- Membres.php --------------------------------* /
 table#Membres_level
 td#Membres_level {
@@ -155,8 +154,7 @@ td#Membres_grade {
     font-size:16px;
 }
 td#Membres_grade {
-    border: solid black;
-    border-width: thin;
+    padding: 2px 6px;
 }
 table#Membres,
 td#Membres {
@@ -171,50 +169,7 @@ td#Membres {
     font-weight:bold;
     font-size:12px;
 }
-/*--------------------------- Carte.php --------------------------------------* /
 
-imput#search_empire {
-    color: #ffffff;
-    background-color: #660050;
-    height:20px;
-}
-
-/*--------------------------- ownuniverse.php --------------------------------* /
-
-table#imperium_header {
-    margin-left:auto;
-    margin-right:auto;
-    text-align: center;
-}
-
-tr#imperium_header {
-    color: #ffffff;
-    text-align: center;
-    font-weight: normal;
-    font-size: 12px;
-    background-color: #111111;
-}
-
-td#imperium_row0, td#imperium_row1, td#imperium_row2 {
-    color: #24001C;
-    text-align: center;
-    white-space:nowrap;
-    font-size: 12px;
-}
-td#imperium_row0 {
-    background-color: #FF9970;
-    width: 100px;
-}
-td#imperium_row1 {
-    background-color: #FFBB88;
-    width: 75px;
-}
-td#imperium_row2 {
-    background-color: #FFAA55;
-    width: 75px;
-}*/
-
-/*--------------------------- admin/ 'in_dev' --------------------------------*/
 /* @since 1.4.2 */
 
 .base_h {
@@ -244,7 +199,7 @@ td#imperium_row2 {
 }
 .color_bigheader {
     background-color: #800040;
-    color: white;
+    color: #CB9E03;
     font-size: 20px;
     font-weight: bold;
 }
@@ -432,4 +387,10 @@ table.newmessage {
     padding: 10px;    
     background-color: FFE38F;
     white-space:nowrap;
+}
+
+.listing {
+    padding:0px;
+    list-style-type:none;
+    list-style-position:inside;
 }

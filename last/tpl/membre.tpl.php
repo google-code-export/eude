@@ -21,15 +21,15 @@ class tpl_membre extends output {
     }
 
     public function header() {
-        $this->PushOutput('<table id="Membres_level">');
+        $this->PushOutput('<table class="table_center">');
     }
 
     public function level_header() {
-        $this->PushOutput('<tr><td id="Membres_level"><table id="Membres_grade"><tr>');
+        $this->PushOutput('<tr><td style="width: 100%;"><table class="table_center"><tr>');
     }
 
     public function level_grade($name) {
-        $this->PushOutput('<td id="Membres_grade">'.$name.'</td>');
+        $this->PushOutput('<td class="color_bigheader spacing_row">'.$name.'</td>');
     }
 
     public function level_grade_sep() {
@@ -37,11 +37,11 @@ class tpl_membre extends output {
     }
 
     public function level_players_empty() {
-        $this->PushOutput('<td id="TDtableau">&nbsp;</td>');
+        $this->PushOutput('<td>&nbsp;</td>');
     }
 
     public function level_players_header() {
-        $this->PushOutput('<td id="Membres_grade"><table id="Membres">');
+        $this->PushOutput('<td class="color_row1 spacing_row"><ul class="listing">');
     }
 
     public function level_player_row($joueur) {
@@ -70,13 +70,13 @@ bulle;
         $bulle = bulle($bulle);
 
         $out = <<<lpr
-        <tr><td id="Membres"{$bulle}>{$editlink}{$joueur['Joueur']}</td></tr>
+        <li {$bulle}>{$editlink}{$joueur['Joueur']}</li>
 lpr;
         $this->PushOutput($out);
     }
 
     public function level_players_footer() {
-        $this->PushOutput('</table></td>');
+        $this->PushOutput('</ul></td>');
     }
 
     public function level_footer() {
@@ -90,13 +90,13 @@ lpr;
     public function Grade_Header() {
         $out = <<<gh
             <br/>
-    <table>
-        <tr>
-            <TD id='Grade'>Ajout d'un membre</TD>
-            <TD id='Grade'>Gestion des grades</TD>
+    <table class="table_center color_row1">
+        <tr class="color_header">
+            <TD>Ajout d'un membre</TD>
+            <TD>Gestion des grades</TD>
         </TR>
         <TR>
-            <TD id="TDtableau" valign='top'>
+            <TD>
 gh;
         $this->PushOutput($out);
         return $this;
@@ -108,15 +108,14 @@ gh;
             $combograde.="<option value='".$v['GradeId']."'".($v['GradeId']==$cdg ? ' selected' : '').">".$v['Grade']."</option>";
         }
         $out = <<<ap
-    <table style='color:#ffffff;'>
+    <table class="color_row0">
     <form name='addjoueur' autocomplete='off' method='post' action='Membres.php'>
-    <tr><td id='TabMembre'>Joueur : </td><td id='TabMembre'><input type='text' name='Joueur'></td></tr>
-    <tr><td id='TabMembre'>Pass : </td><td id='TabMembre'><input type='password' name='Password'></td></tr>
-    <tr><td id='TabMembre'>Grade : </td>
-    <td id='TabMembre'><select name='Grade'>{$combograde}</td></tr>
-    <tr><td id='TabMembre'>Accès: </td><td id='TabMembre'>Membre</td></tr>
-    <tr><td id='TabMembre'>Points : </td><td id='TabMembre'><input type='text' name='Points'></td></tr>
-    <tr><td id='TabMembre' colspan=2><input type='submit' value='Ajouter'></tr>
+    <tr class="color_row1"><td>Joueur : </td><td><input class="color_row1" type='text' name='Joueur'></td></tr>
+    <tr><td>Pass : </td><td><input class="color_row0" type='password' name='Password'></td></tr>
+    <tr class="color_row1"><td>Grade : </td><td><select class="color_row1" name='Grade'>{$combograde}</td></tr>
+    <tr><td>Accès: </td><td>Membre</td></tr>
+    <tr class="color_row1"><td>Points : </td><td><input class="color_row1" type='text' name='Points'></td></tr>
+    <tr><td class="text_center" colspan=2><input class="color_row1 text_center" type='submit' value='Ajouter'></td></tr>
     </table>
     </form>
 ap;
@@ -125,18 +124,18 @@ ap;
     }
 
     public function Grade_Sep() {
-        $this->PushOutput('</td><TD id="TDtableau" valign="top" align="center">');
+        $this->PushOutput('</td><TD valign="top">');
     }
 
     public function Grade_Modif_Header() {
         $out = <<<gmh
-            <table style="color:#ffffff;" valign="top">
-    <tr>
-        <td id='TabMembre'>ID</td>
-        <td id='TabMembre'>Nom</td>
-        <td id='TabMembre'>Ordre</td>
-        <td id='TabMembre'>Parent</td>
-        <td id='TabMembre' colspan=2>&nbsp;</td>
+            <table class="color_row1">
+    <tr class="color_header">
+        <td>ID</td>
+        <td>Nom</td>
+        <td>Ordre</td>
+        <td>Parent</td>
+        <td colspan=2>&nbsp;</td>
     </tr>
 gmh;
         $this->PushOutput($out);
@@ -148,12 +147,12 @@ gmh;
         $out = <<<mg
 <form name='modifgrade{$v['GradeId']}' method='post' action='Membres.php'>
 <input name='GradeId' type='hidden' value='{$v['GradeId']}'>
-<tr>
-<td id='TabMembre'>{$v['GradeId']}</td>
-<td id='TabMembre'><input name='GradeNom' type='text' value='{$v['Grade']}'></td>
-<td id='TabMembre'><input style='width:50;' name='GradeNiv' value='{$v['Niveau']}'></td>
-<td id='TabMembre'>
-<select name='GradePere'>
+<tr class="text_center">
+<td>{$v['GradeId']}</td>
+<td><input class="color_row1" name='GradeNom' type='text' value='{$v['Grade']}'></td>
+<td><input class="color_row1 size40" name='GradeNiv' value='{$v['Niveau']}'></td>
+<td>
+<select class="color_row1" name='GradePere'>
 <option value='0'$selected></option>
 mg;
         foreach($Grades as $v2) {
@@ -162,8 +161,8 @@ mg;
         }
         $out .=<<<mg
 </td>
-<TD id='TabMembre'><INPUT style='font-size:10;' type='checkbox' name='GradeSuppr' value='1' onclick='alert(\"Vous allez supprimer {$v['Nom']}\")'))>Effacer</TD>
-<td id='TabMembre'><input type='submit' value='Modifier'></td>
+<TD><INPUT style='font-size:10;' type='checkbox' name='GradeSuppr' value='1' onclick='alert(\"Vous allez supprimer {$v['Nom']}\")'))>Effacer</TD>
+<td><input class="color_row1" type='submit' value='Modifier'></td>
 </tr>
 </form>
 mg;
@@ -181,11 +180,11 @@ mg;
         $out = <<<gn
             <form name='modifgrade' method='post' action='Membres.php'>
     <input name='GradeId' type='hidden' value=-1>
-    <tr><td id='TabMembre'>&nbsp;</td>
-    <td id='TabMembre'><input name='GradeNom' type='text' value=''></td>
-    <td id='TabMembre'><input style='width:50;' name='GradeNiv' type='text' value=''></td>
-    <td id='TabMembre'>
-    <select name='GradePere'>
+    <tr><td>&nbsp;</td>
+    <td><input class="color_row1" name='GradeNom' type='text' value=''></td>
+    <td><input class="color_row1 size40" name='GradeNiv' type='text' value=''></td>
+    <td>
+    <select class="color_row1" name='GradePere'>
     <option value='0' selected></option>
 gn;
         foreach($Grades as $value) {
@@ -193,7 +192,7 @@ gn;
         }
         $out .= <<<gn
             </td>
-    <td id='TabMembre' colspan=2 align=right><input type='submit' value='Insérer'></td>
+    <td colspan=2 align=right><input class="color_row1" type='submit' value='Insérer'></td>
     </form>
     </tr>
 gn;
