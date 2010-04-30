@@ -22,18 +22,18 @@ class tpl_mafiche extends output {
         $lng['page_intro'] = sprintf($this->lng['page_intro'], ucfirst($ligne['Joueur']));
 
         $out = <<<h
-<Table align=center id='Ttableau' width=500px>
+<Table align=center class="color_row1" width=500px>
 
-    <tr><td id='TDtableau' colspan=2 align=center>{$this->lng['auto_intro']}</td></tr>
-    <tr id='TRtableau'><td align=center id='TDtableau' colspan=2>
-    <form id='mafiche' method='post' action='Mafiche.php'>
-        <TEXTAREA cols="50" rows="4" name='importation'></TEXTAREA><br/>
-        <input id='INtableau' type="submit" value="{$this->lng['auto_btn']}"/>
+    <tr><td class="color_header" colspan=2 align=center>{$this->lng['auto_intro']}</td></tr>
+    <tr><td align=center colspan=2>
+    <form method='post' action='Mafiche.php'>
+        <TEXTAREA class="color_row0" cols="50" rows="4" name='importation'></TEXTAREA><br/>
+        <input class="color_row0" type="submit" value="{$this->lng['auto_btn']}"/>
     </form>
         </td></tr>
-    <tr><td id='TDtableau' colspan=2>&nbsp;</td></tr>
+    <tr><td class="color_bg" colspan=2>&nbsp;</td></tr>
 
-    <tr id='TRtableau'><td id='TDtableau' colspan=2 align=center>{$lng['page_intro']}</td></tr>
+    <tr><td class="color_header" colspan=2 align=center>{$lng['page_intro']}</td></tr>
     <form id='mafiche' method='post' action='Mafiche.php'>
         <input type='hidden' name='JOUEUR' value='{$ligne['Joueur']}'>
 h;
@@ -46,16 +46,16 @@ h;
             if ($value=='') $value='-';
         if ($key=='')
             $out = <<<ar
-<tr id='TRtableau'>
-    <td id='TDtableau'>{$title}</td>
-    <td id='TDtableau'>{$value}</td>
+<tr class="color_row0">
+    <td>{$title}</td>
+    <td>{$value}</td>
 </tr>
 ar;
         else
             $out = <<<ar
-<tr id='TRtableau'>
-    <td id='TDtableau'>{$title}</td>
-    <td id='TDtableau'><input id='INtableau' name='{$key}' value='{$value}'></td>
+<tr class="color_row0">
+    <td>{$title}</td>
+    <td><input class="color_row0 text_center" name='{$key}' value='{$value}'></td>
 </tr>
 ar;
         $this->PushOutput($out);
@@ -63,9 +63,9 @@ ar;
 
     public function add_row_select($title, $key, $array, $selected) {
         $out = <<<ar
-<tr id='TRtableau'>
-    <td id='TDtableau'>{$title}</td>
-    <td id='TDtableau'><select id='INtableau' name='{$key}'>
+<tr class="color_row0">
+    <td>{$title}</td>
+    <td><select class="color_row0" name='{$key}'>
 		<option value=''>&nbsp;</option>
 ar;
         foreach ($array as $v)
@@ -80,22 +80,22 @@ ar;
 
     public function footer() {
         $out = <<<f
-<tr id='TRtableau'>
-<td align=center id='TDtableau' colspan=2><input id='INBTtableau' type='submit' value='{$this->lng['manual_btn']}'</td>
+<tr>
+<td class="color_header text_center" colspan=2><input class="color_header" type='submit' value='{$this->lng['manual_btn']}'</td>
 </tr>
 </form>
 
-    <tr id='TRtableau'><td id='TDtableau' colspan=2>&nbsp;</td></tr>
+    <tr><td class="color_bg" colspan=2>&nbsp;</td></tr>
 
-<tr id='TRtableau'><td align=center id='TDtableau' colspan=2>
+<tr><td class="color_row0"align=center colspan=2>
 <form method='post'>{$this->lng['pwd_new']}
-<input id='INtableau' type='password' name='pwd'><input id='INBTtableau' type='submit' value='{$this->lng['pwd_btn']}'></form>
+<input class="color_row0" type='password' name='pwd'><input class="color_row0" type='submit' value='{$this->lng['pwd_btn']}'></form>
 </td></tr>
 
-    <tr id='TRtableau'><td  id='TDtableau' colspan=2>&nbsp;</td></tr>
+    <tr><td class="color_bg" colspan=2>&nbsp;</td></tr>
 
-<tr id='TRtableau' id='TRtableau'><td align=center id='TDtableau' colspan=2>
-<input id='INtableau' type='button' value='{$this->lng['logout_btn']}' onclick='location.href="%ROOT_URL%logout.php"'>
+<tr><td class="color_header text_center" colspan=2>
+<input class="color_header" type='button' value='{$this->lng['logout_btn']}' onclick='location.href="%ROOT_URL%logout.php"'>
 </td></tr>
 
 </table>

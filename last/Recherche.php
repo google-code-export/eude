@@ -297,10 +297,10 @@ function parsearbre($arr)
 	return "$result".str_pad("", $rechlevel, " ", STR_PAD_LEFT)."</ul>\n";
 }
 
-$tpl->PushOutput('<div id="centre" style="position:absolute; top:50px; left:550px; font-size: 12px;">');
-$tpl->PushOutput(parsearbre($arbrerech));
-$tpl->PushOutput('</div>');
-$tpl->legend();
+//$tpl->PushOutput('<div style="position:absolute; top:50px; left:550px; font-size: 12px;">');
+//$tpl->PushOutput(parsearbre($arbrerech));
+//$tpl->PushOutput('</div>');
+//$tpl->legend();
 /*
 Routine	maximum une heure
 Très facile	jusqu'à 16 heures (donc entre 1h01 et 16h)
