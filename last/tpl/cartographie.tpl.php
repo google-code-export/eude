@@ -26,14 +26,14 @@ class tpl_cartographie extends output {
 <table class="table_nospacing table_center">
     <tr><td>
         <form name="data" method="post" action="{$this->BASE_FILE}?{$this->BASE_GET}">
-        <table class="table_nospacing table_center color_row0">
+        <table class="table_nospacing table_center">
         <tr><td>
-            <table class="table_nospacing color_row0">
+            <table class="table_nospacing color_row1">
                 <tr><TD class="text_center color_bigheader" colspan="7">Ajout des corps célestes</TD></tr>
                 <tr class="text_center">
                     <TD %%bulle%% colspan="6">
                     <input name="phpparser" type="hidden" value="0"/>
-                    <TEXTAREA class="color_row0" cols="50" rows="4" name="importation"></TEXTAREA>
+                    <TEXTAREA class="color_row1" cols="50" rows="4" name="importation"></TEXTAREA>
                     </TD>
                     <TD class="color_header">
                         <input class="color_header" onclick="interpreter(document.getElementsByName('importation')[0].value, true); GestionFormulaire();" type="button" value="Automatique">
@@ -118,8 +118,7 @@ ROW;
         <form name="search" method="post" action="{$this->BASE_FILE}?{$this->BASE_GET}">
         <table class="table_center table_nospacing color_row0" width="100%">
             <tr>
-                <TD class="text_center color_bigheader" colspan="10">Recherche des corps célestes</TD>
-                <td class="text_center color_header"><input OnClick="location.href='{$this->BASE_FILE}?ResetSearch=1';" class="color_header" type="button" value="Afficher tout"/></td>
+                <TD class="text_center color_bigheader" colspan="11">Recherche des corps célestes</TD>
             </tr>
             <tr class="color_cols text_center">
                 <td class="spacing_row1">Status</td>
@@ -132,7 +131,7 @@ ROW;
                 <td class="spacing_row1">Note</td>
                 <td class="spacing_row1">Troupes Max</td>
                 <td class="spacing_row1">Moi</td>
-                <td class="color_header">&nbsp;</td>
+                <td class="color_header"><input OnClick="location.href='{$this->BASE_FILE}?ResetSearch=1';" class="color_header" type="button" value="Afficher tout"/></td>
             </tr>
             <tr class="color_row1 text_center">
                 <td class="spacing_row1">
