@@ -193,7 +193,8 @@ ROW;
                 </TD>
             </tr>
             <tr class="text_center color_header">
-                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_type%%">Type</a></TD>
+                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_type%%">Type</a><br/>
+                                         <a href="{$this->BASE_FILE}?%%sort_date%%">Date</a></TD>
                 <TD class="spacing_row0">Coordonnées</TD>
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_user%%">Joueur</a>/<a href="{$this->BASE_FILE}?%%sort_empire%%">Empire</a></TD>
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_infos%%">Nom de la planète/flotte</a><br/>
