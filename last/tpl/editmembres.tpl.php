@@ -92,7 +92,7 @@ r;
     </select></td>
     <TD><INPUT style="font-size:10; width=80;" type="text" name="ModifPoints{$i}" value="{$ligne['Points']}"></TD>
     <TD>{$ligne['Economie']}/{$ligne['Commerce']}/{$ligne['Recherche']}/{$ligne['Combat']}/{$ligne['Construction']}/{$ligne['Navigation']}</TD>
-    <TD><select id="INtableau" name="ModifRace{$i}">
+    <TD><select name="ModifRace{$i}">
     <option value="">&nbsp;</option>
                 {$comborace}
     </TD>
@@ -102,7 +102,7 @@ r2;
         $this->PushOutput($out);
 
         if(DataEngine::CheckPerms('MEMBRES_NEWPASS'))
-            $this->PushOutput('<TD><INPUT id="INTableau110" type="password" name="pass'.$i.'" value=""/></TD>');
+            $this->PushOutput('<TD><INPUT type="password" name="pass'.$i.'" value=""/></TD>');
         if(DataEngine::CheckPerms('MEMBRES_DELETE'))
             $this->PushOutput('<TD><INPUT type="checkbox" name="Suppr'.$i.'" value="1">Effacer</TD>');
 
@@ -116,7 +116,7 @@ r2;
         if(DataEngine::CheckPerms('MEMBRES_DELETE')) $cols++;
         
         $out = <<<f
-            <TR align=right><TD Colspan=$cols><input id="INBTtableau" type="submit" value="Modifier"></TD></TR>
+            <TR align=right><TD Colspan=$cols><input type="submit" value="Modifier"></TD></TR>
 </Form>
 </TABLE>
 </TD>
