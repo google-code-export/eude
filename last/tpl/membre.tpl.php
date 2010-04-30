@@ -161,7 +161,7 @@ mg;
         }
         $out .=<<<mg
 </td>
-<TD><INPUT style='font-size:10;' type='checkbox' name='GradeSuppr' value='1' onclick='alert(\"Vous allez supprimer {$v['Nom']}\")'))>Effacer</TD>
+<TD><INPUT style='font-size:10;' type='checkbox' name='GradeSuppr' value='1' onclick='alert("Vous allez supprimer {$v['Nom']}");'>Effacer</TD>
 <td><input class="color_row1" type='submit' value='Modifier'></td>
 </tr>
 </form>
