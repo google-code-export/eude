@@ -75,16 +75,16 @@ i;
             </tr><tr>
                 <td><input type="radio" value=1 name="Etat"></td>
                 <td>Les premiers pas sont toujours les plus difficiles.<br>
-                    Cependant, le lancement du projet de recherche s"est d&eacute;roul&eacute; sans encomres</td>
+                    Cependant, le lancement du projet de recherche s'est d&eacute;roul&eacute; sans encomres</td>
                 <td>2.6% - 5.2%</td>
             </tr><tr class="color_row0">
                 <td><input type="radio" value=2 name="Etat"></td>
                 <td>Mise &agrave; part quelques petites difficult&eacute;s techniques,<br>
-                    notre travail se d&eacute;roule sans probl&egrave;me jusqu"&agrave; pr&eacute;sent</td>
+                    notre travail se d&eacute;roule sans probl&egrave;me jusqu'&agrave; pr&eacute;sent</td>
                 <td>5.2% - 11%</td>
             </tr><tr>
                 <td><input type="radio" value=3 name="Etat"></td>
-                <td>Nous sommes en phase de conception et d"essai des premiers prototypes de cette technologie</td>
+                <td>Nous sommes en phase de conception et d'essai des premiers prototypes de cette technologie</td>
                 <td>11% - 16%</td>
             </tr><tr class="color_row0">
                 <td><input type="radio" value=4 name="Etat"></td>
@@ -115,7 +115,7 @@ i;
                 <td>42% - 47%</td>
             </tr><tr class="color_row0">
                 <td><input type="radio" value=10 name="Etat"></td>
-                <td>Nous sommes &agrave; mi-chemin. Il s"agit de recherches majeures et le fonctionnement n"est pas encore optimal.<br>
+                <td>Nous sommes &agrave; mi-chemin. Il s'agit de recherches majeures et le fonctionnement n'est pas encore optimal.<br>
                     Nous pers&eacute;v&eacute;rons pour faire aboutir la technologie</td>
                 <td>47% - 53%</td>
             </tr><tr>
@@ -130,12 +130,12 @@ i;
                 <td>58% - 63%</td>
             </tr><tr>
                 <td><input type="radio" value=13 name="Etat"></td>
-                <td>Nous avons plusieurs &eacute;quipes de chercheurs charg&eacute;es de localiser d"&eacute;ventuelles erreurs de programme<br>
-                    de la technologie et de les corriger d&eacute;finitivement afin d"&eacute;viter une d&eacute;faillance ulterieur</td>
+                <td>Nous avons plusieurs &eacute;quipes de chercheurs charg&eacute;es de localiser d'&eacute;ventuelles erreurs de programme<br>
+                    de la technologie et de les corriger d&eacute;finitivement afin d'&eacute;viter une d&eacute;faillance ulterieur</td>
                 <td>63% - 68%</td>
             </tr><tr class="color_row0">
                 <td><input type="radio" value=14 name="Etat"></td>
-                <td>Aucun probl&egrave;me majeur n"a &eacute;t&eacute; r&eacute;v&eacute;l&eacute; pendant la v&eacute;rification.<br>
+                <td>Aucun probl&egrave;me majeur n'a &eacute;t&eacute; r&eacute;v&eacute;l&eacute; pendant la v&eacute;rification.<br>
                     Nous sommes donc pass&eacute; &agrave; la derni&egrave;re &eacute;tape de la r&eacute;alisation</td>
                 <td>68% - 74%</td>
             </tr><tr>

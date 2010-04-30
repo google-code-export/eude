@@ -124,19 +124,19 @@ if ($cleandata && is_array($cleandata[0])) {
 
         $tpl->Planet_Header($cleandata[$i]);
         if (isset($cleandata[$i]['percent_'.$keys[0]]))
-            $tpl->Add_PercentRow($cleandata[$i],$lng['row_concentration'],'percent_','imperium_row0');
+            $tpl->Add_PercentRow($cleandata[$i],$lng['row_concentration'],'percent_','row0');
 
-        $tpl->Add_RessRow($cleandata[$i],$lng['row_prod/h'],'','imperium_row1');
+        $tpl->Add_RessRow($cleandata[$i],$lng['row_prod/h'],'','row1');
 
         $tpl->Add_Current_Ress($cleandata[$i]);
 
     }
     $tpl->RowHeader();
 
-    $tpl->Add_RessRow($total_all,$lng['row_Total'],'','imperium_row1');
+    $tpl->Add_RessRow($total_all,$lng['row_Total'],'','row0');
 
     if ($ownuniverse->get_race()!='')
-        $tpl->Add_PercentRow(DataEngine::a_race_ressources($ownuniverse->get_race()),$lng['row_race_needed'],'','imperium_row1');
+        $tpl->Add_PercentRow(DataEngine::a_race_ressources($ownuniverse->get_race()),$lng['row_race_needed'],'','row1');
 
 //------------------------------------------------------------------------------
 

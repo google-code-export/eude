@@ -267,6 +267,7 @@ td#imperium_row2 {
     border-collapse: collapse;
 }
 .spacing_row {
+    border-right: none !important;
     padding: 2px 6px;
 }
 td.spacing_row0 {
@@ -281,7 +282,8 @@ tr.spacing_header {
     border-top: solid 3px #800040;
 }
 tr.spacing_header td {
-    border-right: solid 2px black;
+    padding: 2px 6px;
+    border-right: solid 3px #660050;
 }
 
 .color_titre {
