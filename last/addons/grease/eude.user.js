@@ -463,6 +463,149 @@ function rtrim(str, chars) {
 	return str.replace(new RegExp("[" + chars + "]+$", "g"), "");
 }
 //------------------------------------------------------------------------------
+// Fonctions de serialize...
+     function utf8_encode ( argString ) {
+    // Encodes an ISO-8859-1 string to UTF-8
+    //
+    // version: 1004.2314
+    // discuss at: http://phpjs.org/functions/utf8_encode    // +   original by: Webtoolkit.info (http://www.webtoolkit.info/)
+    // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // +   improved by: sowberry
+    // +    tweaked by: Jack
+    // +   bugfixed by: Onno Marsman    // +   improved by: Yves Sucaet
+    // +   bugfixed by: Onno Marsman
+    // +   bugfixed by: Ulrich
+    // *     example 1: utf8_encode('Kevin van Zonneveld');
+    // *     returns 1: 'Kevin van Zonneveld'    var string = (argString+''); // .replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
+    var utftext = "";
+    var start, end;
+    var stringl = 0;
+    start = end = 0;
+    stringl = argString.length;
+    for (var n = 0; n < stringl; n++) {
+        var c1 = argString.charCodeAt(n);var enc = null;
+
+        if (c1 < 128) {
+            end++;
+        } else if (c1 > 127 && c1 < 2048) {enc = String.fromCharCode((c1 >> 6) | 192) + String.fromCharCode((c1 & 63) | 128);
+        } else {
+            enc = String.fromCharCode((c1 >> 12) | 224) + String.fromCharCode(((c1 >> 6) & 63) | 128) + String.fromCharCode((c1 & 63) | 128);
+        }
+        if (enc !== null) {if (end > start) {
+                utftext += argString.substring(start, end);
+            }
+            utftext += enc;
+            start = end = n+1;}
+    }
+
+    if (end > start) {
+        utftext += argString.substring(start, argString.length);}
+
+    return utftext;
+}
+function serialize (mixed_value) {
+    // http://kevin.vanzonneveld.net
+    // +   original by: Arpad Ray (mailto:arpad@php.net)
+    // +   improved by: Dino
+    // +   bugfixed by: Andrej Pavlovic
+    // +   bugfixed by: Garagoth
+    // +      input by: DtTvB (http://dt.in.th/2008-09-16.string-length-in-bytes.html)
+    // +   bugfixed by: Russell Walker (http://www.nbill.co.uk/)
+    // +   bugfixed by: Jamie Beck (http://www.terabit.ca/)
+    // +      input by: Martin (http://www.erlenwiese.de/)
+    // +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // -    depends on: utf8_encode
+    // %          note: We feel the main purpose of this function should be to ease the transport of data between php & js
+    // %          note: Aiming for PHP-compatibility, we have to translate objects to arrays
+    // *     example 1: serialize(['Kevin', 'van', 'Zonneveld']);
+    // *     returns 1: 'a:3:{i:0;s:5:"Kevin";i:1;s:3:"van";i:2;s:9:"Zonneveld";}'
+    // *     example 2: serialize({firstName: 'Kevin', midName: 'van', surName: 'Zonneveld'});
+    // *     returns 2: 'a:3:{s:9:"firstName";s:5:"Kevin";s:7:"midName";s:3:"van";s:7:"surName";s:9:"Zonneveld";}'
+
+    var _getType = function (inp) {
+        var type = typeof inp, match;
+        var key;
+        if (type == 'object' && !inp) {
+            return 'null';
+        }
+        if (type == "object") {
+            if (!inp.constructor) {
+                return 'object';
+            }
+            var cons = inp.constructor.toString();
+            match = cons.match(/(\w+)\(/);
+            if (match) {
+                cons = match[1].toLowerCase();
+            }
+            var types = ["boolean", "number", "string", "array"];
+            for (key in types) {
+                if (cons == types[key]) {
+                    type = types[key];
+                    break;
+                }
+            }
+        }
+        return type;
+    };
+    var type = _getType(mixed_value);
+    var val, ktype = '';
+
+    switch (type) {
+        case "function":
+            val = "";
+            break;
+        case "boolean":
+            val = "b:" + (mixed_value ? "1" : "0");
+            break;
+        case "number":
+            val = (Math.round(mixed_value) == mixed_value ? "i" : "d") + ":" + mixed_value;
+            break;
+        case "string":
+            mixed_value = utf8_encode(mixed_value);
+            val = "s:" + encodeURIComponent(mixed_value).replace(/%../g, 'x').length + ":\"" + mixed_value + "\"";
+            break;
+        case "array":
+        case "object":
+            val = "a";
+            /*
+            if (type == "object") {
+                var objname = mixed_value.constructor.toString().match(/(\w+)\(\)/);
+                if (objname == undefined) {
+                    return;
+                }
+                objname[1] = this.serialize(objname[1]);
+                val = "O" + objname[1].substring(1, objname[1].length - 1);
+            }
+            */
+            var count = 0;
+            var vals = "";
+            var okey;
+            var key;
+            for (key in mixed_value) {
+                ktype = _getType(mixed_value[key]);
+                if (ktype == "function") {
+                    continue;
+                }
+
+                okey = (key.match(/^[0-9]+$/) ? parseInt(key, 10) : key);
+                vals += serialize(okey) +
+                        serialize(mixed_value[key]);
+                count++;
+            }
+            val += ":" + count + ":{" + vals + "}";
+            break;
+        case "undefined": // Fall-through
+        default: // if the JS object has a property which contains a null value, the string cannot be unserialized by PHP
+            val = "N";
+            break;
+    }
+    if (type != "object" && type != "array") {
+        val += ";";
+    }
+    return val;
+}
+//------------------------------------------------------------------------------
 
 function options_spacer(width) {
     var cell = document.createElement('td');
@@ -867,7 +1010,7 @@ function ownuniverse () {
         i += 2;
         p++;
     }
-    AddToMotd(p+' Planets', '<hr/>');
+//    AddToMotd(p+' Planets', '<hr/>');
 
     for (i=3,j=0; j<p; i+=2,j++)
         Planet[j]['Name'] = $x('/html/body/div[2]/div/div[2]/table/tbody/tr/td['+i+']')[0].innerHTML;
@@ -876,10 +1019,12 @@ function ownuniverse () {
     for (i=3,j=0; j<p; i+=2,j++)
         Planet[j]['communication'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[5]/td['+i+']')[0].innerHTML;
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j]['technology'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[7]/td['+i+']')[0].innerHTML;
+        Planet[j]['university'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[7]/td['+i+']')[0].innerHTML;
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j]['gouv'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[9]/td['+i+']')[0].innerHTML;
-    for (i=3,j=0; j<p; i+=2,j++)  // 9 -> 13 !
+        Planet[j]['technology'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[9]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j]['gouv'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[11]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
         Planet[j]['defense'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[13]/td['+i+']')[0].innerHTML;
     for (i=3,j=0; j<p; i+=2,j++)
         Planet[j]['shipyard'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[15]/td['+i+']')[0].innerHTML;
@@ -895,101 +1040,101 @@ function ownuniverse () {
     k='current_';// Stock sur planète
     div='2';
     for (i=3,j=0; j<p; i+=2,j++)   
-        Planet[j][k+'Titane'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[3]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Titane'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[3]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Cuivre'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[5]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Cuivre'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[5]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Fer'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[7]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Fer'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[7]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Aluminium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[9]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Aluminium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[9]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Mercure'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[11]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Mercure'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[11]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Silicium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[13]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Silicium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[13]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Uranium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[15]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Uranium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[15]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Krypton'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[17]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Krypton'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[17]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Azote'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[19]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Azote'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[19]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Hydrogene'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[21]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Hydrogene'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[21]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
 
     k='';// Production par heure
     div='3';
     for (i=3,j=0; j<p; i+=2,j++)  ///html/body/div[2]/div/div[3]/div/div[3]/table/tbody/tr[3]/td[3]
-        Planet[j][k+'Titane'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[3]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Titane'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[3]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Cuivre'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[5]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Cuivre'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[5]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Fer'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[7]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Fer'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[7]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Aluminium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[9]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Aluminium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[9]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Mercure'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[11]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Mercure'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[11]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Silicium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[13]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Silicium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[13]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Uranium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[15]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Uranium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[15]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Krypton'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[17]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Krypton'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[17]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Azote'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[19]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Azote'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[19]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Hydrogene'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[21]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Hydrogene'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[21]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
 
     k='bunker_';// Ressources dans le bunker
     div='4';
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Titane'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[3]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Titane'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[3]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Cuivre'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[5]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Cuivre'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[5]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Fer'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[7]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Fer'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[7]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Aluminium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[9]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Aluminium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[9]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Mercure'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[11]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Mercure'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[11]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Silicium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[13]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Silicium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[13]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Uranium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[15]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Uranium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[15]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Krypton'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[17]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Krypton'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[17]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Azote'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[19]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Azote'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[19]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Hydrogene'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[21]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Hydrogene'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[21]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
 
     k='sell_';// Ventes par jours
     div='5';
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Titane'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[3]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Titane'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[3]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Cuivre'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[5]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Cuivre'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[5]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Fer'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[7]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Fer'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[7]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Aluminium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[9]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Aluminium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[9]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Mercure'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[11]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Mercure'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[11]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Silicium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[13]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Silicium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[13]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Uranium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[15]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Uranium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[15]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Krypton'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[17]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Krypton'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[17]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Azote'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[19]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Azote'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[19]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
     for (i=3,j=0; j<p; i+=2,j++)
-        Planet[j][k+'Hydrogene'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[21]/td['+i+']')[0].innerHTML;
+        Planet[j][k+'Hydrogene'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[21]/td['+i+']')[0].innerHTML.replace(/\.*/g, '');
 
-    var key = k+'Hydrogene';
-    data = key+': ';
-    for (j=0; j<p;j++) data += Planet[j][key]+'¤ ';
-    data +=' @'+p;
-    AddToMotd(data);
-    get_xml('ownuniverse', Planet);
+//    var key = k+'Hydrogene';
+//    data = key+': ';
+//    for (j=0; j<p;j++) data += Planet[j][key]+'¤ ';
+//    data +=' @'+p;
+//    AddToMotd(data);
+    get_xml('ownuniverse', serialize(Planet));
 }
 
 function Options() {

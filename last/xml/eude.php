@@ -71,9 +71,10 @@ q;
 
     case 'ownuniverse': //------------------------------------------------------
 
-        // TODO Parse numeric value (delete dot)
-
-        $xml['log']='owninuverse';
+        require_once(CLASS_PATH.'ownuniverse.class.php');
+        $data = unserialize(gpc_esc($_POST['data']));
+        list($info, $warn) = ownuniverse::getinstance()->add_ownuniverse($data);
+        $xml['log']=$info;
         break;
 
     case 'wormhole': //---------------------------------------------------------
