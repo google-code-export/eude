@@ -449,6 +449,19 @@ function $x() {
     return fix ? toAr(temp) : temp;
 }
 
+function trim(str, chars) {
+	return ltrim(rtrim(str, chars), chars);
+}
+
+function ltrim(str, chars) {
+	chars = chars || "\\s";
+	return str.replace(new RegExp("^[" + chars + "]+", "g"), "");
+}
+
+function rtrim(str, chars) {
+	chars = chars || "\\s";
+	return str.replace(new RegExp("[" + chars + "]+$", "g"), "");
+}
 //------------------------------------------------------------------------------
 
 function options_spacer(width) {
@@ -552,7 +565,7 @@ var c_onload = function(e) {
 }
 
 var c_onerror = function(e) {
-    AddGameLog('<span class="gamelog_raid">Fatal ('+e.status+'): '+e.responseText+'</span>');
+    AddGameLog('<span class="gamelog_raid">Fatal ('+e.status+'): Use in firefox only</span>');
 }
 
 function get_xml(key, data) {
@@ -742,15 +755,12 @@ function Galaxy_Info() {
     data = new Array();
     data['ss']   = $x('/html/body/div/div/table/tbody/tr[3]/td[4]')[0].innerHTML;
     data['data'] = document.documentElement.innerHTML;
-    //$x('/html/body/div/div[4]/div/table')[0].innerHTML;
     get_xml('galaxy_info', data);
 }
 
 function Wormhole() {
     var tables = $x('/html/body/div[2]/div/div/table/tbody/tr/td[3]/table', XPathResult.ORDERED_NODE_SNAPSHOT_TYPE);
     var i=1;
-    ///html/body/div[2]/div/div/table/tbody/tr/td[3]/table/tbody/tr[4]/td[4]
-    ///html/body/div[2]/div/div/table/tbody/tr/td[3]/table[2]/tbody/tr[3]/td[4]
     var a=new Array();
     tables.forEach(function(paragraph) {  // Loop over every paragraph
         var nodess=paragraph.childNodes[1].childNodes[4].childNodes[7];
@@ -773,7 +783,7 @@ function Planet() {
         if (html.match(eval('/'+i18n[c_game_lang]['ress'+i]+'.+\\n.+<td class=\\"font_white\\">(.+)<\\/td>/')))
             a[i]= RegExp.$1;
         else
-            return false;
+            return;
 
     get_xml('planet', a);
 }
@@ -808,7 +818,7 @@ function Fleet() {
 
     if (!npc) {
         a['owner'] = a['owner'].replace(/<\/?[^>]+>/gi, '')
-    //    get_xml('pnj', a);
+    //    get_xml('userfleet', a);
     }
 //    alert('Fleet called:\nCoords: '+a['coords']+'\nProprio: '+a['owner']+'\nNom: '+a['fleetname']);
 
@@ -841,6 +851,145 @@ function MaFiche() {
 //    tmp = i+'--'+a['GameGrade']+'-'+a['Race']+'-'+a['Titre'];
 //    AddToMotd(tmp);
     get_xml('mafiche', a);
+}
+
+function ownuniverse () {
+    var Planet = Array();
+    var i = 3;
+    var j = 0;
+    var p = 0;
+    var k = '';
+
+    while (trim($x('/html/body/div[2]/div/div[3]/div/table/tbody/tr/td['+i+']')[0].innerHTML) != '')
+    {
+        Planet[p] = Array();
+        Planet[p]['Coord'] = $x('/html/body/div[2]/div/div[3]/div/table/tbody/tr/td['+i+']')[0].innerHTML;
+        i += 2;
+        p++;
+    }
+    AddToMotd(p+' Planets', '<hr/>');
+
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j]['Name'] = $x('/html/body/div[2]/div/div[2]/table/tbody/tr/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j]['control'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[3]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j]['communication'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[5]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j]['technology'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[7]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j]['gouv'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[9]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)  // 9 -> 13 !
+        Planet[j]['defense'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[13]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j]['shipyard'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[15]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j]['spacedock'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[17]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j]['bunker'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[19]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j]['tradepost'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[21]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j]['ressource'] = $x('/html/body/div[2]/div/div[3]/div/div/table/tbody/tr[23]/td['+i+']')[0].innerHTML;
+
+    k='current_';// Stock sur planète
+    div='2';
+    for (i=3,j=0; j<p; i+=2,j++)   
+        Planet[j][k+'Titane'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[3]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Cuivre'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[5]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Fer'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[7]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Aluminium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[9]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Mercure'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[11]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Silicium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[13]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Uranium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[15]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Krypton'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[17]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Azote'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[19]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Hydrogene'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[21]/td['+i+']')[0].innerHTML;
+
+    k='';// Production par heure
+    div='3';
+    for (i=3,j=0; j<p; i+=2,j++)  ///html/body/div[2]/div/div[3]/div/div[3]/table/tbody/tr[3]/td[3]
+        Planet[j][k+'Titane'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[3]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Cuivre'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[5]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Fer'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[7]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Aluminium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[9]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Mercure'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[11]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Silicium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[13]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Uranium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[15]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Krypton'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[17]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Azote'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[19]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Hydrogene'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[21]/td['+i+']')[0].innerHTML;
+
+    k='bunker_';// Ressources dans le bunker
+    div='4';
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Titane'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[3]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Cuivre'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[5]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Fer'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[7]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Aluminium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[9]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Mercure'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[11]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Silicium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[13]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Uranium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[15]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Krypton'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[17]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Azote'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[19]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Hydrogene'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[21]/td['+i+']')[0].innerHTML;
+
+    k='sell_';// Ventes par jours
+    div='5';
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Titane'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[3]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Cuivre'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[5]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Fer'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[7]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Aluminium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[9]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Mercure'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[11]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Silicium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[13]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Uranium'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[15]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Krypton'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[17]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Azote'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[19]/td['+i+']')[0].innerHTML;
+    for (i=3,j=0; j<p; i+=2,j++)
+        Planet[j][k+'Hydrogene'] = $x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[21]/td['+i+']')[0].innerHTML;
+
+    var key = k+'Hydrogene';
+    data = key+': ';
+    for (j=0; j<p;j++) data += Planet[j][key]+'¤ ';
+    data +=' @'+p;
+    AddToMotd(data);
+    get_xml('ownuniverse', Planet);
 }
 
 function Options() {
@@ -928,6 +1077,7 @@ if (GM_getValue(c_prefix+'actived','0')!='0') {
     if (c_page.indexOf('fleet/fleet_info.php?')>0)                      Fleet();
     if (c_page.indexOf('fleet/commander_info.php?action=attribute')>0) MaFiche();
 
+    if (c_page.indexOf('building/control/control_overview.php?area=planet')>0) ownuniverse();
 }
 
 if (c_page.indexOf('user/settings_overview.php?area=options')>0)      Options();

@@ -68,6 +68,14 @@ q;
         );
         $xml['log']='infomation joueur mis à jour';
         break;
+
+    case 'ownuniverse': //------------------------------------------------------
+
+        // TODO Parse numeric value (delete dot)
+
+        $xml['log']='owninuverse';
+        break;
+
     case 'wormhole': //---------------------------------------------------------
         $carto->add_vortex($_POST['IN'], $_POST['OUT']);
         $xml['log']='Vortex '.$_POST['IN'].' <--> '.$_POST['OUT'];
