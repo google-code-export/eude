@@ -15,6 +15,7 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.*/fleet/fleet_info.php*
 // @include      http://*eu2.looki.*/fleet/commander_info.php?action=attribute*
 // @include      http://*eu2.looki.*/wormhole/wormhole_info.php*
+// @include      http://*eu2.looki.*/building/control/control_overview.php?area=planet
 // @include      http://*eu2.looki.*/user/settings_overview.php?area=options
 // @exclude      http://vs.eu2.looki.*/*
 // ==/UserScript==
