@@ -414,11 +414,11 @@ ead;
      */
     static public function Get_Version() {
         if (DE_DEMO)
-            return 'r203 démo';
+            return 'r213 démo';
         elseif (IN_DEV)
-            return 'r203svn-'.time();
+            return 'r213svn-'.time();
         else
-            return '1.4.2';
+            return '1.4.2.1';
     }
 }
 

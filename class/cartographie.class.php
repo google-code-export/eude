@@ -292,7 +292,7 @@ class cartographie {
                     return  $this->AddInfo('La flotte '.$nom.' existe déjà au coordonnée : '.$uni.'-'.$sys.' (ignoré)');
             }
         } else {
-            $query = sprintf('INSERT INTO SQL_PREFIX_Coordonnee (TYPE,POSIN,POSOUT,COORDET,COORDETOUT,USER,EMPIRE,DATE,UTILISATEUR)'.
+            $query = sprintf('INSERT INTO SQL_PREFIX_Coordonnee (TYPE,POSIN,POSOUT,COORDET,COORDETOUT,USER,INFOS,DATE,UTILISATEUR)'.
                     ' VALUES (6,\'%s\',\'\',\'%s\',\'\',\'%s\',\'%s\',now(),\'%s\')',
                     $uni, $sys, $qnom, $qfleet, sqlesc($_SESSION['_login']));
             DataEngine::sql($query);
