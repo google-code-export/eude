@@ -234,7 +234,7 @@ class cartographie {
         if($ligne['ID'] > 0) {
             if (!$updatetype) $type = $ligne['TYPE'];
                 $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET `TYPE`=%d,`POSOUT`=\'\',`COORDETOUT`=\'\',`USER`=\'%s\',`EMPIRE`=\'%s\','.
-                        '`INFOS`=\'%s\',`UTILISATEUR`=\'%s\',DATE=NOW() WHERE ID=%s',
+                        '`INFOS`=\'%s\',`UTILISATEUR`=\'%s\' WHERE ID=%s',
                         $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']), $ligne['ID'] );
 
             DataEngine::sql($query);
@@ -362,7 +362,7 @@ class cartographie {
                     if ($curss_info[$nom] != $empire) {
                         $qnom    = sqlesc($nom);
                         $qempire = sqlesc($empire);
-                        $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}',DATE=now() WHERE USER='{$qnom}'";
+                        $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}' WHERE USER='{$qnom}'";
                         DataEngine::sql($query);
                         $this->AddInfo('Changement d\'empire du joueur: \''.$nom.'\' ['.mysql_affected_rows().']');
                         unset($curss_info[$nom]);
