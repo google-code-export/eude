@@ -75,7 +75,7 @@ class tpl_carte extends output {
 			<TD>
 				<A {$msg_taill_inc} HREF="{$this->BASE_FILE}?taille={$taille_inc}">&nbsp;+&nbsp;</A>
 				&nbsp;&nbsp;
-				<A {$msg_taill_dec} HREF="{$this->BASE_FILE}?taille={$taille_dec}">&#151;</A>
+				<A {$msg_taill_dec} HREF="{$this->BASE_FILE}?taille={$taille_dec}">&nbsp;&ndash;&nbsp;</A>
 			</TD>
 			<TD><img {$helpmsg} width=20 height=20 src='%IMAGES_URL%help.png'></TD>
 			<TD>
@@ -113,7 +113,7 @@ class tpl_carte extends output {
 				<A {$msg_pirate} HREF="{$this->BASE_FILE}?pnj={$get_pnj}">
 				<img width=18 height=18 src="%IMAGES_URL%fleet_{$img_pnj}.gif"></A>
 			</TD>
-			<TD class="size110 text_right">{$this->lng['msg_coords']}&nbsp;</td>
+			<TD class="size130 text_right">&nbsp;{$this->lng['msg_coords']}&nbsp;</td>
 			<td id="Coord" class="size50 color_row0 text_center">&nbsp;0000&nbsp;</td>
 NAV;
         if (DataEngine::CheckPerms('CARTE_SEARCH'))
@@ -158,19 +158,19 @@ MAP;
     public function itineraire_header() {
         $out = <<<iti_h
 	<div id="AjaxCarteDetails"
-	style="z-index:6; position:absolute; left:{$this->map->taille}px; top:80px; visibility:hidden; background-color:black; color:white">
+	style="z-index:6; position:absolute; left:{$this->map->taille}px; top:90px; visibility:hidden; background-color:black; color:white">
 	</div>
-	<div id="Map_Itineraire" style="position:absolute; left:{$this->map->taille}px; top:80px;">
+	<div id="Map_Itineraire" style="position:absolute; left:{$this->map->taille}px; top:90px;">
 		<form name="calculer" method="post" action="Carte.php">
-			<Table class="color_row1" style="width:400px">
+			<Table class="color_row0" style="width:425px">
 				<tr>
 					<td colspan=4 class="color_header text_center">{$this->lng['parcours_header']}</td>
 				</tr>
 				<tr>
-					<td>
+					<td class="spacing_row0">
 						{$this->lng['parcours_select']}:
 					</td>
-					<td colspan=2>
+					<td class="spacing_row0" colspan=2>
 						<select id="fleet" name="loadfleet" class="color_row1">
 							<option value=0>{$this->lng['parcours_option']}</option>
 iti_h;
@@ -191,15 +191,15 @@ iti_h;
 						<a href="javascript:void(0);" OnClick="Navigateur.LoadFleet();" {$msg_load}>C</a>-<a href="javascript:void(0);" OnClick="Navigateur.SaveFleet();" {$msg_save}>E</a>-<a  href="javascript:void(0);" OnClick="Navigateur.DelFleet();" {$msg_del}>S</a></td>
 				</tr>
 				<tr>
-					<td colspan=2 nowrap>{$this->lng['parcours_start_ss']}:</td>
-					<td align=center>
+					<td class="spacing_row0" nowrap>{$this->lng['parcours_start_ss']}:</td>
+					<td class="spacing_row0" colspan=2 align=center>
 						<input class="color_row1" MAXLENGTH=5 type="text" name="coorin" style="width:50;" value="{$this->map->IN}">
 					</td>
 					<td rowspan=2 align=right style="cursor: pointer" OnClick="Navigateur.invertcoords();" {$msg_inv}><a href="javascript:void(0);"><-<br/>|<br/><-</a></td>
 				</tr>
 				<tr>
-					<td colspan=2 nowrap>{$this->lng['parcours_end_ss']}:</td>
-					<td align=center>
+					<td class="spacing_row0" nowrap>{$this->lng['parcours_end_ss']}:</td>
+					<td class="spacing_row0" colspan=2 align=center>
 						<input class="color_row1" MAXLENGTH=5 type="text" name="coorout" style="width:50;" value="{$this->map->OUT}">
 					</td>
 				</tr>
@@ -210,25 +210,31 @@ iti_h;
 					</td>
 				</tr>
 				<tr>
-					<td align=center colspan=4>
-						<select name="method" class="color_row1">
+					<td colspan=4>
+						<select name="method" class="color_row1" align=left>
 							<option value="1">{$this->lng['parcours_method_1']}</option>
 							<option value="2">{$this->lng['parcours_method_2']}</option>
 							<option value="3">{$this->lng['parcours_method_3']}</option>
 							<option value="10" selected>{$this->lng['parcours_method_10']}</option>
                                                 </select>
-						<input border=0 src="./Images/Btn-Itineraire.png" type=image Value=submit align="middle" onclick="document.getElementsByName('loadfleet')[0].selectedIndex=0;">
+						<input align=right border=0 src="./Images/Btn-Itineraire.png" type=image Value=submit align="middle" onclick="document.getElementsByName('loadfleet')[0].selectedIndex=0;">
 					</td>
 				</tr>
+            </Table>
 iti_h;
         $this->PushOutput($out);
     }
 
     public function Parcours_Start($ss) {
         $out = <<<ps
+		<td>&nbsp;</td>
+			<Table class="color_row0" style="width:425px">
+				<tr>
+					<td colspan=4 class="color_header text_center">Parcours</td>
+				</tr>
 				<TR>
-					<TD>{$this->lng['parcours_start']}</TD>
-					<TD align=center colspan=2>{$ss}</TD>
+					<TD class="spacing_row0">{$this->lng['parcours_start']}</TD>
+					<TD class="spacing_row0" align=center colspan=2>{$ss}</TD>
 					<TD align=center>0 pc</TD>
 				</TR>
 ps;
@@ -239,8 +245,8 @@ ps;
         $vortex = sprintf($this->lng['parcours_bywormhole'], $vortex);
         $out = <<<pr
 				<TR>
-					<TD>{$vortex}</TD>
-					<TD align=center colspan=2>{$IN} <-> {$OUT}</TD>
+					<TD class="spacing_row0">{$vortex}</TD>
+					<TD class="spacing_row0" align=center colspan=2>{$IN} <-> {$OUT}</TD>
 					<TD align=center>{$dist} pc</TD>
 				</TR>
 pr;
@@ -250,14 +256,13 @@ pr;
     public function Parcours_End($d,$db,$dt,$dd,$p) {
         $out = <<<pe
 				<TR>
-					<TD>{$this->lng['parcours_end']}</TD>
-					<TD align=center colspan=2>{$p}</TD>
+					<TD class="spacing_row0">{$this->lng['parcours_end']}</TD>
+					<TD class="spacing_row0" align=center colspan=2>{$p}</TD>
 					<TD align=center>{$d} pc</TD>
 				</TR>
 				<TR>
-					<TD>{$this->lng['parcours_diff']}</TD>
-					<TD align=right>{$db} pc</TD>
-					<TD align=left>-{$dd} pc =</TD>
+					<TD class="spacing_row0">{$this->lng['parcours_diff']}</TD>
+					<TD class="spacing_row0" align=center colspan=2>{$db} pc - {$dd} pc =</TD>
 					<TD align=center>{$dt} pc</TD>
 				</TR>
 pe;
@@ -270,7 +275,7 @@ pe;
         $out = <<<h
             </Table>
 		</form>
-	<Table class="color_row1">
+	<Table class="color_row0">
 		<tr>
 			<td class="color_header text_center" colspan=2>{$this->lng['legend']}</td>
 		</tr>
