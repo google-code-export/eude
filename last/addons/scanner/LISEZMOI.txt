@@ -1,0 +1,53 @@
+Scanner automatique pour la récupération des vortex sur eu2.
+Basé sur le travail de thomasD pour la reconnaissance html/regex (ie. l'inventeur du locator)
+Basé & simplifié sur un de mes vieux bot pour allociné.fr/amazon.fr/jeuxvideo.com/... pour les connexions.
+Ça fait un scanner loché en environ 3h. info de config en bas de ce fichier.
+
+------------------------------------------------------------------------------------------
+--- Préambule ---
+CGU, partie 13,
+"Il est interdit d’utiliser des programmes de manipulation ou des programmes d’automatisation
+des accès comme les scripts, les macros et autres procédés jugés similaires.
+Toutes les données, comme par exemple les données texte ou la sélection de bouton de commande ou de liens,
+doivent être saisies à la main."
+
+Notre C.M. indirectement au sujet du locator,
+"Pour l'instant l'utilisation est toujours autorisé par Looki d'après Alteorh 
+mais jusqu'au jour où Looki va vraiment penser à en faire un. Là faudra voir l'évolution des choses."
+
+Ce scanneur arrive donc au même titre que le locator, avec un bot en option pour le Data Engine.
+Sachant évidemment qu'il en existe déjà qui tourne "sous le manteau".
+Et également que les CGU n'interdise absolument pas la création d'un bot, mais uniquement sont utilisation.
+
+--- Extrait du message envoyé par email par "Alteorh Community Manager d'Empire Universe 2" ---
+Je cite:
+"Vous avez fait évoluer le Data Engine, il n'y a pas de soucis la dessus.
+
+Vous pouvez le faire évoluer comme bon vous sembles.
+
+Après avoir discuter de la situation avec Elassar81, nous vous demandons de stopper la création d'un bot pour automatiser le scan. "
+
+Ce qui reste une simple demande, et confirme donc que la création d'un bot n'est pas interdit.
+
+--- http://app216.free.fr/eu2/tracker/view.php?id=127&nbn=25#bugnotes ---
+Extrait du message de "MisterDidi":
+
+"Citation de Alteorh:
+
+j'ai déjà prix contact avec Alex pour le prévenir qu'il ne devait pas
+développer ce bot. Il peut faire ce qu'il veux avec le code du Data,
+automatiser dans tout les sens si il veux, du moment que ça "agresse"
+pas les serveurs."
+
+Du même acabit que le point précédent. Malgré l'interprétation amusante donné plus bas sur cette page...
+
+Que je vous conseille de entièrement, d'ailleurs.
+
+------------------------------------------------------------------------------------------
+La partie configuration:
+A installer dans le dossier /addons/
+
+Fichier "addons/scanner.conf.php":
+- Il s'active a partir du niveau modo. Modifiable au niveau du "CheckPerms"
+Fichier "addons/scanner/scan.php":
+- Par défaut il est réglé sur australis. Modifiable en dessous de "initialisation"
