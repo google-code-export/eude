@@ -171,7 +171,7 @@ MAP;
 						{$this->lng['parcours_select']}:
 					</td>
 					<td colspan=2>
-						<select name="loadfleet" class="color_row1">
+						<select id="fleet" name="loadfleet" class="color_row1">
 							<option value=0>{$this->lng['parcours_option']}</option>
 iti_h;
         $this->PushOutput($out);
