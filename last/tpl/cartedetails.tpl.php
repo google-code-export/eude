@@ -75,7 +75,7 @@ $out = <<<EOF
 				{$empire}
 			</td>
 			<td class="color_row0">{$info}</td>
-			<td class="color_row0">{$note}</td>
+			<td class="color_row0 spacing_row">{$note}</td>
 		</tr>
 
 EOF;
