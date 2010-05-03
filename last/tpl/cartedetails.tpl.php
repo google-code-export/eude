@@ -34,11 +34,11 @@ class tpl_cartedetails extends output {
 $out = <<<EOF
 <CarteDetails><content><![CDATA[
 <table class="table_nospacing" width="500px">
-<tr>
-	<td><font size="+1" color="#FFFFFF" width="450px">Syst&egrave;me N° $ID</td>
-	<td><a onclick="Navigateur.SetStart($ID); return Carte.DetailsShow(false);" href=''>Départ</a></td>
-	<td><a onclick="Navigateur.SetEnd($ID); return Carte.DetailsShow(false);" href=''>Arrivée</a></td>
-	<td><a onclick="return Carte.DetailsShow(false);" href=''>Fermer</a></td>
+<tr class="text_center color_titre spacing_header">
+	<td><font size="+1" width="450px">Syst&egrave;me<br/>N° $ID</td>
+	<td class="header link" onclick="Navigateur.SetStart($ID); return Carte.DetailsShow(false);">Départ</td>
+	<td class="header link" onclick="Navigateur.SetEnd($ID); return Carte.DetailsShow(false);">Arrivée</td>
+	<td class="header link spacing_row" colspan="2" class="spacing_row" onclick="return Carte.DetailsShow(false);">Fermer</td>
 </tr>
 		<tr class="text_center color_header">
 			<td class="spacing_row0">Type</td>

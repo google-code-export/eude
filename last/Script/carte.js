@@ -56,7 +56,7 @@ var Navigateur = {
 		},
 	InitSearch: function(value, type)
 		{
-			$('searchempire')['type'][type].selected=true;
+			$('searchempire')['type'].selectedIndex=type;
 			$('searchempire')['search'].value=value;
 			this.DoSearch();
 		},
