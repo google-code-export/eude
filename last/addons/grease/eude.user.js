@@ -1007,7 +1007,7 @@ function ownuniverse () {
     while (trim($x('/html/body/div[2]/div/div[3]/div/table/tbody/tr/td['+i+']')[0].innerHTML) != '')
     {
         Planet[p] = Array();
-        Planet[p]['Coord'] = $x('/html/body/div[2]/div/div[3]/div/table/tbody/tr/td['+i+']')[0].innerHTML;
+        Planet[p]['Coord'] = trim($x('/html/body/div[2]/div/div[3]/div/table/tbody/tr/td['+i+']')[0].innerHTML);
         i += 2;
         p++;
     }
