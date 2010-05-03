@@ -53,6 +53,8 @@ EOF;
 
 	public function AddRow($ligne) {
 		$ligne["USER"]   = htmlspecialchars($ligne["USER"], ENT_QUOTES, 'utf-8');
+		$ligne["EMPIRE2"] = addslashes(DataEngine::xml_fix51($ligne["EMPIRE"]));
+		$ligne["EMPIRE"] = DataEngine::xml_fix51(htmlspecialchars($ligne["EMPIRE"], ENT_QUOTES, 'utf-8'));
 		$ligne["INFOS"]  = htmlspecialchars($ligne["INFOS"], ENT_QUOTES, 'utf-8');
 		$ligne["NOTE"]   = htmlspecialchars($ligne["NOTE"], ENT_QUOTES, 'utf-8');
 
