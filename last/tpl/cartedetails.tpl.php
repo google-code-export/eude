@@ -33,19 +33,19 @@ class tpl_cartedetails extends output {
 	public function Setheader($ID) {
 $out = <<<EOF
 <CarteDetails><content><![CDATA[
-<table width="500px">
+<table class="table_nospacing" width="500px">
 <tr>
-	<td><font size="+1" color="#FFFFFF" width="450px">Syst&egrave;me N° $ID</font></td>
+	<td><font size="+1" color="#FFFFFF" width="450px">Syst&egrave;me N° $ID</td>
 	<td><a onclick="Navigateur.SetStart($ID); return Carte.DetailsShow(false);" href=''>Départ</a></td>
 	<td><a onclick="Navigateur.SetEnd($ID); return Carte.DetailsShow(false);" href=''>Arrivée</a></td>
 	<td><a onclick="return Carte.DetailsShow(false);" href=''>Fermer</a></td>
 </tr>
-		<tr bgcolor='#222222'>
-			<td><Font color='#FFFFFF'>Type</font></td>
-			<td><Font color='#FFFFFF'>Coordonn&eacute;es</font></td>
-			<td><Font color='#FFFFFF'>Joueur<br/>Empire</font></td>
-			<td><Font color='#FFFFFF'>Infos</font></td>
-			<td><Font color='#FFFFFF'>Notes</font></td>
+		<tr class="text_center color_header">
+			<td class="spacing_row0">Type</td>
+			<td class="spacing_row0">Coordonn&eacute;es</td>
+			<td class="spacing_row0">Joueur<br/>Empire</td>
+			<td class="spacing_row0">Planète<br/>Flotte</td>
+			<td>Notes</td>
 		</tr>
 EOF;
 		$this->PushOutput($out);
@@ -53,8 +53,6 @@ EOF;
 
 	public function AddRow($ligne) {
 		$ligne["USER"]   = htmlspecialchars($ligne["USER"], ENT_QUOTES, 'utf-8');
-		$ligne["EMPIRE2"] = addslashes(DataEngine::xml_fix51($ligne["EMPIRE"]));
-		$ligne["EMPIRE"] = DataEngine::xml_fix51(htmlspecialchars($ligne["EMPIRE"], ENT_QUOTES, 'utf-8'));
 		$ligne["INFOS"]  = htmlspecialchars($ligne["INFOS"], ENT_QUOTES, 'utf-8');
 		$ligne["NOTE"]   = htmlspecialchars($ligne["NOTE"], ENT_QUOTES, 'utf-8');
 
@@ -69,15 +67,15 @@ EOF;
 		$empire.= ($ligne["EMPIRE2"])."',0); return false;\">{$ligne["EMPIRE"]}</a>";
 		}
 $out = <<<EOF
-		<tr bgcolor='#222222'>
-			<td><img width=48 height=48 src="{$Image}"></img></td>
-			<td><Font color='#FFFFFF'>{$ligne["POSIN"]}-{$ligne["COORDET"]}{$posout}</font></td>
-			<td>
+		<tr class="text_center spacing_header">
+			<td class="color_row0"><img width=48 height=48 src="{$Image}"></img></td>
+			<td class="color_row0">{$ligne["POSIN"]}-{$ligne["COORDET"]}{$posout}</td>
+			<td class="color_row0">
 				<a href='javascript:void(0);' {$this->bulle1} Onclick="Navigateur.InitSearch('{$ligne["USER"]}',1);">{$user}</a>
 				{$empire}
 			</td>
-			<td><Font color='#FFFFFF'>{$info}</font></td>
-			<td><Font color='#FFFFFF'>{$note}</font></td>
+			<td class="color_row0">{$info}</td>
+			<td class="color_row0">{$note}</td>
 		</tr>
 
 EOF;
