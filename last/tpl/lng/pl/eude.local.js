@@ -24,14 +24,14 @@ var i18n = {
     Player: 'Joueur',
     User: 'Utilisateur',
     UserName: 'Nom',
-    Owner: 'Proprétaire',
+    Owner: 'Propriétaire',
     Coords: 'Coordonnées',
     Empire: 'Empire',
-
+    
     WormholeStart: 'Départ du vortex',
     WormholeEnd: 'Destination du vortex',
     WormholeSS: 'ID Système stellaire',
-
+    
     Asteroid: 'Informations sur les astéroïdes',
     Sun_page: 'Numéro du système stellaire :',
     NPC1: 'PNJ',
@@ -43,7 +43,7 @@ var i18n = {
     // Messages d'information javascript:
     PlayerIncomplete: 'Merci de cliquer sur "Info joueur" et de coller le détail a la suite',
     UnknownData: "Information non reconnue\n\nN'oubliez pas, après avoir ouvert un vortex(par exemple)\nDe cliquer sur la fenêtre de celui avant le Ctrl+A,Ctrl+C.",
-
+    
     // Carte.php
     Map: {
         NoneSelected: 'Aucun parcours sélectionné.',
