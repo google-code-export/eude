@@ -198,8 +198,8 @@ if (!isset($_REQUEST['act'])) {
 ///---
 
     $dates[0] = date('Y-m-d H:i:s');
-    $dates[1] = date('Y-m-d H:i:s', mktime(2, 10, 0, date('m')  , date('d')-date('w')));
-    $dates[2] = date('Y-m-d H:i:s', mktime(2, 10, 0, date('m')  , date('d')-date('w')-7));
+    $dates[1] = date('Y-m-d H:i:s', mktime(3, 01, 0, date('m')  , date('d')-date('w')));
+    $dates[2] = date('Y-m-d H:i:s', mktime(3, 01, 0, date('m')  , date('d')-date('w')-7));
     $cleanvortex=null;
     if (isset($_POST['cleanvortex']))
         $cleanvortex = array($cleanvortex_delete, $cleanvortex_inactif);

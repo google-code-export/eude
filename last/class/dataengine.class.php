@@ -193,7 +193,7 @@ class DataEngine extends Members {
                 if (self::$conf_load['wormhole_cleaning']) {
                     $wormhole_cleaning = self::$settings['wormhole_cleaning'];
                     if (date('w')==0 && $wormhole_cleaning['enabled']) {
-                        $runat = mktime(2, 10, 0, date("m"), date("d"), date("Y"));
+                        $runat = mktime(3, 01, 0, date("m"), date("d"), date("Y"));
                         $now   = time();
                         if ($now > $runat && $runat > $wormhole_cleaning['lastrun']) {
                             self::sql('DELETE FROM SQL_PREFIX_Coordonnee WHERE `TYPE` = 1 AND `INACTIF` = 1');
