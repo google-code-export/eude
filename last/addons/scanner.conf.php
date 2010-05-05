@@ -13,6 +13,19 @@ class scanner_addons implements addon_config {
 //        return 'borealis.eu2.looki.fr';
     }
 
+    public function ScanRay ($type) {
+        switch ($type) {
+            case 'vortex':
+                return 5;
+                break;
+            case 'planets':
+                return 20;
+                break;
+            default:
+                return 5;
+        }
+    }
+
     public function Is_Enabled () {
         if (!Members::CheckPermsKey('CARTOGRAPHIE_SCANNER'))
             Members::CheckPermsKeyAdd('CARTOGRAPHIE_SCANNER', AXX_ROOTADMIN);
