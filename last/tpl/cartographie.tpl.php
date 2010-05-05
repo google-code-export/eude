@@ -16,8 +16,8 @@ class tpl_cartographie extends output {
     public function __construct() {
         $this->BASE_FILE = ROOT_URL.'cartographie.php';
         $this->BASE_GET  = Get_string();
-        $this->SetheaderInput();
         $this->lng = language::getinstance()->GetLngBlock('cartographie');
+        $this->SetheaderInput();
         parent::__construct();
     }
 
@@ -29,26 +29,26 @@ class tpl_cartographie extends output {
         <table class="table_nospacing table_center">
         <tr><td>
             <table class="table_nospacing color_row1">
-                <tr><TD class="text_center color_bigheader" colspan="7">Ajout des corps célestes</TD></tr>
+                <tr><TD class="text_center color_bigheader" colspan="7">{$this->lng['add_items_header']}</TD></tr>
                 <tr class="text_center">
                     <TD %%bulle%% colspan="6">
                     <input name="phpparser" type="hidden" value="0"/>
                     <TEXTAREA class="color_row1" cols="50" rows="4" name="importation"></TEXTAREA>
                     </TD>
                     <TD class="color_header">
-                        <input class="color_header" onclick="interpreter(document.getElementsByName('importation')[0].value, true); GestionFormulaire();" type="button" value="Automatique">
+                        <input class="color_header" onclick="interpreter(document.getElementsByName('importation')[0].value, true); GestionFormulaire();" type="button" value="{$this->lng['add_items_btn_auto']}">
                         <br/>
                         <br/>
-                        <input class="color_header" onclick="interpreter(document.getElementsByName('importation')[0].value, false); GestionFormulaire();" type="button" value="Manuel">
+                        <input class="color_header" onclick="interpreter(document.getElementsByName('importation')[0].value, false); GestionFormulaire();" type="button" value="{$this->lng['add_items_btn_manual']}">
                     </TD>
                 </tr>
 		<TR class="color_cols text_center">
-                    <TD class="spacing_row1">Type</TD>
-                    <TD class="spacing_row1">Coordonnée Entrée</TD>
-                    <TD class="spacing_row1">Coordonnée Sortie</TD>
-                    <TD class="spacing_row1">Nom du joueur</TD>
-                    <TD class="spacing_row1">Empire</TD>
-                    <TD class="spacing_row1">Planète/Flotte</TD>
+                    <TD class="spacing_row1">{$this->lng['add_items_col_type']}</TD>
+                    <TD class="spacing_row1">{$this->lng['add_items_col_corin']}</TD>
+                    <TD class="spacing_row1">{$this->lng['add_items_col_corout']}</TD>
+                    <TD class="spacing_row1">{$this->lng['add_items_col_player']}</TD>
+                    <TD class="spacing_row1">{$this->lng['add_items_col_empire']}</TD>
+                    <TD class="spacing_row1">{$this->lng['add_items_col_infos']}</TD>
                     <TD class="color_header">&nbsp;</TD>
 		</TR>
 		<TR class="text_center color_row1">
@@ -62,7 +62,7 @@ class tpl_cartographie extends output {
 	 	<TD class="spacing_row1"><input class="color_row1 size110" maxlength="30" type="text" name="USER"    value="" %%bulle3%%/></TD>
 	 	<TD class="spacing_row1"><input class="color_row1 size110" maxlength="100" type="text" name="EMPIRE"  value="" %%bulle4%%/></TD>
 	 	<TD class="spacing_row1"><input class="color_row1 size110" maxlength="100" type="text" name="INFOS"  value="" %%bulle5%%/></TD>
-	 	<TD class="color_header"><input class="color_header" type="submit" value="Insérer"/></TD>
+	 	<TD class="color_header"><input class="color_header" type="submit" value="{$this->lng['add_items_btn_add']}"/></TD>
 	 	</TR>	 
             </table>
         </td>
@@ -71,7 +71,7 @@ class tpl_cartographie extends output {
         <td>
         <table class="table_center color_header table_nospacing text_center" name="AddTabRessource" width="100%">
             <tr class="color_header">
-                <td colspan="10">Informations détaillées planète/Astéroïde</td>
+                <td colspan="10">{$this->lng['add_items_planet_header']}</td>
             </tr>
             <tr class="color_row1">
                 <td><img width="15" height="15" src="%IMAGES_URL%Titane.png"/></td>
@@ -118,20 +118,20 @@ ROW;
         <form name="search" method="post" action="{$this->BASE_FILE}?{$this->BASE_GET}">
         <table class="table_center table_nospacing color_row0" width="100%">
             <tr>
-                <TD class="text_center color_bigheader" colspan="11">Recherche des corps célestes</TD>
+                <TD class="text_center color_bigheader" colspan="11">{$this->lng['search_header']}</TD>
             </tr>
             <tr class="color_cols text_center">
-                <td class="spacing_row1">Status</td>
-                <td class="spacing_row1">Type</td>
-                <td class="spacing_row1">SS</td>
-                <td class="spacing_row1">Rayon</td>
-                <td class="spacing_row1">Joueur</td>
-                <td class="spacing_row1">Empire</td>
-                <td class="spacing_row1">Planète/Flotte</td>
-                <td class="spacing_row1">Note</td>
-                <td class="spacing_row1">Troupes Max</td>
-                <td class="spacing_row1">Moi</td>
-                <td class="color_header"><input OnClick="location.href='{$this->BASE_FILE}?ResetSearch=1';" class="color_header" type="button" value="Afficher tout"/></td>
+                <td class="spacing_row1">{$this->lng['search_col_status']}</td>
+                <td class="spacing_row1">{$this->lng['search_col_type']}</td>
+                <td class="spacing_row1">{$this->lng['search_col_ss']}</td>
+                <td class="spacing_row1">{$this->lng['search_col_rayon']}</td>
+                <td class="spacing_row1">{$this->lng['search_col_player']}</td>
+                <td class="spacing_row1">{$this->lng['search_col_empire']}</td>
+                <td class="spacing_row1">{$this->lng['search_col_fleet']}</td>
+                <td class="spacing_row1">{$this->lng['search_col_note']}</td>
+                <td class="spacing_row1">{$this->lng['search_col_maxtroops']}</td>
+                <td class="spacing_row1">{$this->lng['search_col_self']}</td>
+                <td class="color_header"><input OnClick="location.href='{$this->BASE_FILE}?ResetSearch=1';" class="color_header" type="button" value="{$this->lng['search_col_showall']}"/></td>
             </tr>
             <tr class="color_row1 text_center">
                 <td class="spacing_row1">
@@ -155,7 +155,7 @@ ROW;
                 <td class="spacing_row1"><INPUT class="color_row1 size80" type="text" name="Recherche[Note]" value="%%Note%%" /></td>
                 <td class="spacing_row1"><INPUT class="color_row1 size80 text_center" type="text" name="Recherche[Troop]" value="%%Troop%%" /></td>
                 <td class="spacing_row1"><INPUT class="color_row1" type="checkbox" name="Recherche[Moi]" value="1"%%checkedmoi%%/></td>
-                <td class="color_header"><input class="color_header" type="submit" value="Rechercher"/></td>
+                <td class="color_header"><input class="color_header" type="submit" value="{$this->lng['search_col_btnsearch']}"/></td>
             </tr>
         </table>
         </form>
@@ -167,15 +167,11 @@ ROW;
 
     public function GetPagination($current, $max) {
         $result = '';
-        $page1  = Get_string(array('page'=>1));
-        $page2  = Get_string(array('page'=>($current-1)));
-        $page3  = Get_string(array('page'=>($current+1)));
-        $page4  = Get_string(array('page'=>($max)));
-        if ($current>2)      $result .= '<a href="'.$this->BASE_FILE.'?'.$page1.'"><img src="%IMAGES_URL%Btn-Debut.png"/></a>';
-        if ($current>1)      $result .= '<a href="'.$this->BASE_FILE.'?'.$page2.'"><img src="%IMAGES_URL%Btn-Precedent.png"/></a>';
+        if ($current>2)      $result .= '<a href="'.$this->BASE_FILE.'?'.Get_string(array('page'=>1)).'"><img src="%IMAGES_URL%Btn-Debut.png"/></a>';
+        if ($current>1)      $result .= '<a href="'.$this->BASE_FILE.'?'.Get_string(array('page'=>($current-1))).'"><img src="%IMAGES_URL%Btn-Precedent.png"/></a>';
         $result .= $current.' / '.$max;
-        if ($current<$max)   $result .= '<a href="'.$this->BASE_FILE.'?'.$page3.'"><img src="%IMAGES_URL%Btn-Suivant.png"/></a>';
-        if ($current<$max-1) $result .= '<a href="'.$this->BASE_FILE.'?'.$page4.'"><img src="%IMAGES_URL%Btn-Fin.png"/></a>';
+        if ($current<$max)   $result .= '<a href="'.$this->BASE_FILE.'?'.Get_string(array('page'=>($current+1))).'"><img src="%IMAGES_URL%Btn-Suivant.png"/></a>';
+        if ($current<$max-1) $result .= '<a href="'.$this->BASE_FILE.'?'.Get_string(array('page'=>($max))).'"><img src="%IMAGES_URL%Btn-Fin.png"/></a>';
 
         return $result;
     }
@@ -193,14 +189,14 @@ ROW;
                 </TD>
             </tr>
             <tr class="text_center color_header">
-                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_type%%">Type</a><br/>
-                                         <a href="{$this->BASE_FILE}?%%sort_date%%">Date</a></TD>
+                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_type%%">{$this->lng['search_col_type']}</a><br/>
+                                         <a href="{$this->BASE_FILE}?%%sort_date%%">{$this->lng['search_col_date']}</a></TD>
                 <TD class="spacing_row0">Coordonnées</TD>
-                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_user%%">Joueur</a>/<a href="{$this->BASE_FILE}?%%sort_empire%%">Empire</a></TD>
-                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_infos%%">Nom de la planète/flotte</a><br/>
-                                         <a href="{$this->BASE_FILE}?%%sort_note%%">Notes</a></TD>
-                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_water%%">% d'eau</a><br/>
-                                         <a href="{$this->BASE_FILE}?%%sort_troop%%">Troupes</a></TD>
+                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_user%%">{$this->lng['search_col_player']}</a>/<a href="{$this->BASE_FILE}?%%sort_empire%%">{$this->lng['search_col_empire']}</a></TD>
+                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_infos%%">{$this->lng['search_col_fleet']}</a><br/>
+                                         <a href="{$this->BASE_FILE}?%%sort_note%%">{$this->lng['search_col_note']}</a></TD>
+                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_water%%">{$this->lng['search_col_water']}</a><br/>
+                                         <a href="{$this->BASE_FILE}?%%sort_troop%%">{$this->lng['search_col_troops']}</a></TD>
                 <TD class="text_right">&nbsp;</td>
             </tr>
 
@@ -339,7 +335,7 @@ o;
             <tr class="color_bg spacing_row">
                 <TD class="text_center" colspan="4">
                     <input type="hidden" name="massedit" value="1"/>
-                    <input class="color_row0" type="submit" value="Valider Les modifications"/></TD>
+                    <input class="color_row0" type="submit" value="{$this->lng['search_col_btndoedit']}"/></TD>
                 <TD class="text_right color_pagination" colspan="2">
                     %%pagination%%
                 </TD>
