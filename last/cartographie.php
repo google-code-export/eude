@@ -17,6 +17,7 @@ if (!DataEngine::CheckPermsOrDie('CARTOGRAPHIE'));
 
 $map = map::getinstance();
 $carto = cartographie::getinstance();
+$lng = language::getinstance()->GetLngBlock('cartographie');
 
 if (isset($_POST['massedit'])) {
 
@@ -54,10 +55,10 @@ if (isset($_POST['Type'])) {
 
     // check if all needed fields...
     if ($_POST['phpparser'] != 1) {
-        if ($_POST['Type'] != 1 and $_POST['COORIN'] == '')  $carto->AddErreur('Les coordonnés d\'entrée doivent-être renseigné');
-        if ($_POST['Type'] != 1 and $_POST['COOROUT'] != '') $carto->AddErreur('Les coordonnés de sortie ne sont à renseigner que pour les Vortex');
-        if ($_POST['Type'] == 1 and $_POST['COOROUT'] == '') $carto->AddErreur('Il faut impérativement renseigner Les coordonnés de sortie pour les Vortex');
-        if ($_POST['Type'] == 0 and $_POST['USER'] == '')    $carto->AddErreur('Merci de renseigner le nom du joueur');
+        if ($_POST['Type'] != 1 and $_POST['COORIN'] == '')  $carto->AddErreur($lng['err_coorin_needed']);
+        if ($_POST['Type'] != 1 and $_POST['COOROUT'] != '') $carto->AddErreur($lng['err_coorout_filled']);
+        if ($_POST['Type'] == 1 and $_POST['COOROUT'] == '') $carto->AddErreur($lng['err_coorout_needed']);
+        if ($_POST['Type'] == 0 and $_POST['USER'] == '')    $carto->AddErreur($lng['err_player_needed']);
 
         if ($carto->Messages()>0) $carto->Boink(ROOT_URL.basename(__file__).'?'.Get_string());
     }
@@ -83,7 +84,7 @@ if (isset($_POST['Type'])) {
             $carto->add_PNJ($_POST['COORIN'], $_POST['USER'],$_POST['INFOS']);
             break;
         default:
-            $carto->AddWarn('Type demandé non pris en charge !');
+            $carto->AddWarn($lng['err_unknown_type']);
 
     }
     if ($carto->Messages()>0) $carto->Boink(ROOT_URL.basename(__file__).'?'.Get_string());
@@ -177,15 +178,15 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
 
 include_once(TEMPLATE_PATH.'cartographie.tpl.php');
 $tpl = tpl_cartographie::getinstance();
-$tpl->AddToRow(bulle("Coller ici les détails d'une planète, joueur ou d'un vortex<br/>(Ctrl+A puis Ctrl+C après avoir ouvert une fiche)"), 'bulle');
+$tpl->AddToRow(bulle($lng['add_items_bulle']), 'bulle');
 
 $lngmain = language::getinstance()->GetLngBlock('dataengine');
 $tpl->AddToRow($tpl->SelectOptions2($lngmain['types']['dropdown'],''), 'Type');
-$tpl->AddToRow(bulle('Position de départ'), 'bulle1');
-$tpl->AddToRow(bulle('Position de de sortie (vortex)'), 'bulle2');
-$tpl->AddToRow(bulle('Nom du Joueur'), 'bulle3');
-$tpl->AddToRow(bulle('Nom de l\'empire'), 'bulle4');
-$tpl->AddToRow(bulle('Nom de la planète<br/>ou<br/>Nom de la flotte'), 'bulle5');
+$tpl->AddToRow(bulle($lng['add_items_bulle1']), 'bulle1');
+$tpl->AddToRow(bulle($lng['add_items_bulle2']), 'bulle2');
+$tpl->AddToRow(bulle($lng['add_items_bulle3']), 'bulle3');
+$tpl->AddToRow(bulle($lng['add_items_bulle4']), 'bulle4');
+$tpl->AddToRow(bulle($lng['add_items_bulle5']), 'bulle5');
 
 $tpl->PushRow();
 
@@ -286,24 +287,28 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
     $tpl->AddToRow($ligne['NOTE'], 'notes');
     $tpl->AddToRow($ligne['water'], 'water');
     $tpl->AddToRow(DataEngine::format_number($ligne['troop'], true), 'troop');
-    $tpl->AddToRow(bulle($ligne['troop_date']), 'troop_date');
+    if (isset ($ligne['troop_date']))
+        $tpl->AddToRow(bulle(sprintf($lng['search_troopdate'], date($lng['search_date_long_format']),$ligne['troop_date'])), 'troop_date');
+    else
+        $tpl->AddToRow('', 'troop_date');
 
-    $tmp = sprintf('Par <b>%s</b><br/>Le: %s', $ligne['UTILISATEUR'], date('d-m-Y à H:i:s',$ligne['udate']));
+
+    $tmp = sprintf($lng['search_userdate'], $ligne['UTILISATEUR'], date($lng['search_date_long_format'],$ligne['udate']));
     $tpl->AddToRow(bulle($tmp), 'userdate');
-    $tpl->AddToRow(date('H:i d-m',$ligne['udate']), 'udate');
+    $tpl->AddToRow(date($lng['search_date_short_format'],$ligne['udate']), 'udate');
 //    $tpl->AddToRow($ligne['UTILISATEUR'], 'user');
 
 
     if (Members::CheckPerms('CARTOGRAPHIE_DELETE')) {
         $tpl->AddToRow($cmdinput, 'cmd_delete');
         $tpl->AddToRow('delete', 'cmd');
-        $tpl->AddToRow(bulle('Supprimer la ligne ?<br/><br/><b>Attention</b>: Aucune confirmation demandé !'), 'bulle');
+        $tpl->AddToRow(bulle($lng['search_bulle_cmd_delete']), 'bulle');
     } else $tpl->AddToRow('', 'cmd_delete');
 
     if (Members::CheckPerms('CARTOGRAPHIE_EDIT')) {
         $tpl->AddToRow($cmdinput, 'cmd_edit');
         $tpl->AddToRow('edit', 'cmd');
-        $tpl->AddToRow(bulle('Modifier cette ligne ?'), 'bulle');
+        $tpl->AddToRow(bulle($lng['search_bulle_cmd_edit']), 'bulle');
     } else $tpl->AddToRow('', 'cmd_edit');
 
     $tpl->AddToRow($i%2, 'rowA');

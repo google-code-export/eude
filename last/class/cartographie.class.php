@@ -399,7 +399,9 @@ class cartographie {
             if (preg_match('/[^a-zA-Z_]+/', $k)>0) return $this->AddErreur('$key syntax invalid');
             $value[] = sprintf('`%s`=\'%s\'', $k, sqlesc($v));
         }
-        if ($data['TROOP']) $value[] = '`troop_date`=now()';
+        if ($data['TROOP']>0) $value[] = '`troop_date`=now()';
+        if ($data['TROOP']==0) $value[] = '`troop_date`=0';
+        
         $value = implode(',',$value);
         $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET %s,`UTILISATEUR`=\'%s\',`DATE`=now() WHERE %s',
                 $value, $_SESSION['_login'], $where);

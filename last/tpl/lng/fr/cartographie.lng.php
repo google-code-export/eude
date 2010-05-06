@@ -23,6 +23,13 @@ $lng['add_items_btn_auto'] = 'Automatique';
 $lng['add_items_btn_manual'] = 'Manuel';
 $lng['add_items_btn_add'] = 'Ajouter';
 
+$lng['add_items_bulle'] = 'Coller ici les détails d\'une planète, joueur ou d\'un vortex<br/>(Ctrl+A puis Ctrl+C après avoir ouvert une fiche)';
+$lng['add_items_bulle1'] = 'Position de départ';
+$lng['add_items_bulle2'] = 'Position de de sortie (vortex)';
+$lng['add_items_bulle3'] = 'Nom du Joueur';
+$lng['add_items_bulle4'] = 'Nom de l\'empire';
+$lng['add_items_bulle5'] = 'Nom de la planète<br/>ou<br/>Nom de la flotte';
+
 $lng['add_items_col_type'] = 'Type';
 $lng['add_items_col_corin'] = 'Coordonnée Entrée';
 $lng['add_items_col_corout'] = 'Coordonnée Sortie';
@@ -48,3 +55,17 @@ $lng['search_col_self'] = 'Moi';
 $lng['search_col_showall'] = 'Afficher tout';
 $lng['search_col_btnsearch'] = 'Rechercher';
 $lng['search_col_btndoedit'] = 'Valider Les modifications';
+
+$lng['search_bulle_cmd_delete']  = 'Supprimer la ligne ?<br/><br/><b>Attention</b>: Aucune confirmation demandé !';
+$lng['search_bulle_cmd_edit']    = 'Modifier cette ligne ?';
+
+$lng['search_date_short_format'] = 'H:i d-m';
+$lng['search_date_long_format']  = 'd-m-Y à H:i:s';
+$lng['search_userdate']          = 'Par <b>%s</b><br/>Le: %s';
+$lng['search_troopdate']         = 'Le: %s';
+
+$lng['err_coorin_needed']= 'Les coordonnés d\'entrée doivent-être renseigné';
+$lng['err_coorout_filled']= 'Les coordonnés de sortie ne sont à renseigner que pour les Vortex';
+$lng['err_coorout_needed']= 'Il faut impérativement renseigner Les coordonnés de sortie pour les Vortex';
+$lng['err_player_needed']= 'Merci de renseigner le nom du joueur';
+$lng['err_unknown_type']= 'Type demandé non pris en charge !';
