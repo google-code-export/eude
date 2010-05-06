@@ -390,16 +390,18 @@ ead;
         return $Ressource;
     }
     static public function a_race_ressources($race) {
+        $lng = language::getinstance()->GetLngBlock('dataengine');
+        $lng = $lng['races'];
         $data = array(
-                'Cyborg' => array('Titane'=>8, 'Cuivre'=>16.5, 'Fer'=>11,'Aluminium'=>12.5,'Mercure'=>10,'Silicium'=>12,'Uranium'=>5,'Krypton'=>9,'Azote'=>15,'Hydrogene'=>1),
-                'Jamozoïde' => array('Titane'=>12.5, 'Cuivre'=>26, 'Fer'=>10, 'Aluminium'=>12, 'Mercure'=>9, 'Silicium'=>5, 'Uranium'=>8, 'Krypton'=>11, 'Azote'=>16.5, 'Hydrogene'=>1),
-                'Magumar' => array('Titane'=>15, 'Cuivre'=>12.5, 'Fer'=>16.5, 'Aluminium'=>5, 'Mercure'=>8, 'Silicium'=>9, 'Uranium'=>11, 'Krypton'=>10, 'Azote'=>12, 'Hydrogene'=>1),
-                'Humain' => array('Titane'=>16.5, 'Cuivre'=>12, 'Fer'=>8, 'Aluminium'=>11, 'Mercure'=>15, 'Silicium'=>10, 'Uranium'=>12.5, 'Krypton'=>5, 'Azote'=>9, 'Hydrogene'=>1),
-                'Mozoran' => array('Titane'=>11, 'Cuivre'=>10, 'Fer'=>9, 'Aluminium'=>16.5, 'Mercure'=>5, 'Silicium'=>8, 'Uranium'=>12, 'Krypton'=>15, 'Azote'=>12.5, 'Hydrogene'=>1),
-                'Ozoidien' => array('Titane'=>12, 'Cuivre'=>9, 'Fer'=>12.5, 'Aluminium'=>8, 'Mercure'=>11, 'Silicium'=>15, 'Uranium'=>10, 'Krypton'=>16.5, 'Azote'=>5, 'Hydrogene'=>1),
-                'Plentropien' => array('Titane'=>10, 'Cuivre'=>8, 'Fer'=>5, 'Aluminium'=>15, 'Mercure'=>16.5, 'Silicium'=>12.5, 'Uranium'=>9, 'Krypton'=>12, 'Azote'=>11, 'Hydrogene'=>1),
-                'Weganien' => array('Titane'=>9, 'Cuivre'=>5, 'Fer'=>15, 'Aluminium'=>10, 'Mercure'=>12, 'Silicium'=>11, 'Uranium'=>16.5, 'Krypton'=>12.5, 'Azote'=>8, 'Hydrogene'=>1),
-                'Zuup' => array('Titane'=>5, 'Cuivre'=>11, 'Fer'=>12, 'Aluminium'=>9, 'Mercure'=>12.5, 'Silicium'=>16.5, 'Uranium'=>15, 'Krypton'=>8, 'Azote'=>10, 'Hydrogene'=>1),
+                $lng['Cyborg'] => array('Titane'=>8, 'Cuivre'=>16.5, 'Fer'=>11,'Aluminium'=>12.5,'Mercure'=>10,'Silicium'=>12,'Uranium'=>5,'Krypton'=>9,'Azote'=>15,'Hydrogene'=>1),
+                $lng['Jamozoid'] => array('Titane'=>12.5, 'Cuivre'=>26, 'Fer'=>10, 'Aluminium'=>12, 'Mercure'=>9, 'Silicium'=>5, 'Uranium'=>8, 'Krypton'=>11, 'Azote'=>16.5, 'Hydrogene'=>1),
+                $lng['Magumian'] => array('Titane'=>15, 'Cuivre'=>12.5, 'Fer'=>16.5, 'Aluminium'=>5, 'Mercure'=>8, 'Silicium'=>9, 'Uranium'=>11, 'Krypton'=>10, 'Azote'=>12, 'Hydrogene'=>1),
+                $lng['Human'] => array('Titane'=>16.5, 'Cuivre'=>12, 'Fer'=>8, 'Aluminium'=>11, 'Mercure'=>15, 'Silicium'=>10, 'Uranium'=>12.5, 'Krypton'=>5, 'Azote'=>9, 'Hydrogene'=>1),
+                $lng['Mosorian'] => array('Titane'=>11, 'Cuivre'=>10, 'Fer'=>9, 'Aluminium'=>16.5, 'Mercure'=>5, 'Silicium'=>8, 'Uranium'=>12, 'Krypton'=>15, 'Azote'=>12.5, 'Hydrogene'=>1),
+                $lng['Ozoid'] => array('Titane'=>12, 'Cuivre'=>9, 'Fer'=>12.5, 'Aluminium'=>8, 'Mercure'=>11, 'Silicium'=>15, 'Uranium'=>10, 'Krypton'=>16.5, 'Azote'=>5, 'Hydrogene'=>1),
+                $lng['Plentropian'] => array('Titane'=>10, 'Cuivre'=>8, 'Fer'=>5, 'Aluminium'=>15, 'Mercure'=>16.5, 'Silicium'=>12.5, 'Uranium'=>9, 'Krypton'=>12, 'Azote'=>11, 'Hydrogene'=>1),
+                $lng['Weganian'] => array('Titane'=>9, 'Cuivre'=>5, 'Fer'=>15, 'Aluminium'=>10, 'Mercure'=>12, 'Silicium'=>11, 'Uranium'=>16.5, 'Krypton'=>12.5, 'Azote'=>8, 'Hydrogene'=>1),
+                $lng['Zuup'] => array('Titane'=>5, 'Cuivre'=>11, 'Fer'=>12, 'Aluminium'=>9, 'Mercure'=>12.5, 'Silicium'=>16.5, 'Uranium'=>15, 'Krypton'=>8, 'Azote'=>10, 'Hydrogene'=>1),
         );
         if (isset($data[$race]))
             return $data[$race];

@@ -12,16 +12,8 @@ require_once(INCLUDE_PATH.'Script.php');
 
 DataEngine::CheckPermsOrDie('MEMBRES_EDIT');
 
-// TODO REMOVE ME & UPDATE tpl
-$tabrace[0]='Cyborg';
-$tabrace[1]='Humain';
-$tabrace[2]='Jamozoïde';
-$tabrace[3]='Magumar';
-$tabrace[4]='Mosoran';
-$tabrace[5]='Ozoidien';
-$tabrace[6]='Plentropien';
-$tabrace[7]='Weganien';
-$tabrace[8]='Zuup';
+$lng = language::getinstance()->GetLngBlock('dataengine');
+$tabrace=$lng['races'];
 
 if(isset($_POST['ModifJoueur0'])) {
     /*

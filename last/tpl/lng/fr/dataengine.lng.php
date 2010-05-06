@@ -19,6 +19,16 @@ $lng['Krypton'] = 'Krypton';
 $lng['Azote'] = 'Azote';
 $lng['Hydrogene'] = 'Hydrogène';
 
+$lng['races']['Human']       = 'Humain';
+$lng['races']['Ozoid']       = 'Ozoidien';
+$lng['races']['Mosorian']    = 'Mozoran';
+$lng['races']['Zuup']        = 'Zuup';
+$lng['races']['Plentropian'] = 'Plentropien';
+$lng['races']['Magumian']    = 'Magumar';
+$lng['races']['Weganian']    = 'Weganien';
+$lng['races']['Cyborg']      = 'Cyborg';
+$lng['races']['Jamozoid']    = 'Jamozoïde';
+
 $lng['batiments']['control']       = 'Centre de contrôle';
 $lng['batiments']['communication'] = 'Centre de communication';
 $lng['batiments']['university']    = 'Université';
