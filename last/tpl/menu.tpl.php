@@ -79,7 +79,7 @@ HEADER;
             }
             $this->main_menu($menu_id, $main_menu[0], $main_menu[1], $main_menu[2], $submenu);
         }
-        return $this->out.'<br/><br/>';
+        return $this->out.'<br/><br/><br/>';
     }
 
     protected function main_menu($id, $url, $img, $width, $submenu=true) {

@@ -40,12 +40,12 @@ $out = <<<EOF
 	<td class="header link" onclick="Navigateur.SetEnd($ID); return Carte.DetailsShow(false);">Arrivée</td>
 	<td class="header link spacing_row" colspan="2" class="spacing_row" onclick="return Carte.DetailsShow(false);">Fermer</td>
 </tr>
-		<tr class="text_center color_header">
+		<tr class="text_center color_header spacing_header">
 			<td class="spacing_row0">Type</td>
 			<td class="spacing_row0">Coordonn&eacute;es</td>
 			<td class="spacing_row0">Joueur<br/>Empire</td>
 			<td class="spacing_row0">Planète<br/>Flotte</td>
-			<td>Notes</td>
+			<td class="spacing_row">Notes</td>
 		</tr>
 EOF;
 		$this->PushOutput($out);

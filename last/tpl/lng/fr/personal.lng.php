@@ -11,7 +11,7 @@ $lng = array();
 
 // -- Mafiche.php --------------------------------------------------------------
 
-$lng['page_title']   = 'eude: Ma fiche';
+$lng['page_title']   = 'EU2: Ma fiche';
 $lng['grade_ingame'] = 'Grade dans le jeu';
 $lng['grade_eude']   = 'Grade dans l\'alliance';
 $lng['lastship']     = 'Dernier chassis disponible';
