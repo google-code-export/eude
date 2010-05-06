@@ -261,7 +261,7 @@ ROW;
                 </TD>
                 <TD class="spacing_row%%rowA%%">
                     <input class="color_row%%rowA%% text_center size40" type="text" name="item[%%id%%][WATER]" value="%%water%%" OnChange="CheckOn('item[%%id%%][edit]');"/> %<br/>
-                    <input class="color_row%%rowA%% text_center size110" type="text" name="item[%%id%%][TROOP]" value="%%troop%%" OnChange="CheckOn('item[%%id%%][edit]');"/></TD>
+                    <input class="color_row%%rowA%% text_center size110" type="text" name="item[%%id%%][TROOP]" value="%%troop%%" OnChange="CheckOn('item[%%id%%][edit]');" %%troop_date%%/></TD>
                 <TD class="text_right color_row%%rowA%%">
                     %%cmd_edit%%
                     %%cmd_delete%%

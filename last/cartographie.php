@@ -128,7 +128,7 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
         }
 
     if ($Recherche['Troop']>0) $Recherche['Type'] = '0,3,5';
-    
+
     $fieldtable = array();
     $fieldtable['Status'] = '`Inactif`=\'%s\' ';
     $fieldtable['Type']   = '`TYPE` IN (%s) ';
@@ -231,7 +231,11 @@ $tpl->AddToRow($tpl->GetPagination($PageCurr, $MaxPage+1), 'pagination');
 $invert_sort = array(''=>'ASC','DESC' => 'ASC', 'ASC' => 'DESC');
 $sort_key = array('type', 'user', 'empire', 'infos', 'note', 'date', 'water', 'troop');
 
-$sort='ORDER BY DATE DESC';
+if ($Recherche['Troop']>0)
+    $sort='ORDER BY Troop_date DESC';
+else
+    $sort='ORDER BY DATE DESC';
+
 foreach($sort_key as $v) {
     if (isset($_GET['sort']) && in_array($_GET['sort'][$v],$invert_sort))
         $sort= 'ORDER BY '.$v.' '.$_GET['sort'][$v].' ';
@@ -282,6 +286,7 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
     $tpl->AddToRow($ligne['NOTE'], 'notes');
     $tpl->AddToRow($ligne['water'], 'water');
     $tpl->AddToRow(DataEngine::format_number($ligne['troop'], true), 'troop');
+    $tpl->AddToRow(bulle($ligne['troop_date']), 'troop_date');
 
     $tmp = sprintf('Par <b>%s</b><br/>Le: %s', $ligne['UTILISATEUR'], date('d-m-Y à H:i:s',$ligne['udate']));
     $tpl->AddToRow(bulle($tmp), 'userdate');
