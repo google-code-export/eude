@@ -306,7 +306,13 @@ class ownuniverse {
             $query = "SELECT * FROM SQL_PREFIX_ownuniverse where UTILISATEUR='$qnom'";
             $sql_r = DataEngine::sql($query);
             $ligne = mysql_fetch_assoc($sql_r);
-            for ($i=0;$i<5;$i++) {
+            $max = 0;
+            if ($ligne['data0'] != '') $max++;
+            if ($ligne['data1'] != '') $max++;
+            if ($ligne['data2'] != '') $max++;
+            if ($ligne['data3'] != '') $max++;
+            if ($ligne['data4'] != '') $max++;
+            for ($i=0;$i<$max;$i++) {
                 if (is_null($ligne["data$i"])) return false;
                 $data[$i] = unserialize($ligne["data$i"]);
 
@@ -317,7 +323,7 @@ class ownuniverse {
         }
         if (is_array($this->ress_data)) {
             $result = array();
-            for ($i=0;$i<5;$i++)
+            for ($i=0;$i<$max;$i++)
                 if (isset($this->universe_data[$i]) && isset($this->ress_data[$i])) {
                     $result[$i] = array_merge($this->universe_data[$i], $this->ress_data[$i]);
                 } else {
