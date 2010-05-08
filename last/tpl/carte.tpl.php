@@ -162,7 +162,7 @@ MAP;
 	</div>
 	<div id="Map_Itineraire" style="position:absolute; left:{$this->map->taille}px; top:90px;">
 		<form name="calculer" method="post" action="Carte.php">
-			<Table class="color_row0" style="width:425px">
+			<Table class="color_row0 table_nospacing" style="width:425px">
 				<tr>
 					<td colspan=4 class="color_header text_center">{$this->lng['parcours_header']}</td>
 				</tr>
@@ -205,13 +205,13 @@ iti_h;
 					</td>
 				</tr>
 				<tr>
-					<td colspan=3>{$this->lng['parcours_old_wormhole']}</td>
+					<td colspan="3" class="spacing_row0">{$this->lng['parcours_old_wormhole']}</td>
 					<td align=center>
 						<input class="color_row1" type="checkbox" name="inactif" value="1"{$checked}>
 					</td>
 				</tr>
 				<tr>
-					<td colspan=3>@@no intra ss@@</td>
+					<td colspan="3" class="spacing_row0">@@no intra ss@@</td>
 					<td align=center>
 						<input class="color_row1" type="checkbox" name="nointrass" value="1"{$checked2}>
 					</td>
@@ -235,7 +235,7 @@ iti_h;
     public function Parcours_Start($ss) {
         $out = <<<ps
 		<td>&nbsp;</td>
-			<Table class="color_row0" style="width:425px">
+			<Table class="color_row0 table_nospacing" style="width:425px">
 				<tr>
 					<td colspan=4 class="color_header text_center">Parcours</td>
 				</tr>
@@ -288,13 +288,17 @@ pe;
 		</tr>
 h;
         $legend  = $this->lng['maplegend'][$id];
-        foreach($legend as $k => $v)
+        $i=0;
+        foreach($legend as $k => $v) {
+            $Ð = $i%2;
             $out .= <<<l
-		<tr class="color_row0">
+		<tr class="color_row{$Ð}">
 			<td class="size20" style="background-color: {$cls[$id][$k]};">&nbsp;</td>
 			<td>&nbsp;{$v}&nbsp;</td>
 		</tr>
 l;
+           $i++;
+        }
         $out .=<<<f
             </Table>
 	</div>
