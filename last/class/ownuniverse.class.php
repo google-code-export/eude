@@ -319,6 +319,7 @@ class ownuniverse {
                 if ($ligne["ress$i"]!='' && is_array(unserialize($ligne["ress$i"])))
                     $this->ress_data[$i] = unserialize($ligne["ress$i"]);
             }
+            if (!is_array($data)) return false;
             $this->universe_data = $data;
         }
         if (is_array($this->ress_data)) {
