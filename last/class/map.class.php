@@ -251,8 +251,6 @@ class map /*extends parcours*/ {
         $this->lng = language::getinstance()->GetLngBlock('carte');
 
         $this->itineraire = ( ($this->IN != '' && $this->OUT != '') && ($this->IN != $this->OUT) );
-        // Mode calcul, désactivation des truc inutiles ?
-        if ($this->itineraire) $this->load_prefs('1;0;0;0;'.$this->sc.';'.$this->taille.';0;0;0');
 
     }
 

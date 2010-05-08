@@ -90,8 +90,6 @@ if (isset($boink)) {
     output::boink('Carte.php');
 }
 
-$connexion = Config::DB_Connect();
-
 /// DATABASE MODIFICATION ///
 if (isset($_GET["savefleet"])) { // enregistrement
     $mysql_result = DataEngine::sql("SELECT * from SQL_PREFIX_itineraire where `Flotte`='".sqlesc($_GET["savefleet"])."' AND Joueur='".$_SESSION["_login"]."'");
@@ -119,21 +117,22 @@ $_SESSION['emp']  = $_SESSION['jou']  = "";
 /// CHARGEMENT PARCOURS ///
 
 $title = $map->Parcours_loadfleet();
+if ( $map->itineraire ) {
+    $map->parcours = $map->Parcours()->Do_Parcours($map->IN,$map->OUT);
+//    $map->vortex=1;
+    // Mode calcul, désactivation des truc inutiles ?
+    // Réponse serveur bien plus rapide...
+    $map->load_prefs('1;0;0;0;'.$map->sc.';'.$map->taille.';0;0;0');
+    $map->save_prefs();
+}
+
+
 include_once(TEMPLATE_PATH.'carte.tpl.php');
-
-
 $tpl = tpl_carte::getinstance();
 
 $tpl->page_title = ($title != "") ? "Carte: $title": "EU2: Carte";
 $tpl->navigation(); // menu carte
 $tpl->maparea();	// la carte
-
-/// MODE ITINÉRAIRE ///
-
-if ( $map->itineraire ) {
-    $map->parcours = $map->Parcours()->Do_Parcours($map->IN,$map->OUT);
-    $map->vortex=1;
-}
 
 $map->update_session();
 
