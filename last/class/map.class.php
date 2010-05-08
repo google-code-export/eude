@@ -365,7 +365,7 @@ class map /*extends parcours*/ {
         if ($this->asteroide)                   $in[] = 4;
         if ($this->pnj)				$in[] = 6;
         if ($this->ennemis || $this->joueur)	$in[] = 5;
-        if (count($in)>0)
+        if (count($in)>0 && count($in)<7)
             $in = 'AND ( `TYPE` IN ('.implode(',',$in).')';
         else
             $in = '';
@@ -458,7 +458,7 @@ class map /*extends parcours*/ {
 
         if (!$map) $map = map::getinstance();
 
-        if (DEBUG_IMG) return print_r($text);
+        if (DEBUG_PLAIN) return print_r($text);
         if (!IS_IMG) return false;
         if (!isset($image)) return false;
         if (is_array($text)) $text = str_replace("\t\t", '', print_r($text, true));

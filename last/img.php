@@ -7,7 +7,8 @@
  *
  **/
 define('IS_IMG', true);
-// 	define('DEBUG_IMG', true);
+//define('DEBUG_PLAIN', true);
+define('DEBUG_IMG', true);
 
 require_once('./init.php');
 require_once(INCLUDE_PATH.'Script.php');
@@ -19,12 +20,9 @@ DataEngine::conf_cache('EmpireAllys');
 DataEngine::conf_cache('EmpireEnnemy');
 DataEngine::conf_cache('MapColors');
 
-//if (headers_sent($file,$line)) die("Erreur 'header': $file:$line");
-//$connexion = Config::DB_Connect();
-
 $map = map::getinstance(); // initialisation...
 
-if (DEBUG_IMG) {
+if (DEBUG_PLAIN) {
     header('Content-type: text/plain;charset=utf-8');
 }
 
@@ -33,27 +31,24 @@ if (DEBUG_IMG) {
 $NbCase			= 100;
 $TailleCase	= floor($map->taille/$NbCase);
 $image = initimg($NbCase,$NbCase,$TailleCase,$TailleCase);
-// 		map::map_debug("IN:{$map->IN},OUT:{$map->OUT},loadfleet:{$map->loadfleet}");
-// 		map_debug($Parcours);
-// 		map_debug($Parcours_det);
-// 		map_debug(compact("vortex","Joueur","Planete","Asteroide","SC","Taille","pnj","ennemis"));
 $mysql_result = $map->init_map();
 
-if (!true) { // activer le traçage des vortex... (pour tester/vérifier le calcul de trajets)
-    $ray = 15;
-    list($xa, $ya) = map::ss2xy(5050);
-    $list = array();
-    for($y=-$ray;$y<=$ray;$y++)
-        for($x=-$ray;$x<=$ray;$x++)
-            $list[] = ($ya+$y).($xa+$x);
-    $list = implode(',',$list);
-    // 		map_debug("$list");
-    $mysql_result2 = DataEngine::sql("SELECT POSIN,POSOUT from SQL_PREFIX_Coordonnee WHERE Type=1 and ( POSIN IN ($list) or POSOUT IN ($list) ) AND inactif=".intval($map->inactif)."");
-    while($line = mysql_fetch_assoc($mysql_result2)) {
-        img_line($image, $line['POSIN'], $line['POSOUT'], $colormap[($map->itineraire ? '14':'5')]);
-    }
-    mysql_free_result($mysql_result2);
-}
+// activer le traçage des vortex... (pour tester/vérifier le calcul de trajets)
+//if (!true) {
+//    $ray = 15;
+//    list($xa, $ya) = map::ss2xy(5050);
+//    $list = array();
+//    for($y=-$ray;$y<=$ray;$y++)
+//        for($x=-$ray;$x<=$ray;$x++)
+//            $list[] = ($ya+$y).($xa+$x);
+//    $list = implode(',',$list);
+//    // 		map_debug("$list");
+//    $mysql_result2 = DataEngine::sql("SELECT POSIN,POSOUT from SQL_PREFIX_Coordonnee WHERE Type=1 and ( POSIN IN ($list) or POSOUT IN ($list) ) AND inactif=".intval($map->inactif)."");
+//    while($line = mysql_fetch_assoc($mysql_result2)) {
+//        img_line($image, $line['POSIN'], $line['POSOUT'], $colormap[($map->itineraire ? '14':'5')]);
+//    }
+//    mysql_free_result($mysql_result2);
+//}
 
 while ($line=mysql_fetch_assoc($mysql_result)) {
     if ($CurrSS == 0) $CurrSS = $line['POSIN'];
@@ -61,7 +56,6 @@ while ($line=mysql_fetch_assoc($mysql_result)) {
     if ($line['POSIN'] != $CurrSS) {
         $map->add_ss(false,'img_addplot');
         $CurrSS   = $line['POSIN'];
-//        if ($CurrSS == '1') xdebug_break();
     }
 
     $ID   = $line['ID'];
@@ -106,7 +100,6 @@ function initimg($Nbx,$Nby, $taillex,$tailley) {
 
     // Tableau des couleurs...
     $colormap = DataEngine::config('MapColors');
-//            ( $map->itineraire ? 0: $map->sc+1 );
     $colormap = $colormap[$map->itineraire ? 0: $map->sc+1];
     foreach ($colormap as $k => $c) {
         $R = hexdec(substr($c,1,2));
@@ -134,10 +127,9 @@ function initimg($Nbx,$Nby, $taillex,$tailley) {
     ImageLine($image,$taillex*$Nbx,1,$taillex*$Nbx,$tailley*$Nby,$rouge);
     ImageLine($image,1,$tailley*$Nby,$taillex*$Nbx,$tailley*$Nby,$rouge);
 
-    if (DEBUG_IMG) {
+    if (DEBUG_PLAIN) {
         echo "Comm coords: $Coords x$CoordsX y$CoordsY lvl$level x".(1+($CoordsY-1)*$taillex + round($taillex/2)+1)." y".(1+($CoordsX-1)*$tailley + round($tailley/2)+1)."\n";
         echo "Map color full: ".($itineraire==1 ? 0: $map->sc+1)."\n";
-        print_r(Config::GetMapColor( $map->itineraire ? 0: $map->sc+1 ));
         echo "Map color: \n";
         print_r($colormap);
     }
@@ -240,17 +232,21 @@ function img_dot($image,$coord,$clr) {
 
 // 		mysql_close($connexion);
 
-if (DEBUG_PLAIN)
-    header('Content-Disposition: attachment; filename=tatayoyo.png');
-if (!DEBUG_IMG) {
+if (DEBUG_IMG) {
+//    header('Content-Disposition: attachment; filename=tatayoyo.png');
+    map::map_debug("IN:{$map->IN},OUT:{$map->OUT}");
+    map::map_debug($map->parcours[1]);
+}
+if (DEBUG_PLAIN) {
+    echo sprintf("width: %d, height: %d\n",imagesx($image),imagesy($image));
+    print_r($map);
+}
+if (!DEBUG_PLAIN) {
     DataEngine::sql_do_spool();
     header('Content-type: image/png');
     header('Cache-Control: no-cache, must-revalidate'); // HTTP/1.1
     header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date dans le passé
     imagepng($image);
 }
+
 imagedestroy($image);
-
-if (DEBUG_IMG) print_r($GLOBALS);
-
-?>
