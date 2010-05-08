@@ -114,6 +114,7 @@ class parcours {
             if (array_search($v['ID'], $skip) !==false) continue;
             $D1 = $this->Calcul_Distance($ss_pos, $v['IN']);
             if ( (($D1+$cur_dist) > $this->mindist)    ) continue;
+            if ( $this->map->nointrass && $D1 == 0)      continue;
 
             $new_dist     = $D1+$cur_dist;
             $new_parcours = $cur_parcours;
@@ -198,7 +199,7 @@ class parcours {
 class map /*extends parcours*/ {
     public $TabData = array();
     public $vortex,$joueur,$planete,$asteroide,$sc,$taille,$pnj,$ennemis,$allys,$IN,$OUT,$loadfleet,$itineraire,$inactif,$parcours;
-
+    public $nointrass;
     /**
      * @since 1.4.1
      */
@@ -238,6 +239,7 @@ class map /*extends parcours*/ {
             $this->loadfleet = (isset($_REQUEST['loadfleet']) and intval($_REQUEST['loadfleet']) > 0) ? intval($_REQUEST['loadfleet']): 0;
             $this->method = (isset($_REQUEST['method']) and intval($_REQUEST['method']) > 0) ? intval($_REQUEST['method']): 2;
             $this->inactif		= ( isset($_POST['inactif']) 	&& $_POST['inactif'] > 0 ) 	? true: false;
+            $this->nointrass		= ( isset($_POST['nointrass']) 	&& $_POST['nointrass'] > 0 ) 	? true: false;
             $this->update_session();
 
             FB::warn($this->method,'method');
@@ -249,6 +251,8 @@ class map /*extends parcours*/ {
         $this->lng = language::getinstance()->GetLngBlock('carte');
 
         $this->itineraire = ( ($this->IN != '' && $this->OUT != '') && ($this->IN != $this->OUT) );
+        // Mode calcul, désactivation des truc inutiles ?
+        if ($this->itineraire) $this->load_prefs('1;0;0;0;'.$this->sc.';'.$this->taille.';0;0;0');
 
     }
 

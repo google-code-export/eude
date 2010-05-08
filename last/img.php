@@ -125,8 +125,8 @@ function initimg($Nbx,$Nby, $taillex,$tailley) {
             $level = $planet['level'];
             if ($level>0)
                 ImageFilledEllipse ($image,	1+($CoordsY-1)*$taillex + round($taillex/2)+1,
-                    1+($CoordsX-1)*$tailley + round($tailley/2)+1,
-                    (($level)*20) * $taillex, (($level)*20) * $tailley, $colormap["0"]);
+                        1+($CoordsX-1)*$tailley + round($tailley/2)+1,
+                        (($level)*20) * $taillex, (($level)*20) * $tailley, $colormap["0"]);
         }
 
     ImageLine($image,1,1,$taillex*$Nbx,1,$rouge);
@@ -150,6 +150,8 @@ function img_addplot($ss, $data) {
     $spacing = 1;
 
     $color = $colormap[$map->ss_colors($data)];
+// TODO: issue 49 (remove this line)
+    if ($data['Vortex'] >1) $color = $colormap[-1];
 
     if (isset($data['Chemin'])) return false; // Pas de carré pour le parcours
 
@@ -181,8 +183,10 @@ function img_parcours_dot() {
     foreach($parcours as $i => $ssdet) {
         $ssdet = $map->Parcours()->get_coords_part($ssdet);
         switch($i) {
-            case 0:			$c = 20; break;
-            case $last:		$c = 21; break;
+            case 0:			$c = 20;
+                break;
+            case $last:		$c = 21;
+                break;
             default:		$c = 22;
         }
 

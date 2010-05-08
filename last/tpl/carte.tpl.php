@@ -180,6 +180,7 @@ iti_h;
 
     public function itineraire_form() {
         $checked = $this->map->inactif ? " checked": "";
+        $checked2 = $this->map->nointrass ? " checked": "";
         $msg_load=bulle($this->lng['parcours_msg_load']);
         $msg_save=bulle($this->lng['parcours_msg_save']);
         $msg_del =bulle($this->lng['parcours_msg_del']);
@@ -206,7 +207,13 @@ iti_h;
 				<tr>
 					<td colspan=3>{$this->lng['parcours_old_wormhole']}</td>
 					<td align=center>
-						<input class="color_row1" type="checkbox" name="inactif"{$checked}>
+						<input class="color_row1" type="checkbox" name="inactif" value="1"{$checked}>
+					</td>
+				</tr>
+				<tr>
+					<td colspan=3>@@no intra ss@@</td>
+					<td align=center>
+						<input class="color_row1" type="checkbox" name="nointrass" value="1"{$checked2}>
 					</td>
 				</tr>
 				<tr>
