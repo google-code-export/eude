@@ -119,11 +119,7 @@ $_SESSION['emp']  = $_SESSION['jou']  = "";
 $title = $map->Parcours_loadfleet();
 if ( $map->itineraire ) {
     $map->parcours = $map->Parcours()->Do_Parcours($map->IN,$map->OUT);
-//    $map->vortex=1;
-    // Mode calcul, désactivation des truc inutiles ?
-    // Réponse serveur bien plus rapide...
     $map->load_prefs('1;0;0;0;'.$map->sc.';'.$map->taille.';0;0;0');
-    $map->save_prefs();
 }
 
 

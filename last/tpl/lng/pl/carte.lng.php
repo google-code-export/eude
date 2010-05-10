@@ -47,6 +47,7 @@ $lng['parcours_msg_inv']= 'Intervertir les coords';
 $lng['parcours_start_ss']= 'System Poczatkowy';
 $lng['parcours_end_ss']= 'System Koncowy';
 $lng['parcours_old_wormhole']= 'Uzywac skoki "Nie Aktywne"';
+$lng['parcours_nointrass']= 'Pas de déplacement par impulsion';
 $lng['parcours_method_1']= '1 skok max (Szybkie Licz.))';
 $lng['parcours_method_2']= '2 skoky max (Normalne)';
 $lng['parcours_method_3']= '3 skoky max ([Bardzo Wolne Licz.))';

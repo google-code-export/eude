@@ -211,7 +211,7 @@ iti_h;
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3" class="spacing_row0">@@no intra ss@@</td>
+					<td colspan="3" class="spacing_row0">{$this->lng['parcours_nointrass']}</td>
 					<td align=center>
 						<input class="color_row1" type="checkbox" name="nointrass" value="1"{$checked2}>
 					</td>

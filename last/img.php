@@ -8,7 +8,7 @@
  **/
 define('IS_IMG', true);
 //define('DEBUG_PLAIN', true);
-define('DEBUG_IMG', true);
+//define('DEBUG_IMG', true);
 
 require_once('./init.php');
 require_once(INCLUDE_PATH.'Script.php');
@@ -101,6 +101,7 @@ function initimg($Nbx,$Nby, $taillex,$tailley) {
     // Tableau des couleurs...
     $colormap = DataEngine::config('MapColors');
     $colormap = $colormap[$map->itineraire ? 0: $map->sc+1];
+    if ($map->itineraire) $map->load_prefs('1;0;0;0;'.$map->sc.';'.$map->taille.';0;0;0');
     foreach ($colormap as $k => $c) {
         $R = hexdec(substr($c,1,2));
         $V = hexdec(substr($c,3,2));
@@ -142,8 +143,6 @@ function img_addplot($ss, $data) {
     $spacing = 1;
 
     $color = $colormap[$map->ss_colors($data)];
-// TODO: issue 49 (remove this line)
-    if ($data['Vortex'] >1) $color = $colormap[-1];
 
     if (isset($data['Chemin'])) return false; // Pas de carré pour le parcours
 
