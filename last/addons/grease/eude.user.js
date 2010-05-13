@@ -458,21 +458,21 @@ function $x() {
 }
 
 function trim(str, chars) {
-	return ltrim(rtrim(str, chars), chars);
+    return ltrim(rtrim(str, chars), chars);
 }
 
 function ltrim(str, chars) {
-	chars = chars || "\\s";
-	return str.replace(new RegExp("^[" + chars + "]+", "g"), "");
+    chars = chars || "\\s";
+    return str.replace(new RegExp("^[" + chars + "]+", "g"), "");
 }
 
 function rtrim(str, chars) {
-	chars = chars || "\\s";
-	return str.replace(new RegExp("[" + chars + "]+$", "g"), "");
+    chars = chars || "\\s";
+    return str.replace(new RegExp("[" + chars + "]+$", "g"), "");
 }
 //------------------------------------------------------------------------------
 // Fonctions de serialize...
-     function utf8_encode ( argString ) {
+function utf8_encode ( argString ) {
     // Encodes an ISO-8859-1 string to UTF-8
     //
     // version: 1004.2314
@@ -492,23 +492,28 @@ function rtrim(str, chars) {
     start = end = 0;
     stringl = argString.length;
     for (var n = 0; n < stringl; n++) {
-        var c1 = argString.charCodeAt(n);var enc = null;
+        var c1 = argString.charCodeAt(n);
+        var enc = null;
 
         if (c1 < 128) {
             end++;
-        } else if (c1 > 127 && c1 < 2048) {enc = String.fromCharCode((c1 >> 6) | 192) + String.fromCharCode((c1 & 63) | 128);
+        } else if (c1 > 127 && c1 < 2048) {
+            enc = String.fromCharCode((c1 >> 6) | 192) + String.fromCharCode((c1 & 63) | 128);
         } else {
             enc = String.fromCharCode((c1 >> 12) | 224) + String.fromCharCode(((c1 >> 6) & 63) | 128) + String.fromCharCode((c1 & 63) | 128);
         }
-        if (enc !== null) {if (end > start) {
+        if (enc !== null) {
+            if (end > start) {
                 utftext += argString.substring(start, end);
             }
             utftext += enc;
-            start = end = n+1;}
+            start = end = n+1;
+        }
     }
 
     if (end > start) {
-        utftext += argString.substring(start, argString.length);}
+        utftext += argString.substring(start, argString.length);
+    }
 
     return utftext;
 }
@@ -598,7 +603,7 @@ function serialize (mixed_value) {
 
                 okey = (key.match(/^[0-9]+$/) ? parseInt(key, 10) : key);
                 vals += serialize(okey) +
-                        serialize(mixed_value[key]);
+                serialize(mixed_value[key]);
                 count++;
             }
             val += ":" + count + ":{" + vals + "}";
@@ -998,10 +1003,10 @@ function MaFiche() {
     a['Titre'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[3]/td[4]')[0].innerHTML;
     a['Race'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[4]/td[4]')[0].innerHTML;
 
-//    tmp = a['Commerce']+'-'+a['Recherche']+'-'+a['Combat']+'-'+a['Construction']+'-'+a['Economie']+'-'+a['Navigation'];
-//    tmp = a['POINTS']+'-'+a['pts_architecte']+'-'+a['pts_mineur']+'-'+a['pts_science']+'-'+a['pts_commercant']+'-'+a['pts_amiral']+'-'+a['pts_guerrier'];
-//    tmp = i+'--'+a['GameGrade']+'-'+a['Race']+'-'+a['Titre'];
-//    AddToMotd(tmp);
+    //    tmp = a['Commerce']+'-'+a['Recherche']+'-'+a['Combat']+'-'+a['Construction']+'-'+a['Economie']+'-'+a['Navigation'];
+    //    tmp = a['POINTS']+'-'+a['pts_architecte']+'-'+a['pts_mineur']+'-'+a['pts_science']+'-'+a['pts_commercant']+'-'+a['pts_amiral']+'-'+a['pts_guerrier'];
+    //    tmp = i+'--'+a['GameGrade']+'-'+a['Race']+'-'+a['Titre'];
+    //    AddToMotd(tmp);
     get_xml('mafiche', a);
 }
 
@@ -1019,7 +1024,7 @@ function ownuniverse () {
         i += 2;
         p++;
     }
-//    AddToMotd(p+' Planets', '<hr/>');
+    //    AddToMotd(p+' Planets', '<hr/>');
 
     for (i=3,j=0; j<p; i+=2,j++)
         Planet[j]['Name'] = trim($x('/html/body/div[2]/div/div[2]/table/tbody/tr/td['+i+']')[0].innerHTML);
@@ -1138,11 +1143,11 @@ function ownuniverse () {
     for (i=3,j=0; j<p; i+=2,j++)
         Planet[j][k+'Hydrogene'] = trim($x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[21]/td['+i+']')[0].innerHTML.replace(/\.*/g, ''));
 
-//    var key = k+'Hydrogene';
-//    data = key+': ';
-//    for (j=0; j<p;j++) data += Planet[j][key]+'¤ ';
-//    data +=' @'+p;
-//    AddToMotd(data);
+    //    var key = k+'Hydrogene';
+    //    data = key+': ';
+    //    for (j=0; j<p;j++) data += Planet[j][key]+'¤ ';
+    //    data +=' @'+p;
+    //    AddToMotd(data);
     get_xml('ownuniverse', serialize(Planet));
 }
 
@@ -1152,27 +1157,34 @@ function troop_battle() {
     inf['date'] = $x('/html/body/div[2]/div/div/table[2]/tbody/tr/td/table/tbody/tr[2]/td[4]')[0].innerHTML;
     inf['coords'] = $x('/html/body/div[2]/div/div/table[2]/tbody/tr/td/table/tbody/tr[3]/td[4]')[0].innerHTML;
 
-    id = 2;
-    arr = Array();
-    do {
-        tmp = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td/table/tbody/tr['+id+']/td');
-        if (typeof(tmp[0]) == 'undefined') break;
-        arr[tmp[0].innerHTML.replace(/<[^<]*>/g, '')] = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td/table/tbody/tr['+id+']/td[3]/div')[0].innerHTML;
-        id++;
-    } while (true);
-    inf['def'] = serialize(arr);
 
     id = 2;
     arr = Array();
-    do {
-        tmp = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td[3]/table/tbody/tr['+id+']/td');
-        if (typeof(tmp[0]) == 'undefined') break;
-        arr[tmp[0].innerHTML.replace(/<[^<]*>/g, '')] = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td[3]/table/tbody/tr['+id+']/td[3]/div')[0].innerHTML;
-        id++;
-    } while (true);
-    inf['att'] = serialize(arr);
+    try {
+        do {
+            tmp = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td/table/tbody/tr['+id+']/td');
+            if (typeof(tmp[0]) == 'undefined') break;
+            arr[tmp[0].innerHTML.replace(/<[^<]*>/g, '')] = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td/table/tbody/tr['+id+']/td[3]/div')[0].innerHTML;
+            id+=2;
+        } while (true);
+    } catch (x) {
+    }
+    inf['left'] = serialize(arr);
 
-//    AddToMotd(inf['coords']);
+    id = 2;
+    arr = Array();
+    try {
+        do {
+            tmp = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td[3]/table/tbody/tr['+id+']/td');
+            if (typeof(tmp[0]) == 'undefined') break;
+            arr[tmp[0].innerHTML.replace(/<[^<]*>/g, '')] = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td[3]/table/tbody/tr['+id+']/td[3]/div')[0].innerHTML;
+            id+=2;
+        } while (true);
+    } catch (x) {
+    }
+    inf['right'] = serialize(arr);
+
+    //    AddToMotd(inf['coords']);
     get_xml('troop_battle', inf);
 }
 
@@ -1278,11 +1290,11 @@ if (GM_getValue(c_prefix+'actived','0')!='0') {
     if (c_page.indexOf('fleet/commander_info.php?action=attribute')>0) MaFiche();
 
     if (c_page.indexOf('building/control/control_overview.php?area=planet')>0)
-                                                                  ownuniverse();
+        ownuniverse();
     if (c_page.indexOf('battle/battle_ground_report_info.php?area=ground_battle')>0)
-                                                                 troop_battle();
+        troop_battle();
     if (c_page.indexOf('gamelog/gamelog_view.php?gamelog_id')>0)
-                                                              gamelog_spooler();
+        gamelog_spooler();
 }
 
 if (c_page.indexOf('user/settings_overview.php?area=options')>0)      Options();

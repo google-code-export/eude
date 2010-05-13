@@ -84,14 +84,16 @@ q;
             break;
         }
         require_once(CLASS_PATH.'cartographie.class.php');
+        require_once(CLASS_PATH.'map.class.php');
+        require_once(CLASS_PATH.'ownuniverse.class.php');
         require_once(CLASS_PATH.'troops.class.php');
         $date = gpc_esc($_POST['date']);
         preg_match('/(\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2})/', $date, $adate);
-        $idate = mktime($adate[4], $adate[5], 0, $adate[2], $adate[1], $adate[3]);
+        $idate  = mktime($adate[4], $adate[5], 0, $adate[2], $adate[1], $adate[3]);
         $coords = gpc_esc($_POST['coords']);
-        $def = gpc_esc($_POST['def']);
-        $att = gpc_esc($_POST['att']);
-        $xml['log']=troops::getinstance()->AddBattle($idate, $coords, $def, $att);
+        $left   = gpc_esc($_POST['left']);
+        $right  = gpc_esc($_POST['right']);
+        $xml['log']=troops::getinstance()->AddBattle($idate, $coords, $left, $right);
         break;
 
     case 'troop_log': //--------------------------------------------------------

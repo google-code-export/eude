@@ -26,32 +26,6 @@ ob_start();
         <td>when</td>
         <td>coords</td>
         <td>pids</td>
-    </tr>
-<?php
-
-/*
-  SELECT * FROM SQL_PREFIX_troops_attack ta, SQL_PREFIX_troops_pillage tp
-  WHERE tp.mid=ta.id
-  ORDER BY ID DESC
- */
-$result = DataEngine::sql('SELECT * FROM SQL_PREFIX_troops_attack WHERE players_attack LIKE \'%"'.$_SESSION['_login'].'"%\' OR players_defender LIKE \'%"'.$_SESSION['_login'].'"%\' ORDER BY ID DESC');
-
-while ($row = mysql_fetch_assoc($result)) { ?>
-
-    <tr class="base_row1">
-        <td><?php echo $row['ID'] ?></td>
-        <td><?php echo $row['type'] ?></td>
-        <td><?php echo $row['players_attack'] ?></td>
-        <td><?php echo $row['players_defender'] ?></td>
-        <td><?php echo date('d.m.Y H:i:s', $row['when']); ?></td>
-        <td><?php echo $row['coords_ss'].'-'.$row['coords_3p'] ?></td>
-        <td><?php echo $row['pids'] ?></td>
-    </tr>
-    <?php
-}
-?></table>
-<table>
-    <tr class="base_row1">
         <td>pid</td>
         <td>mid</td>
         <td>date</td>
@@ -66,14 +40,27 @@ while ($row = mysql_fetch_assoc($result)) { ?>
         <td>ress8</td>
         <td>ress9</td>
     </tr>
-
 <?php
+$login = sqlesc($_SESSION['_login']);
+$sql = <<<sql
+  SELECT * FROM SQL_PREFIX_troops_attack ta
+  LEFT JOIN SQL_PREFIX_troops_pillage tp on (tp.mid=ta.id)
+   WHERE players_attack LIKE '%"$login"%' OR players_defender LIKE '%"$login"%'
+  ORDER BY ID DESC
 
-$result = DataEngine::sql('SELECT * FROM SQL_PREFIX_troops_pillage ORDER BY pid DESC');
+sql;
+$result = DataEngine::sql($sql);
 
 while ($row = mysql_fetch_assoc($result)) { ?>
 
     <tr class="base_row1">
+        <td><?php echo $row['ID'] ?></td>
+        <td><?php echo $row['type'] ?></td>
+        <td><?php echo $row['players_attack'] ?></td>
+        <td><?php echo $row['players_defender'] ?></td>
+        <td><?php echo date('d.m.Y H:i:s', $row['when']); ?></td>
+        <td><?php echo $row['coords_ss'].'-'.$row['coords_3p'] ?></td>
+        <td><?php echo $row['pids'] ?></td>
         <td><?php echo $row['pid'] ?></td>
         <td><?php echo $row['mid'] ?></td>
         <td><?php echo date('d.m.Y H:i:s', $row['date']) ?></td>
@@ -91,5 +78,6 @@ while ($row = mysql_fetch_assoc($result)) { ?>
     <?php
 }
 ?></table><?php
+
 $tpl->PushOutput(ob_get_clean());
 $tpl->DoOutput();
