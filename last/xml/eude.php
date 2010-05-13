@@ -56,15 +56,15 @@ switch ($_GET['act']) {
         pts_guerrier='%d', Date=now() WHERE Joueur='%s'
 q;
         DataEngine::sql(sprintf($query, DataEngine::strip_number($_POST['POINTS']),
-            DataEngine::strip_number($_POST['Economie']), DataEngine::strip_number($_POST['Commerce']),
-            DataEngine::strip_number($_POST['Recherche']), DataEngine::strip_number($_POST['Combat']),
-            DataEngine::strip_number($_POST['Construction']), DataEngine::strip_number($_POST['Navigation']),
-            sqlesc(trim($_POST['Race']), false), sqlesc($_POST['Titre'], false),
-            sqlesc($_POST['GameGrade'], false), DataEngine::strip_number($_POST['pts_architecte']),
-            DataEngine::strip_number($_POST['pts_mineur']), DataEngine::strip_number($_POST['pts_science']),
-            DataEngine::strip_number($_POST['pts_commercant']), DataEngine::strip_number($_POST['pts_amiral']),
-            DataEngine::strip_number($_POST['pts_guerrier']), $_SESSION['_login']
-            )
+                DataEngine::strip_number($_POST['Economie']), DataEngine::strip_number($_POST['Commerce']),
+                DataEngine::strip_number($_POST['Recherche']), DataEngine::strip_number($_POST['Combat']),
+                DataEngine::strip_number($_POST['Construction']), DataEngine::strip_number($_POST['Navigation']),
+                sqlesc(trim($_POST['Race']), false), sqlesc($_POST['Titre'], false),
+                sqlesc($_POST['GameGrade'], false), DataEngine::strip_number($_POST['pts_architecte']),
+                DataEngine::strip_number($_POST['pts_mineur']), DataEngine::strip_number($_POST['pts_science']),
+                DataEngine::strip_number($_POST['pts_commercant']), DataEngine::strip_number($_POST['pts_amiral']),
+                DataEngine::strip_number($_POST['pts_guerrier']), $_SESSION['_login']
+                )
         );
         $xml['log']='infomation joueur mis à jour';
         break;
@@ -75,6 +75,41 @@ q;
         $data = unserialize(gpc_esc($_POST['data']));
         list($info, $warn) = ownuniverse::getinstance()->add_ownuniverse($data);
         $xml['log']=$info;
+        break;
+
+    case 'troop_battle': //-----------------------------------------------------
+
+        if (!DataEngine::CheckPerms('in_dev')) {
+            $carto->AddErreur('Permissions manquante');
+            break;
+        }
+        require_once(CLASS_PATH.'cartographie.class.php');
+        require_once(CLASS_PATH.'troops.class.php');
+        $date = gpc_esc($_POST['date']);
+        preg_match('/(\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2})/', $date, $adate);
+        $idate = mktime($adate[4], $adate[5], 0, $adate[2], $adate[1], $adate[3]);
+        $coords = gpc_esc($_POST['coords']);
+        $def = gpc_esc($_POST['def']);
+        $att = gpc_esc($_POST['att']);
+        $xml['log']=troops::getinstance()->AddBattle($idate, $coords, $def, $att);
+        break;
+
+    case 'troop_log': //--------------------------------------------------------
+
+        if (!DataEngine::CheckPerms('in_dev')) {
+            $carto->AddErreur('Permissions manquante');
+            break;
+        }
+        require_once(CLASS_PATH.'cartographie.class.php');
+        require_once(CLASS_PATH.'map.class.php');
+        require_once(CLASS_PATH.'ownuniverse.class.php');
+        require_once(CLASS_PATH.'troops.class.php');
+        $mode = gpc_esc($_POST['mode']);
+        $date = gpc_esc($_POST['date']);
+        preg_match('/(\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2})/', $date, $adate);
+        $idate = mktime($adate[4], $adate[5], 0, $adate[2], $adate[1], $adate[3]);
+        $smsg = gpc_esc($_POST['msg']);
+        $xml['log']=troops::getinstance()->AddPillage_log($mode, $idate, $smsg);
         break;
 
     case 'wormhole': //---------------------------------------------------------
@@ -90,7 +125,7 @@ q;
         }
         $page = gpc_esc($_POST['data']);
         $cur_ss = $_POST['ss'];
-        
+
         preg_match_all('#class="table_entry_onclick".*width="100">(\d+-\d+-\d+-\d+)</td>\n'.
                 '.*\n.*width="150">(.*)</td>\n'.
                 '.*\n.*width="284">(.*)</td>#',

@@ -437,6 +437,14 @@ class cartographie {
 
         if ($url!='') output::Boink($url);
     }
+    /**
+     *
+     * @param string $id ssss-xx-yy-zz / ssss:xx:yy:zz
+     * @param string &$idsys sss
+     * @param string &$iddet xx-yy-zz
+     * @param string $part complément affiché en cas d'erreur
+     * @return boolean
+     */
     public function FormatId($id,&$idsys,&$iddet,$part) {
         $tmppos = str_replace(':','-',$id);
         $tmppos = explode('-',$tmppos);

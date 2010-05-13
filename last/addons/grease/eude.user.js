@@ -17,6 +17,8 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.*/wormhole/wormhole_info.php*
 // @include      http://*eu2.looki.*/building/control/control_overview.php?area=planet
 // @include      http://*eu2.looki.*/user/settings_overview.php?area=options
+// @include      http://*eu2.looki.*/battle/battle_ground_report_info.php?area=ground_battle*
+// @include      http://*eu2.looki.*/gamelog/gamelog_view.php?gamelog_id*
 // @exclude      http://vs.eu2.looki.*/*
 // ==/UserScript==
 ]]></>;
@@ -71,6 +73,8 @@ i18n['fr']['nap,fleet']      = ' flotte(s) en pna';
 i18n['fr']['enemy,fleet']    = ' flotte(s) ennemie(s)';
 i18n['fr']['npc,fleet']      = ' flotte(s) pirate';
 i18n['fr']['ga,fleet']       = ' flotte(s) schtroumpfs';
+i18n['fr']['troop_log_def']  = 'Dévalisé par';
+i18n['fr']['troop_log_att']  = 'Quitter la planète';
 
 if (c_game_lang == 'com') c_game_lang = 'en';
 i18n['en'] = Array();
@@ -106,6 +110,7 @@ i18n['en']['nap,fleet']      = ' flotte(s) en pna';
 i18n['en']['enemy,fleet']    = ' flotte(s) ennemie(s)';
 i18n['en']['npc,fleet']      = ' flotte(s) pirate';
 i18n['en']['ga,fleet']       = ' flotte(s) schtroumpfs';
+i18n['en']['troop_log']       = 'Dévalisé par';
 
 i18n['de'] = Array();
 i18n['de']['confheader']     = 'Options spécifique au <u>Data Engine</u>';
@@ -140,6 +145,7 @@ i18n['de']['nap,fleet']      = ' flotte(s) en pna';
 i18n['de']['enemy,fleet']    = ' flotte(s) ennemie(s)';
 i18n['de']['npc,fleet']      = ' flotte(s) pirate';
 i18n['de']['ga,fleet']       = ' flotte(s) schtroumpfs';
+i18n['de']['troop_log']       = 'Dévalisé par';
 
 // [PL] translation by jhonny
 i18n['pl'] = Array();
@@ -175,6 +181,7 @@ i18n['pl']['nap,fleet']      = ' Floty PON';
 i18n['pl']['enemy,fleet']    = ' Wrogie Floty';
 i18n['pl']['npc,fleet']      = ' Pirackie Floty';
 i18n['pl']['ga,fleet']       = ' Smerfy Floty';
+i18n['pl']['troop_log']       = 'Dévalisé par';
 
 var salt = function (string) {
     function RotateLeft(lValue, iShiftBits) {
@@ -670,8 +677,9 @@ var c_onload = function(e) {
     }
 
     if (e.responseText.indexOf('<eude>')<0) {
-        GM_setValue(c_prefix+'actived','0');
         alert("XML error, disabling 'eude'...\n\n\n\nData Engine send:\n"+e.responseText);
+        if (debug) return false;
+        GM_setValue(c_prefix+'actived','0');
         return top.location.reload(true);
     }
     if (!e.responseXML)
@@ -1138,6 +1146,52 @@ function ownuniverse () {
     get_xml('ownuniverse', serialize(Planet));
 }
 
+function troop_battle() {
+
+    var inf = Array();
+    inf['date'] = $x('/html/body/div[2]/div/div/table[2]/tbody/tr/td/table/tbody/tr[2]/td[4]')[0].innerHTML;
+    inf['coords'] = $x('/html/body/div[2]/div/div/table[2]/tbody/tr/td/table/tbody/tr[3]/td[4]')[0].innerHTML;
+
+    id = 2;
+    arr = Array();
+    do {
+        tmp = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td/table/tbody/tr['+id+']/td');
+        if (typeof(tmp[0]) == 'undefined') break;
+        arr[tmp[0].innerHTML.replace(/<[^<]*>/g, '')] = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td/table/tbody/tr['+id+']/td[3]/div')[0].innerHTML;
+        id++;
+    } while (true);
+    inf['def'] = serialize(arr);
+
+    id = 2;
+    arr = Array();
+    do {
+        tmp = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td[3]/table/tbody/tr['+id+']/td');
+        if (typeof(tmp[0]) == 'undefined') break;
+        arr[tmp[0].innerHTML.replace(/<[^<]*>/g, '')] = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td[3]/table/tbody/tr['+id+']/td[3]/div')[0].innerHTML;
+        id++;
+    } while (true);
+    inf['att'] = serialize(arr);
+
+//    AddToMotd(inf['coords']);
+    get_xml('troop_battle', inf);
+}
+
+function troop_log (mode) {
+    
+    var inf = Array();
+    inf['date'] = $x('/html/body/div[2]/div/div/table/tbody/tr[4]/td[4]')[0].innerHTML;
+    inf['msg'] = $x('/html/body/div[2]/div/div/table[2]/tbody/tr[2]/td')[0].innerHTML.replace(/<[^<]*>/g, '\n');
+    inf['mode'] = mode;
+    get_xml('troop_log', inf);
+}
+
+function gamelog_spooler () {
+    ident = $x('/html/body/div[2]/div/div/table/tbody/tr[2]/td[4]')[0].innerHTML;
+
+    if (ident.indexOf(i18n[c_game_lang]['troop_log_att']) == 0) troop_log('attacker');
+    if (ident.indexOf(i18n[c_game_lang]['troop_log_def']) == 0) troop_log('defender');
+}
+
 function Options() {
     var node = document.getElementById('layer_site_content');
     //                form            table
@@ -1223,7 +1277,12 @@ if (GM_getValue(c_prefix+'actived','0')!='0') {
     if (c_page.indexOf('fleet/fleet_info.php?')>0)                      Fleet();
     if (c_page.indexOf('fleet/commander_info.php?action=attribute')>0) MaFiche();
 
-    if (c_page.indexOf('building/control/control_overview.php?area=planet')>0) ownuniverse();
+    if (c_page.indexOf('building/control/control_overview.php?area=planet')>0)
+                                                                  ownuniverse();
+    if (c_page.indexOf('battle/battle_ground_report_info.php?area=ground_battle')>0)
+                                                                 troop_battle();
+    if (c_page.indexOf('gamelog/gamelog_view.php?gamelog_id')>0)
+                                                              gamelog_spooler();
 }
 
 if (c_page.indexOf('user/settings_overview.php?area=options')>0)      Options();

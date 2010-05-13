@@ -23,21 +23,7 @@ class devissues_addons implements addon_config {
     public function Get_Menu () {
 
         // menu simple.
-        $menu = array('%ROOT_URL%cartographie.php','%IMAGES_URL%test.png',125,'Members::CheckPerms(\'in_dev\')', null);
-
-        // menu + sous menu
-        $menu2 = array('%ADDONS_URL%sample/index.php','%IMAGES_URL%test.png',125,'DataEngine::CheckPerms(AXX_ROOTADMIN)',
-                array(
-                        array('%ADDONS_URL%sample/index.php','%IMAGES_URL%test.png','true'), // sous-menu 1
-                        array('%ROOT_URL%index.php','%IMAGES_URL%btn-cartographie.png','true'), // sous-menu 2
-                ),
-        );
-
-        // juste la partie 'sous-menu'
-        $submenu = array(
-                array('%ADDONS_URL%sample/index.php','%IMAGES_URL%test.png','true'), // sous-menu 1
-                array('%ROOT_URL%index.php','%IMAGES_URL%btn-cartographie.png','true'), // sous-menu 2
-        );
+        $menu = array('%ROOT_URL%pillage.php','%IMAGES_URL%test.png',125,'Members::CheckPerms(\'in_dev\')', null);
 
         return array('insertafter' => 'perso', // empty for first.(ceux déjà inclus: carto,perso,addon,admin,forum, et logout)
                 'id' => 'iddev', // doit être unique ! (pas écraser qui que ce soit d'autre)

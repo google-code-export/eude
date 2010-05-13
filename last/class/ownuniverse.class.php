@@ -337,6 +337,17 @@ class ownuniverse {
         }
     }
 
+    public function get_coordswithname() {
+        if (($data = $this->get_universe(false))===false) return false;
+
+        $coordswithname = array();
+        foreach($data as $k => $v) {
+            $coordswithname[$k]['Coord'] = $v['Coord'];
+            $coordswithname[$k]['Name'] = $v['Name'];
+        }
+        return $coordswithname;
+    }
+
     public function get_comlevel() {
         if (($data = $this->get_universe(false))===false) return false;
 
