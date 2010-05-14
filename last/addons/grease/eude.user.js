@@ -110,7 +110,8 @@ i18n['en']['nap,fleet']      = ' flotte(s) en pna';
 i18n['en']['enemy,fleet']    = ' flotte(s) ennemie(s)';
 i18n['en']['npc,fleet']      = ' flotte(s) pirate';
 i18n['en']['ga,fleet']       = ' flotte(s) schtroumpfs';
-i18n['en']['troop_log']       = 'Dévalisé par';
+i18n['en']['troop_log_def']  = 'Dévalisé par';
+i18n['en']['troop_log_att']  = 'Quitter la planète';
 
 i18n['de'] = Array();
 i18n['de']['confheader']     = 'Options spécifique au <u>Data Engine</u>';
@@ -145,7 +146,8 @@ i18n['de']['nap,fleet']      = ' flotte(s) en pna';
 i18n['de']['enemy,fleet']    = ' flotte(s) ennemie(s)';
 i18n['de']['npc,fleet']      = ' flotte(s) pirate';
 i18n['de']['ga,fleet']       = ' flotte(s) schtroumpfs';
-i18n['de']['troop_log']       = 'Dévalisé par';
+i18n['de']['troop_log_def']  = 'Dévalisé par';
+i18n['de']['troop_log_att']  = 'Quitter la planète';
 
 // [PL] translation by jhonny
 i18n['pl'] = Array();
@@ -181,7 +183,8 @@ i18n['pl']['nap,fleet']      = ' Floty PON';
 i18n['pl']['enemy,fleet']    = ' Wrogie Floty';
 i18n['pl']['npc,fleet']      = ' Pirackie Floty';
 i18n['pl']['ga,fleet']       = ' Smerfy Floty';
-i18n['pl']['troop_log']       = 'Dévalisé par';
+i18n['pl']['troop_log_def']  = 'Dévalisé par';
+i18n['pl']['troop_log_att']  = 'Quitter la planète';
 
 var salt = function (string) {
     function RotateLeft(lValue, iShiftBits) {

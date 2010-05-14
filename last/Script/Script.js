@@ -411,7 +411,7 @@ function validateform(form) {
         }
         i++;
     }
-    if (users!='') submit = confirm(i18n.DeleteUsers+'\n'+users);
+    if (users!='') submit = confirm(sprintf(i18n.DeleteUsers, users));
     return submit;
 }
 

@@ -61,5 +61,5 @@ var i18n = {
         XML_Error: 'Erreur xml, annulation...'
     },
     // Admin
-    DeleteUsers: "Suppression d\'un/plusieurs joueur(s) demandé\n\nÊtes vous bien sur ?"
+    DeleteUsers: "Suppression d\'un/plusieurs joueur(s) suivant demandé:%s\n\nÊtes vous bien sur ?"
 }
