@@ -404,13 +404,14 @@ Event.observe(document, 'mousemove', move);
 function validateform(form) {
     i=0;
     submit=true;
+    users = '';
     while (eval("form.Suppr"+i)) {
         if (eval("form.Suppr"+i+".checked == true")) {
-            submit = confirm(i18n.DeleteUsers);
-            break;
+            users += '\n- '+eval("form.ModifJoueur"+i+".value");
         }
         i++;
     }
+    if (users!='') submit = confirm(i18n.DeleteUsers+'\n'+users);
     return submit;
 }
 
