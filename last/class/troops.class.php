@@ -17,11 +17,13 @@ class troops {
         $sql = sprintf('SELECT ID FROM SQL_PREFIX_troops_attack WHERE '.
                 'coords_ss=\'%s\' AND coords_3p=\'%s\' AND `when`=%d', $idsys, $iddet, $idate);
         $result = DataEngine::sql($sql);
-        
+
+        // TODO: Ajouter une procédure de MAJ, (nb array log combat)
         if (mysql_num_rows($result)>0) return 'Existe déjà ?';
         
         $planets = ownuniverse::getinstance()->get_coordswithname();
-        
+        // TODO: if return false, add warning/error ?
+
         $type='attacker';
         foreach ($planets as $v)
             if ($v['Coord'] == $coords) {

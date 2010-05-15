@@ -1160,7 +1160,13 @@ function troop_battle() {
     inf['date'] = $x('/html/body/div[2]/div/div/table[2]/tbody/tr/td/table/tbody/tr[2]/td[4]')[0].innerHTML;
     inf['coords'] = $x('/html/body/div[2]/div/div/table[2]/tbody/tr/td/table/tbody/tr[3]/td[4]')[0].innerHTML;
 
-
+    // TODO: Parser le /Array\('dmg'\),(\d+),(\d+),(\d+)\);/g
+    // et /shiplist\[(\d+)\]\['caption'\] = '(.*)';/g
+    // et éventuellement revoir le parsing ci-dessous en demande ciblé
+//    AddToMotd($x('//*[@id="element_ship_21885"]/td')[0].innerHTML.replace(/<[^<]*>/g, ''),'<hr/>');
+//    AddToMotd($x('//*[@id="element_ship_21885"]/td[3]/div')[0].innerHTML);
+// green = left & red = right
+    
     id = 2;
     arr = Array();
     try {
