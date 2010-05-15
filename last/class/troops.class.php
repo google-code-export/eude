@@ -65,7 +65,7 @@ class troops {
                 }
             
             $sql = sprintf('SELECT ID,pids FROM SQL_PREFIX_troops_attack WHERE type=\'%s\' AND '.
-                    'coords_ss=\'%s\' AND coords_3p=\'%s\' AND `when`<%d AND `when`>%d'.
+                    'coords_ss=\'%s\' AND coords_3p=\'%s\' AND `when`<%d AND `when`>=%d'.
                     ' AND players_defender LIKE \'%%"%s"%%\' AND players_attack LIKE \'%%"%s"%%\'',
                     sqlesc($mode), $idsys, $iddet, $idate, $idate-604800, sqlesc($_SESSION['_login']), sqlesc($info[2]));
             $result = DataEngine::sql($sql);
