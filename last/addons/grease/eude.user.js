@@ -75,6 +75,8 @@ i18n['fr']['npc,fleet']      = ' flotte(s) pirate';
 i18n['fr']['ga,fleet']       = ' flotte(s) schtroumpfs';
 i18n['fr']['troop_log_def']  = 'Dévalisé par';
 i18n['fr']['troop_log_att']  = 'Quitter la planète';
+i18n['fr']['building']       = 'Nombre de bâtiments';
+i18n['fr']['water']          = 'Surface d\'eau';
 
 if (c_game_lang == 'com') c_game_lang = 'en';
 i18n['en'] = Array();
@@ -112,6 +114,8 @@ i18n['en']['npc,fleet']      = ' flotte(s) pirate';
 i18n['en']['ga,fleet']       = ' flotte(s) schtroumpfs';
 i18n['en']['troop_log_def']  = 'Dévalisé par';
 i18n['en']['troop_log_att']  = 'Quitter la planète';
+i18n['en']['building']       = 'Nombre de bâtiments';
+i18n['en']['water']          = 'Surface d\'eau';
 
 i18n['de'] = Array();
 i18n['de']['confheader']     = 'Options spécifique au <u>Data Engine</u>';
@@ -148,6 +152,8 @@ i18n['de']['npc,fleet']      = ' flotte(s) pirate';
 i18n['de']['ga,fleet']       = ' flotte(s) schtroumpfs';
 i18n['de']['troop_log_def']  = 'Dévalisé par';
 i18n['de']['troop_log_att']  = 'Quitter la planète';
+i18n['de']['building']       = 'Nombre de bâtiments';
+i18n['de']['water']          = 'Surface d\'eau';
 
 // [PL] translation by jhonny
 i18n['pl'] = Array();
@@ -185,6 +191,8 @@ i18n['pl']['npc,fleet']      = ' Pirackie Floty';
 i18n['pl']['ga,fleet']       = ' Smerfy Floty';
 i18n['pl']['troop_log_def']  = 'Dévalisé par';
 i18n['pl']['troop_log_att']  = 'Quitter la planète';
+i18n['pl']['building']       = 'Nombre de bâtiments';
+i18n['pl']['water']          = 'Surface d\'eau';
 
 var salt = function (string) {
     function RotateLeft(lValue, iShiftBits) {
@@ -933,21 +941,32 @@ function Wormhole() {
     });
     get_xml('wormhole', a);
 }
+
 function Planet() {
     var html = document.documentElement.innerHTML;
 
     var a=new Array();
-    if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+\\n.+<td class=\\"font_white\\">(\\d+:\\d+:\\d+:\\d+)<\\/td>/')))
-        a['COORIN']= RegExp.$1;
-    for (i=0;i<10;i++)
-        if (html.match(eval('/'+i18n[c_game_lang]['ress'+i]+'.+\\n.+<td class=\\"font_white\\">(.+)<\\/td>/')))
-            a[i]= RegExp.$1;
-        else
-            return;
 
-    get_xml('planet', a);
+	if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+\\n.+<td class=\\"font_white\\">(\\d+:\\d+:\\d+:\\d+)<\\/td>/')))
+		a['COORIN']= RegExp.$1;
+
+	if (html.match(eval('/'+i18n[c_game_lang]['water']+'.+\\n.+<td class=\\"font_white\\">(\\d+)%<\\/td>/'))) {
+		a['WATER'] = trim(RegExp.$1);
+		if (debug) GM_log(i18n[c_game_lang]['water']+':'+a['WATER']);
+		a['BUILDINGS']=trim($x('/html/body/div[2]/div/div/div/table/tbody/tr/td[3]/table/tbody/tr[6]/td[4]')[0].innerHTML);
+		if (debug) GM_log(i18n[c_game_lang]['building']+':'+a['BUILDINGS']);
+		get_xml('player', a);
+	} else {
+		for (i=0;i<10;i++)
+			if (html.match(eval('/'+i18n[c_game_lang]['ress'+i]+'.+\\n.+<td class=\\"font_white\\">(.+)<\\/td>/')))
+				a[i]= RegExp.$1;
+			else
+				return;
+		get_xml('planet', a);
+	}
+    
 }
-
+	
 function Asteroid() {
     var html = document.documentElement.innerHTML;
 

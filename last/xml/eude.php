@@ -230,6 +230,32 @@ q;
         $ok = $carto->add_PNJ($_POST['coords'], gpc_esc($_POST['owner']), $_POST['fleetname']);
         $xml['log']= ($ok ? 'Ajout: ':'Ignoré: ').$_POST['fleetname'];
         break;
+		
+    case 'player': // --------------------------------------------------------
+
+        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')) {
+            $carto->AddErreur('Permissions manquante');
+            break;
+        }
+		$water = (($_POST['WATER'] != "") && (is_numeric($_POST['WATER']))) ?
+		DataEngine::strip_number($_POST["WATER"]) : "";
+		if (!$carto->FormatId(trim($_POST['COORIN']), $uni, $sys,'')) {
+		$xml['log'] = 'Les coordonnées '.$_POST['COORIN'].' ne sont pas correctes';
+		$carto->AddInfo('Les coordonnées '.$_POST['COORIN'].' ne sont pas correctes');
+		} else {
+		$query = "SELECT `ID` FROM `SQL_PREFIX_Coordonnee` WHERE 1=1 AND Type in (0,3,5) AND POSIN='{$uni}' AND COORDET='{$sys}'";
+		$mysql_result = DataEngine::sql($query);
+		if (mysql_num_rows($mysql_result) > 0) {
+		$ligne = mysql_fetch_assoc($mysql_result);
+		$query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `water`="'.$water.'" WHERE `ID`='.intval($ligne['ID']);
+		$ok = DataEngine::sql($query) ? ' a été mise à jour': ' n a pas été mise à jour';
+		} else {
+		$ok = ' n a  pas été mise à jour';
+		}
+		$xml['log']='La planète '.$_POST['COORIN'].$ok;
+		$carto->AddInfo('La planète '.$_POST['COORIN'].$ok);
+		}
+        break;
 
     default:
         $xml['log']='Erreur demande inconnue!';
