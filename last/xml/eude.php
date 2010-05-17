@@ -181,7 +181,7 @@ q;
                     if ($curss_info[$nom] != $empire) {
                         $qnom    = sqlesc($nom);
                         $qempire = sqlesc($empire);
-                        $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}',DATE=now() WHERE USER='{$qnom}'";
+                        $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}' WHERE USER='{$qnom}'";
                         DataEngine::sql($query);
                         $carto->AddInfo('Changement d\'empire du joueur: \''.$nom.'\'');
                         unset($curss_info[$nom]);
@@ -239,6 +239,8 @@ q;
         }
 		$water = (($_POST['WATER'] != "") && (is_numeric($_POST['WATER']))) ?
 		DataEngine::strip_number($_POST["WATER"]) : "";
+		$batiments = (($_POST['BUILDINGS'] != "") && (is_numeric($_POST['BUILDINGS']))) ?
+		DataEngine::strip_number($_POST["BUILDINGS"]) : "";
 		if (!$carto->FormatId(trim($_POST['COORIN']), $uni, $sys,'')) {
 		$xml['log'] = 'Les coordonnées '.$_POST['COORIN'].' ne sont pas correctes';
 		$carto->AddInfo('Les coordonnées '.$_POST['COORIN'].' ne sont pas correctes');
@@ -247,7 +249,7 @@ q;
 		$mysql_result = DataEngine::sql($query);
 		if (mysql_num_rows($mysql_result) > 0) {
 		$ligne = mysql_fetch_assoc($mysql_result);
-		$query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `water`="'.$water.'" WHERE `ID`='.intval($ligne['ID']);
+		$query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `batiments`="'.$batiments.'", `water`="'.$water.'" WHERE `ID`='.intval($ligne['ID']);
 		$ok = DataEngine::sql($query) ? ' a été mise à jour': ' n a pas été mise à jour';
 		} else {
 		$ok = ' n a  pas été mise à jour';

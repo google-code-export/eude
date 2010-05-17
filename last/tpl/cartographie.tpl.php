@@ -195,7 +195,7 @@ ROW;
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_user%%">{$this->lng['search_col_player']}</a>/<a href="{$this->BASE_FILE}?%%sort_empire%%">{$this->lng['search_col_empire']}</a></TD>
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_infos%%">{$this->lng['search_col_fleet']}</a><br/>
                                          <a href="{$this->BASE_FILE}?%%sort_note%%">{$this->lng['search_col_note']}</a></TD>
-                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_water%%">{$this->lng['search_col_water']}</a><br/>
+                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_water%%">{$this->lng['search_col_water']}</a> / <a href="{$this->BASE_FILE}?%%sort_batiments%%">Bâtiments</a><br/>
                                          <a href="{$this->BASE_FILE}?%%sort_troop%%">{$this->lng['search_col_troops']}</a></TD>
                 <TD class="text_right">&nbsp;</td>
             </tr>
@@ -260,7 +260,8 @@ ROW;
                     <input class="color_row%%rowA%%" type="text" name="item[%%id%%][NOTE]" value="%%notes%%" OnChange="CheckOn('item[%%id%%][edit]');"/>
                 </TD>
                 <TD class="spacing_row%%rowA%%">
-                    <input class="color_row%%rowA%% text_center size40" type="text" name="item[%%id%%][WATER]" value="%%water%%" OnChange="CheckOn('item[%%id%%][edit]');"/> %<br/>
+                    <input class="color_row%%rowA%% text_center size40" type="text" name="item[%%id%%][WATER]" value="%%water%%" OnChange="CheckOn('item[%%id%%][edit]');"/>&nbsp;&nbsp;
+					<input class="color_row%%rowA%% text_center size40" type="text" name="item[%%id%%][BATIMENTS]" value="%%batiments%%" OnChange="CheckOn('item[%%id%%][edit]');"/><br/>
                     <input class="color_row%%rowA%% text_center size110" type="text" name="item[%%id%%][TROOP]" value="%%troop%%" OnChange="CheckOn('item[%%id%%][edit]');" %%troop_date%%/></TD>
                 <TD class="text_right color_row%%rowA%%">
                     %%cmd_edit%%

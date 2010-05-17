@@ -230,7 +230,7 @@ else if ($PageCurr < 1)
 $tpl->AddToRow($tpl->GetPagination($PageCurr, $MaxPage+1), 'pagination');
 
 $invert_sort = array(''=>'ASC','DESC' => 'ASC', 'ASC' => 'DESC');
-$sort_key = array('type', 'user', 'empire', 'infos', 'note', 'date', 'water', 'troop');
+$sort_key = array('type', 'user', 'empire', 'infos', 'note', 'date', 'water', 'batiments', 'troop');
 
 if ($Recherche['Troop']>0)
     $sort='ORDER BY Troop_date DESC';
@@ -286,6 +286,7 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
     $tpl->AddToRow($ligne['INFOS'] ? $ligne['INFOS'] : '-', 'infos');
     $tpl->AddToRow($ligne['NOTE'], 'notes');
     $tpl->AddToRow($ligne['water'], 'water');
+    $tpl->AddToRow($ligne['batiments'], 'batiments');
     $tpl->AddToRow(DataEngine::format_number($ligne['troop'], true), 'troop');
     if (isset ($ligne['troop_date']))
         $tpl->AddToRow(bulle(sprintf($lng['search_troopdate'], date($lng['search_date_long_format']),$ligne['troop_date'])), 'troop_date');
