@@ -114,8 +114,8 @@ i18n['en']['npc,fleet']      = ' flotte(s) pirate';
 i18n['en']['ga,fleet']       = ' flotte(s) schtroumpfs';
 i18n['en']['troop_log_def']  = 'Dévalisé par';
 i18n['en']['troop_log_att']  = 'Quitter la planète';
-i18n['en']['building']       = 'Nombre de bâtiments';
-i18n['en']['water']          = 'Surface d\'eau';
+i18n['en']['building']       = 'Amount of buildings';
+i18n['en']['water']          = 'Water surface';
 
 i18n['de'] = Array();
 i18n['de']['confheader']     = 'Options spécifique au <u>Data Engine</u>';

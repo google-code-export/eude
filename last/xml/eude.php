@@ -181,7 +181,7 @@ q;
                     if ($curss_info[$nom] != $empire) {
                         $qnom    = sqlesc($nom);
                         $qempire = sqlesc($empire);
-                        $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}' WHERE USER='{$qnom}'";
+                        $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}',DATE=now() WHERE USER='{$qnom}'";
                         DataEngine::sql($query);
                         $carto->AddInfo('Changement d\'empire du joueur: \''.$nom.'\'');
                         unset($curss_info[$nom]);
@@ -230,7 +230,7 @@ q;
         $ok = $carto->add_PNJ($_POST['coords'], gpc_esc($_POST['owner']), $_POST['fleetname']);
         $xml['log']= ($ok ? 'Ajout: ':'Ignoré: ').$_POST['fleetname'];
         break;
-		
+
     case 'player': // --------------------------------------------------------
 
         if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')) {
@@ -245,7 +245,7 @@ q;
 		$xml['log'] = 'Les coordonnées '.$_POST['COORIN'].' ne sont pas correctes';
 		$carto->AddInfo('Les coordonnées '.$_POST['COORIN'].' ne sont pas correctes');
 		} else {
-		$query = "SELECT `ID` FROM `SQL_PREFIX_Coordonnee` WHERE 1=1 AND Type in (0,3,5) AND POSIN='{$uni}' AND COORDET='{$sys}'";
+		$query = "SELECT `ID` FROM `SQL_PREFIX_Coordonnee` WHERE Type in (0,3,5) AND POSIN='{$uni}' AND COORDET='{$sys}'";
 		$mysql_result = DataEngine::sql($query);
 		if (mysql_num_rows($mysql_result) > 0) {
 		$ligne = mysql_fetch_assoc($mysql_result);
