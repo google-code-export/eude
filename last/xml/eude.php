@@ -83,7 +83,6 @@ q;
             $carto->AddErreur('Permissions manquante');
             break;
         }
-        require_once(CLASS_PATH.'cartographie.class.php');
         require_once(CLASS_PATH.'map.class.php');
         require_once(CLASS_PATH.'ownuniverse.class.php');
         require_once(CLASS_PATH.'troops.class.php');
@@ -102,7 +101,6 @@ q;
             $carto->AddErreur('Permissions manquante');
             break;
         }
-        require_once(CLASS_PATH.'cartographie.class.php');
         require_once(CLASS_PATH.'map.class.php');
         require_once(CLASS_PATH.'ownuniverse.class.php');
         require_once(CLASS_PATH.'troops.class.php');
@@ -237,26 +235,19 @@ q;
             $carto->AddErreur('Permissions manquante');
             break;
         }
-		$water = (($_POST['WATER'] != "") && (is_numeric($_POST['WATER']))) ?
-		DataEngine::strip_number($_POST["WATER"]) : "";
-		$batiments = (($_POST['BUILDINGS'] != "") && (is_numeric($_POST['BUILDINGS']))) ?
-		DataEngine::strip_number($_POST["BUILDINGS"]) : "";
-		if (!$carto->FormatId(trim($_POST['COORIN']), $uni, $sys,'')) {
-		$xml['log'] = 'Les coordonnées '.$_POST['COORIN'].' ne sont pas correctes';
-		$carto->AddInfo('Les coordonnées '.$_POST['COORIN'].' ne sont pas correctes');
-		} else {
-		$query = "SELECT `ID` FROM `SQL_PREFIX_Coordonnee` WHERE Type in (0,3,5) AND POSIN='{$uni}' AND COORDET='{$sys}'";
-		$mysql_result = DataEngine::sql($query);
-		if (mysql_num_rows($mysql_result) > 0) {
-		$ligne = mysql_fetch_assoc($mysql_result);
-		$query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `batiments`="'.$batiments.'", `water`="'.$water.'" WHERE `ID`='.intval($ligne['ID']);
-		$ok = DataEngine::sql($query) ? ' a été mise à jour': ' n a pas été mise à jour';
-		} else {
-		$ok = ' n a  pas été mise à jour';
-		}
-		$xml['log']='La planète '.$_POST['COORIN'].$ok;
-		$carto->AddInfo('La planète '.$_POST['COORIN'].$ok);
-		}
+        $water = (($_POST['WATER'] != "") && (is_numeric($_POST['WATER']))) ?
+                DataEngine::strip_number($_POST["WATER"]) : "";
+        $batiments = (($_POST['BUILDINGS'] != "") && (is_numeric($_POST['BUILDINGS']))) ?
+                DataEngine::strip_number($_POST["BUILDINGS"]) : "";
+        if (!$carto->FormatId(trim($_POST['COORIN']), $uni, $sys,'')) {
+            $xml['log'] = 'Les coordonnées '.$_POST['COORIN'].' ne sont pas correctes';
+            $carto->AddWarn('Les coordonnées '.$_POST['COORIN'].' ne sont pas correctes');
+        } else {
+            $carto->Edit_Entry($_POST['COORIN'],
+                    array('water'=> $water,
+                        'batiments'=>$batiments),
+                    '%s "%s" mis à jour');
+        }
         break;
 
     default:

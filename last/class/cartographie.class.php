@@ -61,7 +61,7 @@ class cartographie {
         $Ressource=DataEngine::a_Ressources();
         $warn='';
 
-        if (!$this->FormatId(trim($coords), $uni, $sys, planète)) return false;
+        if (!$this->FormatId(trim($coords), $uni, $sys, 'planète')) return false;
 
         $query = "SELECT ID FROM SQL_PREFIX_Coordonnee where POSIN='$uni' AND COORDET='$sys'";
         $array = DataEngine::sql($query);
@@ -131,7 +131,7 @@ class cartographie {
         $Ressource=DataEngine::a_Ressources();
         $warn='';
 
-        if (!$this->FormatId(trim($coords), $uni, $sys, planète)) return false;
+        if (!$this->FormatId(trim($coords), $uni, $sys, 'astéroïde')) return false;
 
         $query = "SELECT ID FROM SQL_PREFIX_Coordonnee where POSIN='$uni' AND COORDET='$sys'";
         $array = DataEngine::sql($query);
@@ -220,7 +220,7 @@ class cartographie {
         $qempire  = sqlesc(trim($empire));
         $qplanete = sqlesc(trim($planete));
 
-        if (!$this->FormatId(trim($coords), $uni, $sys,'')) return false;
+        if (!$this->FormatId(trim($coords), $uni, $sys,'player')) return false;
 
         if ($nom=='') {
             $query = "DELETE FROM SQL_PREFIX_Coordonnee where Type in (0,3,5) AND POSIN='{$uni}' AND COORDET='{$sys}'";
@@ -233,9 +233,9 @@ class cartographie {
         $ligne = mysql_fetch_assoc($array);
         if($ligne['ID'] > 0) {
             if (!$updatetype) $type = $ligne['TYPE'];
-                $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET `TYPE`=%d,`POSOUT`=\'\',`COORDETOUT`=\'\',`USER`=\'%s\',`EMPIRE`=\'%s\','.
-                        '`INFOS`=\'%s\',`UTILISATEUR`=\'%s\',DATE=NOW() WHERE ID=%s',
-                        $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']), $ligne['ID'] );
+            $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET `TYPE`=%d,`POSOUT`=\'\',`COORDETOUT`=\'\',`USER`=\'%s\',`EMPIRE`=\'%s\','.
+                    '`INFOS`=\'%s\',`UTILISATEUR`=\'%s\',DATE=NOW() WHERE ID=%s',
+                    $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']), $ligne['ID'] );
 
             DataEngine::sql($query);
             if (mysql_affected_rows() > 0) {
@@ -269,7 +269,7 @@ class cartographie {
         $qnom     = sqlesc(trim($nom));
         $qfleet  = sqlesc(trim($fleet));
 
-        if (!$this->FormatId(trim($coords), $uni, $sys,'')) return false;
+        if (!$this->FormatId(trim($coords), $uni, $sys,'PNJ')) return false;
 
         $query = 'SELECT ID,TYPE FROM SQL_PREFIX_Coordonnee where POSIN=\''.$uni.'\' AND COORDET=\''.$sys.'\'';
         $array = DataEngine::sql($query);
@@ -375,6 +375,8 @@ class cartographie {
     /**
      * @param integer/string $ident entry key (by id or posin)
      * @param array $data key = sql field, value = value!
+     * @param string [Optional] Message d'infomation personalisable
+     * @param mixed [Optional] paramètre<b>s</b> a inclure dans le formatage
      * @return boolean
      */
     public function Edit_Entry($ident, $data) {
@@ -388,7 +390,7 @@ class cartographie {
 
         $where = implode(' AND ',$where);
 
-        $query = 'SELECT TYPE FROM SQL_PREFIX_Coordonnee WHERE '.$where;
+        $query = 'SELECT TYPE,POSIN,COORDET,USER FROM SQL_PREFIX_Coordonnee WHERE '.$where;
         $sql_result = DataEngine::sql($query);
         if (mysql_num_rows($sql_result)==0) return $this->AddErreur('Élément non trouvé');
 
@@ -401,14 +403,28 @@ class cartographie {
         }
         if ($data['TROOP']>0) $value[] = '`troop_date`=now()';
         if ($data['TROOP']==0) $value[] = '`troop_date`=0';
-        
+
         $value = implode(',',$value);
         $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET %s,`UTILISATEUR`=\'%s\',`DATE`=now() WHERE %s',
                 $value, $_SESSION['_login'], $where);
         $sql_result = DataEngine::sql($query);
 
-        $this->AddInfo('Mise à jour du "'.$this->lngmain['types']['string'][$item['TYPE']].'" (identifié par '.$ident.')');
-        return true;
+        $msg = 'Mise à jour du "%1$s" en %3$s';
+        if (func_num_args()>=3) {
+            $amsg = func_get_args();
+            $msg  = $amsg[2] != '' ? $amsg[2]: $msg;
+            array_shift($amsg);
+            array_shift($amsg);
+            array_shift($amsg);
+            array_unshift($amsg, $item['POSIN'].'-'.$item['COORDET']);
+            array_unshift($amsg, $item['USER']);
+            array_unshift($amsg, $this->lngmain['types']['string'][$item['TYPE']]);
+        } else {
+            $amsg = array($this->lngmain['types']['string'][$item['TYPE']],
+                $item['USER'],
+                $item['POSIN'].'-'.$item['COORDET']);
+        }
+        return $this->AddInfo(vsprintf($msg, $amsg));
     }
 
     public function Delete_Entry($ident,$type) {
