@@ -9,20 +9,24 @@
 
 class troops {
     static protected $instance;
-    
-    function AddBattle ($idate, $coords, $left, $right) {
+
+    function AddBattle ($idate, $coords, $left, $right, $nb_assault, $pertes) {
         $carto = cartographie::getinstance();
         if (!$carto->FormatId($coords, $idsys, $iddet, 'troops::AddBattle')) return $carto->Erreurs();
-        
-        $sql = sprintf('SELECT ID FROM SQL_PREFIX_troops_attack WHERE '.
+
+        $sql = sprintf('SELECT ID,nb_assault FROM SQL_PREFIX_troops_attack WHERE '.
                 'coords_ss=\'%s\' AND coords_3p=\'%s\' AND `when`=%d', $idsys, $iddet, $idate);
         $result = DataEngine::sql($sql);
 
-        // TODO: Ajouter une procédure de MAJ, (nb array log combat)
-        if (mysql_num_rows($result)>0) return 'Existe déjà ?';
-        
-        $planets = ownuniverse::getinstance()->get_coordswithname();
-        // TODO: if return false, add warning/error ?
+        $line = array();
+        if (mysql_num_rows($result)>0) {
+            $line = mysql_fetch_assoc($result);
+            if ($line['nb_assault'] < $nb_assault)
+                return 'Existe déjà ?';
+        }
+
+        if (!$planets = ownuniverse::getinstance()->get_coordswithname())
+                return 'Information personnelles insuffisantes';
 
         $type='attacker';
         foreach ($planets as $v)
@@ -33,40 +37,45 @@ class troops {
                 $left  = $tmp;
                 break;
             }
-        
-// TODO: revoir le stockage des pids (réelement utile ?)
-        $sql = sprintf('INSERT INTO SQL_PREFIX_troops_attack '.
-                '(`type`, `when`, `coords_ss`, `coords_3p`, `players_defender`, `players_attack`, `pids`)'.
-                ' VALUES (\'%s\', %d, \'%s\', \'%s\', \'%s\', \'%s\', \'%s\')',
-                $type, $idate, $idsys, $iddet, sqlesc($right), sqlesc($left), sqlesc(serialize(array())) );
-        $result = DataEngine::sql($sql);
-        
+
+        if ($line['nb_assault']) {
+            $sql = sprintf('UPDATE FROM INTO SQL_PREFIX_troops_attack SET '.
+                    '`nb_assault`=%d, `players_defender`=\'%s\', `players_attack`=\'%s\', `players_pertes`=\'%s\'',
+                    $nb_assault, sqlesc($right), sqlesc($left), sqlesc($pertes) );
+
+        } else {
+            $sql = sprintf('INSERT INTO SQL_PREFIX_troops_attack '.
+                    '(`type`, `nb_assault`,`when`, `coords_ss`, `coords_3p`, `players_defender`, `players_attack`, `players_pertes`)'.
+                    ' VALUES (\'%s\', %d, %d, \'%s\', \'%s\', \'%s\', \'%s\', \'%s\')',
+                    $type, $nb_assault, $idate, $idsys, $iddet, sqlesc($right), sqlesc($left), sqlesc($pertes) );
+            $result = DataEngine::sql($sql);
+        }
         return 'Ajout ok';
     }
-    
+
     function AddPillage_log ($mode, $idate, $msg) {
-        
+
         // check si existant
         $sql = sprintf('SELECT * FROM SQL_PREFIX_troops_pillage WHERE Player=\'%s\' AND date=%d',
                 sqlesc($_SESSION['_login']), $idate);
         $result = DataEngine::sql($sql);
         if (mysql_numrows($result)>0) return 'Log déjà ajouté';
-        
+
         // Type du log/bataille
         // Puis recherche de la bataille (coords+participation)
         if ($mode=='defender') {
             preg_match('/Notre planète (.*) n\'est plus sous l\'occupation de (.*)\./', $msg, $info);
             $ident = 'Il a volé les ressources suivantes :';
-            
+
             $planets = ownuniverse::getinstance()->get_coordswithname();
-            
+
             foreach ($planets as $v)
                 if ($v['Name'] == $info[1]) {
                     cartographie::getinstance()->FormatId($v['Coord'], $idsys, $iddet, 'troops::AddPillage_log(def,1)');
                     break;
                 }
-            
-            $sql = sprintf('SELECT ID,pids FROM SQL_PREFIX_troops_attack WHERE type=\'%s\' AND '.
+
+            $sql = sprintf('SELECT ID FROM SQL_PREFIX_troops_attack WHERE type=\'%s\' AND '.
                     'coords_ss=\'%s\' AND coords_3p=\'%s\' AND `when`<=%d AND `when`>=%d'.
                     ' AND players_defender LIKE \'%%"%s"%%\' AND players_attack LIKE \'%%"%s"%%\'',
                     sqlesc($mode), $idsys, $iddet, $idate, $idate-604800, sqlesc($_SESSION['_login']), sqlesc($info[2]));
@@ -75,11 +84,11 @@ class troops {
             if (mysql_numrows($result)>1) return 'Bataille multiple ? (omg)';
             $line = mysql_fetch_assoc($result);
             $mid = $line['ID'];
-            $pids = unserialize($line['pids']);
+//            $pids = unserialize($line['pids']);
         } else {
             preg_match('/Nos troupes ont quitté la planète (.*) de (.*), l\'occupation est terminée\./', $msg, $info);
             $ident = 'Nous avons pillé les ressources suivantes :';
-            
+
             $sql = sprintf('SELECT POSIN, COORDET FROM SQL_PREFIX_Coordonnee WHERE type in (0,3,5) AND '.
                     'USER=\'%s\' AND INFOS=\'%s\'',
                     $info[2], $info[1]);
@@ -89,8 +98,8 @@ class troops {
             $line = mysql_fetch_assoc($result);
             $idsys = $line['POSIN'];
             $iddet = $line['COORDET'];
-            
-            $sql = sprintf('SELECT ID,pids FROM SQL_PREFIX_troops_attack WHERE type=\'%s\' AND '.
+
+            $sql = sprintf('SELECT ID FROM SQL_PREFIX_troops_attack WHERE type=\'%s\' AND '.
                     'coords_ss=\'%s\' AND coords_3p=\'%s\' AND `when`<%d AND `when`>%d AND '.
                     'players_attack LIKE \'%%"%s"%%\' AND players_defender LIKE \'%%"%s"%%\'',
                     sqlesc($mode), $idsys, $iddet, $idate, $idate-604800, sqlesc($_SESSION['_login']), sqlesc($info[2]));
@@ -101,7 +110,7 @@ class troops {
             $mid = $line['ID'];
             $pids = unserialize($line['pids']);
         }
-        
+
         // Info à ajouter
         $amsg = explode("\n", trim(substr($msg, stripos($msg, $ident)+strlen($ident))));
         $ares = DataEngine::a_ressources();
@@ -126,24 +135,24 @@ class troops {
         }
         $fields = implode(',',$fields);
         $sets = implode(',',$sets);
-        
+
         $sql = 'INSERT INTO SQL_PREFIX_troops_pillage ('.$fields.') VALUES ('.$sets.')';
         $result = DataEngine::sql($sql);
-        $pid = mysql_insert_id();
-        array_push($pids, $pid);
-        $pids = sqlesc(serialize($pids));
-        DataEngine::sql('UPDATE SQL_PREFIX_troops_attack SET `pids`=\''.$pids.'\' WHERE ID='.$mid);
-        
+//        $pid = mysql_insert_id();
+//        array_push($pids, $pid);
+//        $pids = sqlesc(serialize($pids));
+//        DataEngine::sql('UPDATE SQL_PREFIX_troops_attack SET `pids`=\''.$pids.'\' WHERE ID='.$mid);
+
         return 'Pillage ajouté.';
     }
-    
+
     /**
      * @return troops
      */
     static public function getinstance() {
         if ( ! self::$instance )
             self::$instance = new self();
-        
+
         return self::$instance;
     }
 }

@@ -947,23 +947,23 @@ function Planet() {
 
     var a=new Array();
 
-	if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+\\n.+<td class=\\"font_white\\">(\\d+:\\d+:\\d+:\\d+)<\\/td>/')))
-		a['COORIN']= RegExp.$1;
+    if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+\\n.+<td class=\\"font_white\\">(\\d+:\\d+:\\d+:\\d+)<\\/td>/')))
+        a['COORIN']= RegExp.$1;
 
-	if (html.match(eval('/'+i18n[c_game_lang]['water']+'.+\\n.+<td class=\\"font_white\\">(\\d+)%<\\/td>/'))) {
-		a['WATER'] = trim(RegExp.$1);
-		if (debug) GM_log(i18n[c_game_lang]['water']+':'+a['WATER']);
-		a['BUILDINGS']=trim($x('/html/body/div[2]/div/div/div/table/tbody/tr/td[3]/table/tbody/tr[6]/td[4]')[0].innerHTML);
-		if (debug) GM_log(i18n[c_game_lang]['building']+':'+a['BUILDINGS']);
-		get_xml('player', a);
-	} else {
-		for (i=0;i<10;i++)
-			if (html.match(eval('/'+i18n[c_game_lang]['ress'+i]+'.+\\n.+<td class=\\"font_white\\">(.+)<\\/td>/')))
-				a[i]= RegExp.$1;
-			else
-				return;
-		get_xml('planet', a);
-	}
+    if (html.match(eval('/'+i18n[c_game_lang]['water']+'.+\\n.+<td class=\\"font_white\\">(\\d+)%<\\/td>/'))) {
+        a['WATER'] = trim(RegExp.$1);
+        if (debug) GM_log(i18n[c_game_lang]['water']+':'+a['WATER']);
+        a['BUILDINGS']=trim($x('/html/body/div[2]/div/div/div/table/tbody/tr/td[3]/table/tbody/tr[6]/td[4]')[0].innerHTML);
+        if (debug) GM_log(i18n[c_game_lang]['building']+':'+a['BUILDINGS']);
+        get_xml('player', a);
+    } else {
+        for (i=0;i<10;i++)
+            if (html.match(eval('/'+i18n[c_game_lang]['ress'+i]+'.+\\n.+<td class=\\"font_white\\">(.+)<\\/td>/')))
+                a[i]= RegExp.$1;
+            else
+                return;
+        get_xml('planet', a);
+    }
     
 }
 	
@@ -1179,36 +1179,69 @@ function troop_battle() {
     inf['date'] = $x('/html/body/div[2]/div/div/table[2]/tbody/tr/td/table/tbody/tr[2]/td[4]')[0].innerHTML;
     inf['coords'] = $x('/html/body/div[2]/div/div/table[2]/tbody/tr/td/table/tbody/tr[3]/td[4]')[0].innerHTML;
 
-    // TODO: Parser le /Array\('dmg'\),(\d+),(\d+),(\d+)\);/g
-    // et /shiplist\[(\d+)\]\['caption'\] = '(.*)';/g
-    // et éventuellement revoir le parsing ci-dessous en demande ciblé
-//    AddToMotd($x('//*[@id="element_ship_21885"]/td')[0].innerHTML.replace(/<[^<]*>/g, ''),'<hr/>');
-//    AddToMotd($x('//*[@id="element_ship_21885"]/td[3]/div')[0].innerHTML);
-// green = left & red = right
-    
-    id = 2;
-    arr = Array();
-    try {
-        do {
-            tmp = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td/table/tbody/tr['+id+']/td');
-            if (typeof(tmp[0]) == 'undefined') break;
-            arr[tmp[0].innerHTML.replace(/<[^<]*>/g, '')] = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td/table/tbody/tr['+id+']/td[3]/div')[0].innerHTML;
-            id+=2;
-        } while (true);
-    } catch (x) {
+
+
+    reg= /shiplist\[(\d+)]\['caption'\] = '(.*)'/g;
+    m = document.documentElement.innerHTML.match(reg);
+    var IdToPlayer=new Array();
+    for (i = 0; i < m.length; i++) {
+        m[i].search(reg);
+        IdToPlayer[RegExp.$1] = RegExp.$2;
+    }
+
+    reg = /Array\(\'dmg\',(\d+),(\d+),(\d+)\);/g;
+    m = document.documentElement.innerHTML.match(reg);
+    if (m == null) {
+        inf['nb_assault'] = 0;
+        inf['pertes'] = new Array();
+    } else {
+        inf['nb_assault'] = m.length;
+        var pertes=new Array();
+        for (i = 0; i < m.length; i++) {
+            m[i].search(reg);
+            //            if (i==0) iddefenseur=RegExp.$2;
+            if (typeof pertes[IdToPlayer[RegExp.$2]] == 'undefined')
+                pertes[IdToPlayer[RegExp.$2]] = parseInt(RegExp.$3);
+            else
+                pertes[IdToPlayer[RegExp.$2]] += parseInt(RegExp.$3);
+        }
+    }
+    inf['pertes'] = serialize(pertes);
+    //    reg= eval('/shiplist\\['+iddefenseur+"\\]\\['color'\\] = '(.*)'/");
+    //    m = document.documentElement.innerHTML.match(reg);
+    //    AddToMotd('Def color: '+RegExp.$1);
+
+    reg= /shiplist\[(\d+)\]\['color'\] = 'green'/g;
+    m = document.documentElement.innerHTML.match(reg);
+    var arr=new Array();
+    for (i = 0; i < m.length; i++) {
+        m[i].search(reg);
+        id = RegExp.$1;
+        reg2= eval("/shiplist\\["+id+"\\]\\['caption'\\] = '(.*)'/");
+        document.documentElement.innerHTML.match(reg2);
+        Player = RegExp.$1;
+        reg2= eval("/shiplist\\["+id+"\\]\\['health_max'\\] = '(.*)'/");
+        document.documentElement.innerHTML.match(reg2);
+        troops = parseInt(RegExp.$1);
+
+        arr[Player] = troops;
     }
     inf['left'] = serialize(arr);
 
-    id = 2;
-    arr = Array();
-    try {
-        do {
-            tmp = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td[3]/table/tbody/tr['+id+']/td');
-            if (typeof(tmp[0]) == 'undefined') break;
-            arr[tmp[0].innerHTML.replace(/<[^<]*>/g, '')] = $x('/html/body/div[2]/div/div/table[4]/tbody/tr/td[3]/table/tbody/tr['+id+']/td[3]/div')[0].innerHTML;
-            id+=2;
-        } while (true);
-    } catch (x) {
+    reg= /shiplist\[(\d+)\]\['color'\] = 'red'/g;
+    m = document.documentElement.innerHTML.match(reg);
+    var arr=new Array();
+    for (i = 0; i < m.length; i++) {
+        m[i].search(reg);
+        id = RegExp.$1;
+        reg2= eval("/shiplist\\["+id+"\\]\\['caption'\\] = '(.*)'/");
+        document.documentElement.innerHTML.match(reg2);
+        Player = RegExp.$1;
+        reg2= eval("/shiplist\\["+id+"\\]\\['health_max'\\] = '(.*)'/");
+        document.documentElement.innerHTML.match(reg2);
+        troops = parseInt(RegExp.$1);
+
+        arr[Player] = troops;
     }
     inf['right'] = serialize(arr);
 

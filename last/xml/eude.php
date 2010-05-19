@@ -92,7 +92,9 @@ q;
         $coords = gpc_esc($_POST['coords']);
         $left   = gpc_esc($_POST['left']);
         $right  = gpc_esc($_POST['right']);
-        $xml['log']=troops::getinstance()->AddBattle($idate, $coords, $left, $right);
+        $nb_assault  = intval($_POST['nb_assault']);
+        $pertes  = gpc_esc($_POST['pertes']);
+        $xml['log']=troops::getinstance()->AddBattle($idate, $coords, $left, $right, $nb_assault, $pertes);
         break;
 
     case 'troop_log': //--------------------------------------------------------

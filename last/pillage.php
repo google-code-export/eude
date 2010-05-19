@@ -21,11 +21,12 @@ ob_start();
     <tr class="base_row1">
         <td>ID</td>
         <td>type</td>
+        <td>nb_assault</td>
         <td>players_attack</td>
         <td>players_defender</td>
+        <td>players_pertes</td>
         <td>when</td>
         <td>coords</td>
-        <td>pids</td>
         <td>pid</td>
         <td>mid</td>
         <td>date</td>
@@ -56,11 +57,12 @@ while ($row = mysql_fetch_assoc($result)) { ?>
     <tr class="base_row1">
         <td><?php echo $row['ID'] ?></td>
         <td><?php echo $row['type'] ?></td>
+        <td><?php echo $row['nb_assault'] ?></td>
         <td><?php echo $row['players_attack'] ?></td>
         <td><?php echo $row['players_defender'] ?></td>
+        <td><?php echo $row['players_pertes'] ?></td>
         <td><?php echo date('d.m.Y H:i:s', $row['when']); ?></td>
         <td><?php echo $row['coords_ss'].'-'.$row['coords_3p'] ?></td>
-        <td><?php echo $row['pids'] ?></td>
         <td><?php echo $row['pid'] ?></td>
         <td><?php echo $row['mid'] ?></td>
         <td><?php echo date('d.m.Y H:i:s', $row['date']) ?></td>
