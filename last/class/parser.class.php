@@ -82,7 +82,7 @@ class parser {
         if ($f === false)
             $inner		= $data;
         elseif ($t === false)
-            $inner		= mb_substr($data,$f+$l, 0, 'utf8');
+            $inner		= mb_substr($data,$f+$l, -1, 'utf8');
         else
             $inner		= mb_substr($data, $f+$l, $t-$f-$l, 'utf8');
 
