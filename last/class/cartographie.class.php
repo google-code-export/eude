@@ -489,7 +489,7 @@ class cartographie {
 //        if( ($value=='b') || ($value=='bcp') || ($value=='beaucoup')) $value= 'beaucoup';
 //        if( ($value=='p') || ($value=='peu') || ($value=='pe') ) $value= 'peu';
 //        if( ($value=='n') || ($value=='nor') || ($value=='normal') ) $value= 'normal';
-        switch (strtolower($value)) {
+        switch (mb_strtolower($value, 'utf8')) {
             case $this->lng['ress10%']:
             case $this->lng['ress20%']:
             case $this->lng['ress40%']:
