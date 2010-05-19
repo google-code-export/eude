@@ -150,7 +150,7 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
                     $where.= 'AND (POSIN=\''.$value.'\' OR POSOUT=\''.$value.'\') ';
                 break;
             case 'Moi':
-                $where.= ' AND UTILISATEUR=\''.strtolower($_SESSION['_login']).'\' ';
+                $where.= ' AND UTILISATEUR=\''.mb_strtolower($_SESSION['_login'], 'utf8').'\' ';
                 break;
             case 'Status':
             case 'Type':

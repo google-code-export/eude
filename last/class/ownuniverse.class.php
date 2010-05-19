@@ -235,7 +235,7 @@ class ownuniverse {
         $tmp['water'] = null;
         foreach ($tmp as $k => $v) {
             if (!is_numeric($k)) $v = $k;
-            $result2[0]["percent_$v"] = substr($result2[0]["percent_$v"],0,-1);
+            $result2[0]["percent_$v"] = mb_substr($result2[0]["percent_$v"],0,-1, 'utf8');
         }
         return $result2;
     }

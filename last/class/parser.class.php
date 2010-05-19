@@ -1,13 +1,12 @@
 <?php
 /**
- * Description of parserclass
- *
  * @author Alex10336
  * Dernière modification: $Id$
  * @license GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  *
  * @since 1.4.1
+ * @TODO revoir les mb_xxx
  */
 class parser {
     static protected $instance;
@@ -21,24 +20,24 @@ class parser {
      */
     public function GetValueByLabel($data, $label) {
         $result='';
-        $length= strlen($label);
-        $start = stripos($data, $label);
-        $end   = stripos($data, "\n", $start+$length);
+        $length= mb_strlen($label, 'utf8');
+        $start = mb_stripos($data, $label, 0, 'utf8');
+        $end   = mb_stripos($data, "\n", $start+$length, 'utf8');
 
         if ($start !== false && $end !== false)
-            $result = trim(substr($data, $start+$length,$end-$start-$length));
+            $result = trim(mb_substr($data, $start+$length,$end-$start-$length, 'utf8'));
 
         return $result;
     }
 
     public function GetValueByLabelInverted($data, $label) {
         $result='';
-        $end   = stripos($data, $label);
-        $part1 = substr($data, 0, $end);
-        $start = strripos($part1, "\n");
+        $end   = mb_stripos($data, $label, 0, 'utf8');
+        $part1 = mb_substr($data, 0, $end, 'utf8');
+        $start = mb_strripos($part1, "\n", 0, 'utf8');
 
         if ($start !== false && $end !== false)
-            $result = trim(substr($data, $start,$end-$start));
+            $result = trim(mb_substr($data, $start,$end-$start, 'utf8'));
 
         return $result;
     }
@@ -51,7 +50,7 @@ class parser {
      */
     public function LabelExist($data, $label) {
 
-        if (stripos($data, $label) !== false)
+        if (mb_stripos($data, $label, 0, 'utf8') !== false)
             return true;
 
         return false;
@@ -76,16 +75,16 @@ class parser {
     }
 
     function GetInner($data,$from,$to='') {
-        $f = stripos($data, $from);
-        $t = stripos($data, $to);
-        $l = strlen($from);
+        $l = mb_strlen($from, 'utf8');
+        $f = mb_stripos($data, $from, 0, 'utf8');
+        $t = mb_stripos($data, $to, $l+$f, 'utf8');
 
         if ($f === false)
             $inner		= $data;
         elseif ($t === false)
-            $inner		= substr($data,$f+$l);
+            $inner		= mb_substr($data,$f+$l, 0, 'utf8');
         else
-            $inner		= substr($data, $f+$l, $t-$f-$l);
+            $inner		= mb_substr($data, $f+$l, $t-$f-$l, 'utf8');
 
         return trim($inner);
     }
@@ -121,4 +120,3 @@ class parser {
         return self::$instance;
     }
 }
-?>

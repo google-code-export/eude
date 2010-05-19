@@ -303,9 +303,9 @@ ROW;
         elseif ($value=='') {
             return '<div class="text_center">-</div>';
         } else {
-            if (strpos($value,'%') !== false) $percent = floor(substr($value,0,-1)/10);
+            if (mb_strpos($value,'%',0,'utf8') !== false) $percent = floor(mb_substr($value,0,-1,'utf8')/10);
             else
-                switch (strtolower($value)) {
+                switch (mb_strtolower($value, 'utf8')) {
                     case $this->lng['ress10%']: $percent = 1; break;
                     case $this->lng['ress20%']: $percent = 2; break;
                     case $this->lng['ress40%']: $percent = 4; break;

@@ -19,7 +19,7 @@ if (isset($do_logout) && $do_logout) {
 $lng = language::getinstance()->GetLngBlock('login');
 
 if (NO_SESSIONS) {
-    $login = sqlesc(strtolower($_POST['user']), false);
+    $login = sqlesc(mb_strtolower($_POST['user'], 'utf8'), false);
     $mdp = $_POST['pass'];
 
     $query = "SELECT LOWER(Login) as Login,Permission, m.carte_prefs from SQL_PREFIX_Users, SQL_PREFIX_Membres m WHERE LOWER(Login)=LOWER('$login') AND Password='$mdp' AND (m.Joueur=LOWER('$login'))";
@@ -58,7 +58,7 @@ o;
 // Procédure identification...
 if($_POST && !empty($_POST['login']) && !empty($_POST['mdp'])) {
 // Récup du login/pass...
-    $login = sqlesc(strtolower($_POST['login']), false);
+    $login = sqlesc(mb_strtolower($_POST['login'], 'utf8'), false);
     $mdp = md5($_POST['mdp']);
 
     $query = "SELECT LOWER(Login) as Login,Permission, m.carte_prefs from SQL_PREFIX_Users, SQL_PREFIX_Membres m WHERE LOWER(Login)=LOWER('$login') AND Password='$mdp' AND (m.Joueur=LOWER('$login'))";

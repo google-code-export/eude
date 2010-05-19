@@ -112,7 +112,7 @@ class troops {
         }
 
         // Info à ajouter
-        $amsg = explode("\n", trim(substr($msg, stripos($msg, $ident)+strlen($ident))));
+        $amsg = explode("\n", trim(mb_substr($msg, m_stripos($msg, $ident,0, 'utf8')+strlen($ident),0, 'utf8')));
         $ares = DataEngine::a_ressources();
         $fields   = array();
         $sets     = array();

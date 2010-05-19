@@ -220,7 +220,7 @@ class cartographie {
         $qempire  = sqlesc(trim($empire));
         $qplanete = sqlesc(trim($planete));
 
-        if (!$this->FormatId(trim($coords), $uni, $sys,'player')) return false;
+        if (!$this->FormatId(trim($coords), $uni, $sys,'')) return false;
 
         if ($nom=='') {
             $query = "DELETE FROM SQL_PREFIX_Coordonnee where Type in (0,3,5) AND POSIN='{$uni}' AND COORDET='{$sys}'";
@@ -485,10 +485,6 @@ class cartographie {
     }
     private function Ressources_Check_Value(&$value, $checkpercent) {
         if(is_numeric($value) && $value > 0) return true;
-//        $value=strtolower($value);
-//        if( ($value=='b') || ($value=='bcp') || ($value=='beaucoup')) $value= 'beaucoup';
-//        if( ($value=='p') || ($value=='peu') || ($value=='pe') ) $value= 'peu';
-//        if( ($value=='n') || ($value=='nor') || ($value=='normal') ) $value= 'normal';
         switch (mb_strtolower($value, 'utf8')) {
             case $this->lng['ress10%']:
             case $this->lng['ress20%']:
