@@ -1,12 +1,15 @@
 --------------------------------------------------------------------------------
                      Empire Universe 2: Data Engine
 
-Basé sur le prototype* de Ellesar81
+Basé sur le prototype de Ellesar81
 MAJ & modification par Alex10336
 --------------------------------------------------------------------------------
 
 Ce script n'est aucunement affilié à 'looki'.
-Il a été développé par le joueur Alex10336
+Il a été développé, et amélioré par les joueurs alias:
+- Alex10336
+- XCharismatic
+- Vous ?
 
 Certaines images utilisées sont la propriété de looki.fr.
 Tout le reste est sous license disponible ci-dessous
@@ -39,39 +42,30 @@ Serveur de démo: http://app216.free.fr/eu2/test/
 --------------------------------------------------------------------------------
 --- Installation: http://code.google.com/p/eude/wiki/Installation
 --------------------------------------------------------------------------------
---- Mise à jour: http://code.google.com/p/eude/wiki/maj141
+--- Mise à jour: http://code.google.com/p/eude/wiki/maj142
 --------------------------------------------------------------------------------
-1. Écrasez tout les fichiers par les nouveaux
-2. Supprimer le fichier '/tpl/index.tpl.php' (obsolète)
-3. Mettez à jour le fichier '/Script/Entete.php'
-4. Dans PhpMyAdmin? importer le fichier UPGRADE.sql.
+ # Supprimez tout les fichiers hormis '_/Script/Entete.php_' & vos addons (si compatible)
+ # Dans [phpMyAdmin] importer le fichier UPGRADE.sql.
+ # Uploader tout les fichiers par ceux de l'archive
+ # Mettez à jour le fichier '_/Script/Entete.php_'
 --------------------------------------------------------------------------------
 
-<b>Nouveauté:</b>
-+ Prise en charge d'un script GreaseMonkey (#162)
-+ Nettoyage automatique des vortex en option (#115)
-+ Droits d'accès modifiable directement par la page admin (#169)
-+ Empires Alliés/Ennemis modifiable directement par la page admin (#176)
-+ Accès en lecture seule de la page de production des autres joueurs pour les admins (#215)
-+ Tri selon les point sur la page statistique (Issue 54)
-+ Prise en charge des % d'eau et du nombre de troupe des joueurs (Issue 17)
+= Infos sur cette version =
 
-<b>Modification:</b>
-- Maj du parseur de ownuniverse (#180, merci looki...)
-- Modification du menu pour l'ajout de liens externes (issue 32)
-- Refonte complète de la page cartographie (Issue 17)
+== Nouveauté:==
+ * issue 33: Ajout du support ownuniverse/mafiche à GreaseMonkey
+ * issue 49: Calcul de parcours sans déplacement par impulsion
 
-<b>Correctifs:</b>
-#183 Bug avec la bulle de la carte
-#116 Prise en charge de Iceweasel (Firefox 100% libre)
-#192 Orthographe de la race 'Jamozoïde'
-#216 Léger problème de couleur de carte
-#217 Affichage de l'image 'addons'.
-#228 Gestion des dates revues.
-#198 Champ NOTES
-Issue 31: Rectification de l'image des alliés sur cartedetails.php
-Issue 27: Modification des requêtes pour un serveur Mysql 5.1.x
-Issue 24: Orthographe de la race 'Weganien'
+==Modification:==
+ * issue 72: log dernière modif membre passé a dernière connexion
+ * issue 72: suppresion du champ "Don"
+ * issue 70: css revue de la tête aux pieds
+ * issue 93: Date des éléments de la page cartographie remise dans le tableau
+ * issue 97: Tri par date de nouveau possible sur la page cartographie
+ * issue 98: Détailler l'alerte de suppression sur la page editmembre
+ * issue 140: Modification des planètes inoccupé en planète colonisable
 
---------------------------------------------------------------------------------
-* prototype: Puisque presque rien ne fonctionnais correctement...
+==Correctifs:==
+ * issue 96: Flotte pnj
+
+==Bugs connus:==
