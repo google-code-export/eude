@@ -10,7 +10,7 @@ require_once('../../init.php');
 require_once(INCLUDE_PATH.'Script.php');
 require_once(CLASS_PATH.'map.class.php'); // requis par ownuniverse
 
-// Check si activé
+// Check si activÃ©
 if (!addons::getinstance()->Get_Addons('triangulation')->CheckPerms()) DataEngine::NoPermsAndDie();
 if (isset($_POST['sys1']) && isset ($_POST['dist1'])&& isset($_POST['sys2']) && isset ($_POST['dist2']) && isset($_POST['sys3']) && isset ($_POST['dist3'])) {
     $_SESSION['coord_syst1'] = gpc_esc($_POST['sys1']);
@@ -38,7 +38,7 @@ $out = <<<form
 
 
 <font color='red', size='3',>
-<b>Attention!!</b> <br />Plus les distances en <i>[Pc]</i> séparant les centres de communications sont grandes plus la triangulation sera bonne <i>(min 5[Pc])</i></font>
+<b>Attention!!</b> <br />Plus les distances en <i>[Pc]</i> sÃ©parant les centres de communications sont grandes plus la triangulation sera bonne <i>(min 5[Pc])</i></font>
 <br />
 <br />
 
@@ -47,52 +47,52 @@ $out = <<<form
 
 <form name="settings" action="index.php" method="POST">
 Pour remplir les cases ci-dessous, allez dans le jeu et dans le batiment centre de communication,<br />
-Puis faites des recherches avec le nom ou la planète du joueur (dans le jeu dans deux ou trois systèmes différents). <br />
-Remplissez ensuite le champs reservés ci-dessous avec le coodonnée du système dans lequel se trouve le centre de communication.<br />
-Remplissez aussi le champs reservés ci-dessous à la distance séparant le centre de communication à la planète sans son unité <i>[Pc]<i />.
+Puis faites des recherches avec le nom ou la planÃ¨te du joueur (dans le jeu dans deux ou trois systÃ¨mes diffÃ©rents). <br />
+Remplissez ensuite le champs reservÃ©s ci-dessous avec le coodonnÃ©e du systÃ¨me dans lequel se trouve le centre de communication.<br />
+Remplissez aussi le champs reservÃ©s ci-dessous Ã  la distance sÃ©parant le centre de communication Ã  la planÃ¨te sans son unitÃ© <i>[Pc]<i />.
 <br />
 <br />
-<i> Coordonnées du système du centre --------------------------- Distance en [Pc] séparant le centre de <br />
-de communications ----------------------------------------------- communication de la planète à trianguler</i><br /><br />
+<i> CoordonnÃ©es du systÃ¨me du centre --------------------------- Distance en [Pc] sÃ©parant le centre de <br />
+de communications ----------------------------------------------- communication de la planÃ¨te Ã  trianguler</i><br /><br />
     Coord. du syst. du centre de com. 1 : <input type="text" name="sys1" value="{$_SESSION['coord_syst1']}" size="16" />
-    distance sans unité entre CC1 et la planète : <input type="text" name="dist1" value="{$_SESSION['ccdistance1']}" size="16" /><br />
+    distance sans unitÃ© entre CC1 et la planÃ¨te : <input type="text" name="dist1" value="{$_SESSION['ccdistance1']}" size="16" /><br />
     Coord. du syst. du centre de com. 2 : <input type="text" name='sys2' value="{$_SESSION['coord_syst2']}" size="16" />
-    distance sans unité entre CC2 et la planète : <input type="text" name="dist2" value="{$_SESSION['ccdistance2']}" size="16" /><br />
+    distance sans unitÃ© entre CC2 et la planÃ¨te : <input type="text" name="dist2" value="{$_SESSION['ccdistance2']}" size="16" /><br />
     Coord. du syst. du centre de com. 3 : <input type="text" name="sys3" value="{$_SESSION['coord_syst3']}" size="16" />
-    distance sans unité entre CC3 et la planète : <input type="text" name="dist3" value="{$_SESSION['ccdistance3']}" size="16" /><br />
+    distance sans unitÃ© entre CC3 et la planÃ¨te : <input type="text" name="dist3" value="{$_SESSION['ccdistance3']}" size="16" /><br />
 
-    <br /> <font>L'exactitude des champ ci-dessus ne sont pas vérifiés, et considérés systématiquement comme bon.</font'><br />
+    <br /> <font>L'exactitude des champ ci-dessus ne sont pas vÃ©rifiÃ©s, et considÃ©rÃ©s systÃ©matiquement comme bon.</font'><br />
 
     <br /><font color=green size='4'><b>Triangulateur version beta </b> </font><br /><br />
 
-    Déterminer les coordonnées de la planète du joueur en cliquant sur le bouton "<b>Trianguler</b>". <br /><br />
+    DÃ©terminer les coordonnÃ©es de la planÃ¨te du joueur en cliquant sur le bouton "<b>Trianguler</b>". <br /><br />
     <input type="submit" value="Trianguler" /><br /> <br />
 
 </form>
 form;
-$tpl->PushOutput($out); // ajoute le texte précédant à la sortie qui sera affiché.
+$tpl->PushOutput($out); // ajoute le texte prÃ©cÃ©dant Ã  la sortie qui sera affichÃ©.
 
 if ($coordvalid) {
 //Debut de la triangulation
 /*
-Dans le centre de communication la distance en Pc séparant deux système se calcul en faisant en utilisant la formule mathématique de la distance.
-Ainsi soit un système A(ax,ay) et système B(bx,by) la distance séparant des système est D = Arrondie{[(ax-bx)^2+(ay-by)^2]^(1/2),0} en posant
-une condition sur les coordonnées 00 = 100; Prenons pour exemple le système A = 2456 ==> (ax=24, ay=56) et B = 3400 ==> (bx=34, by=00)
-avec la condition sur les coordonnées 00 égale à 100, B = 3400 ==> (bx=34, by=100). La distance séparant les deux système vaut
+Dans le centre de communication la distance en Pc sÃ©parant deux systÃ¨me se calcul en faisant en utilisant la formule mathÃ©matique de la distance.
+Ainsi soit un systÃ¨me A(ax,ay) et systÃ¨me B(bx,by) la distance sÃ©parant des systÃ¨me est D = Arrondie{[(ax-bx)^2+(ay-by)^2]^(1/2),0} en posant
+une condition sur les coordonnÃ©es 00 = 100; Prenons pour exemple le systÃ¨me A = 2456 ==> (ax=24, ay=56) et B = 3400 ==> (bx=34, by=00)
+avec la condition sur les coordonnÃ©es 00 Ã©gale Ã  100, B = 3400 ==> (bx=34, by=100). La distance sÃ©parant les deux systÃ¨me vaut
 D = Arrondie{[(24-34)^2+(56-100)^2]^(1/2),0} = 45[pc].
-A parte de cette équation et la mesure des distances obtenues avec au moins 2 au plus 3 centres de communitation du jeu EU2 se trouvant dans des
-système différents nous pouvons retrouver les coordonnées de la planète dont on a déterminer la distance à l'aide des centres de communications.
+A parte de cette Ã©quation et la mesure des distances obtenues avec au moins 2 au plus 3 centres de communitation du jeu EU2 se trouvant dans des
+systÃ¨me diffÃ©rents nous pouvons retrouver les coordonnÃ©es de la planÃ¨te dont on a dÃ©terminer la distance Ã  l'aide des centres de communications.
 */
 $systeme = array();
 $flag = 3;
 $Rep = 0;
 
-//L'une des coodonnees ou distance invalide. Triangulation faite en se basant sur quatre données
+//L'une des coodonnees ou distance invalide. Triangulation faite en se basant sur quatre donnÃ©es
 if (($syst1 >= 1) && ($syst1 <= 10000) && ($dist1 >= 1) && ($dist1 <= 140) &&
                                                 ($syst1 >= 1) && ($syst1 <= 10000) && ($dist1 >= 1) && ($dist1 <= 140) &&
                                                 ($syst3 >= 1) && ($syst3 <= 10000) && ($dist3 >= 1) && ($dist3 <= 140) )
         {
-                $cmpt = 1;//Pour compter le nombre de système probable
+                $cmpt = 1;//Pour compter le nombre de systÃ¨me probable
                 $flag = 2;
                 for ($i = 1; $i <= 10000; $i++)
                 {
@@ -150,14 +150,14 @@ if (($syst1 >= 1) && ($syst1 <= 10000) && ($dist1 >= 1) && ($dist1 <= 140) &&
         }
          else
         {
-                $tpl->PushOutput('Les données rentrées ne sont pas suffisant pour faire la triangulation.');
+                $tpl->PushOutput('Les donnÃ©es rentrÃ©es ne sont pas suffisant pour faire la triangulation.');
                 $tpl->PushOutput('<br />');
                 $Rep =1;
         }
 
 if ($flag == 0 && $Rep != 1)
 {
-                $tpl->PushOutput('La planète est dans le sytème : ');
+                $tpl->PushOutput('La planÃ¨te est dans le sytÃ¨me : ');
                 for($i=1; $i < $cmpt; $i++)
                 {
                         $tpl->PushOutput($systeme[$i]);$tpl->PushOutput('<br />');
@@ -167,7 +167,7 @@ if ($flag == 0 && $Rep != 1)
 }
 else if ($flag == 1 && $Rep != 1)
 {
-                $tpl->PushOutput('La planète peut être dans le sytème : ');
+                $tpl->PushOutput('La planÃ¨te peut Ãªtre dans le sytÃ¨me : ');
                 for($i=1; $i < $cmpt; $i++)
                 {
                         $tpl->PushOutput($systeme[$i]);$tpl->PushOutput('<br />');
@@ -177,12 +177,12 @@ else if ($flag == 1 && $Rep != 1)
                 $Rep = 1;
 }
 else if ($flag == 2 && $Rep != 1){
-                $tpl->PushOutput('Pas de solution, données incorrects.');
+                $tpl->PushOutput('Pas de solution, donnÃ©es incorrects.');
                 $tpl->PushOutput('<br />');
                 $Rep = 1;
 }
 else if ($Rep != 1){
-                $tpl->PushOutput('Les données rentrées ne sont invalides.');
+                $tpl->PushOutput('Les donnÃ©es rentrÃ©es ne sont invalides.');
                 $tpl->PushOutput('<br />');
                 $Rep = 1;
         }
@@ -199,8 +199,8 @@ return $nbre*$nbre;
 }
 
 function calcdist($sys1,$sys2) {
-//Pour avoir l'abscisse des coordonnées du système 1 [syst1 = 2456 ax = 2456%100]
-//Pour avoir l'ordonée des coordonnées du système 1 [syst1 = 2456 ay = (2456-2456%100)/100]
+//Pour avoir l'abscisse des coordonnÃ©es du systÃ¨me 1 [syst1 = 2456 ax = 2456%100]
+//Pour avoir l'ordonÃ©e des coordonnÃ©es du systÃ¨me 1 [syst1 = 2456 ay = (2456-2456%100)/100]
         list($syst1y, $syst1x)=map::ss2xy($sys1);
         list($syst2y, $syst2x)=map::ss2xy($sys2);
         return round(round(round(sqrt(carre($syst1x-$syst2x)+carre($syst1y-$syst2y)),2),1));
@@ -214,7 +214,7 @@ $menu = array(
     'triangulation' => array('%ADDONS_URL%triangulation/index.php','%IMAGES_URL%Btn-triangulation.png',125,'DataEngine::CheckPerms(AXX_MEMBER)', array()));
 
 $tpl->DoOutput($menu,true); // stoppe toute execution du script et transmet les sorties html/xml/...
-// les deux 'true' étant
+// les deux 'true' Ã©tant
 // 1- Inclusion du menu (html, sans effet sur xml/img)
 // 2- Inclusion de l'entete de base (html, sans effet sur xml/img)
 
