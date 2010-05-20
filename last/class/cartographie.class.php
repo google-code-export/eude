@@ -109,6 +109,11 @@ class cartographie {
             $query2="INSERT INTO `SQL_PREFIX_Coordonnee_Planetes` (`pID`,$insert_field) VALUES($pID,$insert_Val)";
             DataEngine::sql($query2,false) or $warn="($rows) $query<br/>$query2<br/>".print_r($ress_val,true)."<br/>".mysql_error();
 
+            if ($warn!='') {
+                DataEngine::sql('DELETE FROM SQL_PREFIX_Coordonnee WHERE ID='.$pID.' LIMIT 1');
+                return $this->AddErreur($warn);
+            }
+
             return $this->AddInfo('La planète ajouté au coordonnée : '.$uni.'-'.$sys);
         }
     }
