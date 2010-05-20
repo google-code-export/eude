@@ -373,6 +373,18 @@ cleaning_msg;
         $this->PushOutput($out);
     }
 
+    public function add_coords_unique_index() {
+        $out =<<<out
+<form method="post" action="{$this->BASE_FILE}">
+	<TR class="color_header">
+		<TD colspan=3>Rechercher des doublons dans la base de donnée (cartographie)</TD>
+		<TD class="text_center"><input class="color_header" name='add_coords_unique_index' type=submit></TD>
+	</TR>
+</form>
+out;
+
+        $this->PushOutput($out);
+    }
     public function admin_footer() {
         $this->PushOutput('</table>');
     }

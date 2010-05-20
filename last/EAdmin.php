@@ -86,6 +86,59 @@ if(isset($_POST['inactif']) && $_POST['inactif'] != '-1') {
 }
 // -- Partie Nettoyage ---------------------------------------------------------
 // -----------------------------------------------------------------------------
+// -- Partie maintenance -------------------------------------------------------
+
+if(isset($_POST['add_coords_unique_index']) && $_POST['add_coords_unique_index'] != '') {
+
+    $sql = <<<sql
+SELECT COUNT(*) as nb, `POSIN` ,  `COORDET`
+FROM  `SQL_PREFIX_Coordonnee` 
+GROUP BY CONCAT_WS('-', `POSIN`, `COORDET`)
+ORDER BY nb DESC
+sql;
+
+    $result = DataEngine::sql($sql);
+    $delid = Array();
+    while ($line=mysql_fetch_assoc($result)) {
+        if ($line['nb']<2) break;
+        $i = 0;
+        $sql = <<<sql
+SELECT ID, `POSIN`, `COORDET`, `DATE`
+FROM  `SQL_PREFIX_Coordonnee`
+WHERE `POSIN`='{$line['POSIN']}' AND `COORDET`='{$line['COORDET']}'
+ORDER BY CONCAT_WS('-', `POSIN`, `COORDET`), DATE DESC
+sql;
+        $result2 = DataEngine::sql($sql);
+        while ($line2=mysql_fetch_assoc($result2)) {
+            $i++;
+            if ($i==1) continue;
+            $delid[] = $line2['ID'];
+        }
+
+    }
+
+    $delid = implode(',', $delid);
+    if ($delid != '') {
+        $sql = 'DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID` IN ('.$delid.')';
+        $result = DataEngine::sql($sql);
+        $cleaning['num deleted'] = mysql_affected_rows();
+        $sql = 'DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` IN ('.$delid.')';
+        $result = DataEngine::sql($sql);
+    }
+
+    // Ajout de l'index 'unique' s'il n'y est pas déjà...
+    $result = DataEngine::sql('SHOW INDEXES FROM SQL_PREFIX_Coordonnee WHERE key_name=\'coords\'');
+    $cleaning['index_add']= mysql_num_rows($result)<1;
+    if ($cleaning['index_add'])
+        $result = DataEngine::sql('ALTER TABLE `SQL_PREFIX_Coordonnee` ADD UNIQUE `coords` (`POSIN`, `COORDET`)');
+
+    if ($cleaning['num deleted']>0)
+        output::Messager(sprintf('%d doublon trouvé', $cleaning['num deleted']));
+    if ($cleaning['num index_add'])
+        output::Messager('Index ajouté (accélère les requêtes)');
+}
+// -- Partie maintenance -------------------------------------------------------
+// -----------------------------------------------------------------------------
 // -- Gestion des empires ------------------------------------------------------
 
 $emp_upd = false;
@@ -257,6 +310,8 @@ if (!isset($_REQUEST['act'])) {
             array($lng['dates'][0] => '-1', $lng['dates'][20] => '1'));
     if (is_array($cleaning)) $tpl->cleaning_msg($cleaning);
     $tpl->cleaning_footer();
+
+    $tpl->add_coords_unique_index();
 
     $tpl->admin_footer();
 }
