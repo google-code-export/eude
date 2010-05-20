@@ -37,10 +37,11 @@ var revision=RegExp.$1;
 var version=mversion+'r'+revision;
 const debug=true;
 
-var c_game_lang = (unsafeWindow.top.sei_language != 'undefined') ? unsafeWindow.top.sei_language: c_lang;
+var c_game_lang = (typeof unsafeWindow.top.window.fv['lang'] != 'undefined') ? unsafeWindow.top.window.fv['lang']: c_lang;
 
 var i18n = Array();
 i18n['fr'] = Array();
+i18n['fr']['eudeready']      = '<u>Data Engine</u> Français, actif';
 i18n['fr']['confheader']     = 'Options spécifique au <u>Data Engine</u>';
 i18n['fr']['conflink']       = 'Adresse';
 i18n['fr']['confuser']       = 'Nom d\'utilisateur';
@@ -80,6 +81,7 @@ i18n['fr']['water']          = 'Surface d\'eau';
 
 if (c_game_lang == 'com') c_game_lang = 'en';
 i18n['en'] = Array();
+i18n['en']['eudeready']      = 'English <u>Data Engine</u> online';
 i18n['en']['confheader']     = '<u>Data Engine</u> specifics options';
 i18n['en']['conflink']       = 'Address';
 i18n['en']['confuser']       = 'User name';
@@ -118,6 +120,7 @@ i18n['en']['building']       = 'Amount of buildings';
 i18n['en']['water']          = 'Water surface';
 
 i18n['de'] = Array();
+i18n['de']['eudeready']      = '<u>Data Engine</u> "de", actif';
 i18n['de']['confheader']     = 'Options spécifique au <u>Data Engine</u>';
 i18n['de']['conflink']       = 'Adresse';
 i18n['de']['confuser']       = 'Nickname';
@@ -157,6 +160,7 @@ i18n['de']['water']          = 'Surface d\'eau';
 
 // [PL] translation by jhonny
 i18n['pl'] = Array();
+i18n['pl']['eudeready']      = '<u>Data Engine</u> "pl", actif';
 i18n['pl']['confheader']     = 'Opcje ustawienia do <u>Data Engine</u>';
 i18n['pl']['conflink']       = 'Strona';
 i18n['pl']['confuser']       = 'Użytkownik';
@@ -787,10 +791,9 @@ function get_xml(key, data) {
 function AddGameLog(text) {
     var log = null;
     try {
-        log = top.document.getElementById('layer_site_content');
+        log = unsafeWindow.top.document.getElementById('layer_site_content');
     } catch(e) {
-        // funny undocumented chromium...
-        log = frameElement.parentElement.parentElement.parentElement.parentNode.getElementById('layer_site_content');
+        GM_log('AddGameLog Err:'+text);
     }
     if (log != null) log.innerHTML = text+'<br/>'+log.innerHTML;
 }
@@ -798,10 +801,9 @@ function AddGameLog(text) {
 function AddToMotd(text,sep) {
     var chat_motd = null;
     try {
-        chat_motd = top.document.getElementById('chat_motd');
+        chat_motd = unsafeWindow.top.document.getElementById('chat_motd');
     } catch(e) {
-        // funny undocumented chromium...
-        chat_motd = frameElement.parentElement.parentElement.parentElement.parentNode.getElementById('chat_motd');
+        GM_log('AddToMotd Err:'+text);
     }
     if (!sep) sep = '<br/>';
     var tmp = text+sep+chat_motd.innerHTML;
@@ -1002,8 +1004,19 @@ function Fleet() {
 //    alert('Fleet called:\nCoords: '+a['coords']+'\nProprio: '+a['owner']+'\nNom: '+a['fleetname']);
 
 }
+
+// TODO: Revoir cette partie après (?) la mise à jour looki...
 function MaFiche() {
     var a = Array();
+    
+    if (typeof $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[2]/td[4]')[0] != 'undefined')
+        player = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[2]/td[4]')[0].innerHTML;
+    else
+        player = $x('/html/body/div[2]/div/div/div[2]/table/tbody/tr[2]/td[4]')[0].innerHTML;
+
+//    AddToMotd('user: ' +player+' != '+ GM_getValue(c_prefix+'user',''));
+    if (player.toLowerCase() != GM_getValue(c_prefix+'user','').toLowerCase()) return;
+
     a['Commerce'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[2]/td[3]')[0].innerHTML;
     a['Recherche'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[4]/td[3]')[0].innerHTML;
     a['Combat'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[6]/td[3]')[0].innerHTML;
@@ -1348,7 +1361,8 @@ if (GM_getValue(c_prefix+'actived','0')!='0') {
             GM_getValue(c_prefix+'planet_info',false) )                Planet();
     }
     if (c_page.indexOf('fleet/fleet_info.php?')>0)                      Fleet();
-    if (c_page.indexOf('fleet/commander_info.php?action=attribute')>0) MaFiche();
+    if (c_page.indexOf('fleet/commander_info.php?commander_id=')>0)   MaFiche();
+    if (c_page.indexOf('fleet/commander_info.php?action=attribute')>0)MaFiche();
 
     if (c_page.indexOf('building/control/control_overview.php?area=planet')>0)
         ownuniverse();
