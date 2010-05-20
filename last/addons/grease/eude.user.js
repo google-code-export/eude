@@ -829,8 +829,7 @@ function GetNode (xml, tag){
 // -----------------------------------------------------------------------------
 
 function Index() {
-    //    AddToMotd('Data Engine: <b>'+c_server+'</b>.<b>'+ c_lang+'</b> activé.');
-    AddGameLog('Data Engine: <b>'+c_server+'</b>.<b>'+ c_lang+'</b>.');
+    AddGameLog('<span class="gamelog_event">'+i18n[c_game_lang]['eudeready']+'</span>');
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.text = '\x6f\x6c\x64\x53\x65\x74\x54\x69\x6d\x65\x6f\x75\x74'+
@@ -853,19 +852,31 @@ function Index() {
     aserver.target='_blank';
     aserver.innerHTML = 'Data Engine';
 
-    var alog = document.createElement('a');
-    alog.href='javascript:;';
-    alog.innerHTML = 'Log';
-    var js_OnClick = document.createAttribute('OnClick');
-    js_OnClick.value = "top.window.document.getElementById('chat_motd').style.display='';top.window.document.getElementById('chat').style.display='none';";
-    alog.setAttributeNode(js_OnClick);
-    
     x = $x('//*[@id="linkline"]');
     block = x[x.length-1];
     block.innerHTML = block.innerHTML + ' | ';
     block.appendChild(aserver);
-    block.innerHTML = block.innerHTML + ', ';
-    block.appendChild(alog);
+    
+    if (debug) {
+        unsafeWindow.top.window.document.getElementById('chat_motd').removeAttribute('OnClick');
+        var adebug = document.createElement('a');
+        adebug.href='javascript:;';
+        adebug.innerHTML = 'Reset';
+        js_OnClick = document.createAttribute('OnClick');
+        js_OnClick.value = "top.window.document.getElementById('chat_motd').innerHTML='';";
+        adebug.setAttributeNode(js_OnClick);
+        block.innerHTML = block.innerHTML + ', ';
+        block.appendChild(adebug);
+    } else {
+        var alog = document.createElement('a');
+        alog.href='javascript:;';
+        alog.innerHTML = 'Log';
+        var js_OnClick = document.createAttribute('OnClick');
+        js_OnClick.value = "top.window.document.getElementById('chat_motd').style.display='';top.window.document.getElementById('chat').style.display='none';";
+        alog.setAttributeNode(js_OnClick);
+        block.innerHTML = block.innerHTML + ', ';
+        block.appendChild(alog);        
+    }
 }
 
 function Galaxy() {
@@ -944,6 +955,7 @@ function Wormhole() {
     get_xml('wormhole', a);
 }
 
+// TODO: A revoir sur la prochaine maj....
 function Planet() {
     var html = document.documentElement.innerHTML;
 
@@ -1014,7 +1026,7 @@ function MaFiche() {
     else
         player = $x('/html/body/div[2]/div/div/div[2]/table/tbody/tr[2]/td[4]')[0].innerHTML;
 
-//    AddToMotd('user: ' +player+' != '+ GM_getValue(c_prefix+'user',''));
+    //    AddToMotd('user: ' +player+' != '+ GM_getValue(c_prefix+'user',''));
     if (player.toLowerCase() != GM_getValue(c_prefix+'user','').toLowerCase()) return;
 
     a['Commerce'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[2]/td[3]')[0].innerHTML;
@@ -1344,7 +1356,7 @@ function Options() {
 }
 
 /// Dispacheur
-if (debug) AddGameLog('Page: '+c_page);
+if (debug) AddToMotd('Page: '+c_page);
 
 if (GM_getValue(c_prefix+'actived','0')!='0') {
     if (c_page.indexOf('index.php')>0)                                  Index();
