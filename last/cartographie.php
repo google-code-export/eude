@@ -270,6 +270,7 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
             $tpl->SetRowModelTypeA();
             foreach ($a_Ress as $k => $v)
                 $tpl->AddToRow($tpl->GetRessources($ligne[$v['Field']], $v), $v['Field']);
+            $ligne['water'] = $ligne['water'] != '' ? $ligne['water'].' %':'';
             break;
         default:
             $tpl->SetRowModelTypeB();

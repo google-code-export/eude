@@ -215,7 +215,7 @@ ROW;
                 <TD class="spacing_row%%rowA%%">-<br/>-</TD>
                 <TD class="spacing_row%%rowA%%">-<br/>
                             <input class="color_row%%rowA%%" type="text" name="item[%%id%%][NOTE]" value="%%notes%%" OnChange="CheckOn('item[%%id%%][edit]');"/></TD>
-                <TD class="spacing_row%%rowA%%">%%water%% %<br/>-</TD>
+                <TD class="spacing_row%%rowA%%">%%water%%<br/>-</TD>
                 <TD class="text_right color_row%%rowA%%" rowspan="3">
                     <input type="hidden" name="item[%%id%%][type]" value="%%typeid%%" />
                     %%cmd_edit%%
