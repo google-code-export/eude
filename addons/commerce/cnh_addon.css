@@ -1,0 +1,16 @@
+@charset "utf-8";
+td {
+	color: #FFFFFF;
+}
+th {
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #990099;
+}
+p {
+	color: #FFFFFF;
+}
+aaddon {
+	color: #FFFF99;
+	text-decoration: none;
+}
