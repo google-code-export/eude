@@ -133,9 +133,29 @@ sql;
         $result = DataEngine::sql('ALTER TABLE `SQL_PREFIX_Coordonnee` ADD UNIQUE `coords` (`POSIN`, `COORDET`)');
 
     if ($cleaning['num deleted']>0)
-        output::Messager(sprintf('%d doublon trouvé', $cleaning['num deleted']));
+        output::Messager(sprintf('%d doublon(s) trouvé', $cleaning['num deleted']));
     if ($cleaning['num index_add'])
         output::Messager('Index ajouté (accélère les requêtes)');
+}
+
+if(isset($_POST['clean_orphan_planets']) && $_POST['clean_orphan_planets'] != '') {
+
+    $sql = <<<sql
+SELECT p.pID FROM  `SQL_PREFIX_Coordonnee_Planetes` p
+LEFT JOIN  `SQL_PREFIX_Coordonnee` c ON ( p.pID = c.id )
+WHERE c.id IS NULL OR c.Type NOT in (0,2,3,5)
+sql;
+
+    $delid = array();
+    $result = DataEngine::sql($sql);
+    while ($line=mysql_fetch_assoc($result)) $delid[] = $line['pID'];
+    $delid = implode(',', $delid);
+    $sql = 'DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` IN ('.$delid.')';
+    $result = DataEngine::sql($sql);
+    $cleaning['num deleted'] = mysql_affected_rows();
+    if ($cleaning['num deleted']>0)
+        output::Messager(sprintf('%d orphelin(s) trouvé', $cleaning['num deleted']));
+
 }
 // -- Partie maintenance -------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -312,6 +332,7 @@ if (!isset($_REQUEST['act'])) {
     $tpl->cleaning_footer();
 
     $tpl->add_coords_unique_index();
+    $tpl->clean_orphan_planets();
 
     $tpl->admin_footer();
 }

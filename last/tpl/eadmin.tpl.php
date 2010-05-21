@@ -376,15 +376,31 @@ cleaning_msg;
     public function add_coords_unique_index() {
         $out =<<<out
 <form method="post" action="{$this->BASE_FILE}">
+    <input type="hidden" name="add_coords_unique_index" value="true"/>
 	<TR class="color_header">
 		<TD colspan=3>Rechercher des doublons dans la base de donnée (cartographie)</TD>
-		<TD class="text_center"><input class="color_header" name='add_coords_unique_index' type=submit></TD>
+		<TD class="text_center"><input class="color_header" type=submit></TD>
 	</TR>
 </form>
 out;
 
         $this->PushOutput($out);
     }
+
+    public function clean_orphan_planets() {
+        $out =<<<out
+<form method="post" action="{$this->BASE_FILE}">
+    <input type="hidden" name="clean_orphan_planets" value="true"/>
+	<TR class="color_header">
+		<TD colspan=3>Rechercher des éléments orphelin dans la base de donnée (cartographie)</TD>
+		<TD class="text_center"><input class="color_header" type=submit></TD>
+	</TR>
+</form>
+out;
+
+        $this->PushOutput($out);
+    }
+
     public function admin_footer() {
         $this->PushOutput('</table>');
     }
