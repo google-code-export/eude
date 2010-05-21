@@ -22,7 +22,7 @@ class parcours {
 
         // @since 1.4.1
         if ($this->map->method == 10) {
-            $max_dist = Config::Parcours_Nearest()+1;
+            $max_dist = DataEngine::config_key('config', 'Parcours_Nearest')+1;
             $limit = array_merge(
                     $this->GetListeCoorByRay($IN , $max_dist),
                     $this->GetListeCoorByRay($OUT, $max_dist)
@@ -59,10 +59,10 @@ class parcours {
         $this->allfoundparcours = array();
         $this->distance = $this->mindist = $this->Calcul_Distance($IN,$OUT);
         if (IN_DEV) $this->howmany  = 0;
-        if (Config::Parcours_Max_Time()==0)
+        if (DataEngine::config_key('config', 'Parcours_Max_Time')==0)
             $this->maxtry   = (ini_get('max_execution_time')-1);
         else
-            $this->maxtry   = Config::Parcours_Max_Time();
+            $this->maxtry   = DataEngine::config_key('config', 'Parcours_Max_Time');
 
         $this->nbvortex = min($this->map->method-1,2);
         //        $this->nbvortex = Config::Parcours_Max_Vortex()-1;
@@ -246,7 +246,7 @@ class map /*extends parcours*/ {
         }
 
         // mise en variable, plus rapide que 36 call function
-        $this->empire = trim(Config::GetMyEmpire());
+        $this->empire = trim(DataEngine::config_key('config', 'MyEmpire'));
         $this->cxx_empires = DataEngine::CheckPerms('CARTE_SHOWEMPIRE');
         $this->lng = language::getinstance()->GetLngBlock('carte');
 

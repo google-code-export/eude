@@ -58,7 +58,7 @@ Il peut être remit à "zéro" à tout moment (avec la base de vortex, et autres
 	</tr>
 LOGIN;
         }
-        if (!$register && Config::CanRegister())
+        if (!$register && DataEngine::config_key('config', 'CanRegister'))
             $out .= <<<LOGIN
 	<tr class="color_row0 text_center">
 		<td colspan=3><a href='register.php'>{$this->lng['newaccount']}</a></td>

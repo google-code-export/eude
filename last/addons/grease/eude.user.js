@@ -807,7 +807,7 @@ function AddToMotd(text,sep) {
     }
     if (!sep) sep = '<br/>';
     var tmp = text+sep+chat_motd.innerHTML;
-    chat_motd.innerHTML = tmp.substr(0,4000)+'...';
+    chat_motd.innerHTML = tmp.substr(0,4000);
 }
 
 function GetNode (xml, tag){
@@ -961,6 +961,8 @@ function Planet() {
 
     var a=new Array();
 
+// /html/body/div[2]/div/div/div/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]
+//             /html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]
     if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+\\n.+<td class=\\"font_white\\">(\\d+:\\d+:\\d+:\\d+)<\\/td>/')))
         a['COORIN']= RegExp.$1;
 
@@ -971,6 +973,10 @@ function Planet() {
         if (debug) GM_log(i18n[c_game_lang]['building']+':'+a['BUILDINGS']);
         get_xml('player', a);
     } else {
+        
+        //titane 
+        //    /html/body/div[2]/div/div/div/table/tbody/tr/td[3]/table/tbody/tr[4]/td[4]
+        //us:             /html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr[4]/td[4]
         for (i=0;i<10;i++)
             if (html.match(eval('/'+i18n[c_game_lang]['ress'+i]+'.+\\n.+<td class=\\"font_white\\">(.+)<\\/td>/')))
                 a[i]= RegExp.$1;
@@ -1021,39 +1027,48 @@ function Fleet() {
 function MaFiche() {
     var a = Array();
     
-    if (typeof $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[2]/td[4]')[0] != 'undefined')
-        player = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[2]/td[4]')[0].innerHTML;
-    else
-        player = $x('/html/body/div[2]/div/div/div[2]/table/tbody/tr[2]/td[4]')[0].innerHTML;
+    if (typeof $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[2]/td[4]')[0] != 'undefined') {
+        prefixpts = '/html/body/div[2]/div[6]/div/table/tbody/tr/td/center';
+        prefixright = '/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]';
+        id_td = 2;
+    } else {
+        prefixpts = '/html/body/div[2]/div/div/div/center';
+        prefixright = '/html/body/div[2]/div/div/div[2]';
+        id_td = 4;
+    }
+    
+    player = $x(prefixright+'/table/tbody/tr[2]/td[4]')[0].innerHTML;
 
-    //    AddToMotd('user: ' +player+' != '+ GM_getValue(c_prefix+'user',''));
     if (player.toLowerCase() != GM_getValue(c_prefix+'user','').toLowerCase()) return;
 
-    a['Commerce'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[2]/td[3]')[0].innerHTML;
-    a['Recherche'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[4]/td[3]')[0].innerHTML;
-    a['Combat'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[6]/td[3]')[0].innerHTML;
-    a['Construction'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[8]/td[3]')[0].innerHTML;
-    a['Economie'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[10]/td[3]')[0].innerHTML;
-    a['Navigation'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table[2]/tbody/tr[12]/td[3]')[0].innerHTML;
-    a['POINTS'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[4]/td[2]/b')[0].innerHTML;
-    a['pts_architecte'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[6]/td[2]')[0].innerHTML;
-    a['pts_mineur'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[7]/td[2]')[0].innerHTML;
-    a['pts_science'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[8]/td[2]')[0].innerHTML;
-    a['pts_commercant'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[9]/td[2]')[0].innerHTML;
-    a['pts_amiral'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[10]/td[2]')[0].innerHTML;
-    a['pts_guerrier'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center/table/tbody/tr[11]/td[2]')[0].innerHTML;
-
-    a['GameGrade'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td/center')[0].innerHTML;
+    a['Titre'] = $x(prefixright+'/table/tbody/tr[3]/td[4]')[0].innerHTML;
+    a['Race'] = $x(prefixright+'/table/tbody/tr[4]/td[4]')[0].innerHTML;
+    
+    a['Commerce'] = $x(prefixright+'/table[2]/tbody/tr[2]/td[3]')[0].innerHTML;
+    a['Recherche'] = $x(prefixright+'/table[2]/tbody/tr[4]/td[3]')[0].innerHTML;
+    a['Combat'] = $x(prefixright+'/table[2]/tbody/tr[6]/td[3]')[0].innerHTML;
+    a['Construction'] = $x(prefixright+'/table[2]/tbody/tr[8]/td[3]')[0].innerHTML;
+    a['Economie'] = $x(prefixright+'/table[2]/tbody/tr[10]/td[3]')[0].innerHTML;
+    a['Navigation'] = $x(prefixright+'/table[2]/tbody/tr[12]/td[3]')[0].innerHTML;
+    
+    a['GameGrade'] = $x(prefixpts)[0].innerHTML;
     i = a['GameGrade'].indexOf('>')+1;
     j = a['GameGrade'].indexOf('<', i);
     a['GameGrade'] = a['GameGrade'].substr(i, j-i);
-    a['Titre'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[3]/td[4]')[0].innerHTML;
-    a['Race'] = $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[4]/td[4]')[0].innerHTML;
+
+    a['POINTS'] = $x(prefixpts+'/table/tbody/tr[4]/td['+id_td+']/b')[0].innerHTML;
+    a['pts_architecte'] = $x(prefixpts+'/table/tbody/tr[6]/td['+id_td+']')[0].innerHTML;
+    a['pts_mineur'] = $x(prefixpts+'/table/tbody/tr[7]/td['+id_td+']')[0].innerHTML;
+    a['pts_science'] = $x(prefixpts+'/table/tbody/tr[8]/td['+id_td+']')[0].innerHTML;
+    a['pts_commercant'] = $x(prefixpts+'/table/tbody/tr[9]/td['+id_td+']')[0].innerHTML;
+    a['pts_amiral'] = $x(prefixpts+'/table/tbody/tr[10]/td['+id_td+']')[0].innerHTML;
+    a['pts_guerrier'] = $x(prefixpts+'/table/tbody/tr[11]/td['+id_td+']')[0].innerHTML;
+
 
     //    tmp = a['Commerce']+'-'+a['Recherche']+'-'+a['Combat']+'-'+a['Construction']+'-'+a['Economie']+'-'+a['Navigation'];
     //    tmp = a['POINTS']+'-'+a['pts_architecte']+'-'+a['pts_mineur']+'-'+a['pts_science']+'-'+a['pts_commercant']+'-'+a['pts_amiral']+'-'+a['pts_guerrier'];
     //    tmp = i+'--'+a['GameGrade']+'-'+a['Race']+'-'+a['Titre'];
-    //    AddToMotd(tmp);
+//        AddToMotd(serialize(a));
     get_xml('mafiche', a);
 }
 
@@ -1255,7 +1270,7 @@ function troop_battle() {
 
     reg= /shiplist\[(\d+)\]\['color'\] = 'red'/g;
     m = document.documentElement.innerHTML.match(reg);
-    var arr=new Array();
+    arr=new Array();
     for (i = 0; i < m.length; i++) {
         m[i].search(reg);
         id = RegExp.$1;

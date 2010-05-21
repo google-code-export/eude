@@ -47,7 +47,7 @@ class tpl_menu {
                                 array('%ROOT_URL%EAdmin.php','%IMAGES_URL%Btn-Admin.png','DataEngine::CheckPerms("MEMBRES_ADMIN")'),
                         ),
                 ),
-                'forum' => array(Config::GetForumLink(),'%IMAGES_URL%Btn-Forum.png',125,'Config::GetForumLink() != ""', null),
+                'forum' => array(DataEngine::config_key('config', 'ForumLink'),'%IMAGES_URL%Btn-Forum.png',125,'DataEngine::config_key(\'config\', \'ForumLink\') != ""', null),
                 'logout' => array('%ROOT_URL%logout.php','%IMAGES_URL%btn-logout.png',180,'DataEngine::CheckPerms(AXX_GUEST)', null),
         );
     }

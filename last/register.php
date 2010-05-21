@@ -10,7 +10,7 @@ define('CHECK_LOGIN',false);
 require_once('./init.php');
 require_once(INCLUDE_PATH.'Script.php');
 
-if (!Config::CanRegister()) DataEngine::NoPermsAndDie();
+if (!DataEngine::config_key('config', 'CanRegister')) DataEngine::NoPermsAndDie();
 
 $lng = language::getinstance()->GetLngBlock('login');
 
@@ -30,7 +30,7 @@ if (isset($_POST['login']) && $_POST['login'] !='' && $_POST['mdp'] != '') {
             $axx = AXX_MEMBER;
         else
             $axx = AXX_GUEST;
-        DataEngine::NewUser($login, $pass, $axx, 0, Config::GetDefaultGrade());
+        DataEngine::NewUser($login, $pass, $axx, 0, DataEngine::config_key('config', 'DefaultGrade'));
         $_SESSION['_login'] = $login;
         $_SESSION['_pass']  = $pass;
         $_SESSION['_Perm']  = $axx;

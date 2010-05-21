@@ -37,12 +37,13 @@ o;
     }
 
     public function admin_header($version) {
-        $cols=4;
+        $cols=5;
         $colsminus=$cols-1;
         $links_1 = ($_REQUEST['act'] == ''         ? 'titre': 'header link');
         $links_2 = ($_REQUEST['act'] == 'perms'    ? 'titre': 'header link');
         $links_3 = ($_REQUEST['act'] == 'mapcolor' ? 'titre': 'header link');
-        $links_4 = ($_REQUEST['act'] == 'logs'     ? 'titre': 'header link');
+        $links_4 = ($_REQUEST['act'] == 'config'   ? 'titre': 'header link');
+        $links_5 = ($_REQUEST['act'] == 'logs'     ? 'titre': 'header link');
         $out =<<<col2_h
 <table class="table_center table_nospacing" width=750px>
 	<TR class="base_row1 text_center">
@@ -58,7 +59,8 @@ o;
 		<TD OnClick="location.href='{$this->BASE_FILE}';" class="color_{$links_1}">{$this->lng['page_links1']}</td>
 		<TD OnClick="location.href='{$this->BASE_FILE}?act=perms';" class="color_{$links_2}">{$this->lng['page_links2']}</td>
 		<TD OnClick="location.href='{$this->BASE_FILE}?act=mapcolor';" class="color_{$links_3}">{$this->lng['page_links3']}</td>
-		<TD OnClick="location.href='{$this->BASE_FILE}?act=logs';" class="color_{$links_4}">{$this->lng['page_links4']}</td>
+		<TD OnClick="location.href='{$this->BASE_FILE}?act=config';" class="color_{$links_4}">{$this->lng['page_links4']}</td>
+		<TD OnClick="location.href='{$this->BASE_FILE}?act=logs';" class="color_{$links_5} spacing_row">{$this->lng['page_links5']}</td>
 	</TR>      
 <tr class="color_row1">
 <td colspan="{$cols}" height="1px"></td>
@@ -379,9 +381,12 @@ cleaning_msg;
     <input type="hidden" name="add_coords_unique_index" value="true"/>
 	<TR class="color_header">
 		<TD colspan=3>Rechercher des doublons dans la base de donnée (cartographie)</TD>
-		<TD class="text_center"><input class="color_header" type=submit></TD>
+		<TD class="text_center"><input class="color_header" value="Rechercher" type=submit></TD>
 	</TR>
 </form>
+<tr class="color_row1">
+<td colspan=4 height="1px"></td>
+</tr>
 out;
 
         $this->PushOutput($out);
@@ -393,9 +398,12 @@ out;
     <input type="hidden" name="clean_orphan_planets" value="true"/>
 	<TR class="color_header">
 		<TD colspan=3>Rechercher des éléments orphelin dans la base de donnée (cartographie)</TD>
-		<TD class="text_center"><input class="color_header" type=submit></TD>
+		<TD class="text_center"><input class="color_header" value="Rechercher" type=submit></TD>
 	</TR>
 </form>
+<tr class="color_row1">
+<td colspan=4 height="1px"></td>
+</tr>
 out;
 
         $this->PushOutput($out);
@@ -489,6 +497,87 @@ o;
 </table>
     </form>
 mcf;
+        $this->PushOutput($out);
+    }
+
+    public function config_header() {
+        $out =<<<out
+<form method="post" action="{$this->BASE_FILE}?act=config">
+<table class="table_center table_nospacing base_row1" width="650px">           
+<tr>
+    <td class="color_titre text_center" colspan=2>Configuration de eude:</td>
+</tr>
+out;
+        $this->PushOutput($out);
+    }
+    
+    public function config_xxx($Grades) {
+        $config = DataEngine::config('config');
+        $bollstr = array (1=>1, 0=>0);
+        $bollstrinv = array (0=>1, 1=>0);
+        foreach($Grades as $v) {
+            $combograde.="<option value='".$v["GradeId"]."' "
+                    .($v["GradeId"]==$config['DefaultGrade'] ? "selected" : "").">"
+                    .$v["Grade"]."</option>";
+        }
+        $CanRegister[$bollstr[$config['CanRegister']]] = ' selected';
+        $CanRegister[$bollstrinv[$config['CanRegister']]] = '';
+        $closed[$bollstr[$config['closed']]] = ' selected';
+        $closed[$bollstrinv[$config['closed']]] = '';
+        $out =<<<out
+<input type="hidden" name="configuration" value="true"/>
+<TR class="color_row0">
+    <TD>Lien forum:</TD>
+    <TD><input class="color_row0 size250" name="data[ForumLink]" value="{$config['ForumLink']}" type="text"/></TD>
+</TR>
+<TR class="color_row1">
+    <TD>Enregistrement de compte:</TD>
+    <TD><select class="color_row1" name="data[CanRegister]">
+        <option value="0"{$CanRegister[0]}>Non</option>
+        <option value="1"{$CanRegister[1]}>Oui</option>
+    </select></TD>
+</TR>
+<TR class="color_row0">
+    <TD>Grade par défaut:</TD>
+    <TD><select class="color_row0" name="data[DefaultGrade]">
+    {$combograde}
+    </select></TD>
+</TR>
+<TR class="color_row1">
+    <TD>Mon Empire:</TD>
+    <TD><input class="color_row1" name="data[MyEmpire]" value="{$config['MyEmpire']}" type="text"/></TD>
+</TR>
+<TR class="color_row0">
+    <TD>Temps max de calcul d'un parcours (sec.):</TD>
+    <TD><input class="color_row0" name="data[Parcours_Max_Time]" value="{$config['Parcours_Max_Time']}" type="text"/></TD>
+</TR>
+<TR class="color_row1">
+    <TD>Nb de pc pour le calcul rapide:</TD>
+    <TD><input class="color_row1" name="data[Parcours_Nearest]" value="{$config['Parcours_Nearest']}" type="text"/></TD>
+</TR>
+<TR class="color_row0">
+    <TD>Serveur de jeu autorisé pour GreaseMonkey:</TD>
+    <TD><input class="color_row0" name="data[eude_srv]" value="{$config['eude_srv']}" type="text"/></TD>
+</TR>
+<TR class="color_row1">
+    <TD>Fermer le site (pas actif)</TD>
+    <TD><select class="color_row1" name="data[closed]">
+        <option value="0"{$closed[0]}>Non</option>
+        <option value="1"{$closed[1]}>Oui</option>
+    </select></TD>
+</TR>
+out;
+        $this->PushOutput($out);
+    }
+
+    public function config_footer() {
+        $out =<<<out
+<tr class="color_header">
+<td colspan="2" class="text_right"><input class="color_header" type="submit"/></td>
+</tr>
+</table>
+</form>
+out;
         $this->PushOutput($out);
     }
 

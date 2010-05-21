@@ -13,7 +13,8 @@ $lng = array();
 $lng['page_links1']         = 'Général';
 $lng['page_links2']         = 'Gestion des droits utilisateurs';
 $lng['page_links3']         = 'Couleurs de la carte';
-$lng['page_links4']         = 'Logs';
+$lng['page_links4']         = 'Configuration';
+$lng['page_links5']         = 'Logs';
 
 //------------------------------------------------------------------------------
 $lng['page_title']          = 'EU2: Administration, Général';

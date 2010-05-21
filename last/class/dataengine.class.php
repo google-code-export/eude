@@ -63,6 +63,7 @@ class DataEngine extends Members {
         define('TEMPLATE_URL', ROOT_URL .'tpl/' );
 
         DataEngine::conf_cache('perms');
+        DataEngine::conf_cache('config');
 
         // Fix multiple installations/conflit avec forum ou autre soft utilisant les sessions
         session_set_cookie_params(0,ROOT_URL);
@@ -206,6 +207,21 @@ class DataEngine extends Members {
                         }
                     }
                 }
+                if (self::$conf_load['config'] && !is_array(self::$settings['config'])) {
+                    $conf                      = array();
+                    $conf['ForumLink']         = '';
+                    $conf['DefaultGrade']      = 3;
+                    $conf['CanRegister']       = 0;
+                    $conf['MyEmpire']          = '';
+                    $conf['Parcours_Max_Time'] = 0;
+                    $conf['Parcours_Nearest']  = 5;
+                    $conf['eude_srv']          = '';
+                    $conf['version']           = self::Get_Version();
+                    $conf['closed']            = 0;
+                    self::conf_add('config', $conf);
+
+                }
+
             }
             self::$conf_load=array();
         }
@@ -217,6 +233,15 @@ class DataEngine extends Members {
 
         if (isset (self::$settings[$key]))
             return self::$settings[$key];
+        else
+            return false;
+    }
+    
+    static public function config_key($key, $subkey) {
+        if (!self::$conf_loaded) self::conf_load();
+
+        if (isset (self::$settings[$key]))
+            return self::$settings[$key][$subkey];
         else
             return false;
     }
@@ -572,12 +597,12 @@ PERM;
 interface iDataEngine_Config {
     static public function DB_Connect();
     static public function init();
-    static public function GetForumLink();
-    static public function GetDefaultGrade();
-    static public function GetMyEmpire();
-
-    static public function Parcours_Max_Time();
-    static public function Parcours_Nearest();
-
-    static public function eude_srv();
+//    static public function GetForumLink();
+//    static public function GetDefaultGrade();
+//    static public function GetMyEmpire();
+//
+//    static public function Parcours_Max_Time();
+//    static public function Parcours_Nearest();
+//
+//    static public function eude_srv();
 }

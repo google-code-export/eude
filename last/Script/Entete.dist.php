@@ -67,65 +67,6 @@ final class Config implements iDataEngine_Config {
         define('LNG_CODE','fr');
     }
     /**
-     * @return string Lien vers le forum
-     */
-    static function GetForumLink() {
-        return '';
-    }
-    /**
-     * Grade par défaut
-     * 'id' affiché sur la page "Membre.php" a droite
-     * @return integer grade id
-     */
-    static function GetDefaultGrade() {
-        return 3;
-    }
-    /**
-     * Active la possibilité au membre de l'empire de créer un compte eux même.
-     * @return boolean
-     */
-    static function CanRegister() {
-        return false;
-    }
-    /**
-     * Définir ici le nom <b>exact</b> de votre empire
-     * @return string(100) Nom de l'empire
-     */
-    static function GetMyEmpire() {
-        return '';
-    }
-    /**
-     * Temps max de recherche avant abandon pour le meilleurs recensé
-     * @since 1.4.1
-     * @return integer default: 0 (ie. Temps max autorisé par le serveur ~20/30sec.)
-     */
-    static public function Parcours_Max_Time() {
-        return 0;
-    }
-    /**
-     * Calcul "Au plus proche", définit le rayon max de recherche autour du point de départ/arrivé
-     * Ne pas mettre trop haut. Ça n'aurait plus d'intérêts, et alourdirait plus qu'autre chose
-     * @since 1.4.1
-     * @return integer default: 5 , Max conseillé: 8, min conseillé: 3
-     */
-    static public function Parcours_Nearest() {
-        return 5;
-    }
-    /**
-     *
-     * @example
-     * [code]
-     * return '';             // pour tout serveur sans restriction
-     * return 'australis.fr'; // pour australis
-     * return 'borealis.fr';  // pour borealis
-     * return 'beta.de';      // pour test sur .de
-     * return 'eu2.com';      // pour eu2 anglais
-     * [/code]
-     */
-    static public function eude_srv() {
-        return '';
-    }
-    /**
      * Connexion a la base de donnée.
      * @return mysqli_driver
      */

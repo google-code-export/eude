@@ -253,6 +253,17 @@ if (isset ($_POST['cxx'])) {
 
 // -- Modification 'Permissions' -----------------------------------------------
 // -----------------------------------------------------------------------------
+// -- Changement dans la configuration -----------------------------------------
+if(isset($_POST['configuration']) && $_POST['configuration']) {
+
+    $data = array_map('gpc_esc', $_POST['data']);
+    $data['Parcours_Max_Time'] = DataEngine::strip_number($data['Parcours_Max_Time']);
+    $data['Parcours_Nearest']  = DataEngine::strip_number($data['Parcours_Nearest']);
+
+    DataEngine::conf_update('config', $data);
+}
+// -- Changement dans la configuration -----------------------------------------
+// -----------------------------------------------------------------------------
 // exécution du spooleur sql...
 DataEngine::sql_do_spool();
 ///-----------------------------------------------------------------------------
@@ -391,6 +402,19 @@ if ($_REQUEST['act'] == 'perms' && Members::CheckPerms(AXX_ROOTADMIN)) {
 
 }
 ///---
+
+if ($_REQUEST['act'] == 'config' && Members::CheckPerms(AXX_ROOTADMIN)) {
+
+    $mysql_result = DataEngine::sql('SELECT * from SQL_PREFIX_Grade ORDER BY Rattachement,Niveau');
+    while ($ligne=mysql_fetch_assoc($mysql_result))
+        $Grades[] = $ligne;
+
+    $tpl->page_title = 'EU2: Administration, Configuration';// $lng['perms_title'];
+    $tpl->config_header();
+    $tpl->config_xxx($Grades);
+    $tpl->config_footer();
+
+}
 
 $tpl->DoOutput();
 

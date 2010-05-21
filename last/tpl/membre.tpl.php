@@ -102,7 +102,7 @@ gh;
         return $this;
     }
     public function Grade_AddPlayer($Grades) {
-        $cdg = Config::GetDefaultGrade();
+        $cdg = DataEngine::config_key('config', 'DefaultGrade');
         $combograde='';
         foreach($Grades as $v) {
             $combograde.="<option value='".$v['GradeId']."'".($v['GradeId']==$cdg ? ' selected' : '').">".$v['Grade']."</option>";
