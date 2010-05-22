@@ -148,14 +148,16 @@ sql;
 
     $delid = array();
     $result = DataEngine::sql($sql);
-    while ($line=mysql_fetch_assoc($result)) $delid[] = $line['pID'];
+    while ($line=mysql_fetch_assoc($result)) 
+	if (mysql_num_rows($result)>0) {
+	$delid[] = $line['pID'];
     $delid = implode(',', $delid);
     $sql = 'DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` IN ('.$delid.')';
     $result = DataEngine::sql($sql);
     $cleaning['num deleted'] = mysql_affected_rows();
     if ($cleaning['num deleted']>0)
         output::Messager(sprintf('%d orphelin(s) trouvé', $cleaning['num deleted']));
-
+	}
 }
 // -- Partie maintenance -------------------------------------------------------
 // -----------------------------------------------------------------------------
