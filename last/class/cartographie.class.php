@@ -82,6 +82,12 @@ class cartographie {
                 if ($sql != '')
                     $sql   .= ', ';
                 $sql .= "`$field`='$newval'";
+				if ($sql2  != '')
+                    $sql2    .= ', ';
+                $sql2  .= "'$newval'";
+                if ($sql3	!= '')
+                    $sql3  .= ', ';
+                $sql3.=  "`$field`";
             } else {
                 if ($insert_Val  != '')
                     $insert_Val    .= ', ';
@@ -96,8 +102,16 @@ class cartographie {
             $updated = 0;
             $query = "UPDATE `SQL_PREFIX_Coordonnee` SET DATE=NOW(),`INACTIF`=0,UTILISATEUR='{$_SESSION['_login']}' WHERE `ID`=$do_update";
             DataEngine::sql($query);
-            $query = "UPDATE `SQL_PREFIX_Coordonnee_Planetes` SET $sql WHERE `pID`=$do_update";
+			$query = "SELECT COUNT(pID) AS NOMBRE FROM  `SQL_PREFIX_Coordonnee_Planetes` where `pID`='$do_update'";
+			$mysql_result = DataEngine::sql($query);
+			$ligne=mysql_fetch_assoc($mysql_result);
+			if ($ligne['NOMBRE'] == 0) {
+			$query2="INSERT INTO `SQL_PREFIX_Coordonnee_Planetes` (`pID`,$sql3) VALUES($do_update,$sql2)";
+            DataEngine::sql($query2,false) or $warn="($rows) $query<br/>$query2<br/>".print_r($ress_val,true)."<br/>".mysql_error();
+			} else {
+			$query = "UPDATE `SQL_PREFIX_Coordonnee_Planetes` SET $sql WHERE `pID`=$do_update";
             DataEngine::sql($query);
+			}
             return $this->AddInfo('La planète mis à jour au coordonnée : '.$uni.'-'.$sys);
 
         } else {
