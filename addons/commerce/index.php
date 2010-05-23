@@ -1,10 +1,5 @@
 <?php
 // Partie standard d'EU2de
-  $tologon = true;
-  if(isset($_GET['action']))
-    if($_GET['action'] == "logon")
-      $tologon = true;
-  define("CHECK_LOGIN", $tologon);	// désactive le besoin d'avoir un compte pour la page
   require_once("../../init.php");
   require_once(INCLUDE_PATH."Script.php");
   require_once(TEMPLATE_PATH."sample.tpl.php");

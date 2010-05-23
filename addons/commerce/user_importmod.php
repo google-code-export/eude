@@ -329,13 +329,8 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
             $ligne = mysql_fetch_assoc($mysql_result);
             if($ligne['ID'] > 0) {
 			DataEngine::sql('UPDATE SQL_PREFIX_Modules_Template SET Nom="'.$datas["Nom"].'", Description="'.$datas['Description'].'", Categorie="'.$datas["Categorie"].'", Taille="'.$datas["Taille"].'", PAChasseur="'.$datas["PAChasseur"].'", PAGVG="'.$datas["PAGVG"].'", Temps="'.$datas["Temps"].'", Titane="'.$datas["Titane"].'", Cuivre="'.$datas["Cuivre"].'", Fer="'.$datas["Fer"].'", Aluminium="'.$datas["Aluminium"].'", Mercure="'.$datas["Mercure"].'", Silicium="'.$datas["Silicium"].'", Uranium="'.$datas["Uranium"].'", Krypton="'.$datas["Krypton"].'", Azote="'.$datas["Azote"].'", Hydrogene="'.$datas["Hydrogene"].'", PropImpulsion="'.$datas["PropImpulsion"].'", PropWarp="'.$datas["PropWarp"].'", PropConsommation="'.$datas["PropConsommation"].'", ArmType="'.$datas["ArmType"].'", ArmDegat="'.$datas["ArmDegat"].'", ProtType="'.$datas["ProtType"].'", ProtChasseur="'.$datas["ProtChasseur"].'", ProtGVG="'.$datas["ProtGVG"].'", EquipType="'.$datas["EquipType"].'", EquipNiv="'.$datas["EquipNiv"].'" WHERE ID='.$ligne["ID"]);
-			if(DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT')) {
-			header('Location: template_edit.php?editid='.$ligne["ID"]);
-			}	
-			elseif(!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))	{
 			echo("<br /><center><b>Templates de module mis à jour.</b></center><br /><br />");
 			echo("<br /><br /><hr width='50%' /><p align=center>[&nbsp;<a href='user_importmod.php'>Autre importation...</a>&nbsp;]</p>");
-			}
 			}
 			}
 			else {
