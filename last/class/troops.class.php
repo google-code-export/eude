@@ -21,7 +21,7 @@ class troops {
         $line = array();
         if (mysql_num_rows($result)>0) {
             $line = mysql_fetch_assoc($result);
-            if ($line['nb_assault'] < $nb_assault)
+            if ($line['nb_assault'] >= $nb_assault)
                 return 'Existe déjà ?';
         }
 
@@ -39,18 +39,19 @@ class troops {
             }
 
         if ($line['nb_assault']) {
-            $sql = sprintf('UPDATE FROM INTO SQL_PREFIX_troops_attack SET '.
-                    '`nb_assault`=%d, `players_defender`=\'%s\', `players_attack`=\'%s\', `players_pertes`=\'%s\'',
-                    $nb_assault, sqlesc($right), sqlesc($left), sqlesc($pertes) );
-
+            $sql = sprintf('UPDATE SQL_PREFIX_troops_attack SET '.
+                    '`nb_assault`=%d, `players_defender`=\'%s\', `players_attack`=\'%s\', `players_pertes`=\'%s\' WHERE ID=%s',
+                    $nb_assault, sqlesc($right), sqlesc($left), sqlesc($pertes), $line['ID'] );
+		    $result = DataEngine::sql($sql);
+		return 'Combat MAJ';
         } else {
             $sql = sprintf('INSERT INTO SQL_PREFIX_troops_attack '.
                     '(`type`, `nb_assault`,`when`, `coords_ss`, `coords_3p`, `players_defender`, `players_attack`, `players_pertes`)'.
                     ' VALUES (\'%s\', %d, %d, \'%s\', \'%s\', \'%s\', \'%s\', \'%s\')',
                     $type, $nb_assault, $idate, $idsys, $iddet, sqlesc($right), sqlesc($left), sqlesc($pertes) );
             $result = DataEngine::sql($sql);
+		return 'Ajout ok';
         }
-        return 'Ajout ok';
     }
 
     function AddPillage_log ($mode, $idate, $msg) {
