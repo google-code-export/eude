@@ -24,12 +24,12 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_STATS'))
 </HEAD>
 <BODY>
 
-<br /><br /><? cnhTB(0) ?><br /><? cnhTB(0,null,null,"Stats") ?><hr><br />
+<br /><br /><?php cnhTB(0) ?><br /><?php cnhTB(0,null,null,"Stats") ?><hr><br />
 <!-- DEBUT CODE LIBRE -->
 
 <table border=1 align=center cellspacing=0 cellpadding=5>
   <tr><th>Chiffres en tout genre</th></tr>
-<?
+<?php
   $sqlreq = '
 SELECT
 (SELECT `DateLast` FROM SQL_PREFIX_Users_Config WHERE `Login` = "'.$Joueur.'" ORDER BY `DateLast` DESC LIMIT 1) AS DateLastConnect,

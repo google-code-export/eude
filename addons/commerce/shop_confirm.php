@@ -60,10 +60,10 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 </HEAD>
 <BODY>
 
-<br /><br /><? cnhTB(0) ?><hr><br />
+<br /><br /><?php cnhTB(0) ?><hr><br />
 <!-- DEBUT CODE LIBRE -->
 
-<?
+<?php
   if($commandedef) {
     $vlist = $basket->VendorSelSort();	
 	// echo("<center><font color=#ff0000>".nl2br(print_r($vlist,true))."</font></center><br>");
@@ -235,7 +235,7 @@ EOF;
 </td></tr>
 <tr><th>Vendeurs</th><th>Articles</th><th>Total à payer</th></tr>
 <tr><td colspan=3 align=right><?=$defaultbutton?></td></tr>
-<?
+<?php
     $vlist = $basket->VendorSelSort();
     $oldvendor = '';
     $nvendor = 0;
@@ -322,7 +322,7 @@ EOF;
 ?>
 <tr><td colspan=3 align=right><?=$defaultbutton?></td></tr>
 </table></form>
-<?
+<?php
   }
 ?>
 

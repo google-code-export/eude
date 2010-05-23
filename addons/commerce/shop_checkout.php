@@ -53,7 +53,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 </HEAD>
 <BODY>
 
-<br /><br /><? cnhTB(0) ?><hr><br />
+<br /><br /><?php cnhTB(0) ?><hr><br />
 <!-- DEBUT CODE LIBRE -->
 
 <form method="post" action="shop_confirm.php">
@@ -61,7 +61,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 <tr><th rowspan=2 valign=bottom>Articles</th><th rowspan=2 valign=bottom>Quantité</th><th rowspan=2 valign=bottom>Prix total</th><th colspan=2>Vendeurs</th></tr>
 <tr><th>Noms</th><th>Paiements acceptés</th></tr>
 <tr><td colspan=5 align=right><?=$defaultbutton?></td></tr>
-<?
+<?php
   for($i = 0; $i < $basket->total; $i++) {
     $modid = $basket->items[$i]["ID"];
 

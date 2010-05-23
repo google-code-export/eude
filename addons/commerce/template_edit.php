@@ -133,7 +133,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
 </HEAD>
 <BODY>
 
-<br /><br /><? cnhTB(0) ?><hr><br />
+<br /><br /><?php cnhTB(0) ?><hr><br />
 <!-- DEBUT CODE LIBRE -->
 
 <form name="form1" method="post" action="">
@@ -190,7 +190,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
   <tr>
     <td>Catégorie</td>
     <td><select name="Categorie" id="Categorie">
-<?
+<?php
   for($i=0;$i < sizeof($cnhCategorieName); $i++)
     echo("<option value='".$i."' ".($datas["Categorie"]==$i ? "selected" : "")."> ".$cnhCategorieName[$i]."</option>");
 ?>    
@@ -216,7 +216,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
   <tr>
     <td>Ressources</td>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-<?
+<?php
   for($i = 0; $i < sizeof($cnhMineraisName); $i++) {
     echo("<tr><td><img src='".IMAGES_URL.$cnhMineraisName[$i].".png' /> ".$cnhMineraisName[$i]."</td>");
     echo("<td><input type='text' name='".$cnhMineraisName[$i]."' id='".$cnhMineraisName[$i]."' value=".$datas[$cnhMineraisName[$i]]."></td></tr>");

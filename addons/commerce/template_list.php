@@ -61,29 +61,29 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 </HEAD>
 <BODY>
 
-<br /><br /><? cnhTB(0) ?><hr><br />
+<br /><br /><?php cnhTB(0) ?><hr><br />
 <!-- DEBUT CODE LIBRE -->
 
 <p align='center'><font color='#ffffff'>
-<?
+<?php
   if($modecommande) {
     if(!$alldisplay) {
 ?>
 Notez que dans ce mode "<i>commande</i>",<br />vous ne voyez que les modules, que vous ne pouvez pas fabriquer,<br /> et uniquement ceux proposés par les autres membres de l'Empire.<br />
 <br />[&nbsp;<a href='?commande=full'>Voir la  liste de tous les modules...</a>&nbsp;]<br />
-<?
+<?php
     }
     else {
 ?>
 [&nbsp;<a href='?commande=true'>Voir seulement les modules que vous ne fabriquez pas...</a>&nbsp;]<br />
-<?
+<?php
     }
   echo("<form method='post' action='shop_checkout.php'>");
   }
   else {
 ?>
-<form name="form" method="post">Ordre de tri: <? DisplayListSelect("TriPar", $cnhListSort, $_SESSION["up_ListSort"]); ?> / <input type="checkbox" name="OwnBuild" id="OwnBuild" <?=($_SESSION["up_ActivatedSort"] ? " checked" : "")?>/> Mettre en haut de liste les modules que vous pouvez fabriquer. <input type="submit" name="submit" id="submit" value="Lister"></form>
-<?
+<form name="form" method="post">Ordre de tri: <?php DisplayListSelect("TriPar", $cnhListSort, $_SESSION["up_ListSort"]); ?> / <input type="checkbox" name="OwnBuild" id="OwnBuild" <?=($_SESSION["up_ActivatedSort"] ? " checked" : "")?>/> Mettre en haut de liste les modules que vous pouvez fabriquer. <input type="submit" name="submit" id="submit" value="Lister"></form>
+<?php
   }
 ?>
 </font></p>
@@ -91,10 +91,10 @@ Notez que dans ce mode "<i>commande</i>",<br />vous ne voyez que les modules, qu
 <table border="1" align="center" cellpadding="3" cellspacing="0">
 <tr><th>Icône</th><th>Nom</th><th>Catégorie</th><th>Type</th><th>Niveau</th><th><?=($modecommande ? "Commande" : "Options")?></th></tr>
 <!--
-<tr><th><a href="?Tri=Categorie">Icône</a></th><th><a href="?Tri=Nom">Nom</a></th><th><a href="?Tri=Categorie">Catégorie</a></th><th><a href="?Tri=CatType">Type</a></th><th><a href="?Tri=NivTech">Niveau</a></th><th><a href="?AddTri=Options<? if(isset($_GET["Tri"])) echo("&Tri=".$_GET["Tri"]); ?>">Options</a></th></tr>
+<tr><th><a href="?Tri=Categorie">Icône</a></th><th><a href="?Tri=Nom">Nom</a></th><th><a href="?Tri=Categorie">Catégorie</a></th><th><a href="?Tri=CatType">Type</a></th><th><a href="?Tri=NivTech">Niveau</a></th><th><a href="?AddTri=Options<?php if(isset($_GET["Tri"])) echo("&Tri=".$_GET["Tri"]); ?>">Options</a></th></tr>
 -->
 
-<?
+<?php
   $titlecat = 0;
 
   if($_SESSION["up_ActivatedSort"])
@@ -286,7 +286,7 @@ Notez que dans ce mode "<i>commande</i>",<br />vous ne voyez que les modules, qu
 
 </table>
 
-<?
+<?php
   if(DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_INSERT') && !$modecommande)
     echo("<p align=center>[&nbsp;<a href='template_edit.php'>Ajouter un template de module...</a>&nbsp;]</p>");
   elseif($modecommande)

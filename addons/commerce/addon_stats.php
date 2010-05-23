@@ -24,13 +24,13 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_STATS'))
 </HEAD>
 <BODY>
 
-<br /><br /><? cnhTB(0) ?><br /><? cnhTB(0,null,null,"Stats") ?><hr><br />
+<br /><br /><?php cnhTB(0) ?><br /><?php cnhTB(0,null,null,"Stats") ?><hr><br />
 <!-- DEBUT CODE LIBRE -->
 
 <table border=1 align=center cellspacing=0 cellpadding=5>
   <tr><th>Chiffres en tout genre</th></tr>
-<?
-  $sqlreq = 'SELECT
+<?php
+$sqlreq = 'SELECT
 (SELECT COUNT(`Login`) FROM SQL_PREFIX_Users_Config) AS TotalUser,
 (SELECT `DateLast` FROM SQL_PREFIX_Users_Config WHERE `Login` <> "'.$Joueur.'" ORDER BY `DateLast` DESC LIMIT 1) AS DateLastConnect,
 (SELECT `Login` FROM SQL_PREFIX_Users_Config WHERE `Login` <> "'.$Joueur.'" ORDER BY `DateLast` DESC LIMIT 1) AS UserLastConnect,
@@ -61,7 +61,7 @@ Vendus par l'Empire: <b><?=number_format($datas['TotalBuildModules'] / $datas['T
 <table border=1 align=center cellspacing=0 cellpadding=5>
   <tr><th colspan=3>Top 10 des vendeurs</th></tr>
   <tr align=center bgcolor=#333366 STYLE="font-weight:bold;"><td>Rang</td><td>Nombre de modules</td><td>Membres</td></tr>
-<?
+<?php
   $sqlreq = 'SELECT DISTINCT SQL_PREFIX_Modules_Users.Login, COUNT(`Module_ID`) AS TotalMade
 FROM SQL_PREFIX_Modules_Users
 LEFT JOIN SQL_PREFIX_Modules_Template ON SQL_PREFIX_Modules_Users.Module_ID = SQL_PREFIX_Modules_Template.ID
@@ -98,8 +98,8 @@ ORDER BY TotalMade DESC
 <table border=1 align=center cellspacing=0 cellpadding=5>
   <tr><th colspan=2>Modules vendus que par un membre</th></tr>
   <tr align=center bgcolor=#333366 STYLE="font-weight:bold;"><td>Membres</td><td>Module(s)</td></tr>
-<?
-  $sqlreq = '
+<?php
+$sqlreq = '
 SELECT DISTINCT `ID`, `Nom`, SQL_PREFIX_Modules_Users.Login, `URLIcone`
 FROM SQL_PREFIX_Modules_Template
 LEFT JOIN SQL_PREFIX_Modules_Users ON SQL_PREFIX_Modules_Template.ID = SQL_PREFIX_Modules_Users.Module_ID
@@ -131,7 +131,7 @@ ORDER BY SQL_PREFIX_Modules_Users.Login, `Nom`
 <table border=1 align=center cellspacing=0 cellpadding=5>
   <tr><th colspan=3>Top 10 des modules les plus vendus</th></tr>
   <tr align=center bgcolor=#333366 STYLE="font-weight:bold;"><td>Rang</td><td>Nombre de vendeur</td><td>Modules</td></tr>
-<?
+<?php
   $sqlreq = 'SELECT DISTINCT `ID`, `Nom`, COUNT(`Module_ID`) AS TotalMade, `URLIcone`
 FROM SQL_PREFIX_Modules_Users
 LEFT JOIN SQL_PREFIX_Modules_Template ON SQL_PREFIX_Modules_Users.Module_ID = SQL_PREFIX_Modules_Template.ID

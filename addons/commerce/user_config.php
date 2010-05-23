@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `cnhUsers_Config` (
 </HEAD>
 <BODY>
 
-<br /><br /><? cnhTB(0) ?><hr><br />
+<br /><br /><?php cnhTB(0) ?><hr><br />
 <!-- DEBUT CODE LIBRE -->
 
 <form name="form1" method="post" action=""><input type="hidden" name="ID" id="ID" value='<?=$datas_id?>'><input type="hidden" name="Login" id="Login" value='<?=$datas["Login"]?>'>
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `cnhUsers_Config` (
   </tr>
   <tr>
     <td>Tri par défaut de la liste des modules</td>
-    <td><? DisplayListSelect("ListSort", $cnhListSort, $datas["ListSort"]); ?></td>
+    <td><?php DisplayListSelect("ListSort", $cnhListSort, $datas["ListSort"]); ?></td>
   </tr>
   <tr>
     <td>Modification du tri</td>
@@ -152,11 +152,11 @@ CREATE TABLE IF NOT EXISTS `cnhUsers_Config` (
   </tr>
   <tr>
     <td>A qui voulez-vous vendre vos modules?</td>
-    <td><? DisplayListSelect("CommerceType", $cnhCommerceType, $datas["CommerceType"]); ?></td>
+    <td><?php DisplayListSelect("CommerceType", $cnhCommerceType, $datas["CommerceType"]); ?></td>
   </tr>
   <tr>
     <td>Qui peut voir vos chassis?</td>
-    <td><? DisplayListSelect("ChassisSecret", $cnhCommerceType, $datas["ChassisSecret"]); ?></td>
+    <td><?php DisplayListSelect("ChassisSecret", $cnhCommerceType, $datas["ChassisSecret"]); ?></td>
   </tr>
   <tr>
     <td>Quels paiements acceptez-vous?</td>
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `cnhUsers_Config` (
     <tr><td><input type="checkbox" name="Paiement_0" <?=($datas["Paiement"] & UP_CREDITS ? "checked " : "" )?>/></td><td>Vous acceptez les crédits comme paiement.</td></tr>
     <tr><td><input type="checkbox" name="Paiement_1" <?=($datas["Paiement"] & UP_EXACT ? "checked " : "" )?>/></td><td>Vous acceptez un paiement en ressources identiques aux ressources utilisées.</td></tr>
     <tr valign=top><td><input type="checkbox" name="Paiement_2" <?=($datas["Paiement"] & UP_CHOIX ? "checked " : "" )?>/></td><td>Vous acceptez un paiement dans une sélection de ressources ci-dessous:
-<?
+<?php
   for($i = 0; $i < sizeof($cnhMineraisName); $i++)
     echo("<br /><input type='checkbox' name='Paiement_".($i+3)."' ".($datas["Paiement"] & pow(2, $i + 3) ? "checked " : "" )."/> <img src='".IMAGES_URL.$cnhMineraisName[$i].".png' /> ".$cnhMineraisName[$i]);
 ?>
@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `cnhUsers_Config` (
   <tr>
     <td>Sur quelle(s) planète(s) vous appartenant<br /> acceptez-vous les paiements en ressources?</td>
     <td>
-<?
+<?php
     $mysql_result = DataEngine::sql("SELECT * FROM SQL_PREFIX_ownuniverse WHERE `UTILISATEUR`='".$Joueur."'") or die(mysql_error());
 
     $i = 0;

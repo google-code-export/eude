@@ -97,7 +97,7 @@ function redirection(IDitem,TypeOpe,TextOp,TextOK,TextCancel)
 </HEAD>
 <BODY>
 
-<br /><br /><? cnhTB(0) ?><hr><br />
+<br /><br /><?php cnhTB(0) ?><hr><br />
 <!-- DEBUT CODE LIBRE -->
 <p align='center'><font color=red><?php echo $erreur; ?></font></p><br />
 <?php
@@ -133,7 +133,7 @@ switch($_SESSION["cnhAffichageMe"]) {
 }
 ?>
 <table border="1" align="center" cellpadding="3" cellspacing="0" id='imperium_header'>
-<tr id='titreTRtableau'><td id='titreTDtableau' colspan=<?php echo $tnbcol; ?>><?php echo $titlecat; ?><BR><form ACTION="commandes_list.php" name="form" method="post">Affichage: <select name='cnhAffichageMe' id='INtableau'><? DisplayListSelect("", $cnhAffichageMe, $_SESSION["cnhAffichageMe"]); ?></select> / <input type="submit" name="submitMe" id="INtableau" value="Lister"></form></td></tr>
+<tr id='titreTRtableau'><td id='titreTDtableau' colspan=<?php echo $tnbcol; ?>><?php echo $titlecat; ?><BR><form ACTION="commandes_list.php" name="form" method="post">Affichage: <select name='cnhAffichageMe' id='INtableau'><?php DisplayListSelect("", $cnhAffichageMe, $_SESSION["cnhAffichageMe"]); ?></select> / <input type="submit" name="submitMe" id="INtableau" value="Lister"></form></td></tr>
 <tr id='TRtableau'><td id="teteTDtableau">Date</td><td id="teteTDtableau">Fournisseur</td><td id="teteTDtableau">Commande</td><td id="teteTDtableau">Paiement</td><td id="teteTDtableau">Date Paiement</td><td id="teteTDtableau">Date Livraison</td><td id="teteTDtableau">Coordonnées</td></tr>
 <?php
   $sqlreq = '
@@ -229,7 +229,7 @@ switch($_SESSION["cnhAffichageHim"]) {
 <br /><hr><br />
 <table border="1" align="center" cellpadding="3" cellspacing="0" id='imperium_header'>
 
-<tr id='titreTRtableau'><td id='titreTDtableau' colspan=<?php echo $tnbcol; ?>><?php echo $titlecathim; ?><BR><form ACTION="commandes_list.php" name="formHim" method="post">Affichage: <select name='cnhAffichageHim' id='INtableau'><? DisplayListSelect("", $cnhAffichageHim, $_SESSION["cnhAffichageHim"]); ?></select> / <input type="submit" name="submitHim" id="INtableau" value="Lister"></form></td></tr>
+<tr id='titreTRtableau'><td id='titreTDtableau' colspan=<?php echo $tnbcol; ?>><?php echo $titlecathim; ?><BR><form ACTION="commandes_list.php" name="formHim" method="post">Affichage: <select name='cnhAffichageHim' id='INtableau'><?php DisplayListSelect("", $cnhAffichageHim, $_SESSION["cnhAffichageHim"]); ?></select> / <input type="submit" name="submitHim" id="INtableau" value="Lister"></form></td></tr>
 <tr id='TRtableau'><td id="teteTDtableau">Date</td><td id="teteTDtableau">Client</td><td id="teteTDtableau">Commande</td><td id="teteTDtableau">Paiement</td><td id="teteTDtableau">Date Paiement</td><td id="teteTDtableau">Date Livraison</td><td id="teteTDtableau">Coordonnées</td></tr>
 <?php
   $sqlreq = '

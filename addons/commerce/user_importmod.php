@@ -24,11 +24,11 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
 </HEAD>
 <BODY>
 
-<br /><br /><? cnhTB(0) ?><hr><br />
+<br /><br /><?php cnhTB(0) ?><hr><br />
 <!-- DEBUT CODE LIBRE -->
 <br />
 <center><font color='#dddddd'>
-<?
+<?php
   $bcontinue = true;
   $chainecar = 'abcdefghijklmnopqrstuvwxyz';
 
@@ -343,7 +343,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
 alert("<?=$alertjava?>");
 window.location = "template_edit.php?editid=<?=$datas_id?>";
 </SCRIPT>
-<?
+<?php
           }
           else {
             header('Location: template_edit.php?editid='.$datas_id);
@@ -375,9 +375,9 @@ window.location = "template_edit.php?editid=<?=$datas_id?>";
     Vous pouvez importer:
     <ul>
     <li><b>Liste des modules</b> que vous pouvez fabriquer (<i>Bâtiment -> Chantier Naval -> Modules</i>).</li>
-<? if(DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_INSERT')) { ?>
+<?php if(DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_INSERT')) { ?>
     <li><b>Template de module</b> (<i>Bâtiment -> Chantier Naval -> Modules -> Click sur Module concerné</i>).</li>
-<? } ?>
+<?php } ?>
     </ul></td>
     <td>
       Données à interpréter: <textarea name="RawData" cols="45" rows="5" wrap="virtual" id="RawData"></textarea><br />
@@ -389,7 +389,7 @@ window.location = "template_edit.php?editid=<?=$datas_id?>";
 <center><input type="submit" name="submit" id="submit" value="Interpréter"></center>
 </form>
 <br />
-<? } ?>
+<?php } ?>
 
 </font></center>
 <!-- FIN CODE LIBRE -->

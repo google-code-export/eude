@@ -26,7 +26,7 @@
 
 <!-- DEBUT CODE LIBRE -->
 
-<?
+<?php
   if(isset($_GET['sousmenu']))
 //    cnhToolbar(3, "menu_", 128, $_GET['sousmenu']);
     cnhTB(1, "menu_", 128, $_GET['sousmenu']);

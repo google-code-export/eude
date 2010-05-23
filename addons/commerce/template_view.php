@@ -41,7 +41,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 </HEAD>
 <BODY>
 
-<br /><br /><? cnhTB(0) ?><hr><br />
+<br /><br /><?php cnhTB(0) ?><hr><br />
 <!-- DEBUT CODE LIBRE -->
 
 <table border="1" align="center" cellpadding="3" cellspacing="0" width=80%>
@@ -49,7 +49,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
     <th>Information</th>
     <th>Contenu</th>
   </tr>
-<?
+<?php
       if(DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT')) {
         echo ('<tr><td>Option(s)</td><td>');
         echo("<a href='template_edit.php?editid=".$datas["ID"]."'><img src='images/edit.png' align=absmiddle border=0> Editer</a>");
@@ -61,32 +61,32 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 ?>    
   <tr>
     <td>Nom du module</td>
-    <td><?=$datas["Nom"]?><? if(!empty($datas["Abreviation"])) echo(" (<i>".$datas["Abreviation"]."</i>)"); ?></td>
+    <td><?=$datas["Nom"]?><?php if(!empty($datas["Abreviation"])) echo(" (<i>".$datas["Abreviation"]."</i>)"); ?></td>
   </tr>
   <tr>
     <td>Description</td>
     <td><?=$datas["Description"]?></td>
   </tr>
-<? if(!empty($datas["URLIcone"])) { ?>    
+<?php if(!empty($datas["URLIcone"])) { ?>    
   <tr>
     <td>Icône</td>
     <td align=center><img align=absmiddle src='<?=$datas["URLIcone"]?>'></td>
   </tr>
-<? }
+<?php }
    if(!empty($datas["URLMedium"])) { 
 ?>    
   <tr>
     <td>Medium Image</td>
     <td align=center><img align=absmiddle src='<?=$datas["URLMedium"]?>'></td>
   </tr>
-<? }
+<?php }
    if(!empty($datas["URLImage"])) { 
 ?>    
   <tr>
     <td>Large Image</td>
     <td align=center><img align=absmiddle src='<?=$datas["URLImage"]?>'></td>
   </tr>
-<? } ?>
+<?php } ?>
   <tr>
     <td>Catégorie</td>
     <td><?=$cnhCategorieName[$datas["Categorie"]]?></td>
@@ -111,7 +111,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
   <tr>
     <td>Ressources</td>
     <td><table width="0%" border="0" cellspacing="5" cellpadding="0">
-<?
+<?php
   $totalress = 0;
 
   for($i = 0; $i < sizeof($cnhMineraisName); $i++) {
@@ -146,7 +146,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
       <tr>
         <td>Statistiques</td>
         <td>
-<?
+<?php
   if($datas["PropImpulsion"]>0) {
     echo("Impulsion/PA (Chasseur/GVG): ".($datas["PropImpulsion"]/$datas["PAChasseur"])." / ".($datas["PropImpulsion"]/$datas["PAGVG"])."<br>");
     echo("Impulsion/Consommation: ".($datas["PropConsommation"]/$datas["PropImpulsion"])."<br>");
@@ -238,12 +238,12 @@ elseif($datas["Categorie"] == 4) { ?>
         <td>Carburant<?=($datas["ChassType"]==0 ? " / Consommation" : "")?></td>
         <td><?=$datas["ChassCarburant"]?><?=($datas["ChassType"]==0 ? " / 0.1" : "")?></td>
       </tr>
-<? if($datas["ChassType"]==0) { ?>
+<?php if($datas["ChassType"]==0) { ?>
       <tr>
         <td>Vitesse Impulsion / Warp</td>
         <td><?=$datas["ChassImpulsion"]." / ".$datas["ChassWarp"]?></td>
       </tr>
-<? } else { ?>
+<?php } else { ?>
       <tr>
         <td>Modificateur Impulsion / Warp</td>
         <td><?=$datas["ChassImpulsion"]." / ".$datas["ChassWarp"]?></td>
@@ -252,15 +252,15 @@ elseif($datas["Categorie"] == 4) { ?>
         <td>Maniabilité</td>
         <td><?=$datas["ChassManiabilite"]?></td>
       </tr>
-<? } ?>
+<?php } ?>
     </table>
       </td>
   </tr>
-<? } ?>
+<?php } ?>
   <tr>
     <td>Fourniture</td>
     <td>
-<?
+<?php
   $mysql_fab = DataEngine::sql("SELECT * FROM SQL_PREFIX_Modules_Users LEFT JOIN SQL_PREFIX_Users_Config ON SQL_PREFIX_Modules_Users.Login=SQL_PREFIX_Users_Config.Login WHERE Module_ID=".$_GET["viewid"]." AND ".($datas["Categorie"]==4 ? "ChassisSecret" : "CommerceType")."<=1 ORDER BY SQL_PREFIX_Modules_Users.Login") or die(mysql_error());
   $i=0; $minmod=0; $maxmod=0;
   
