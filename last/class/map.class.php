@@ -246,7 +246,14 @@ class map /*extends parcours*/ {
         }
 
         // mise en variable, plus rapide que 36 call function
-        $this->empire = trim(DataEngine::config_key('config', 'MyEmpire'));
+        if ( ($this->empire = trim(DataEngine::config_key('config', 'MyEmpire'))) == '') {
+            $mysql_result = DataEngine::sql("Select g.Grade from
+		SQL_PREFIX_Membres as m, SQL_PREFIX_Grade as g WHERE
+		Joueur='".sqlesc($_SESSION['_login'])."' AND (m.Grade=g.GradeId)");
+            $ligne = mysql_fetch_assoc($mysql_result);
+            $grade = $ligne['Grade'];
+            $this->empire = $ligne['Grade'];
+        }
         $this->cxx_empires = DataEngine::CheckPerms('CARTE_SHOWEMPIRE');
         $this->lng = language::getinstance()->GetLngBlock('carte');
 
