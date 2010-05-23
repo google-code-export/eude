@@ -237,7 +237,7 @@ class cartographie {
         if (!$this->FormatId(trim($coords), $uni, $sys,'')) return false;
 
         if ($nom=='') {
-            $query = "UPDATE SQL_PREFIX_Coordonnee SET Type='2' where Type in (0,3,5) AND POSIN='{$uni}' AND COORDET='{$sys}'";
+            $query = "UPDATE SQL_PREFIX_Coordonnee SET Type='2', USER='', EMPIRE='', INFOS='', batiments='', troop='' where Type in (0,3,5) AND POSIN='{$uni}' AND COORDET='{$sys}'";
             $array = DataEngine::sql($query);
             if (mysql_affected_rows() > 0)
                 return $this->AddWarn('Planète(s) devenue inoccupée: '.$coords);
@@ -356,7 +356,7 @@ class cartographie {
 
         if (count($del_planet)>0) {
             $del_planet = "'".implode("','",$del_planet)."'";
-            $query = "UPDATE SQL_PREFIX_Coordonnee SET Type='2' where Type in (0,3,5) AND POSIN='{$cur_ss}' AND COORDET in ({$del_planet})";
+            $query = "UPDATE SQL_PREFIX_Coordonnee SET Type='2', USER='', EMPIRE='', INFOS='', batiments='', troop='' where Type in (0,3,5) AND POSIN='{$cur_ss}' AND COORDET in ({$del_planet})";
             $array = DataEngine::sql($query);
             if ( ($num = mysql_affected_rows()) > 0)
                 $this->AddInfo($num.' planète(s) devenue inoccupée dans le système '.$cur_ss);
