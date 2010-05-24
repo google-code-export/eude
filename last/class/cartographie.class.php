@@ -306,8 +306,8 @@ class cartographie {
                     return  $this->AddInfo('La flotte '.$nom.' existe déjà au coordonnée : '.$uni.'-'.$sys.' (ignoré)');
             }
         } else {
-            $query = sprintf('INSERT INTO SQL_PREFIX_Coordonnee (TYPE,POSIN,POSOUT,COORDET,COORDETOUT,USER,INFOS,DATE,UTILISATEUR)'.
-                    ' VALUES (6,\'%s\',\'\',\'%s\',\'\',\'%s\',\'%s\',now(),\'%s\')',
+            $query = sprintf('INSERT INTO SQL_PREFIX_Coordonnee (TYPE,POSIN,POSOUT,COORDET,COORDETOUT,USER,EMPIRE,INFOS,DATE,UTILISATEUR)'.
+                    ' VALUES (6,\'%s\',\'\',\'%s\',\'\',\'%s\',\'\',\'%s\',now(),\'%s\')',
                     $uni, $sys, $qnom, $qfleet, sqlesc($_SESSION['_login']));
             DataEngine::sql($query);
             if (NO_SESSIONS)
@@ -406,8 +406,13 @@ class cartographie {
 
         $query = 'SELECT TYPE,POSIN,COORDET,USER FROM SQL_PREFIX_Coordonnee WHERE '.$where;
         $sql_result = DataEngine::sql($query);
-        if (mysql_num_rows($sql_result)==0) return $this->AddErreur('Élément non trouvé');
-
+        if (mysql_num_rows($sql_result)==0) {
+		$query = sprintf('INSERT INTO SQL_PREFIX_Coordonnee (TYPE,POSIN,POSOUT,COORDET,COORDETOUT,USER,EMPIRE,INFOS,DATE,water,batiments,UTILISATEUR)'.
+                    ' VALUES (2,\'%s\',\'\',\'%s\',\'\',\'\',\'\',\'\',now(),\'%s\',\'%s\',\'%s\')',
+                    $sys, $det, $water, $batiments, sqlesc($_SESSION['_login']));
+        DataEngine::sql($query);
+		}
+		
         $item = mysql_fetch_assoc($sql_result);
 
         $value = array();
