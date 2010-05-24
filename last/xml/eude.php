@@ -24,7 +24,13 @@ if (!DataEngine::CheckPerms('CARTOGRAPHIE_GREASE')) {
     output::_DoOutput('<eude><alert>Accès refusée</alert><GM_active>0</GM_active></eude>');
 }
 $serveur = DataEngine::config_key('config', 'eude_srv');
-if ($serveur != '' && $serveur != $_POST['svr']) {
+if ($serveur == 'australis.fr') {
+	$serveur2='eu2.fr';
+	if (($serveur != $_POST['svr']) && ($serveur2 != $_POST['svr'])) {
+    header('HTTP/1.1 403 Forbidden');
+    output::_DoOutput("<eude><alert>Accès refusée.\nMauvais serveur de jeu.</alert><GM_active>0</GM_active></eude>");
+	}
+} elseif ($serveur != '' && $serveur != $_POST['svr']) {
     header('HTTP/1.1 403 Forbidden');
     output::_DoOutput("<eude><alert>Accès refusée.\nMauvais serveur de jeu.</alert><GM_active>0</GM_active></eude>");
 }
