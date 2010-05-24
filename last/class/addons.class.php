@@ -53,10 +53,13 @@ class addons {
 
     public function Parse_Menu($base) {
         $new_menu = array();
+        $tmp_menu = array();
+
+        foreach($this->addons_list as $addon => $class)
+            $tmp_menu[$addon] = $class->Get_Menu();
 
         // ajout d'un menu en première place ?
-        foreach ($this->addons_list as $addon => $class) {
-            $addons_menu = $class->Get_Menu();
+        foreach ($tmp_menu as $addon => $addons_menu) {
             if ($addons_menu['insertafter'] == '' && !$addons_menu['onlysub'])
                 $new_menu[$addons_menu['id']] = $addons_menu['menu'];
         }
@@ -64,8 +67,7 @@ class addons {
         // traitement avec le menu de base
         foreach ($base as $id => $menu) {
             $new_menu[$id] = $menu;
-            foreach ($this->addons_list as $addon => $class) {
-                $addons_menu = $class->Get_Menu();
+            foreach ($tmp_menu as $addons_menu) {
                 if ($addons_menu['insertafter'] == $id && !$addons_menu['onlysub'])
                     $new_menu[$addons_menu['id']] = $addons_menu['menu'];
                 elseif($addons_menu['insertafter'] == $id && $addons_menu['onlysub'])
