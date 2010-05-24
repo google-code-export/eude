@@ -256,6 +256,7 @@ q;
                     array('water'=> $water,
                         'batiments'=>$batiments),
                     '%s "%s" mis à jour');
+		$xml['log']='Infos planète misent à jour : '.$_POST['COORIN'].$ok;
         }
         break;
 
