@@ -39,8 +39,8 @@ SELECT
   $datas = mysql_fetch_array($mysql_result)
 ?>
   <tr><td>
-Votre date de création: le <b><?=date_format(date_create($datas['DateCreate']), "j F Y \à G:i")?></b><br />
-Votre dernière connexion: le <b><?=date_format(date_create($datas['DateLastConnect']), "j F Y \à G:i")?></b>
+Votre date de création: le <b><?php echo date_format(date_create($datas['DateCreate']), "j F Y \à G:i"); ?></b><br />
+Votre dernière connexion: le <b><?php echo date_format(date_create($datas['DateLastConnect']), "j F Y \à G:i"); ?></b>
   </td></tr></table>
 
 <!-- FIN CODE LIBRE -->

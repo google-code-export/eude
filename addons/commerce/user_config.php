@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `cnhUsers_Config` (
 <br /><br /><?php cnhTB(0) ?><hr><br />
 <!-- DEBUT CODE LIBRE -->
 
-<form name="form1" method="post" action=""><input type="hidden" name="ID" id="ID" value='<?=$datas_id?>'><input type="hidden" name="Login" id="Login" value='<?=$datas["Login"]?>'>
+<form name="form1" method="post" action=""><input type="hidden" name="ID" id="ID" value='<?php echo $datas_id; ?>'><input type="hidden" name="Login" id="Login" value='<?php echo $datas["Login"]; ?>'>
 <table border="1" align="center" cellpadding="3" cellspacing="0">
   <tr>
     <th>Information</th>
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `cnhUsers_Config` (
   </tr>
   <tr>
     <td>Modificateur du prix des modules et chassis</td>
-    <td>+/- <input type="text" name="Modifier" id="Modifier" size=20 maxlength=15 value="<?=$datas["Modifier"]?>"> %</td>
+    <td>+/- <input type="text" name="Modifier" id="Modifier" size=20 maxlength=15 value="<?php echo $datas["Modifier"]; ?>"> %</td>
   </tr>
   <tr>
     <td>Tri par défaut de la liste des modules</td>
@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `cnhUsers_Config` (
   </tr>
   <tr>
     <td>Modification du tri</td>
-    <td><input type="checkbox" name="ActivatedSort" id="ActivatedSort" <?=($datas[ActivatedSort] ? "checked " : "" )?>/> Mettre en haut de liste les modules que vous pouvez construire.</td>
+    <td><input type="checkbox" name="ActivatedSort" id="ActivatedSort" <?php echo ($datas[ActivatedSort] ? "checked " : "" ); ?>/> Mettre en haut de liste les modules que vous pouvez construire.</td>
   </tr>
   <tr>
     <td>A qui voulez-vous vendre vos modules?</td>
@@ -161,9 +161,9 @@ CREATE TABLE IF NOT EXISTS `cnhUsers_Config` (
   <tr>
     <td>Quels paiements acceptez-vous?</td>
     <td><table border="0" cellspacing="0" cellpadding="0">
-    <tr><td><input type="checkbox" name="Paiement_0" <?=($datas["Paiement"] & UP_CREDITS ? "checked " : "" )?>/></td><td>Vous acceptez les crédits comme paiement.</td></tr>
-    <tr><td><input type="checkbox" name="Paiement_1" <?=($datas["Paiement"] & UP_EXACT ? "checked " : "" )?>/></td><td>Vous acceptez un paiement en ressources identiques aux ressources utilisées.</td></tr>
-    <tr valign=top><td><input type="checkbox" name="Paiement_2" <?=($datas["Paiement"] & UP_CHOIX ? "checked " : "" )?>/></td><td>Vous acceptez un paiement dans une sélection de ressources ci-dessous:
+    <tr><td><input type="checkbox" name="Paiement_0" <?php echo ($datas["Paiement"] & UP_CREDITS ? "checked " : "" ); ?>/></td><td>Vous acceptez les crédits comme paiement.</td></tr>
+    <tr><td><input type="checkbox" name="Paiement_1" <?php echo ($datas["Paiement"] & UP_EXACT ? "checked " : "" ); ?>/></td><td>Vous acceptez un paiement en ressources identiques aux ressources utilisées.</td></tr>
+    <tr valign=top><td><input type="checkbox" name="Paiement_2" <?php echo ($datas["Paiement"] & UP_CHOIX ? "checked " : "" ); ?>/></td><td>Vous acceptez un paiement dans une sélection de ressources ci-dessous:
 <?php
   for($i = 0; $i < sizeof($cnhMineraisName); $i++)
     echo("<br /><input type='checkbox' name='Paiement_".($i+3)."' ".($datas["Paiement"] & pow(2, $i + 3) ? "checked " : "" )."/> <img src='".IMAGES_URL.$cnhMineraisName[$i].".png' /> ".$cnhMineraisName[$i]);

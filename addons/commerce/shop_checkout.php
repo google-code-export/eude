@@ -60,7 +60,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 <table border="1" align="center" cellpadding="3" cellspacing="0">
 <tr><th rowspan=2 valign=bottom>Articles</th><th rowspan=2 valign=bottom>Quantité</th><th rowspan=2 valign=bottom>Prix total</th><th colspan=2>Vendeurs</th></tr>
 <tr><th>Noms</th><th>Paiements acceptés</th></tr>
-<tr><td colspan=5 align=right><?=$defaultbutton?></td></tr>
+<tr><td colspan=5 align=right><?php echo $defaultbutton; ?></td></tr>
 <?php
   for($i = 0; $i < $basket->total; $i++) {
     $modid = $basket->items[$i]["ID"];
@@ -122,7 +122,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
   echo("</table></td><td colspan=2>&nbsp;</td></tr>\n");
 
 ?>
-<tr><td colspan=5 align=right><?=$defaultbutton?></td></tr>
+<tr><td colspan=5 align=right><?php echo $defaultbutton; ?></td></tr>
 </table></form>
 
 

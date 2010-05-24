@@ -61,50 +61,50 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 ?>    
   <tr>
     <td>Nom du module</td>
-    <td><?=$datas["Nom"]?><?php if(!empty($datas["Abreviation"])) echo(" (<i>".$datas["Abreviation"]."</i>)"); ?></td>
+    <td><?php echo $datas["Nom"]; ?><?php if(!empty($datas["Abreviation"])) echo(" (<i>".$datas["Abreviation"]."</i>)"); ?></td>
   </tr>
   <tr>
     <td>Description</td>
-    <td><?=$datas["Description"]?></td>
+    <td><?php echo $datas["Description"]; ?></td>
   </tr>
 <?php if(!empty($datas["URLIcone"])) { ?>    
   <tr>
     <td>Icône</td>
-    <td align=center><img align=absmiddle src='<?=$datas["URLIcone"]?>'></td>
+    <td align=center><img align=absmiddle src='<?php echo $datas["URLIcone"]; ?>'></td>
   </tr>
 <?php }
    if(!empty($datas["URLMedium"])) { 
 ?>    
   <tr>
     <td>Medium Image</td>
-    <td align=center><img align=absmiddle src='<?=$datas["URLMedium"]?>'></td>
+    <td align=center><img align=absmiddle src='<?php echo $datas["URLMedium"]; ?>'></td>
   </tr>
 <?php }
    if(!empty($datas["URLImage"])) { 
 ?>    
   <tr>
     <td>Large Image</td>
-    <td align=center><img align=absmiddle src='<?=$datas["URLImage"]?>'></td>
+    <td align=center><img align=absmiddle src='<?php echo $datas["URLImage"]; ?>'></td>
   </tr>
 <?php } ?>
   <tr>
     <td>Catégorie</td>
-    <td><?=$cnhCategorieName[$datas["Categorie"]]?></td>
+    <td><?php echo $cnhCategorieName[$datas["Categorie"]]; ?></td>
   </tr>
   <tr>
     <td>Taille de transport</td>
-    <td><?=$datas["Taille"]?></td>
+    <td><?php echo $datas["Taille"]; ?></td>
   </tr>
   <tr>
     <td>PA</td>
     <td><table width="0%" border="0" cellspacing="5" cellpadding="0">
       <tr>
         <td>Chasseur </td>
-        <td><?=$datas["PAChasseur"]?></td>
+        <td><?php echo $datas["PAChasseur"]; ?></td>
       </tr>
       <tr>
         <td>GVG</td>
-        <td><?=$datas["PAGVG"]?></td>
+        <td><?php echo $datas["PAGVG"]; ?></td>
       </tr>
     </table>    </td>
   </tr>
@@ -122,7 +122,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 ?>
       <tr>
         <td><b>Total</b></td>
-        <td><b><?=$totalress?></b></td>
+        <td><b><?php echo $totalress; ?></b></td>
       </tr>
     </table>
       </td>
@@ -133,15 +133,15 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
     <td><table width="0%" border="0" cellspacing="5" cellpadding="0">
       <tr>
         <td>Impulsion</td>
-        <td><?=$datas["PropImpulsion"]?></td>
+        <td><?php echo $datas["PropImpulsion"]; ?></td>
       </tr>
       <tr>
         <td>Warp</td>
-        <td><?=$datas["PropWarp"]?></td>
+        <td><?php echo $datas["PropWarp"]; ?></td>
       </tr>
       <tr>
         <td>Consommation</td>
-        <td><?=$datas["PropConsommation"]?></td>
+        <td><?php echo $datas["PropConsommation"]; ?></td>
       </tr>
       <tr>
         <td>Statistiques</td>
@@ -168,15 +168,15 @@ elseif($datas["Categorie"] == 1) { ?>
     <td><table width="0%" border="0" cellspacing="5" cellpadding="0">
       <tr>
         <td>Type</td>
-        <td><?=$cnhArmeName[$datas["ArmType"]]?></td>
+        <td><?php echo $cnhArmeName[$datas["ArmType"]]; ?></td>
       </tr>
       <tr>
         <td>Dégâts</td>
-        <td><?=$datas["ArmDegat"]?></td>
+        <td><?php echo $datas["ArmDegat"]; ?></td>
       </tr>
       <tr>
         <td>Précision</td>
-        <td><?=$datas["ArmManiabilite"]?></td>
+        <td><?php echo $datas["ArmManiabilite"]; ?></td>
       </tr>
     </table>
       </td>
@@ -188,15 +188,15 @@ elseif($datas["Categorie"] == 2) { ?>
     <td><table width="0%" border="0" cellspacing="5" cellpadding="0">
       <tr>
         <td>Type</td>
-        <td><?=$cnhProtectionName[$datas["ProtType"]]?></td>
+        <td><?php echo $cnhProtectionName[$datas["ProtType"]]; ?></td>
       </tr>
       <tr>
         <td>Protection Chasseur</td>
-        <td><?=$datas["ProtChasseur"]?></td>
+        <td><?php echo $datas["ProtChasseur"]; ?></td>
       </tr>
       <tr>
         <td>Protection GVG</td>
-        <td><?=$datas["ProtGVG"]?></td>
+        <td><?php echo $datas["ProtGVG"]; ?></td>
       </tr>
     </table>
       </td>
@@ -208,11 +208,11 @@ elseif($datas["Categorie"] == 3) { ?>
     <td><table width="0%" border="0" cellspacing="5" cellpadding="0">
       <tr>
         <td>Type</td>
-        <td><?=$cnhEquipementName[$datas["EquipType"]]?></td>
+        <td><?php echo $cnhEquipementName[$datas["EquipType"]]; ?></td>
       </tr>
       <tr>
         <td>Capacité / Niveau</td>
-        <td><?=$datas["EquipNiv"]?></td>
+        <td><?php echo $datas["EquipNiv"]; ?></td>
       </tr>
     </table>
       </td>
@@ -224,33 +224,33 @@ elseif($datas["Categorie"] == 4) { ?>
     <td><table width="0%" border="0" cellspacing="5" cellpadding="0">
       <tr>
         <td>Type</td>
-        <td><?=$cnhChassisName[$datas["ChassType"]]?></td>
+        <td><?php echo $cnhChassisName[$datas["ChassType"]]; ?></td>
       </tr>
       <tr>
-        <td>PA<?=($datas["ChassType"] != $datas["ChassCellules"] ? " / Cellules" : "")?></td>
-        <td><?=$datas["ChassPA"]?><?=($datas["ChassType"] != $datas["ChassCellules"] ? " / ".$datas["ChassCellules"] : "")?></td>
+        <td>PA<?php echo ($datas["ChassType"] != $datas["ChassCellules"] ? " / Cellules" : ""); ?></td>
+        <td><?php echo $datas["ChassPA"]; ?><?php echo ($datas["ChassType"] != $datas["ChassCellules"] ? " / ".$datas["ChassCellules"] : ""); ?></td>
       </tr>
       <tr>
         <td>Structure (Coque)</td>
-        <td><?=$datas["ChassStructure"]?></td>
+        <td><?php echo $datas["ChassStructure"]; ?></td>
       </tr>
       <tr>
-        <td>Carburant<?=($datas["ChassType"]==0 ? " / Consommation" : "")?></td>
-        <td><?=$datas["ChassCarburant"]?><?=($datas["ChassType"]==0 ? " / 0.1" : "")?></td>
+        <td>Carburant<?php echo ($datas["ChassType"]==0 ? " / Consommation" : ""); ?></td>
+        <td><?php echo $datas["ChassCarburant"]; ?><?php echo ($datas["ChassType"]==0 ? " / 0.1" : ""); ?></td>
       </tr>
 <?php if($datas["ChassType"]==0) { ?>
       <tr>
         <td>Vitesse Impulsion / Warp</td>
-        <td><?=$datas["ChassImpulsion"]." / ".$datas["ChassWarp"]?></td>
+        <td><?php echo $datas["ChassImpulsion"]." / ".$datas["ChassWarp"]; ?></td>
       </tr>
 <?php } else { ?>
       <tr>
         <td>Modificateur Impulsion / Warp</td>
-        <td><?=$datas["ChassImpulsion"]." / ".$datas["ChassWarp"]?></td>
+        <td><?php echo $datas["ChassImpulsion"]." / ".$datas["ChassWarp"]; ?></td>
       </tr>
       <tr>
         <td>Maniabilité</td>
-        <td><?=$datas["ChassManiabilite"]?></td>
+        <td><?php echo $datas["ChassManiabilite"]; ?></td>
       </tr>
 <?php } ?>
     </table>

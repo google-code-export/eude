@@ -340,8 +340,8 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
           {
 ?>
 <SCRIPT LANGUAGE="JavaScript">
-alert("<?=$alertjava?>");
-window.location = "template_edit.php?editid=<?=$datas_id?>";
+alert("<?php echo $alertjava; ?>");
+window.location = "template_edit.php?editid=<?php echo $datas_id; ?>";
 </SCRIPT>
 <?php
           }

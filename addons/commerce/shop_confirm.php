@@ -234,7 +234,7 @@ EOF;
 <?php echo $radiolist; ?>
 </td></tr>
 <tr><th>Vendeurs</th><th>Articles</th><th>Total à payer</th></tr>
-<tr><td colspan=3 align=right><?=$defaultbutton?></td></tr>
+<tr><td colspan=3 align=right><?php echo $defaultbutton; ?></td></tr>
 <?php
     $vlist = $basket->VendorSelSort();
     $oldvendor = '';
@@ -320,7 +320,7 @@ EOF;
     echo('<tr><td colspan=3><hr size=1></td></tr><tr STYLE="font-weight:bold;"><td><img src="images/ressources.png" />&nbsp;TOTAL</td><td>&nbsp;</td><td align=right>'.DataEngine::format_number($vlist["RessourcesNBTotal"])."</td></tr>");
     echo("</table></td></tr>\n");
 ?>
-<tr><td colspan=3 align=right><?=$defaultbutton?></td></tr>
+<tr><td colspan=3 align=right><?php echo $defaultbutton; ?></td></tr>
 </table></form>
 <?php
   }

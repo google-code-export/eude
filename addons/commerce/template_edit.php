@@ -144,23 +144,23 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
   </tr>
   <tr>
     <td>ID</td>
-    <td><input type="hidden" name="ID" id="ID" value="<?=$datas_id?>"><?=$datas_id?></td>
+    <td><input type="hidden" name="ID" id="ID" value="<?php echo $datas_id; ?>"><?php echo $datas_id; ?></td>
   </tr>
   <tr>
     <td>Nom long du module</td>
-    <td><input type="text" name="Nom" id="Nom" size=60 maxlength=125 value="<?=$datas["Nom"]?>"></td>
+    <td><input type="text" name="Nom" id="Nom" size=60 maxlength=125 value="<?php echo $datas["Nom"]; ?>"></td>
   </tr>
   <tr>
     <td>Abréviation (ou nom alternatif) du module</td>
-    <td><input type="text" name="Abreviation" id="Abreviation" size=60 maxlength=125 value="<?=$datas["Abreviation"]?>"></td>
+    <td><input type="text" name="Abreviation" id="Abreviation" size=60 maxlength=125 value="<?php echo $datas["Abreviation"]; ?>"></td>
   </tr>
   <tr>
     <td>Description</td>
-    <td><textarea name="Description" cols="45" rows="5" wrap="virtual" id="Description"><?=$datas["Description"]?></textarea></td>
+    <td><textarea name="Description" cols="45" rows="5" wrap="virtual" id="Description"><?php echo $datas["Description"]; ?></textarea></td>
   </tr>
   <tr>
     <td>URL Icône</td>
-    <td><input type="text" name="URLIcone" id="URLIcone" size=60 maxlength=245 value="<?=$datas["URLIcone"]?>">
+    <td><input type="text" name="URLIcone" id="URLIcone" size=60 maxlength=245 value="<?php echo $datas["URLIcone"]; ?>">
 <?php
   if($datas["URLIcone"]!="") echo("<br><div align=center><img align=absmiddle src='".$datas["URLIcone"]."'></div>");
 ?>    
@@ -168,7 +168,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
   </tr>
   <tr>
     <td>URL Medium</td>
-    <td><input type="text" name="URLMedium" id="URLMedium" size=60 maxlength=245 value="<?=$datas["URLMedium"]?>">
+    <td><input type="text" name="URLMedium" id="URLMedium" size=60 maxlength=245 value="<?php echo $datas["URLMedium"]; ?>">
 <?php
   if($datas["URLMedium"]!="") echo("<br><div align=center><img align=absmiddle src='".$datas["URLMedium"]."'></div>");
 ?>    
@@ -176,7 +176,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
   </tr>
   <tr>
     <td>URL Image</td>
-    <td><input type="text" name="URLImage" id="URLImage" size=60 maxlength=245 value="<?=$datas["URLImage"]?>">
+    <td><input type="text" name="URLImage" id="URLImage" size=60 maxlength=245 value="<?php echo $datas["URLImage"]; ?>">
 <?php
   if($datas["URLImage"]!="") echo("<br><div align=center><img align=absmiddle src='".$datas["URLImage"]."'></div>");
 ?>    
@@ -184,8 +184,8 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
   </tr>
   <tr>
     <td>Temps de construction</td>
-<!--    <td><input type="text" name="Temps" id="Temps" size=15 maxlength=10 value="<?=(!empty($datas["Temps"]) ? date_format(date_create($datas["Temps"]), "j H:i:s") : "")?>"> (D HH:MM:SS)</td> -->
-    <td><input type="text" name="Temps" id="Temps" size=15 maxlength=10 value="<?=$datas["Temps"]?>"> (D HH:MM:SS)</td>
+<!--    <td><input type="text" name="Temps" id="Temps" size=15 maxlength=10 value="<?php echo (!empty($datas["Temps"]) ? date_format(date_create($datas["Temps"]), "j H:i:s") : ""); ?>"> (D HH:MM:SS)</td> -->
+    <td><input type="text" name="Temps" id="Temps" size=15 maxlength=10 value="<?php echo $datas["Temps"]; ?>"> (D HH:MM:SS)</td>
   </tr>
   <tr>
     <td>Catégorie</td>
@@ -198,18 +198,18 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
   </tr>
   <tr>
     <td>Taille de transport</td>
-    <td><input type="text" name="Taille" id="Taille" value="<?=$datas["Taille"]?>"></td>
+    <td><input type="text" name="Taille" id="Taille" value="<?php echo $datas["Taille"]; ?>"></td>
   </tr>
   <tr>
     <td>PA</td>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td>Chasseur </td>
-        <td><input type="text" name="PAChasseur" id="PAChasseur" value="<?=$datas["PAChasseur"]?>"></td>
+        <td><input type="text" name="PAChasseur" id="PAChasseur" value="<?php echo $datas["PAChasseur"]; ?>"></td>
       </tr>
       <tr>
         <td>GVG</td>
-        <td><input type="text" name="PAGVG" id="PAGVG" value="<?=$datas["PAGVG"]?>"></td>
+        <td><input type="text" name="PAGVG" id="PAGVG" value="<?php echo $datas["PAGVG"]; ?>"></td>
       </tr>
     </table>    </td>
   </tr>
@@ -229,15 +229,15 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td>Impulsion</td>
-        <td><input type="text" name="PropImpulsion" id="PropImpulsion" value="<?=$datas["PropImpulsion"]?>"></td>
+        <td><input type="text" name="PropImpulsion" id="PropImpulsion" value="<?php echo $datas["PropImpulsion"]; ?>"></td>
       </tr>
       <tr>
         <td>Warp</td>
-        <td><input type="text" name="PropWarp" id="PropWarp" value="<?=$datas["PropWarp"]?>"></td>
+        <td><input type="text" name="PropWarp" id="PropWarp" value="<?php echo $datas["PropWarp"]; ?>"></td>
       </tr>
       <tr>
         <td>Consommation</td>
-        <td><input type="text" name="PropConsommation" id="PropConsommation" value="<?=$datas["PropConsommation"]?>"></td>
+        <td><input type="text" name="PropConsommation" id="PropConsommation" value="<?php echo $datas["PropConsommation"]; ?>"></td>
       </tr>
     </table>
 	</td>
@@ -248,18 +248,18 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
       <tr>
         <td>Type</td>
         <td><select name="ArmType" id="ArmType">
-          <option value="0" <?=($datas["ArmType"]==0 ? "selected" : "")?> >Laser</option>
-          <option value="1" <?=($datas["ArmType"]==1 ? "selected" : "")?> >Projectile</option>
-          <option value="2" <?=($datas["ArmType"]==2 ? "selected" : "")?> >Ion</option>
+          <option value="0" <?php echo ($datas["ArmType"]==0 ? "selected" : ""); ?> >Laser</option>
+          <option value="1" <?php echo ($datas["ArmType"]==1 ? "selected" : ""); ?> >Projectile</option>
+          <option value="2" <?php echo ($datas["ArmType"]==2 ? "selected" : ""); ?> >Ion</option>
         </select></td>
       </tr>
       <tr>
         <td>Dégâts</td>
-        <td><input type="text" name="ArmDegat" id="ArmDegat" value="<?=$datas["ArmDegat"]?>"></td>
+        <td><input type="text" name="ArmDegat" id="ArmDegat" value="<?php echo $datas["ArmDegat"]; ?>"></td>
       </tr>
       <tr>
         <td>Précision</td>
-        <td><input type="text" name="ArmManiabilite" id="ArmManiabilite" value="<?=$datas["ArmManiabilite"]?>"></td>
+        <td><input type="text" name="ArmManiabilite" id="ArmManiabilite" value="<?php echo $datas["ArmManiabilite"]; ?>"></td>
       </tr>
     </table>
       </td>
@@ -270,17 +270,17 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
       <tr>
         <td>Type</td>
         <td><select name="ProtType" id="ProtType">
-          <option value="0" <?=($datas["ProtType"]==0 ? "selected" : "")?> >Renfort</option>
-          <option value="1" <?=($datas["ProtType"]==1 ? "selected" : "")?> >Bouclier</option>
+          <option value="0" <?php echo ($datas["ProtType"]==0 ? "selected" : ""); ?> >Renfort</option>
+          <option value="1" <?php echo ($datas["ProtType"]==1 ? "selected" : ""); ?> >Bouclier</option>
         </select></td>
       </tr>
       <tr>
         <td>Protection Chasseur</td>
-        <td><input type="text" name="ProtChasseur" id="ProtChasseur" value="<?=$datas["ProtChasseur"]?>"></td>
+        <td><input type="text" name="ProtChasseur" id="ProtChasseur" value="<?php echo $datas["ProtChasseur"]; ?>"></td>
       </tr>
       <tr>
         <td>Protection GVG</td>
-        <td><input type="text" name="ProtGVG" id="ProtGVG" value="<?=$datas["ProtGVG"]?>"></td>
+        <td><input type="text" name="ProtGVG" id="ProtGVG" value="<?php echo $datas["ProtGVG"]; ?>"></td>
       </tr>
     </table>
       </td>
@@ -291,18 +291,18 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
       <tr>
         <td>Type</td>
         <td><select name="EquipType" id="EquipType">
-          <option value="0" <?=($datas["EquipType"]==0 ? "selected" : "")?> >Cargo</option>
-          <option value="1" <?=($datas["EquipType"]==1 ? "selected" : "")?> >Troupes</option>
-          <option value="2" <?=($datas["EquipType"]==2 ? "selected" : "")?> >Minage</option>
-          <option value="3" <?=($datas["EquipType"]==3 ? "selected" : "")?> >Scan</option>
-          <option value="4" <?=($datas["EquipType"]==4 ? "selected" : "")?> >Récupérateur</option>
-          <option value="5" <?=($datas["EquipType"]==5 ? "selected" : "")?> >Réservoir</option>
-          <option value="6" <?=($datas["EquipType"]==6 ? "selected" : "")?> >Colonisation</option>
+          <option value="0" <?php echo ($datas["EquipType"]==0 ? "selected" : ""); ?> >Cargo</option>
+          <option value="1" <?php echo ($datas["EquipType"]==1 ? "selected" : ""); ?> >Troupes</option>
+          <option value="2" <?php echo ($datas["EquipType"]==2 ? "selected" : ""); ?> >Minage</option>
+          <option value="3" <?php echo ($datas["EquipType"]==3 ? "selected" : ""); ?> >Scan</option>
+          <option value="4" <?php echo ($datas["EquipType"]==4 ? "selected" : ""); ?> >Récupérateur</option>
+          <option value="5" <?php echo ($datas["EquipType"]==5 ? "selected" : ""); ?> >Réservoir</option>
+          <option value="6" <?php echo ($datas["EquipType"]==6 ? "selected" : ""); ?> >Colonisation</option>
                 </select></td>
       </tr>
       <tr>
         <td>Capacité / Niveau</td>
-        <td><input type="text" name="EquipNiv" id="EquipNiv" value="<?=$datas["EquipNiv"]?>"></td>
+        <td><input type="text" name="EquipNiv" id="EquipNiv" value="<?php echo $datas["EquipNiv"]; ; ?>"></td>
       </tr>
     </table>
       </td>

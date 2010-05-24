@@ -46,13 +46,13 @@ WHERE SQL_PREFIX_Modules_Template.Categorie <> 4 AND SQL_PREFIX_Users_Config.Com
   $datas = mysql_fetch_array($mysql_result)
 ?>
   <tr><td>
-Nombre de membres inscrits: <b><?=$datas['TotalUser']?></b><br />
-Dernier membre inscrit: <b><?=$datas['UserLastCreate']?></b> le <b><?=$datas['DateLastCreate']?></b><br />
-Dernière connexion: <b><?=$datas['UserLastConnect']?></b> le <b><?=$datas['DateLastConnect']?></b><br />
+Nombre de membres inscrits: <b><?php echo $datas['TotalUser']; ?></b><br />
+Dernier membre inscrit: <b><?php echo $datas['UserLastCreate']; ?></b> le <b><?php echo $datas['DateLastCreate']; ?></b><br />
+Dernière connexion: <b><?php echo $datas['UserLastConnect']; ?></b> le <b><?php echo $datas['DateLastConnect']; ?></b><br />
 <br />
-Nombre de schémas de modules: <b><?=$datas['TotalModules']?></b><br />
-Nombre de modules différents vendus: <b><?=$datas['TotalBuildModules']?></b><br />
-Vendus par l'Empire: <b><?=number_format($datas['TotalBuildModules'] / $datas['TotalModules'] * 100, 2)?>%</b> des modules totaux.<br />
+Nombre de schémas de modules: <b><?php echo $datas['TotalModules']; ?></b><br />
+Nombre de modules différents vendus: <b><?php echo $datas['TotalBuildModules']; ?></b><br />
+Vendus par l'Empire: <b><?php echo number_format($datas['TotalBuildModules'] / $datas['TotalModules'] * 100, 2); ; ?>%</b> des modules totaux.<br />
   </td></tr></table>
 <br />
 
