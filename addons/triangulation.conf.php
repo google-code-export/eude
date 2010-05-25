@@ -1,7 +1,8 @@
 <?php
 /**
  * @Author: Wilfried.Winner
- * $Revision: Triangulation v1.3
+ * $Revision: Triangulation v1.4.2.1
+ * info svn: $Id$
  * @license GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  **/
@@ -22,7 +23,7 @@ class triangulation_addons implements addon_config {
         // juste la partie 'sous-menu'
         $submenu = array(
 //                array('%ROOT_URL%cartographie.php','%IMAGES_URL%btn-cartographie.png','true'), // sous-menu 1
-                array('%ADDONS_URL%triangulation/index.php','%IMAGES_URL%Btn-triangulation.png','DataEngine::CheckPerms("CARTOGRAPHIE_PLAYERS")'), // sous-menu 1
+                array('%ADDONS_URL%triangulation/index.php','%ADDONS_URL%triangulation/Images/Btn-triangulation.png','DataEngine::CheckPerms("CARTOGRAPHIE_PLAYERS")'), // sous-menu 1
         );
 
         return array('insertafter' => 'carto', // empty for first.(ceux déjà inclus: carto,perso,addon,admin,forum, et logout)
