@@ -49,7 +49,7 @@ h;
     public function RowHeader() {
         $out=<<<h
             <TR class="color_header spacing_header">
-		<td>&nbsp;</TD>
+		<td class="spacing_row">&nbsp;</TD>
 		<td><img src='%IMAGES_URL%Titane.png'>&nbsp;{$this->ress[0]['Nom']}</TD>
 		<td><img src='%IMAGES_URL%Cuivre.png'>&nbsp;{$this->ress[1]['Nom']}</TD>
 		<td><img src='%IMAGES_URL%Fer.png'>&nbsp;{$this->ress[2]['Nom']}</TD>
@@ -85,8 +85,8 @@ h;
             $water_style = 'spacing_row1';
         } else $planet['percent_water'] = '&nbsp;';
         $out=<<<ph
-	<TR class="color_row1">
-		<td class="color_header spacing_header" colspan=2>{$planet['Name']}: {$planet['Coord']}</td>
+	<TR class="color_header">
+		<td class="spacing_row1" colspan=2>{$planet['Name']}: {$planet['Coord']}</td>
 		<td class="{$water_style}" {$bulle}>{$planet['percent_water']}</td>
 		<td colspan=9>&nbsp;</td>
 	</tr>
@@ -234,7 +234,7 @@ ROW;
         <td colspan=12>&nbsp;</td>
     </tr>
     <tr class="color_header spacing_header">
-        <td>{$this->lng['cols_planets']}</td>
+        <td class="spacing_row">{$this->lng['cols_planets']}</td>
         <td><img src="%IMAGES_URL%control.gif" title="%%control%%"/></td>
         <td><img src="%IMAGES_URL%communication.gif" title="%%communication%%"/></td>
         <td><img src="%IMAGES_URL%university.gif" title="%%university%%"/></td>
@@ -245,7 +245,7 @@ ROW;
         <td><img src="%IMAGES_URL%spacedock.gif" title="%%spacedock%%"/></td>
         <td><img src="%IMAGES_URL%bunker.gif" title="%%bunker%%"/></td>
         <td><img src="%IMAGES_URL%tradepost.gif" title="%%tradepost%%"/></td>
-        <td cass="spacing_row"><img src="%IMAGES_URL%ressource.gif" title="%%ressource%%"/></td>
+        <td class="spacing_row"><img src="%IMAGES_URL%ressource.gif" title="%%ressource%%"/></td>
     </tr>
 ROW;
 

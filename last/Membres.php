@@ -62,7 +62,7 @@ do {
 } while ($lid<count($levels));
 
 $players = array();
-$mysql_result = DataEngine::sql('SELECT * from SQL_PREFIX_Membres ORDER BY Grade,Joueur DESC');
+$mysql_result = DataEngine::sql('SELECT * from SQL_PREFIX_Membres ORDER BY Grade,Joueur ASC');
 while ($ligne=mysql_fetch_assoc($mysql_result))
     $players[$ligne['Grade']][] = $ligne;
 

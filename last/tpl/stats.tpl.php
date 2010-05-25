@@ -25,7 +25,7 @@ class tpl_stats extends output {
 <table class="table_center table_nospacing" width="900px">
 <tr class="spacing_header">
 <td class="color_{$actived_de} text_center" width="450px" OnClick="location.href='{$this->BASE_FILE}';">Stats Data Engine</td>
-<td class="color_{$actived_pts} text_center" width="450px" OnClick="location.href='{$this->BASE_FILE}?act=pts';">Points</td></tr>
+<td class="color_{$actived_pts} text_center spacing_row" width="450px" OnClick="location.href='{$this->BASE_FILE}?act=pts';">Points</td></tr>
 <tr><td colspan="2">
 h;
         $this->PushOutput($out);

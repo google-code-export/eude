@@ -149,7 +149,7 @@ gmh;
 <input name='GradeId' type='hidden' value='{$v['GradeId']}'>
 <tr class="text_center">
 <td>{$v['GradeId']}</td>
-<td><input class="color_row1" name='GradeNom' type='text' value='{$v['Grade']}'></td>
+<td><input class="color_row1" name='GradeNom' type='text' value="{$v['Grade']}"></td>
 <td><input class="color_row1 size40" name='GradeNiv' value='{$v['Niveau']}'></td>
 <td>
 <select class="color_row1" name='GradePere'>
