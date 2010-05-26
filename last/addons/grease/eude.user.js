@@ -933,9 +933,19 @@ function Galaxy() {
 }
 
 function Galaxy_Info() {
+    a = new Array();
+    row = id= 1;
+    while (typeof $x('/html/body/div/div[4]/div/table/tbody/tr['+id+']/td[3]')[0] != 'undefined') {
+        a[row-1] = new Array();
+        a[row-1][1] = $x('/html/body/div/div[4]/div/table/tbody/tr['+id+']/td[3]')[0].innerHTML;
+        a[row-1][2] = $x('/html/body/div/div[4]/div/table/tbody/tr['+id+']/td[5]')[0].innerHTML;
+        a[row-1][3] = $x('/html/body/div/div[4]/div/table/tbody/tr['+id+']/td[7]')[0].innerHTML;
+        row++;
+        id = (row*2)-1;
+    }
     data = new Array();
     data['ss']   = $x('/html/body/div/div/table/tbody/tr[3]/td[4]')[0].innerHTML;
-    data['data'] = document.documentElement.innerHTML;
+    data['data'] = serialize(a);
     get_xml('galaxy_info', data);
 }
 
@@ -961,8 +971,8 @@ function Planet() {
 
     var a=new Array();
 
-// /html/body/div[2]/div/div/div/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]
-//             /html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]
+    // /html/body/div[2]/div/div/div/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]
+    //             /html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]
     if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+\\n.+<td class=\\"font_white\\">(\\d+:\\d+:\\d+:\\d+)<\\/td>/')))
         a['COORIN']= RegExp.$1;
 
@@ -1068,7 +1078,7 @@ function MaFiche() {
     //    tmp = a['Commerce']+'-'+a['Recherche']+'-'+a['Combat']+'-'+a['Construction']+'-'+a['Economie']+'-'+a['Navigation'];
     //    tmp = a['POINTS']+'-'+a['pts_architecte']+'-'+a['pts_mineur']+'-'+a['pts_science']+'-'+a['pts_commercant']+'-'+a['pts_amiral']+'-'+a['pts_guerrier'];
     //    tmp = i+'--'+a['GameGrade']+'-'+a['Race']+'-'+a['Titre'];
-//        AddToMotd(serialize(a));
+    //        AddToMotd(serialize(a));
     get_xml('mafiche', a);
 }
 

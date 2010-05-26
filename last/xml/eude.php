@@ -132,16 +132,8 @@ q;
             $carto->AddErreur('Permissions manquante');
             break;
         }
-        $page = gpc_esc($_POST['data']);
+        $galaxy_info = unserialize(gpc_esc($_POST['data']));
         $cur_ss = $_POST['ss'];
-
-        preg_match_all('#class="table_entry_onclick".*width="100">(\d+-\d+-\d+-\d+)</td>\n'.
-                '.*\n.*width="150">(.*)</td>\n'.
-                '.*\n.*width="284">(.*)</td>#',
-                $page, $galaxy_info, PREG_SET_ORDER);
-        //preg_match_all('#class="table_entry_onclick".*width="100">(\d+-\d+-\d+-\d+)</td>#', $page, $coords, PREG_SET_ORDER);
-        //preg_match_all('#class="table_entry_onclick".*width="150">(\w*)</td>#', $page, $noms, PREG_SET_ORDER);
-        //preg_match_all('#class="table_entry_onclick".*width="284">(.*)</td>#', $page, $players, PREG_SET_ORDER);
 
         $nbplanets = 0;
         $SS_A = $del_planet = $curss_info = array();
