@@ -30,7 +30,7 @@ var c_lang = c_host.substr(-3);
 c_lang = c_lang.substr(c_lang.indexOf('.')+1);
 var c_page = c_url.substr(7+c_host.length);
 var c_prefix = c_server+'.'+c_lang;
-if (c_prefix = 'eu2.fr') c_prefix = 'australis';
+if (c_prefix = 'eu2.fr') c_prefix = 'australis.fr';
 metadata.search(/\@version\s+(\d+\.\d+\.\d+(\.\d+)?)/);
 var mversion=RegExp.$1.replace(/\.+/g, '');
 metadata.search(/Id\:\ eude\.user\.js\ (\d+)\ \d+\-\d+\-\d+\ .+\$/);
