@@ -582,6 +582,8 @@ class cartographie {
         $this->wars  = DataEngine::config('EmpireEnnemy');
         if (!is_array($this->allys) && $this->allys !='') $this->allys = array($this->allys);
         if (!is_array($this->wars)  && $this->wars  !='') $this->wars = array($this->wars);
+        if (!is_array($this->allys) && $this->allys =='') $this->allys = array();
+        if (!is_array($this->wars)  && $this->wars  =='') $this->wars = array();
         if (is_array($this->allys)) $this->allys = parser::getinstance()->cleaning_array($this->allys);
         if (is_array($this->wars )) $this->wars  = parser::getinstance()->cleaning_array($this->wars);
     }

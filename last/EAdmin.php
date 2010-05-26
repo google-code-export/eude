@@ -148,16 +148,16 @@ sql;
 
     $delid = array();
     $result = DataEngine::sql($sql);
-    while ($line=mysql_fetch_assoc($result)) 
-	if (mysql_num_rows($result)>0) {
-	$delid[] = $line['pID'];
-    $delid = implode(',', $delid);
-    $sql = 'DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` IN ('.$delid.')';
-    $result = DataEngine::sql($sql);
-    $cleaning['num deleted'] = mysql_affected_rows();
-    if ($cleaning['num deleted']>0)
-        output::Messager(sprintf('%d orphelin(s) trouvé', $cleaning['num deleted']));
-	}
+    if (mysql_num_rows($result)>0) {
+        while ($line=mysql_fetch_assoc($result))
+            $delid[] = $line['pID'];
+        $delid = implode(',', $delid);
+        $sql = 'DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` IN ('.$delid.')';
+        $result = DataEngine::sql($sql);
+        $cleaning['num deleted'] = mysql_affected_rows();
+        if ($cleaning['num deleted']>0)
+            output::Messager(sprintf('%d orphelin(s) trouvé', $cleaning['num deleted']));
+    }
 }
 // -- Partie maintenance -------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -181,20 +181,24 @@ if(isset($_POST['emp_allywars']) && $_POST['emp_allywars'] != '') {
     $mysql_result = DataEngine::sql('UPDATE SQL_PREFIX_Coordonnee SET TYPE=0 WHERE TYPE in (3,5)');
 
     $tmp = DataEngine::config('EmpireAllys');
-    array_walk($tmp, 'array_fullsqlesc');
-    $tmp = implode(',', $tmp);
-    if ($tmp!='') {
-        $mysql_result = DataEngine::sql('UPDATE SQL_PREFIX_Coordonnee SET TYPE=3 WHERE TYPE in (0,5) AND `EMPIRE` in ('.$tmp.')');
-        $allysnb = mysql_affected_rows();
-    } else $allysnb = 0;
+    if (is_array($tmp) && $tmp != '') {
+        array_walk($tmp, 'array_fullsqlesc');
+        $tmp = implode(',', $tmp);
+        if ($tmp!='') {
+            $mysql_result = DataEngine::sql('UPDATE SQL_PREFIX_Coordonnee SET TYPE=3 WHERE TYPE in (0,5) AND `EMPIRE` in ('.$tmp.')');
+            $allysnb = mysql_affected_rows();
+        } else $allysnb = 0;
+    }
 
     $tmp = DataEngine::config('EmpireEnnemy');
-    array_walk($tmp, 'array_fullsqlesc');
-    $tmp = implode(',', $tmp);
-    if ($tmp!='') {
-        $mysql_result = DataEngine::sql('UPDATE SQL_PREFIX_Coordonnee SET TYPE=5 WHERE TYPE in (0,3) AND `EMPIRE` in ('.$tmp.')');
-        $warsnb = mysql_affected_rows();
-    } else $warsnb = 0;
+    if (is_array($tmp) && $tmp != '') {
+        array_walk($tmp, 'array_fullsqlesc');
+        $tmp = implode(',', $tmp);
+        if ($tmp!='') {
+            $mysql_result = DataEngine::sql('UPDATE SQL_PREFIX_Coordonnee SET TYPE=5 WHERE TYPE in (0,3) AND `EMPIRE` in ('.$tmp.')');
+            $warsnb = mysql_affected_rows();
+        } else $warsnb = 0;
+    }
 }
 if(isset($_POST['emp_war_add']) && $_POST['emp_war_add'] != '') {
     $emp = sqlesc($_POST['emp'],false);
