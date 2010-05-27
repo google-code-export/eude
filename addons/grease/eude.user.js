@@ -26,6 +26,7 @@ var c_lang = c_host.substr(-3);
 c_lang = c_lang.substr(c_lang.indexOf('.')+1);
 var c_page = c_url.substr(7+c_host.length);
 var c_prefix = c_server+'.'+c_lang;
+if (c_prefix == 'eu2.fr') c_prefix = 'australis.fr';
 metadata.search(/\@version\s+(\d+\.\d+\.\d+(\.\d+)?)/);
 var mversion=RegExp.$1.replace(/\.+/g, '');
 metadata.search(/Id\:\ eude\.user\.js\ (\d+)\ \d+\-\d+\-\d+\ .+\$/);
@@ -33,16 +34,17 @@ var revision=RegExp.$1;
 var version=mversion+'r'+revision;
 const debug=false;
 
-var c_game_lang = (unsafeWindow.top.sei_language != 'undefined') ? unsafeWindow.top.sei_language: c_lang;
+var c_game_lang = (typeof unsafeWindow.top.window.fv['lang'] != 'undefined') ? unsafeWindow.top.window.fv['lang']: c_lang;
 
 var i18n = Array();
 i18n['fr'] = Array();
+i18n['fr']['eudeready']      = '<u>Data Engine</u> Français, actif';
 i18n['fr']['confheader']     = 'Options spécifique au <u>Data Engine</u>';
 i18n['fr']['conflink']       = 'Adresse';
 i18n['fr']['confuser']       = 'Nom d\'utilisateur';
 i18n['fr']['confpass']       = 'Mot de passe';
 i18n['fr']['confspacer']     = 130;
-i18n['fr']['confcells']      = 21;
+i18n['fr']['confcells']      = 20;
 i18n['fr']['coords']         = 'Coordonnées';
 i18n['fr']['ress0']          = 'Titane';
 i18n['fr']['ress1']          = 'Cuivre';
@@ -72,12 +74,13 @@ i18n['fr']['ga,fleet']       = ' flotte(s) schtroumpfs';
 
 if (c_game_lang == 'com') c_game_lang = 'en';
 i18n['en'] = Array();
+i18n['en']['eudeready']      = 'English <u>Data Engine</u> online';
 i18n['en']['confheader']     = '<u>Data Engine</u> specifics options';
 i18n['en']['conflink']       = 'Address';
 i18n['en']['confuser']       = 'User name';
 i18n['en']['confpass']       = 'Password';
 i18n['en']['confspacer']     = 65;
-i18n['en']['confcells']      = 21;
+i18n['en']['confcells']      = 20;
 i18n['en']['coords']         = 'Coordinates';
 i18n['en']['ress0']          = 'Titanium';
 i18n['en']['ress1']          = 'Copper';
@@ -106,12 +109,13 @@ i18n['en']['npc,fleet']      = ' flotte(s) pirate';
 i18n['en']['ga,fleet']       = ' flotte(s) schtroumpfs';
 
 i18n['de'] = Array();
+i18n['de']['eudeready']      = '<u>Data Engine</u> "de", actif';
 i18n['de']['confheader']     = 'Options spécifique au <u>Data Engine</u>';
 i18n['de']['conflink']       = 'Adresse';
 i18n['de']['confuser']       = 'Nickname';
 i18n['de']['confpass']       = 'Passwort';
 i18n['de']['confspacer']     = 1;
-i18n['de']['confcells']      = 21;
+i18n['de']['confcells']      = 20;
 i18n['de']['coords']         = 'Koordinaten';
 i18n['de']['ress0']          = 'Titan';
 i18n['de']['ress1']          = 'Kupfer';
@@ -141,12 +145,13 @@ i18n['de']['ga,fleet']       = ' flotte(s) schtroumpfs';
 
 // [PL] translation by jhonny
 i18n['pl'] = Array();
+i18n['pl']['eudeready']      = '<u>Data Engine</u> "pl", actif';
 i18n['pl']['confheader']     = 'Opcje ustawienia do <u>Data Engine</u>';
 i18n['pl']['conflink']       = 'Strona';
 i18n['pl']['confuser']       = 'Użytkownik';
 i18n['pl']['confpass']       = 'Hasło';
 i18n['pl']['confspacer']     = 1;
-i18n['pl']['confcells']      = 21;
+i18n['pl']['confcells']      = 20;
 i18n['pl']['coords']         = 'Współrzędne';
 i18n['pl']['ress0']          = 'Tytan';
 i18n['pl']['ress1']          = 'Miedź';
@@ -605,10 +610,9 @@ function get_xml(key, data) {
 function AddGameLog(text) {
     var log = null;
     try {
-        log = top.document.getElementById('layer_site_content');
+        log = unsafeWindow.top.document.getElementById('layer_site_content');
     } catch(e) {
-        // funny undocumented chromium...
-        log = frameElement.parentElement.parentElement.parentElement.parentNode.getElementById('layer_site_content');
+        GM_log('AddGameLog Err:'+text);
     }
     if (log != null) log.innerHTML = text+'<br/>'+log.innerHTML;
 }
@@ -616,14 +620,13 @@ function AddGameLog(text) {
 function AddToMotd(text,sep) {
     var chat_motd = null;
     try {
-        chat_motd = top.document.getElementById('chat_motd');
+        chat_motd = unsafeWindow.top.document.getElementById('chat_motd');
     } catch(e) {
-        // funny undocumented chromium...
-        chat_motd = frameElement.parentElement.parentElement.parentElement.parentNode.getElementById('chat_motd');
+        GM_log('AddToMotd Err:'+text);
     }
     if (!sep) sep = '<br/>';
     var tmp = text+sep+chat_motd.innerHTML;
-    chat_motd.innerHTML = tmp.substr(0,4000)+'...';
+    chat_motd.innerHTML = tmp.substr(0,4000);
 }
 
 function GetNode (xml, tag){
@@ -645,8 +648,7 @@ function GetNode (xml, tag){
 // -----------------------------------------------------------------------------
 
 function Index() {
-    //    AddToMotd('Data Engine: <b>'+c_server+'</b>.<b>'+ c_lang+'</b> activé.');
-    AddGameLog('Data Engine: <b>'+c_server+'</b>.<b>'+ c_lang+'</b>.');
+    AddGameLog('<span class="gamelog_event">'+i18n[c_game_lang]['eudeready']+'</span>');
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.text = '\x6f\x6c\x64\x53\x65\x74\x54\x69\x6d\x65\x6f\x75\x74'+
@@ -669,19 +671,31 @@ function Index() {
     aserver.target='_blank';
     aserver.innerHTML = 'Data Engine';
 
-    var alog = document.createElement('a');
-    alog.href='javascript:;';
-    alog.innerHTML = 'Log';
-    var js_OnClick = document.createAttribute('OnClick');
-    js_OnClick.value = "top.window.document.getElementById('chat_motd').style.display='';top.window.document.getElementById('chat').style.display='none';";
-    alog.setAttributeNode(js_OnClick);
-    
     x = $x('//*[@id="linkline"]');
     block = x[x.length-1];
     block.innerHTML = block.innerHTML + ' | ';
     block.appendChild(aserver);
-    block.innerHTML = block.innerHTML + ', ';
-    block.appendChild(alog);
+
+    if (debug) {
+        unsafeWindow.top.window.document.getElementById('chat_motd').removeAttribute('OnClick');
+        var adebug = document.createElement('a');
+        adebug.href='javascript:;';
+        adebug.innerHTML = 'Reset';
+        js_OnClick = document.createAttribute('OnClick');
+        js_OnClick.value = "top.window.document.getElementById('chat_motd').innerHTML='';";
+        adebug.setAttributeNode(js_OnClick);
+        block.innerHTML = block.innerHTML + ', ';
+        block.appendChild(adebug);
+    } else {
+        var alog = document.createElement('a');
+        alog.href='javascript:;';
+        alog.innerHTML = 'Log';
+        var js_OnClick = document.createAttribute('OnClick');
+        js_OnClick.value = "top.window.document.getElementById('chat_motd').style.display='';top.window.document.getElementById('chat').style.display='none';";
+        alog.setAttributeNode(js_OnClick);
+        block.innerHTML = block.innerHTML + ', ';
+        block.appendChild(alog);
+    }
 }
 
 function Galaxy() {
@@ -738,10 +752,19 @@ function Galaxy() {
 }
 
 function Galaxy_Info() {
+    a = new Array();
+    row = id= 1;
+    while (typeof $x('/html/body/div/div[4]/div/table/tbody/tr['+id+']/td[3]')[0] != 'undefined') {
+        a[row-1] = new Array();
+        a[row-1][1] = $x('/html/body/div/div[4]/div/table/tbody/tr['+id+']/td[3]')[0].innerHTML;
+        a[row-1][2] = $x('/html/body/div/div[4]/div/table/tbody/tr['+id+']/td[5]')[0].innerHTML;
+        a[row-1][3] = $x('/html/body/div/div[4]/div/table/tbody/tr['+id+']/td[7]')[0].innerHTML;
+        row++;
+        id = (row*2)-1;
+    }
     data = new Array();
     data['ss']   = $x('/html/body/div/div/table/tbody/tr[3]/td[4]')[0].innerHTML;
-    data['data'] = document.documentElement.innerHTML;
-    //$x('/html/body/div/div[4]/div/table')[0].innerHTML;
+    data['data'] = serialize(a);
     get_xml('galaxy_info', data);
 }
 
@@ -879,7 +902,7 @@ function Options() {
 }
 
 /// Dispacheur
-if (debug) AddGameLog('Page: '+c_page);
+if (debug) AddToMotd('Page: '+c_page);
 
 if (GM_getValue(c_prefix+'actived','0')!='0') {
     if (c_page.indexOf('index.php')>0)                                  Index();
