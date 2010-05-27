@@ -837,12 +837,8 @@ function Fleet() {
 }
 
 function Options() {
-    var node = document.getElementById('layer_site_content');
-    //                form            table
-    var area = node.childNodes[1].childNodes[3];
-    // area.rows[2]; // = bouton sauver...
-    //    area = $x('/html/body/div[2]/div/div[6]/div/form/table[2]'); // alternative ?
-    
+    var area = $x('/html/body/div[2]/div/div/div/form/table[2]')[0];
+
     area.rows[4].innerHTML='';
     area.rows[4].appendChild(options_header(i18n[c_game_lang]['confheader']+' <small>('+version+')</small>'));
 
