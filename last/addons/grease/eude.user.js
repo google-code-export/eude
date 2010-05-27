@@ -3,7 +3,7 @@ var metadata = <><![CDATA[
 // @author       Alex10336
 // @name         Data Engine
 // @namespace    http://eude.googlecode.com/
-// @version      1.4.2
+// @version      svn
 // @lastmod      $Id$
 // @license      GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
 // @license      Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
@@ -30,7 +30,7 @@ var c_lang = c_host.substr(-3);
 c_lang = c_lang.substr(c_lang.indexOf('.')+1);
 var c_page = c_url.substr(7+c_host.length);
 var c_prefix = c_server+'.'+c_lang;
-if (c_prefix = 'eu2.fr') c_prefix = 'australis.fr';
+if (c_prefix == 'eu2.fr') c_prefix = 'australis.fr';
 metadata.search(/\@version\s+(\d+\.\d+\.\d+(\.\d+)?)/);
 var mversion=RegExp.$1.replace(/\.+/g, '');
 metadata.search(/Id\:\ eude\.user\.js\ (\d+)\ \d+\-\d+\-\d+\ .+\$/);
@@ -77,6 +77,7 @@ i18n['fr']['npc,fleet']      = ' flotte(s) pirate';
 i18n['fr']['ga,fleet']       = ' flotte(s) schtroumpfs';
 i18n['fr']['troop_log_def']  = 'Dévalisé par';
 i18n['fr']['troop_log_att']  = 'Quitter la planète';
+// TODO: Replace by XPath...
 i18n['fr']['building']       = 'Nombre de bâtiments';
 i18n['fr']['water']          = 'Surface d\'eau';
 
