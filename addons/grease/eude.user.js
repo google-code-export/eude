@@ -4,7 +4,7 @@ var metadata = <><![CDATA[
 // @name         Data Engine
 // @namespace    http://eude.googlecode.com/
 // @version      1.4.2
-// @lastmod      Id: eude.150.user.js 187 2010-04-24 17:18:56Z Alex10336 $
+// @lastmod      $Id$
 // @license      GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
 // @license      Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
 // @description  Script de liaison entre firefox et un serveur Data Engine
