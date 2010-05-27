@@ -882,7 +882,7 @@ function Index() {
 }
 
 function Galaxy() {
-    var reg=/orb\[\d+\]\='(\w+),[^,]*,[^,]*,[^,]*,[^,]*,(\w+|),[^,]*,[^,]*,([0-9a-h]{32})';/g;
+    var reg=/orb\[\d+\]\='(\w+),[^,]*,[^,]*,[^,]*,[^,]*,(\w+|),[^,]*,[^,]*,([0-9a-h]{32})[^,]*?,?[^;]+';/g;
     var m = document.documentElement.innerHTML.match(reg);
 
     var e=new Array();
