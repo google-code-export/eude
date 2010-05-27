@@ -48,7 +48,7 @@ i18n['fr']['conflink']       = 'Adresse';
 i18n['fr']['confuser']       = 'Nom d\'utilisateur';
 i18n['fr']['confpass']       = 'Mot de passe';
 i18n['fr']['confspacer']     = 130;
-i18n['fr']['confcells']      = 21;
+i18n['fr']['confcells']      = 20;
 i18n['fr']['coords']         = 'Coordonnées';
 i18n['fr']['ress0']          = 'Titane';
 i18n['fr']['ress1']          = 'Cuivre';
@@ -88,7 +88,7 @@ i18n['en']['conflink']       = 'Address';
 i18n['en']['confuser']       = 'User name';
 i18n['en']['confpass']       = 'Password';
 i18n['en']['confspacer']     = 65;
-i18n['en']['confcells']      = 21;
+i18n['en']['confcells']      = 20;
 i18n['en']['coords']         = 'Coordinates';
 i18n['en']['ress0']          = 'Titanium';
 i18n['en']['ress1']          = 'Copper';
@@ -127,7 +127,7 @@ i18n['de']['conflink']       = 'Adresse';
 i18n['de']['confuser']       = 'Nickname';
 i18n['de']['confpass']       = 'Passwort';
 i18n['de']['confspacer']     = 1;
-i18n['de']['confcells']      = 21;
+i18n['de']['confcells']      = 20;
 i18n['de']['coords']         = 'Koordinaten';
 i18n['de']['ress0']          = 'Titan';
 i18n['de']['ress1']          = 'Kupfer';
@@ -167,7 +167,7 @@ i18n['pl']['conflink']       = 'Strona';
 i18n['pl']['confuser']       = 'Użytkownik';
 i18n['pl']['confpass']       = 'Hasło';
 i18n['pl']['confspacer']     = 1;
-i18n['pl']['confcells']      = 21;
+i18n['pl']['confcells']      = 20;
 i18n['pl']['coords']         = 'Współrzędne';
 i18n['pl']['ress0']          = 'Tytan';
 i18n['pl']['ress1']          = 'Miedź';
@@ -606,7 +606,7 @@ function serialize (mixed_value) {
                 objname[1] = this.serialize(objname[1]);
                 val = "O" + objname[1].substring(1, objname[1].length - 1);
             }
-            */
+             */
             var count = 0;
             var vals = "";
             var okey;
@@ -966,16 +966,12 @@ function Wormhole() {
     get_xml('wormhole', a);
 }
 
-// TODO: A revoir sur la prochaine maj....
 function Planet() {
     var html = document.documentElement.innerHTML;
-
+    
     var a=new Array();
 
-    // /html/body/div[2]/div/div/div/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]
-    //             /html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]
-    if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+\\n.+<td class=\\"font_white\\">(\\d+:\\d+:\\d+:\\d+)<\\/td>/')))
-        a['COORIN']= RegExp.$1;
+    a['COORIN']= $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]')[0].innerHTML;
 
     if (html.match(eval('/'+i18n[c_game_lang]['water']+'.+\\n.+<td class=\\"font_white\\">(\\d+)%<\\/td>/'))) {
         a['WATER'] = trim(RegExp.$1);
@@ -984,15 +980,16 @@ function Planet() {
         if (debug) GM_log(i18n[c_game_lang]['building']+':'+a['BUILDINGS']);
         get_xml('player', a);
     } else {
-        
-        //titane 
-        //    /html/body/div[2]/div/div/div/table/tbody/tr/td[3]/table/tbody/tr[4]/td[4]
-        //us:             /html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr[4]/td[4]
-        for (i=0;i<10;i++)
-            if (html.match(eval('/'+i18n[c_game_lang]['ress'+i]+'.+\\n.+<td class=\\"font_white\\">(.+)<\\/td>/')))
-                a[i]= RegExp.$1;
-            else
-                return;
+        row=4;
+        while (typeof $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0] != 'undefined') {
+            ress = $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0].innerHTML;
+            for (i=0;i<10;i++)
+                if (ress.indexOf(i18n[c_game_lang]['ress'+i])>0) {
+                    a[i]= $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[4]')[0].innerHTML;
+                    break;
+                }
+            row++;
+        }
         get_xml('planet', a);
     }
     
@@ -1002,11 +999,19 @@ function Asteroid() {
     var html = document.documentElement.innerHTML;
 
     var a=new Array();
-    if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+\\n.+<td class=\\"font_white\\">(\\d+:\\d+:\\d+:\\d+)<\\/td>/')))
+    if (html.match(/<td class="font_white">(\d+:\d+:\d+:\d+)<\/td>/))
         a['COORIN']= RegExp.$1;
-    for (i=0;i<10;i++)
-        if (html.match(eval('/'+i18n[c_game_lang]['ress'+i]+'.+\\n.+<td class=\\"font_white\\">(.+)<\\/td>/')))
-            a[i]= RegExp.$1;
+    
+    row = 4;
+    while (typeof $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0] != 'undefined') {
+        ress = $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0].innerHTML;
+        for (i=0;i<10;i++)
+            if (ress.indexOf(i18n[c_game_lang]['ress'+i])>0) {
+                a[i]= $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[4]')[0].innerHTML;
+                break;
+            }
+        row++;
+    }
 
     get_xml('asteroid', a);
 }
@@ -1034,19 +1039,12 @@ function Fleet() {
 
 }
 
-// TODO: Revoir cette partie après (?) la mise à jour looki...
 function MaFiche() {
     var a = Array();
     
-    if (typeof $x('/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]/table/tbody/tr[2]/td[4]')[0] != 'undefined') {
-        prefixpts = '/html/body/div[2]/div[6]/div/table/tbody/tr/td/center';
-        prefixright = '/html/body/div[2]/div[6]/div/table/tbody/tr/td[6]';
-        id_td = 2;
-    } else {
-        prefixpts = '/html/body/div[2]/div/div/div/center';
-        prefixright = '/html/body/div[2]/div/div/div[2]';
-        id_td = 4;
-    }
+    prefixpts = '/html/body/div[2]/div/div/div/center';
+    prefixright = '/html/body/div[2]/div/div/div[2]';
+    id_td = 4;
     
     player = $x(prefixright+'/table/tbody/tr[2]/td[4]')[0].innerHTML;
 
@@ -1317,12 +1315,8 @@ function gamelog_spooler () {
 }
 
 function Options() {
-    var node = document.getElementById('layer_site_content');
-    //                form            table
-    var area = node.childNodes[1].childNodes[3];
-    // area.rows[2]; // = bouton sauver...
-    //    area = $x('/html/body/div[2]/div/div[6]/div/form/table[2]'); // alternative ?
-    
+    var area = $x('/html/body/div[2]/div/div/div/form/table[2]')[0];
+
     area.rows[4].innerHTML='';
     area.rows[4].appendChild(options_header(i18n[c_game_lang]['confheader']+' <small>('+version+')</small>'));
 
@@ -1386,21 +1380,21 @@ if (debug) AddToMotd('Page: '+c_page);
 
 if (GM_getValue(c_prefix+'actived','0')!='0') {
     if (c_page.indexOf('index.php')>0)                                  Index();
-    if (c_page.indexOf('galaxy/galaxy_overview.php?area=galaxy')>0)    Galaxy();
+    if (c_page.indexOf('galaxy/galaxy_overview.php')>0)                Galaxy();
     if (c_page.indexOf('galaxy/galaxy_info.php')>0 &&
         GM_getValue(c_prefix+'galaxy_info',false) )               Galaxy_Info();
     if (c_page.indexOf('wormhole/wormhole_info.php?')>0)             Wormhole();
-    if (c_page.indexOf('planet/planet_info.php?')>0) {
 
+    if (c_page.indexOf('planet/planet_info.php?')>0) {
         if (c_page.indexOf('asteroid')>0 &&
             GM_getValue(c_prefix+'asteroid_info',false))             Asteroid();
         //if (c_page.indexOf('wreckage')>0)                               cdr();
         if (c_page.indexOf('plantype')<0 &&
             GM_getValue(c_prefix+'planet_info',false) )                Planet();
     }
+
     if (c_page.indexOf('fleet/fleet_info.php?')>0)                      Fleet();
     if (c_page.indexOf('fleet/commander_info.php?commander_id=')>0)   MaFiche();
-    if (c_page.indexOf('fleet/commander_info.php?action=attribute')>0)MaFiche();
 
     if (c_page.indexOf('building/control/control_overview.php?area=planet')>0)
         ownuniverse();
