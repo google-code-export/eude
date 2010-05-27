@@ -13,7 +13,7 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.*/galaxy/galaxy_info.php*
 // @include      http://*eu2.looki.*/planet/planet_info.php*
 // @include      http://*eu2.looki.*/fleet/fleet_info.php*
-// @include      http://*eu2.looki.*/fleet/commander_info.php?action=attribute*
+// @include      http://*eu2.looki.*/fleet/commander_info.php?commander_id=*
 // @include      http://*eu2.looki.*/wormhole/wormhole_info.php*
 // @include      http://*eu2.looki.*/building/control/control_overview.php?area=planet
 // @include      http://*eu2.looki.*/user/settings_overview.php?area=options
