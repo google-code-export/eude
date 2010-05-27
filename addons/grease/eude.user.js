@@ -789,13 +789,18 @@ function Planet() {
     var html = document.documentElement.innerHTML;
 
     var a=new Array();
-    if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+\\n.+<td class=\\"font_white\\">(\\d+:\\d+:\\d+:\\d+)<\\/td>/')))
-        a['COORIN']= RegExp.$1;
-    for (i=0;i<10;i++)
-        if (html.match(eval('/'+i18n[c_game_lang]['ress'+i]+'.+\\n.+<td class=\\"font_white\\">(.+)<\\/td>/')))
-            a[i]= RegExp.$1;
-        else
-            return false;
+    a['COORIN']= $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]')[0].innerHTML;
+
+    row=4;
+    while (typeof $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0] != 'undefined') {
+        ress = $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0].innerHTML;
+        for (i=0;i<10;i++)
+            if (ress.indexOf(i18n[c_game_lang]['ress'+i])>0) {
+                a[i]= $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[4]')[0].innerHTML;
+                break;
+            }
+        row++;
+    }
 
     get_xml('planet', a);
 }
@@ -804,11 +809,19 @@ function Asteroid() {
     var html = document.documentElement.innerHTML;
 
     var a=new Array();
-    if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+\\n.+<td class=\\"font_white\\">(\\d+:\\d+:\\d+:\\d+)<\\/td>/')))
+    if (html.match(/<td class="font_white">(\d+:\d+:\d+:\d+)<\/td>/))
         a['COORIN']= RegExp.$1;
-    for (i=0;i<10;i++)
-        if (html.match(eval('/'+i18n[c_game_lang]['ress'+i]+'.+\\n.+<td class=\\"font_white\\">(.+)<\\/td>/')))
-            a[i]= RegExp.$1;
+
+    row = 4;
+    while (typeof $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0] != 'undefined') {
+        ress = $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0].innerHTML;
+        for (i=0;i<10;i++)
+            if (ress.indexOf(i18n[c_game_lang]['ress'+i])>0) {
+                a[i]= $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[4]')[0].innerHTML;
+                break;
+            }
+        row++;
+    }
 
     get_xml('asteroid', a);
 }
@@ -902,7 +915,7 @@ if (debug) AddToMotd('Page: '+c_page);
 
 if (GM_getValue(c_prefix+'actived','0')!='0') {
     if (c_page.indexOf('index.php')>0)                                  Index();
-    if (c_page.indexOf('galaxy/galaxy_overview.php?area=galaxy')>0)    Galaxy();
+    if (c_page.indexOf('galaxy/galaxy_overview.php')>0)    Galaxy();
     if (c_page.indexOf('galaxy/galaxy_info.php')>0 &&
         GM_getValue(c_prefix+'galaxy_info',false) )               Galaxy_Info();
     if (c_page.indexOf('wormhole/wormhole_info.php?')>0)             Wormhole();
