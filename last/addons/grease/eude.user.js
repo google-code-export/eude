@@ -1038,8 +1038,6 @@ function Fleet() {
 
     //    get_xml('userfleet', a);
     }
-//    alert('Fleet called:\nCoords: '+a['coords']+'\nProprio: '+a['owner']+'\nNom: '+a['fleetname']);
-
 }
 
 
