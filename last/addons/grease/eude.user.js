@@ -1023,24 +1023,25 @@ function Fleet() {
     
     var a = Array();
     var npc = false;
-    a['owner']     = $x('/html/body/div[2]/div/table/tbody/tr[2]/td[4]')[0].innerHTML;
-    a['fleetname'] = $x('/html/body/div[2]/div/table/tbody/tr[3]/td[4]')[0].innerHTML;
-    a['coords']    = $x('/html/body/div[2]/div/table/tbody/tr[4]/td[4]')[0].innerHTML;
+    a['owner']     = $x('/html/body/div/div/table/tbody/tr[2]/td[4]')[0].innerHTML;
+    a['fleetname'] = $x('/html/body/div/div/table/tbody/tr[3]/td[4]')[0].innerHTML;
+    a['coords']    = $x('/html/body/div/div/table/tbody/tr[4]/td[4]')[0].innerHTML;
     if (!a['coords'].match(/\d+\s+-\s+\d+\s+-\s+\d+\s+-\s+\d+/)) { // PNJ only ?
         npc = true;
-        a['coords'] = $x('/html/body/div[2]/div/table/tbody/tr[5]/td[4]')[0].innerHTML;
+        a['coords'] = $x('/html/body/div/div/table/tbody/tr[5]/td[4]')[0].innerHTML;
     }
     a['coords'] = a['coords'].replace(/\s*/g,'');
-
     if (npc && GM_getValue(c_prefix+'pnj_info',false)) get_xml('pnj', a);
 
     if (!npc) {
         a['owner'] = a['owner'].replace(/<\/?[^>]+>/gi, '')
+
     //    get_xml('userfleet', a);
     }
 //    alert('Fleet called:\nCoords: '+a['coords']+'\nProprio: '+a['owner']+'\nNom: '+a['fleetname']);
 
 }
+
 
 function MaFiche() {
     var a = Array();
