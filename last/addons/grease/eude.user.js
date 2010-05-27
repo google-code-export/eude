@@ -972,21 +972,23 @@ function Planet() {
     
     var a=new Array();
 
-    a['COORIN']= $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]')[0].innerHTML;
-
-    if (html.match(eval('/'+i18n[c_game_lang]['water']+'.+\\n.+<td class=\\"font_white\\">(\\d+)%<\\/td>/'))) {
+    if (html.match(eval('/'+i18n[c_game_lang]['water']+'.+<td class=\\"font_white\\">(\\d+)%<\\/td>/'))) {
         a['WATER'] = trim(RegExp.$1);
         if (debug) GM_log(i18n[c_game_lang]['water']+':'+a['WATER']);
-        a['BUILDINGS']=trim($x('/html/body/div[2]/div/div/div/table/tbody/tr/td[3]/table/tbody/tr[6]/td[4]')[0].innerHTML);
+		a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[4]/td[4]')[0].innerHTML;
+        if (debug) GM_log(i18n[c_game_lang]['coords']+':'+a['COORIN']);
+        a['BUILDINGS']=trim($x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[6]/td[4]')[0].innerHTML);
         if (debug) GM_log(i18n[c_game_lang]['building']+':'+a['BUILDINGS']);
         get_xml('player', a);
     } else {
+		a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]')[0].innerHTML;
+        if (debug) GM_log(i18n[c_game_lang]['coords']+':'+a['COORIN']);
         row=4;
-        while (typeof $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0] != 'undefined') {
-            ress = $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0].innerHTML;
+        while (typeof $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0] != 'undefined') {
+			ress = $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0].innerHTML;
             for (i=0;i<10;i++)
                 if (ress.indexOf(i18n[c_game_lang]['ress'+i])>0) {
-                    a[i]= $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[4]')[0].innerHTML;
+					a[i]= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[4]')[0].innerHTML;
                     break;
                 }
             row++;
