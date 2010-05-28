@@ -178,10 +178,14 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
         $i = strpos($t, "construction");
         $j = strpos($t, "\n", $i);
         $datas["Temps"] = trim(mb_substr($t, $i + 12, $j - $i - 8));
-        $t = mb_substr($t, $j + 1);
-		if(strlen($datas["Temps"]) == 5) {
+		if ($datas["Temps"]>=3600) {
+		$datas["Temps"] = $datas["Temps"] - 3600;
+		$datas["Temps"] = date("H:i:s", $datas["Temps"]);
+		} elseif ($datas["Temps"]<3600) {
+		$datas["Temps"] = date("i:s", $datas["Temps"]);
 		$datas["Temps"] = '00:'.$datas["Temps"];
 		}
+		$t = mb_substr($t, $j + 1);
 		
         // Avantages
         $i = strpos($t, "\n", strpos($t, "Avantages") + 1);
@@ -330,28 +334,18 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
             if($ligne['ID'] > 0) {
 			DataEngine::sql('UPDATE SQL_PREFIX_Modules_Template SET Nom="'.$datas["Nom"].'", Description="'.$datas['Description'].'", Categorie="'.$datas["Categorie"].'", Taille="'.$datas["Taille"].'", PAChasseur="'.$datas["PAChasseur"].'", PAGVG="'.$datas["PAGVG"].'", Temps="'.$datas["Temps"].'", Titane="'.$datas["Titane"].'", Cuivre="'.$datas["Cuivre"].'", Fer="'.$datas["Fer"].'", Aluminium="'.$datas["Aluminium"].'", Mercure="'.$datas["Mercure"].'", Silicium="'.$datas["Silicium"].'", Uranium="'.$datas["Uranium"].'", Krypton="'.$datas["Krypton"].'", Azote="'.$datas["Azote"].'", Hydrogene="'.$datas["Hydrogene"].'", PropImpulsion="'.$datas["PropImpulsion"].'", PropWarp="'.$datas["PropWarp"].'", PropConsommation="'.$datas["PropConsommation"].'", ArmType="'.$datas["ArmType"].'", ArmDegat="'.$datas["ArmDegat"].'", ProtType="'.$datas["ProtType"].'", ProtChasseur="'.$datas["ProtChasseur"].'", ProtGVG="'.$datas["ProtGVG"].'", EquipType="'.$datas["EquipType"].'", EquipNiv="'.$datas["EquipNiv"].'" WHERE ID='.$ligne["ID"]);
 			echo("<br /><center><b>Templates de module mis à jour.</b></center><br /><br />");
-			echo("<br /><br /><hr width='50%' /><p align=center>[&nbsp;<a href='user_importmod.php'>Autre importation...</a>&nbsp;]</p>");
+			echo("<br /><br /><hr width='50%' /><p align=center>&nbsp;<a href='user_importmod.php'>Autre importation...</a>&nbsp;</p>");
 			}
 			}
 			else {
-			$datas_id = mysql_insert_array("SQL_PREFIX_Modules_Template", $datas);
-			if($datas_id != 0) {
-            if($alertjava != '')
-          {
-?>
-<SCRIPT LANGUAGE="JavaScript">
-alert("<?php echo $alertjava; ?>");
-window.location = "template_edit.php?editid=<?php echo $datas_id; ?>";
-</SCRIPT>
-<?php
+			
+            $query    = 'INSERT INTO SQL_PREFIX_Modules_Template (`Nom`, `Description`, `Categorie`, `Taille`, `PAChasseur`, `PAGVG`, `Temps`, `Titane`, `Cuivre`, `Fer`, `Aluminium`, `Mercure`, `Silicium`, `Uranium`, `Krypton`, `Azote`, `Hydrogene`, `PropImpulsion`, `PropWarp`, `PropConsommation`, `ArmType`, `ArmDegat`, `ArmManiabilite`, `ProtType`, `ProtChasseur`, `ProtGVG`, `EquipType`, `EquipNiv`) ';
+            $query   .= 'VALUES (\''.$datas["Nom"].'\', \''.$datas["Description"].'\', \''.$datas["Categorie"].'\', \''.$datas["Taille"].'\', \''.$datas["PAChasseur"].'\', \''.$datas["PAGVG"].'\', \''.$datas["Temps"].'\', \''.$datas["Titane"].'\', \''.$datas["Cuivre"].'\', \''.$datas["Fer"].'\', \''.$datas["Aluminium"].'\', \''.$datas["Mercure"].'\', \''.$datas["Silicium"].'\', \''.$datas["Uranium"].'\', \''.$datas["Krypton"].'\', \''.$datas["Azote"].'\', \''.$datas["Hydrogene"].'\', \''.$datas["PropImpulsion"].'\', \''.$datas["PropWarp"].'\', \''.$datas["PropConsommation"].'\', \''.$datas["ArmType"].'\', \''.$datas["ArmDegat"].'\', \''.$datas["ArmManiabilite"].'\', \''.$datas["ProtType"].'\', \''.$datas["ProtChasseur"].'\', \''.$datas["ProtGVG"].'\', \''.$datas["EquipType"].'\', \''.$datas["EquipNiv"].'\')';
+            $datas_id = DataEngine::sql($query);
+			echo("<br /><center><b>Templates de module ajouté.</b></center><br /><br />");
+			echo("<br /><br /><hr width='50%' /><p align=center>&nbsp;<a href='user_importmod.php'>Autre importation...</a>&nbsp;</p>");
           }
-          else {
-            header('Location: template_edit.php?editid='.$datas_id);
-            } 
 		}
-          exit;
-        }
-	  }
 /* #####################################################################################
    #####################################################################################
 
