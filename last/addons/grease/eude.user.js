@@ -861,11 +861,14 @@ function Index() {
     
     if (debug) {
         unsafeWindow.top.window.document.getElementById('chat_motd').removeAttribute('OnClick');
+        var js_OnClick = document.createAttribute('Ondblclick');
+        js_OnClick.value = "chatOpen();";
+        unsafeWindow.top.window.document.getElementById('chat_motd').setAttributeNode(js_OnClick);
         var adebug = document.createElement('a');
         adebug.href='javascript:;';
         adebug.innerHTML = 'Reset';
         js_OnClick = document.createAttribute('OnClick');
-        js_OnClick.value = "top.window.document.getElementById('chat_motd').innerHTML='';";
+        js_OnClick.value = "top.window.document.getElementById('chat_motd').style.display='';top.window.document.getElementById('chat').style.display='none';top.window.document.getElementById('chat_motd').innerHTML='';";
         adebug.setAttributeNode(js_OnClick);
         block.innerHTML = block.innerHTML + ', ';
         block.appendChild(adebug);
@@ -1232,7 +1235,7 @@ function troop_battle() {
 
 
 
-    reg= /shiplist\[(\d+)]\['caption'\] = '(.*)'/g;
+    reg= /shiplist\[(\d+)]\['caption'\] = '([^']+)'/g;
     m = document.documentElement.innerHTML.match(reg);
     var IdToPlayer=new Array();
     for (i = 0; i < m.length; i++) {
