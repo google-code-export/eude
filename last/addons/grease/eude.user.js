@@ -1024,7 +1024,11 @@ function Planet() {
         if (debug) GM_log(i18n[c_game_lang]['building']+':'+a['BUILDINGS']);
         get_xml('player', a);
     } else {
-        a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]')[0].innerHTML;
+		if ($x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[3]/td[2]')[0].innerHTML != i18n[c_game_lang]['coords']) {
+			a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[4]/td[4]')[0].innerHTML;
+		} else {
+			a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]')[0].innerHTML;
+		}
         if (debug) GM_log(i18n[c_game_lang]['coords']+':'+a['COORIN']);
         row=4;
         while (typeof $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0] != 'undefined') {
