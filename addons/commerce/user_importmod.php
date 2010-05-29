@@ -177,7 +177,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
 
         $i = strpos($t, "construction");
         $j = strpos($t, "\n", $i);
-        $datas["Temps"] = trim(mb_substr($t, $i + 12, $j - $i - 8));
+        $datas["Temps"] = trim(mb_substr($t, $i + 12, $j - $i - 12));
 		if ($datas["Temps"]>=3600) {
 		$datas["Temps"] = $datas["Temps"] - 3600;
 		$datas["Temps"] = date("H:i:s", $datas["Temps"]);
