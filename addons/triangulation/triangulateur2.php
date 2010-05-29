@@ -150,7 +150,7 @@ $out = <<<form
 <font color=white>
 
 
-<form name="settings" action="index.php" method="POST">
+<form name="settings" action="?" method="POST">
 Pour remplir les cases ci-dessous, allez dans le jeu et dans le batiment centre de communication,<br />
 Puis faites des recherches avec le nom ou la planète du joueur (dans le jeu dans deux ou trois systèmes différents). <br />
 Remplissez ensuite le champs reservés ci-dessous avec le coodonnée du système dans lequel se trouve le centre de communication.<br /> 
