@@ -120,7 +120,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
                 DataEngine::sql("UPDATE SQL_PREFIX_Modules_Template SET Description='".$tDesc."' WHERE ID=".$datas["ID"]) or die(mysql_error());
               }
               
-              if(empty($datas["Modifier"])){          
+              if(is_null($datas["Modifier"])){          
                 DataEngine::sql("INSERT INTO SQL_PREFIX_Modules_Users(Login, Module_ID, Modifier) VALUES ('".$Joueur."', ".$datas["ID"].", 0)") or die(mysql_error());
                 $addedmod++;
               }
