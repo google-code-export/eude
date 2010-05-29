@@ -884,6 +884,35 @@ function Index() {
         block.innerHTML = block.innerHTML + ', ';
         block.appendChild(alog);        
     }
+    
+    if (debug) return AddGameLog('<span class="gamelog_raid">Debug mode, script update disabled</span>');
+    GM_xmlhttpRequest({
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/x-www-form-urlencoded',
+            "User-Agent": navigator.userAgent,
+            "Accept": "text/xml",
+            "Accept-Encoding":"deflate"
+        },
+        url: 'http://eude.googlecode.com/svn/tag/GreaseMonkey/lastrelease.xml',
+        onload: function(e){
+            if (e.status!='200') {
+                AddGameLog('<span class="gamelog_raid">Official server may offline (update check)</span>');
+                return;
+            }
+
+            if (!e.responseXML)
+                e.responseXML = new DOMParser().parseFromString(e.responseText, "text/xml");
+            rversion = GetNode(e.responseXML, 'rversion');
+            majurl = GetNode(e.responseXML, 'url');
+            majlog = GetNode(e.responseXML, 'log');
+            if (revision<rversion) {
+                AddGameLog('<a href="'+majurl+'" class="gamelog_raid">=> MAJ Greasemonkey</a>');
+                AddToMotd('<hr/>=> <a href="'+majurl+'" class="gamelog_raid">MAJ Greasemonkey</a><br/>'+majlog, '<hr/>');
+            }
+        },
+        onerror: c_onerror
+    });
 }
 
 function Galaxy() {
