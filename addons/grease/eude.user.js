@@ -948,7 +948,8 @@ function Wormhole() {
     get_xml('wormhole', a);
 }
 function Planet() {
-    var html = document.documentElement.innerHTML;
+    if ($x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr[3]/td[2]')[0].innerHTML
+    != i18n[c_game_lang]['coords']) return false;
 
     var a=new Array();
     a['COORIN']= $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]')[0].innerHTML;
@@ -964,7 +965,7 @@ function Planet() {
         row++;
     }
 
-    get_xml('planet', a);
+    return get_xml('planet', a);
 }
 
 function Asteroid() {
