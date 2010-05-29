@@ -538,7 +538,7 @@ class Members {
 
         $perms = DataEngine::config('perms');
         if (isset($perms[$NeededAXX]))
-            return $_SESSION['_Perm']>=$perms[$NeededAXX];
+            return $_SESSION['_Perm']>=$perms[$NeededAXX] && $perms[$NeededAXX] != AXX_DISABLED;
         else {
             trigger_error('CXX not found '.$NeededAXX.'. option disabled for all instead. Verify installation, or configure it now by admin panel', E_USER_WARNING);
             return false;
