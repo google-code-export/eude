@@ -184,7 +184,6 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
   </tr>
   <tr>
     <td>Temps de construction</td>
-<!--    <td><input type="text" name="Temps" id="Temps" size=15 maxlength=10 value="<?php echo (!empty($datas["Temps"]) ? date_format(date_create($datas["Temps"]), "j H:i:s") : ""); ?>"> (D HH:MM:SS)</td> -->
     <td><input type="text" name="Temps" id="Temps" size=15 maxlength=10 value="<?php echo $datas["Temps"]; ?>"> (D HH:MM:SS)</td>
   </tr>
   <tr>
