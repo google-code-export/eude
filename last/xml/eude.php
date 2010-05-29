@@ -139,7 +139,7 @@ q;
             if (trim($galaxy_info[$i][3]) != '') {
                 preg_match_all('#<b>(.+)</b><br>(.*)#', $galaxy_info[$i][3], $player, PREG_SET_ORDER);
                 $joueur = $player[0][1];
-                $empire = html_entity_decode(trim($player[0][2]), ENT_QUOTES,'utf-8');
+                $empire = html_entity_decode(utf8_decode(trim($player[0][2])), ENT_QUOTES,'utf-8');
             } else {
                 $joueur = '';
                 $empire = '';
