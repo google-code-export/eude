@@ -858,12 +858,14 @@ function Index() {
     block = x[x.length-1];
     block.innerHTML = block.innerHTML + ' | ';
     block.appendChild(aserver);
+    var chatton = unsafeWindow.top.window.document.getElementById('chat_motd');
+    chatton.style.height = 500;
     
     if (debug) {
-        unsafeWindow.top.window.document.getElementById('chat_motd').removeAttribute('OnClick');
+        chatton.removeAttribute('OnClick');
         var js_OnClick = document.createAttribute('Ondblclick');
         js_OnClick.value = "chatOpen();";
-        unsafeWindow.top.window.document.getElementById('chat_motd').setAttributeNode(js_OnClick);
+        chatton.setAttributeNode(js_OnClick);
         var adebug = document.createElement('a');
         adebug.href='javascript:;';
         adebug.innerHTML = 'Reset';
@@ -978,20 +980,20 @@ function Planet() {
     if (html.match(eval('/'+i18n[c_game_lang]['water']+'.+<td class=\\"font_white\\">(\\d+)%<\\/td>/'))) {
         a['WATER'] = trim(RegExp.$1);
         if (debug) GM_log(i18n[c_game_lang]['water']+':'+a['WATER']);
-		a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[4]/td[4]')[0].innerHTML;
+        a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[4]/td[4]')[0].innerHTML;
         if (debug) GM_log(i18n[c_game_lang]['coords']+':'+a['COORIN']);
         a['BUILDINGS']=trim($x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[6]/td[4]')[0].innerHTML);
         if (debug) GM_log(i18n[c_game_lang]['building']+':'+a['BUILDINGS']);
         get_xml('player', a);
     } else {
-		a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]')[0].innerHTML;
+        a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]')[0].innerHTML;
         if (debug) GM_log(i18n[c_game_lang]['coords']+':'+a['COORIN']);
         row=4;
         while (typeof $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0] != 'undefined') {
-			ress = $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0].innerHTML;
+            ress = $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0].innerHTML;
             for (i=0;i<10;i++)
                 if (ress.indexOf(i18n[c_game_lang]['ress'+i])>0) {
-					a[i]= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[4]')[0].innerHTML;
+                    a[i]= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[4]')[0].innerHTML;
                     break;
                 }
             row++;
@@ -1271,10 +1273,10 @@ function troop_battle() {
     for (i = 0; i < m.length; i++) {
         m[i].search(reg);
         id = RegExp.$1;
-        reg2= eval("/shiplist\\["+id+"\\]\\['caption'\\] = '(.*)'/");
+        reg2= eval("/shiplist\\["+id+"\\]\\['caption'\\] = '([^']+)'/");
         document.documentElement.innerHTML.match(reg2);
         Player = RegExp.$1;
-        reg2= eval("/shiplist\\["+id+"\\]\\['health_max'\\] = '(.*)'/");
+        reg2= eval("/shiplist\\["+id+"\\]\\['health_max'\\] = '([^']+)'/");
         document.documentElement.innerHTML.match(reg2);
         troops = parseInt(RegExp.$1);
 
@@ -1288,10 +1290,10 @@ function troop_battle() {
     for (i = 0; i < m.length; i++) {
         m[i].search(reg);
         id = RegExp.$1;
-        reg2= eval("/shiplist\\["+id+"\\]\\['caption'\\] = '(.*)'/");
+        reg2= eval("/shiplist\\["+id+"\\]\\['caption'\\] = '([^']+)'/");
         document.documentElement.innerHTML.match(reg2);
         Player = RegExp.$1;
-        reg2= eval("/shiplist\\["+id+"\\]\\['health_max'\\] = '(.*)'/");
+        reg2= eval("/shiplist\\["+id+"\\]\\['health_max'\\] = '([^']+)'/");
         document.documentElement.innerHTML.match(reg2);
         troops = parseInt(RegExp.$1);
 
