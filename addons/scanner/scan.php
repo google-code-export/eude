@@ -54,7 +54,7 @@ if ( ($page=GetUrl($host, '/galaxy/galaxy_overview.php?area=galaxy&starsystem_id
 preg_match_all("#sun,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,(.+)'#",$page,$sun);
 if (!isset($sun[1][0])) die('omg');
 
-preg_match_all("#wormhole_[^,]+,[^,]*,[^,]*,[^,]*,(\d+),[^,]*,[^,]*,[^,]*,(.+)'#",$page,$wormhole);
+preg_match_all("#wormhole_[^,]+,[^,]*,[^,]*,[^,]*,(\d+),[^,]*,[^,]*,[^,]*,([a-fA-f0-9]{32})#",$page,$wormhole);
 for ($i=0,$max=count($wormhole[1]);$i<$max;$i++) {
     if ($max>1)
         sleep(rand(8, 12));
