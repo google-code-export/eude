@@ -32,13 +32,13 @@ if(isset($_POST['importation'])) {
         $info['Construction'] = $parser->GetValueByLabel($data, $lng['Construction'] );
         $info['Economie'] = $parser->GetValueByLabel($data, $lng['Economie'] );
         $info['Navigation'] = $parser->GetValueByLabel($data, $lng['Navigation'] );
-        $info['POINTS'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['POINTS'] ));
-        $info['pts_architecte'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['pts_architecte'] ));
-        $info['pts_mineur'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['pts_mineur'] ));
-        $info['pts_science'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['pts_science'] ));
-        $info['pts_commercant'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['pts_commercant'] ));
-        $info['pts_amiral'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['pts_amiral'] ));
-        $info['pts_guerrier'] = DataEngine::strip_number($parser->GetValueByLabelInverted($data, $lng['pts_guerrier'] ));
+        $info['POINTS'] = DataEngine::strip_number($parser->GetValueByLabel($data, $lng['POINTS'] ));
+        $info['pts_architecte'] = DataEngine::strip_number($parser->GetValueByLabel($data, $lng['pts_architecte'] ));
+        $info['pts_mineur'] = DataEngine::strip_number($parser->GetValueByLabel($data, $lng['pts_mineur'] ));
+        $info['pts_science'] = DataEngine::strip_number($parser->GetValueByLabel($data, $lng['pts_science'] ));
+        $info['pts_commercant'] = DataEngine::strip_number($parser->GetValueByLabel($data, $lng['pts_commercant'] ));
+        $info['pts_amiral'] = DataEngine::strip_number($parser->GetValueByLabel($data, $lng['pts_amiral'] ));
+        $info['pts_guerrier'] = DataEngine::strip_number($parser->GetValueByLabel($data, $lng['pts_guerrier'] ));
 
 
         foreach ($info as $k => $v) $info[$k] = sqlesc($v);
