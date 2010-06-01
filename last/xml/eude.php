@@ -154,7 +154,7 @@ q;
         // repiquage cartographie->add_solar_ss
         if (count($del_planet)>0) {
             $del_planet = "'".implode("','",$del_planet)."'";
-            $query = "UPDATE SQL_PREFIX_Coordonnee SET Type='2' where Type in (0,3,5) AND POSIN='{$cur_ss}' AND COORDET in ({$del_planet})";
+            $query = "UPDATE SQL_PREFIX_Coordonnee SET Type='2', USER='', EMPIRE='', INFOS='', batiments='', troop='' where Type in (0,3,5) AND POSIN='{$uni}' AND COORDET in ({$del_planet})";
             $array = DataEngine::sql($query);
             if ( ($num = mysql_affected_rows()) > 0)
                 $carto->AddInfo($num.' planète(s) devenue inoccupée');
