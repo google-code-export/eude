@@ -247,6 +247,7 @@ class cartographie {
         $ligne = mysql_fetch_assoc($array);
         if($ligne['ID'] > 0) {
             if (!$updatetype) $type = $ligne['TYPE'];
+            if (!$updatetype && $ligne['TYPE'] == 2) $type = 0;
             $query = sprintf('UPDATE SQL_PREFIX_Coordonnee SET `TYPE`=%d,`POSOUT`=\'\',`COORDETOUT`=\'\',`USER`=\'%s\',`EMPIRE`=\'%s\','.
                     '`INFOS`=\'%s\',`UTILISATEUR`=\'%s\',DATE=NOW() WHERE ID=%s',
                     $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']), $ligne['ID'] );
