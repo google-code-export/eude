@@ -53,7 +53,7 @@ echo 'Système '.$curcoord.':</br>';
 
 if ( ($page=GetUrl($host, '/galaxy/galaxy_overview.php?area=galaxy&starsystem_id='.$curcoord.'&fleet_id=&from=',$header)) ===false) die('error sock 1');
 //$page = file_get_contents('../../test/data/galaxy_1.txt');
-preg_match_all("#sun,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,(.+)'#",$page,$sun);
+preg_match_all("#sun,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,([a-fA-f0-9]{32})#",$page,$sun);
 if (count($sun[0])==0) die('err preg 1');
 
 sleep(rand(3,8));
@@ -62,21 +62,27 @@ if ( ($page=GetUrl($host, '/galaxy/galaxy_info.php?starsystem_id='.$curcoord.'&h
 
 if (stripos($page, '<font class="font_pink_bold">Erreur') !== false) die('Erreur max scan today...');
 
-preg_match_all('#class="table_entry_onclick".*width="100".*>(\d+-\d+-\d+-\d+)</td>\n'.
-        '.*\n.*width="150".*">(.+)</td>\n'.
-        '.*\n.*width="284".*">(.*)</td>#',
-        $page, $galaxy_info, PREG_SET_ORDER);
+//preg_match_all('#class="table_entry_onclick".*width="100".*>(\d+-\d+-\d+-\d+)</td>\n'.
+//        '.*\n.*width="150".*">(.+)</td>\n'.
+//        '.*\n.*width="284".*">(.*)</td>#',
+//        $page, $galaxy_info, PREG_SET_ORDER);
+preg_match_all('#class="table_entry"[^>]*width="100"[^>]*>(\d+-\d+-\d+-\d+)</td>#',
+        $page, $galaxy_coords, PREG_SET_ORDER);
+preg_match_all('#class="table_entry"[^>]*width="150"[^>]*>([^<]*)</td>#',
+        $page, $galaxy_planets, PREG_SET_ORDER);
+preg_match_all('#<td\b[^>]*class="table_entry"[^>]*width="284"[^>]*>(.*?)</td>#',
+        $page, $galaxy_players, PREG_SET_ORDER);
 
-if (count($galaxy_info[0]) == 0) die(__line__.' err preg 2: Session changé ? ');
+if (count($galaxy_coords[0]) == 0) die(__line__.' err preg 2: Session changé ? ');
 
-for ($i=0,$max=count($galaxy_info);$i<$max;$i++) {
+for ($i=0,$max=count($galaxy_coords);$i<$max;$i++) {
 //    sleep(rand(5, 8));
     $nbplanets++;
     // $galaxy_info[$i][1] = coords xxxx-xx-xx-xx
     // $galaxy_info[$i][2] = nom planète
     // $galaxy_info[$i][3] = Nom joueur (et empire) brut
-    if (trim($galaxy_info[$i][3]) != '') {
-        preg_match_all('#<b>(.+)</b><br>(.*)#', $galaxy_info[$i][3], $player, PREG_SET_ORDER);
+    if (trim($galaxy_players[$i][1]) != '') {
+        preg_match_all('#<b>(.+)</b><br>(.*)#', $galaxy_players[$i][1], $player, PREG_SET_ORDER);
         if (count($player[0]) == 0) die('err preg 3');
         $joueur = $player[0][1];
         $empire = html_entity_decode(trim($player[0][2]), ENT_QUOTES,'utf-8');
@@ -85,7 +91,7 @@ for ($i=0,$max=count($galaxy_info);$i<$max;$i++) {
         $empire = '';
     }
 
-    $carto->add_player(array($galaxy_info[$i][1], $galaxy_info[$i][2], $joueur, $empire));
+    $carto->add_player(array($galaxy_coords[$i][1], $galaxy_planets[$i][1], $joueur, $empire));
 
 }
 if ($max==0) {
