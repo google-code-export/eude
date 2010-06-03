@@ -67,7 +67,7 @@ q;
                 DataEngine::strip_number($_POST['pts_guerrier']), $_SESSION['_login']
                 )
         );
-        $xml['log']='infomation joueur mis à jour';
+        $xml['log']='information joueur mis à jour';
         break;
 
     case 'ownuniverse': //------------------------------------------------------
