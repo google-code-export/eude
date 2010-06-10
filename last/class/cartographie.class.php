@@ -278,7 +278,7 @@ class cartographie {
 
 
     public function add_PNJ($coords, $nom='', $fleet='') {
-        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS'))
+        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PNJ'))
             return $this->AddErreur('Permissions manquante');
 
         $qnom     = sqlesc(trim($nom));

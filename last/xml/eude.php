@@ -44,7 +44,7 @@ switch ($_GET['act']) {
         $xml['GM_galaxy_info']   = DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')  ? '1':'0';
         $xml['GM_planet_info']   = DataEngine::CheckPerms('CARTOGRAPHIE_PLANETS')  ? '1':'0';
         $xml['GM_asteroid_info'] = DataEngine::CheckPerms('CARTOGRAPHIE_ASTEROID') ? '1':'0';
-        $xml['GM_pnj_info']      = DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')  ? '1':'0';
+        $xml['GM_pnj_info']      = DataEngine::CheckPerms('CARTOGRAPHIE_PNJ')  ? '1':'0';
         break;
 
     case 'mafiche': //----------------------------------------------------------
@@ -215,7 +215,7 @@ q;
 
     case 'pnj': // -------------------------------------------------------------
 
-        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')) {
+        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PNJ')) {
             $carto->AddErreur('Permissions manquante');
             break;
         }
