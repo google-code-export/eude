@@ -10,10 +10,11 @@ if (!SCRIPT_IN) die('Need by included');
 
 class tpl_troops extends output {
     protected $BASE_FILE = '';
+    private $lng_main;
 
     public function __construct() {
         $this->BASE_FILE = ROOT_URL.'pillage.php';
-
+        $this->lng_main = DataEngine::a_ressources();
         parent::__construct();
     }
 
@@ -25,19 +26,40 @@ class tpl_troops extends output {
         $this->currow = <<<ROW
    <table class="table_center table_nospacing">
     <tr class="%%class%%">
-        <td colspan="7">%%Title header%%</td>
+        <td colspan="7">Légende sur deux lignes.</td>
+    </tr>
+    <tr class="color_row1">
+        <td class="color_header">&nbsp;</td>
+        <td class="spacing_row1">Type</td>
+        <td class="spacing_row1">Date</td>
+        <td class="spacing_row1">Coordonnées</td>
+        <td class="spacing_row1">Attaquants</td>
+        <td class="spacing_row1">Défenseurs</td>
+        <td class="spacing_row">Pertes</td>
+    </tr>
+ <tr><td colspan="7">
+     <table class="table_nospacing" width="100%">
+    <tr class="color_row0">
+        <td class="spacing_row0">Joueur</td>
+        <td class="spacing_row0">Date</td>
+        <td class="spacing_row0">{$this->lng_main[0]['Nom']}</td>
+        <td class="spacing_row0">{$this->lng_main[1]['Nom']}</td>
+        <td class="spacing_row0">{$this->lng_main[2]['Nom']}</td>
+        <td class="spacing_row0">{$this->lng_main[3]['Nom']}</td>
+        <td class="spacing_row0">{$this->lng_main[4]['Nom']}</td>
+        <td class="spacing_row0">{$this->lng_main[5]['Nom']}</td>
+        <td class="spacing_row0">{$this->lng_main[6]['Nom']}</td>
+        <td class="spacing_row0">{$this->lng_main[7]['Nom']}</td>
+        <td class="spacing_row0">{$this->lng_main[8]['Nom']}</td>
+        <td class="spacing_row">{$this->lng_main[9]['Nom']}</td>
+    </tr></td>
+    </table>
     </tr>
     <tr class="color_bg">
         <td colspan="7" height="1"></td>
     </tr>
-    <tr class="color_header spacing_header">
-        <td class="color_header">&nbsp;</td>
-        <td>Type</td>
-        <td>Date</td>
-        <td>Coordonnées</td>
-        <td>Attaquants</td>
-        <td>Défenseurs</td>
-        <td class="spacing_row">Pertes</td>
+    <tr class="%%class%%">
+        <td colspan="7">%%Title header%%</td>
     </tr>
 ROW;
        $this->curtpl = 'SetBattleRow';
@@ -45,6 +67,9 @@ ROW;
 
     public function SetBattleRow() {
         $this->currow = <<<ROW
+    <tr class="color_header">
+        <td colspan="7" height="1"></td>
+    </tr>
     <tr class="color_row%%rowid%%">
         <td class="color_header">&nbsp;</td>
         <td class="spacing_row%%rowid%%">%%Type%%</td>
@@ -62,22 +87,7 @@ ROW;
         $this->currow = <<<ROW
  <tr><td colspan="7">
      <table class="table_nospacing" width="100%">
-    <tr class="color_bg">
-        <td class="spacing_row%%class%%">Joueur</td>
-        <td class="spacing_row%%class%%">Date</td>
-        <td class="spacing_row%%class%%">ress0</td>
-        <td class="spacing_row%%class%%">ress1</td>
-        <td class="spacing_row%%class%%">ress2</td>
-        <td class="spacing_row%%class%%">ress3</td>
-        <td class="spacing_row%%class%%">ress4</td>
-        <td class="spacing_row%%class%%">ress5</td>
-        <td class="spacing_row%%class%%">ress6</td>
-        <td class="spacing_row%%class%%">ress7</td>
-        <td class="spacing_row%%class%%">ress8</td>
-        <td class="spacing_row">ress9</td>
-    </tr>
 ROW;
-        $this->SetlogRow();
     }
     
     public function SetlogRow() {

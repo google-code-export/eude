@@ -16,6 +16,7 @@ $tpl = tpl_troops::getinstance();
 
 $tpl->Setheader();
 $tpl->AddToRow('color_header text_center', 'class');
+$tpl->AddToRow('color_row0', 'class2');
 $tpl->AddToRow('Liste des pillages', 'Title header');
 $tpl->PushRow();
 
@@ -78,7 +79,6 @@ while ($row = mysql_fetch_assoc($result)) {
 }
 if ($closepillagelog)
     $tpl->SetlogRow_footer();
-//$tpl->PushRow();
 $tpl->DoOutput();
 
 function formatarr(&$value, $key) {
