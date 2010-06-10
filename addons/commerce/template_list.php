@@ -221,6 +221,7 @@ Notez que dans ce mode "<i>commande</i>",<br />vous ne voyez que les modules, qu
           case 5: //Réservoir
             echo(number_format($ligne["NivTech"], 0, ',', '.'));
             break;
+		  case 7: // Camouflage
           case 2: // Minage
           case 3: // Scan
           case 4: //Récupérateur

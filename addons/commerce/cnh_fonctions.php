@@ -9,7 +9,7 @@ $version_addon = "0.19 - 17/01/2010";
 
 $cnhCategorieName = Array("Propulsion", "Armement", "Protection", "Equipement");
 $cnhArmeName = Array("Laser", "Projectile", "Ion");
-$cnhEquipementName = Array("Cargo", "Troupes", "Minage", "Scan", "Récupérateur", "Réservoir", "Colonisation");
+$cnhEquipementName = Array("Cargo", "Troupes", "Minage", "Scan", "Récupérateur", "Réservoir", "Colonisation","Camouflage");
 $cnhProtectionName = Array("Renfort", "Bouclier");
 $cnhPropulsionName = Array("Impulsion", "Warp");
 $cnhMineraisName = Array("Titane", "Cuivre", "Fer", "Aluminium", "Mercure", "Silicium", "Uranium", "Krypton", "Azote", "Hydrogene");

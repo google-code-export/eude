@@ -53,11 +53,14 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
       }
 
       $tmp = strpos($t, "Module");
+	  $tmpname = strpos($t, "Module");
       if($tmp !== false && $importmod == 0) {
         $tmp = strpos($t, "Grosseur", $tmp + 1);
         if($tmp !== false) {
           if(strpos($t, "Avantages", $tmp + 1) !== false)
             $importmod = 2;
+		  elseif(strpos($t, "Camouflage", $tmpname + 1) !== false)
+		    $importmod = 2;
         }
       }
       
@@ -188,115 +191,124 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
 		$t = mb_substr($t, $j + 1);
 		
         // Avantages
-        $i = strpos($t, "\n", strpos($t, "Avantages") + 1);
-        $j = strpos($t, "\n", $i + 1);
-        $tmp = trim(mb_substr($t, $i, $j - $i));
-        $t = mb_substr($t, $j + 1);
-        $j = 0;
-        while($tmp != 'Ressources' && $j < 10)
-        {
-          $i = strpos($tmp, " ");
-          $value = trim(mb_substr($tmp, 0, $i));           
-          $field = trim(mb_substr($tmp, $i + 1));
-          
-          switch($field) {
-            case 'Consommation': // Propulsion 
-              $datas["Categorie"] = 0; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-              $field = 'PropConsommation';
-              $value = trim(mb_substr($value, 1));
-              break; 
-            case 'Impulsions': // Propulsion
-              $datas["Categorie"] = 0; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-              $field = 'PropImpulsion';
-              $value = DelPoint(trim(mb_substr($value, 0, strpos($value, ","))));
-              break; 
-            case 'Warp': // Propulsion 
-              $datas["Categorie"] = 0; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-              $field = 'PropWarp';
-              $value = DelPoint(trim(mb_substr($value, 0, strpos($value, ","))));
-              break;
-            case 'Attaque (Laser)': // Armement "Laser"
-              $datas["Categorie"] = 1; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-              $alertjava = "Attention, il sera nécessaire de rêgler la précision de l'arme manuellement!";
-              $datas['ArmType'] = 0;
-              $field = 'ArmDegat';
-              $value = trim(mb_substr($value, 1));
-              break; 
-            case 'Attaque (projectile)': // Armement "Projectile"
-              $datas["Categorie"] = 1; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-              $alertjava = "Attention, il sera nécessaire de rêgler la précision de l'arme manuellement!";
-              $datas['ArmType'] = 1;
-              $field = 'ArmDegat';
-              $value = trim(mb_substr($value, 1));
-              break; 
-            case 'Attaque (Ions)': // Armement "Ion"
-              $datas["Categorie"] = 1; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-              $alertjava = "Attention, il sera nécessaire de rêgler la précision de l'arme manuellement!";
-              $datas['ArmType'] = 2;
-              $field = 'ArmDegat';
-              $value = trim(mb_substr($value, 1));
-              break; 
-            case 'Blindage': // Blindage
-              $datas["Categorie"] = 2; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-              $datas['ProtType'] = 0;
-              $field = 'ProtGVG';
-              $value = trim(mb_substr($value, 1));
-              $datas['ProtChasseur'] = intval($value / 4 + 0.5);
-              break; 
-            case 'Bouclier': // Bouclier
-              $datas["Categorie"] = 2; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-              $datas['ProtType'] = 1;
-              $field = 'ProtGVG';
-              $value = DelPoint(trim(mb_substr($value, 1)));
-              $datas['ProtChasseur'] = intval($value / 5 + 0.5);
-              break;
-            case 'Carburant': // Carburant
-              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-              $datas["PAChasseur"] = $datas["PAGVG"];
-              $datas['EquipType'] = 5;
-              $field = 'EquipNiv';
-              $value = DelPoint(trim(mb_substr($value, 1)));
-              break; 
-            case 'Radar': // Scan
-              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-              $datas["PAChasseur"] = $datas["PAGVG"];
-              $datas['EquipType'] = 3;
-              $field = 'EquipNiv';
-              $value = DelPoint(trim(mb_substr($value, 1)));
-              break; 
-            case 'Chargement': // Minage 2, Cargo 0, Récupérateur 4
-              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-              $alertjava = "Attention, l'importation ne peut faire la différence entre un Cargo, un Mineur ou un ramasseur de débris!\nVous devrez vous-même effectuer les réglages!";
-              $datas["PAChasseur"] = $datas["PAGVG"];
-              $datas['EquipType'] = 0;
-              $field = 'EquipNiv';
-              $value = DelPoint(trim(mb_substr($value, 1)));
-              break; 
-            case 'Inenterie': // Troupes
-            case 'Infenterie':
-            case 'Infanterie':
-              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-              $datas["PAChasseur"] = $datas["PAGVG"];
-              $datas['EquipType'] = 1;
-              $field = 'EquipNiv';
-              $value = DelPoint(trim(mb_substr($value, 1)));
-              break; 
-            case 'Coloniser':
-              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-              $datas["PAChasseur"] = $datas["PAGVG"];
-              $datas['EquipType'] = 6;
-              $field = 'EquipNiv';
-              $value = trim(mb_substr($value, 1));
-              break; 
-          }
+		if(strpos($t, "Avantages") !== false) {
+        	$i = strpos($t, "\n", strpos($t, "Avantages") + 1);
+            $j = strpos($t, "\n", $i + 1);
+            $tmp = trim(mb_substr($t, $i, $j - $i));
+            $t = mb_substr($t, $j + 1);
+            $j = 0;
+            while($tmp != 'Ressources' && $j < 10)
+            {
+              $i = strpos($tmp, " ");
+              $value = trim(mb_substr($tmp, 0, $i));           
+              $field = trim(mb_substr($tmp, $i + 1));
+              
+              switch($field) {
+                case 'Consommation': // Propulsion 
+                  $datas["Categorie"] = 0; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+                  $field = 'PropConsommation';
+                  $value = trim(mb_substr($value, 1));
+                  break; 
+	            case 'Impulsions': // Propulsion
+	              $datas["Categorie"] = 0; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $field = 'PropImpulsion';
+	              $value = DelPoint(trim(mb_substr($value, 0, strpos($value, ","))));
+	              break; 
+	            case 'Warp': // Propulsion 
+	              $datas["Categorie"] = 0; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $field = 'PropWarp';
+	              $value = DelPoint(trim(mb_substr($value, 0, strpos($value, ","))));
+	              break;
+	            case 'Attaque (Laser)': // Armement "Laser"
+	              $datas["Categorie"] = 1; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $alertjava = "Attention, il sera nécessaire de rêgler la précision de l'arme manuellement!";
+	              $datas['ArmType'] = 0;
+	              $field = 'ArmDegat';
+	              $value = trim(mb_substr($value, 1));
+	              break; 
+	            case 'Attaque (projectile)': // Armement "Projectile"
+	              $datas["Categorie"] = 1; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $alertjava = "Attention, il sera nécessaire de rêgler la précision de l'arme manuellement!";
+	              $datas['ArmType'] = 1;
+	              $field = 'ArmDegat';
+	              $value = trim(mb_substr($value, 1));
+	              break; 
+	            case 'Attaque (Ions)': // Armement "Ion"
+	              $datas["Categorie"] = 1; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $alertjava = "Attention, il sera nécessaire de rêgler la précision de l'arme manuellement!";
+	              $datas['ArmType'] = 2;
+	              $field = 'ArmDegat';
+	              $value = trim(mb_substr($value, 1));
+	              break; 
+	            case 'Blindage': // Blindage
+	              $datas["Categorie"] = 2; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas['ProtType'] = 0;
+	              $field = 'ProtGVG';
+	              $value = trim(mb_substr($value, 1));
+	              $datas['ProtChasseur'] = intval($value / 4 + 0.5);
+	              break; 
+	            case 'Bouclier': // Bouclier
+	              $datas["Categorie"] = 2; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas['ProtType'] = 1;
+	              $field = 'ProtGVG';
+	              $value = DelPoint(trim(mb_substr($value, 1)));
+	              $datas['ProtChasseur'] = intval($value / 5 + 0.5);
+	              break;
+	            case 'Carburant': // Carburant
+	              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas["PAChasseur"] = $datas["PAGVG"];
+	              $datas['EquipType'] = 5;
+	              $field = 'EquipNiv';
+	              $value = DelPoint(trim(mb_substr($value, 1)));
+	              break; 
+	            case 'Radar': // Scan
+	              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas["PAChasseur"] = $datas["PAGVG"];
+	              $datas['EquipType'] = 3;
+	              $field = 'EquipNiv';
+	              $value = DelPoint(trim(mb_substr($value, 1)));
+	              break; 
+	            case 'Chargement': // Minage 2, Cargo 0, Récupérateur 4
+	              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $alertjava = "Attention, l'importation ne peut faire la différence entre un Cargo, un Mineur ou un ramasseur de débris!\nVous devrez vous-même effectuer les réglages!";
+	              $datas["PAChasseur"] = $datas["PAGVG"];
+	              $datas['EquipType'] = 0;
+	              $field = 'EquipNiv';
+	              $value = DelPoint(trim(mb_substr($value, 1)));
+	              break; 
+	            case 'Inenterie': // Troupes
+	            case 'Infenterie':
+	            case 'Infanterie':
+	              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas["PAChasseur"] = $datas["PAGVG"];
+	              $datas['EquipType'] = 1;
+	              $field = 'EquipNiv';
+	              $value = DelPoint(trim(mb_substr($value, 1)));
+	              break; 
+	            case 'Coloniser':
+	              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas["PAChasseur"] = $datas["PAGVG"];
+	              $datas['EquipType'] = 6;
+	              $field = 'EquipNiv';
+	              $value = trim(mb_substr($value, 1));
+	              break; 
+	          }
 
-          if($field != '') $datas[$field] = $value;
-        
-          $i = strpos($t, "\n");
-          $tmp = trim(mb_substr($t, 0, $i));
-          $t = mb_substr($t, $i + 1);
-          $j++;
-        }
+	          if($field != '') $datas[$field] = $value;
+	        
+	          $i = strpos($t, "\n");
+	          $tmp = trim(mb_substr($t, 0, $i));
+	          $t = mb_substr($t, $i + 1);
+	          $j++;
+	        }
+		}
+		// MAJ looki camouflage
+		if (preg_match('/camouflage\s+(\d+)/i', $datas["Nom"], $matches)) {
+			$datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+			$datas["PAChasseur"] = $datas["PAGVG"];
+			$datas['EquipType'] = 7; // Camouflage
+			$datas['EquipNiv']= $matches[1];
+		}
 
         // Ressources
         $i = strpos($t, "\n");

@@ -297,6 +297,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
           <option value="4" <?php echo ($datas["EquipType"]==4 ? "selected" : ""); ?> >Récupérateur</option>
           <option value="5" <?php echo ($datas["EquipType"]==5 ? "selected" : ""); ?> >Réservoir</option>
           <option value="6" <?php echo ($datas["EquipType"]==6 ? "selected" : ""); ?> >Colonisation</option>
+          <option value="7" <?php echo ($datas["EquipType"]==7 ? "selected" : ""); ?> >Camouflage</option>
                 </select></td>
       </tr>
       <tr>
