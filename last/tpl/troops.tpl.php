@@ -10,11 +10,11 @@ if (!SCRIPT_IN) die('Need by included');
 
 class tpl_troops extends output {
     protected $BASE_FILE = '';
-    private $lng_main;
+    private $ress;
 
     public function __construct() {
         $this->BASE_FILE = ROOT_URL.'pillage.php';
-        $this->lng_main = DataEngine::a_ressources();
+        $this->ress = DataEngine::a_ressources();
         parent::__construct();
     }
 
@@ -25,7 +25,7 @@ class tpl_troops extends output {
     public function Setheader() {
         $this->currow = <<<ROW
    <table class="table_center table_nospacing">
-    <tr class="%%class%%">
+    <tr class="color_header text_center">
         <td colspan="7">Légende sur deux lignes.</td>
     </tr>
     <tr class="color_row1">
@@ -42,24 +42,30 @@ class tpl_troops extends output {
     <tr class="color_row0">
         <td class="spacing_row0">Joueur</td>
         <td class="spacing_row0">Date</td>
-        <td class="spacing_row0">{$this->lng_main[0]['Nom']}</td>
-        <td class="spacing_row0">{$this->lng_main[1]['Nom']}</td>
-        <td class="spacing_row0">{$this->lng_main[2]['Nom']}</td>
-        <td class="spacing_row0">{$this->lng_main[3]['Nom']}</td>
-        <td class="spacing_row0">{$this->lng_main[4]['Nom']}</td>
-        <td class="spacing_row0">{$this->lng_main[5]['Nom']}</td>
-        <td class="spacing_row0">{$this->lng_main[6]['Nom']}</td>
-        <td class="spacing_row0">{$this->lng_main[7]['Nom']}</td>
-        <td class="spacing_row0">{$this->lng_main[8]['Nom']}</td>
-        <td class="spacing_row">{$this->lng_main[9]['Nom']}</td>
+        <td class="spacing_row0"><img src="{$this->ress[0]['Image']}"/> {$this->ress[0]['Nom']}</td>
+        <td class="spacing_row0"><img src="{$this->ress[1]['Image']}"/> {$this->ress[1]['Nom']}</td>
+        <td class="spacing_row0"><img src="{$this->ress[2]['Image']}"/> {$this->ress[2]['Nom']}</td>
+        <td class="spacing_row0"><img src="{$this->ress[3]['Image']}"/> {$this->ress[3]['Nom']}</td>
+        <td class="spacing_row0"><img src="{$this->ress[4]['Image']}"/> {$this->ress[4]['Nom']}</td>
+        <td class="spacing_row0"><img src="{$this->ress[5]['Image']}"/> {$this->ress[5]['Nom']}</td>
+        <td class="spacing_row0"><img src="{$this->ress[6]['Image']}"/> {$this->ress[6]['Nom']}</td>
+        <td class="spacing_row0"><img src="{$this->ress[7]['Image']}"/> {$this->ress[7]['Nom']}</td>
+        <td class="spacing_row0"><img src="{$this->ress[8]['Image']}"/> {$this->ress[8]['Nom']}</td>
+        <td class="spacing_row"><img src="{$this->ress[9]['Image']}"/> {$this->ress[9]['Nom']}</td>
     </tr></td>
     </table>
     </tr>
     <tr class="color_bg">
         <td colspan="7" height="1"></td>
     </tr>
-    <tr class="%%class%%">
-        <td colspan="7">%%Title header%%</td>
+    <tr class="color_header text_center">
+        <td colspan="5">Liste des pillages</td>
+        <td colspan="2">
+            <form method="get" action="{$this->BASE_FILE}">
+                <input class="color_header" type="text" name="player" value="%%player%%"/>
+                <input class="color_header" type="submit" value="Afficher"/>
+            </form>
+        </td>
     </tr>
 ROW;
        $this->curtpl = 'SetBattleRow';
@@ -95,16 +101,16 @@ ROW;
     <tr class="color_row%%class%%">
         <td class="spacing_row%%class%%">%%Player%%</td>
         <td class="spacing_row%%class%%">%%date%%</td>
-        <td class="spacing_row%%class%%">%%ress0%%</td>
-        <td class="spacing_row%%class%%">%%ress1%%</td>
-        <td class="spacing_row%%class%%">%%ress2%%</td>
-        <td class="spacing_row%%class%%">%%ress3%%</td>
-        <td class="spacing_row%%class%%">%%ress4%%</td>
-        <td class="spacing_row%%class%%">%%ress5%%</td>
-        <td class="spacing_row%%class%%">%%ress6%%</td>
-        <td class="spacing_row%%class%%">%%ress7%%</td>
-        <td class="spacing_row%%class%%">%%ress8%%</td>
-        <td class="spacing_row">%%ress9%%</td>
+        <td class="spacing_row%%class%%"><img src="{$this->ress[0]['Image']}"/> %%ress0%%</td>
+        <td class="spacing_row%%class%%"><img src="{$this->ress[1]['Image']}"/> %%ress1%%</td>
+        <td class="spacing_row%%class%%"><img src="{$this->ress[2]['Image']}"/> %%ress2%%</td>
+        <td class="spacing_row%%class%%"><img src="{$this->ress[3]['Image']}"/> %%ress3%%</td>
+        <td class="spacing_row%%class%%"><img src="{$this->ress[4]['Image']}"/> %%ress4%%</td>
+        <td class="spacing_row%%class%%"><img src="{$this->ress[5]['Image']}"/> %%ress5%%</td>
+        <td class="spacing_row%%class%%"><img src="{$this->ress[6]['Image']}"/> %%ress6%%</td>
+        <td class="spacing_row%%class%%"><img src="{$this->ress[7]['Image']}"/> %%ress7%%</td>
+        <td class="spacing_row%%class%%"><img src="{$this->ress[8]['Image']}"/> %%ress8%%</td>
+        <td class="spacing_row"><img src="{$this->ress[9]['Image']}"/> %%ress9%%</td>
     </tr>
 ROW;
         $this->curtpl='SetlogRow';

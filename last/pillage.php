@@ -14,22 +14,25 @@ require_once(TEMPLATE_PATH.'troops.tpl.php');
 
 $tpl = tpl_troops::getinstance();
 
-$tpl->Setheader();
-$tpl->AddToRow('color_header text_center', 'class');
-$tpl->AddToRow('color_row0', 'class2');
-$tpl->AddToRow('Liste des pillages', 'Title header');
-$tpl->PushRow();
 
+if ($_GET['player'] != '')
+    $player = gpc_esc($_GET['player']);
+else
+    $player = $_SESSION['_login'];
 
-$login = sqlesc($_SESSION['_login']);
+$sql = sqlesc($player);
 $sql = <<<sql
   SELECT * FROM SQL_PREFIX_troops_attack ta
   LEFT JOIN SQL_PREFIX_troops_pillage tp on (tp.mid=ta.id)
-   WHERE players_attack LIKE '%"$login"%' OR players_defender LIKE '%"$login"%'
+   WHERE players_attack LIKE '%"{$sql}"%' OR players_defender LIKE '%"{$sql}"%'
   ORDER BY `when` DESC
 
 sql;
 $result = DataEngine::sql($sql);
+
+$tpl->Setheader();
+$tpl->AddToRow($player, 'player');
+$tpl->PushRow();
 
 $i = 1;
 $id = -1;
@@ -52,7 +55,7 @@ while ($row = mysql_fetch_assoc($result)) {
         $tpl->SetBattleRow();
         $tpl->AddToRow($i%2, 'rowid');
         $tpl->AddToRow($row['type'], 'Type');
-        $tpl->AddToRow(date('d.m.Y H:i:s', $row['when']), 'Date');
+        $tpl->AddToRow(strftime('%A %d %B à %R', $row['when']), 'Date');
         $tpl->AddToRow($row['coords_ss'].'-'.$row['coords_3p'], 'Coords');
         $tpl->AddToRow(implode('<br/>', $row['players_attack']), 'Attaquants');
         $tpl->AddToRow(implode('<br/>', $row['players_defender']), 'Defenseurs');
@@ -69,7 +72,7 @@ while ($row = mysql_fetch_assoc($result)) {
 
         $tpl->SetlogRow();
         $tpl->AddToRow($i%2, 'class');
-        $tpl->AddToRow(date('d.m.Y H:i:s', $row['date']), 'date');
+        $tpl->AddToRow(strftime('%A %d %B à %R', $row['date']), 'date');
         $tpl->AddToRow($row['Player'], 'Player');
         for ($r=0;$r<10;$r++)
             $tpl->AddToRow($row['ress'.$r], 'ress'.$r);
