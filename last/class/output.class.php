@@ -39,7 +39,7 @@ abstract class output {
     public function __construct() {
         $this->version = DataEngine::Get_Version();
         $this->page_title = 'EU2: Data Engine ('.$this->version.')';
-        $this->css_file = INCLUDE_URL.'EU2DE.css';
+        $this->css_file = 'css.php';
     }
 
     static public function Messager($msg) {

@@ -15,7 +15,6 @@ class tpl_header {
      */
 	static public function Get_Header() {
 		$obj = DataEngine::tpl('');
-                $version = DataEngine::Get_Version();
 
 		if ($obj->page_title=="")
 			$title = "EU2: Data Engine v{$obj->version}";
@@ -24,7 +23,7 @@ class tpl_header {
 
 		if ($obj->css_file!="") {
 			$css = <<<EOF
-		<link rel="stylesheet" type="text/css" href="{$obj->css_file}?{$obj->version}" media="screen" />
+		<link rel="stylesheet" type="text/css" href="%LNG_URL%{$obj->css_file}?{$obj->version}" media="screen" />
 EOF;
 		} else {
 			$css = '';
@@ -57,8 +56,8 @@ $doctype='';
 <body>
 {$stats}
 <script type="text/javascript" src="%INCLUDE_URL%prototype.js?1.6.1"></script>
-<script type="text/javascript" src="%LNG_URL%eude.local.js?{$version}"></script>
-<script type="text/javascript" src="%INCLUDE_URL%Script.js?{$version}"></script>
+<script type="text/javascript" src="%LNG_URL%eude.local.js?{$obj->version}"></script>
+<script type="text/javascript" src="%INCLUDE_URL%Script.js?{$obj->version}"></script>
 <div id="curseur" class="infobulle"></div>
 <div id="debug" style="z-index:8; position:fixed; visibility:visible; background-color: #C0C0C0;white-space:nowrap; top:50px; left:5px"></div>
 %NEW_MESSAGE_ENTRY%
