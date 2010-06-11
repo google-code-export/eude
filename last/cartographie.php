@@ -280,9 +280,13 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
     $tpl->AddToRow($ligne['TYPE'], 'typeid');
     $tpl->AddToRow($stype[$ligne['TYPE']], 'type');
     $tpl->AddToRow($coords, 'coords');
-    if ($ligne['EMPIRE'])
-        $tpl->AddToRow($ligne['USER'] ? $ligne['USER'].'<br/>'.$ligne['EMPIRE'] : $ligne['EMPIRE'], 'player');
-    else
+    if ($ligne['EMPIRE']) {
+        $shw_emp = DataEngine::utf_strip($ligne['EMPIRE']);
+        $shw_emp = (mb_strlen($shw_emp, 'utf8') > 18) ? mb_substr($shw_emp,0,15,'utf8').'...': $shw_emp;
+        $shw_emp = htmlentities($shw_emp, ENT_QUOTES, 'utf-8');
+        $shw_emp = '<span '.bulle($ligne['EMPIRE']).'>'.$shw_emp.'</span>';
+        $tpl->AddToRow($ligne['USER'] ? $ligne['USER'].'<br/>'.$shw_emp : $shw_emp, 'player');
+    } else
         $tpl->AddToRow($ligne['USER'] ? $ligne['USER'] : '-', 'player');
     $tpl->AddToRow($ligne['INFOS'] ? $ligne['INFOS'] : '-', 'infos');
     $tpl->AddToRow($ligne['NOTE'], 'notes');
