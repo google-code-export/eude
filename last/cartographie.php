@@ -281,10 +281,7 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
     $tpl->AddToRow($stype[$ligne['TYPE']], 'type');
     $tpl->AddToRow($coords, 'coords');
     if ($ligne['EMPIRE']) {
-        $shw_emp = DataEngine::utf_strip($ligne['EMPIRE']);
-        $shw_emp = (mb_strlen($shw_emp, 'utf8') > 18) ? mb_substr($shw_emp,0,15,'utf8').'...': $shw_emp;
-        $shw_emp = htmlentities($shw_emp, ENT_QUOTES, 'utf-8');
-        $shw_emp = '<span '.bulle($ligne['EMPIRE']).'>'.$shw_emp.'</span>';
+        $shw_emp = wordwrap($ligne['EMPIRE'], 20, '<br/>', true);
         $tpl->AddToRow($ligne['USER'] ? $ligne['USER'].'<br/>'.$shw_emp : $shw_emp, 'player');
     } else
         $tpl->AddToRow($ligne['USER'] ? $ligne['USER'] : '-', 'player');
