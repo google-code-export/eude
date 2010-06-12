@@ -82,7 +82,7 @@ class cartographie {
                 if ($sql != '')
                     $sql   .= ', ';
                 $sql .= "`$field`='$newval'";
-				if ($sql2  != '')
+                if ($sql2  != '')
                     $sql2    .= ', ';
                 $sql2  .= "'$newval'";
                 if ($sql3	!= '')
@@ -103,17 +103,24 @@ class cartographie {
             $query = "UPDATE `SQL_PREFIX_Coordonnee` SET DATE=NOW(),`INACTIF`=0,UTILISATEUR='{$_SESSION['_login']}' WHERE `ID`=$do_update";
             DataEngine::sql($query);
 			$query = "SELECT COUNT(pID) AS NOMBRE FROM  `SQL_PREFIX_Coordonnee_Planetes` where `pID`='$do_update'";
-			$mysql_result = DataEngine::sql($query);
-			$ligne=mysql_fetch_assoc($mysql_result);
-			if ($ligne['NOMBRE'] == 0) {
-			$query2="INSERT INTO `SQL_PREFIX_Coordonnee_Planetes` (`pID`,$sql3) VALUES($do_update,$sql2)";
-            DataEngine::sql($query2,false) or $warn="($rows) $query<br/>$query2<br/>".print_r($ress_val,true)."<br/>".mysql_error();
-			} else {
-			$query = "UPDATE `SQL_PREFIX_Coordonnee_Planetes` SET $sql WHERE `pID`=$do_update";
-            DataEngine::sql($query);
-			}
-            return $this->AddInfo('La planète mis à jour au coordonnée : '.$uni.'-'.$sys);
-
+            $mysql_result = DataEngine::sql($query);
+            if (mysql_num_rows($mysql_result) == 0) {
+                $query2="INSERT INTO `SQL_PREFIX_Coordonnee_Planetes` (`pID`,$sql3) VALUES($do_update,$sql2)";
+                DataEngine::sql($query2,false) or $warn="($rows) $query<br/>$query2<br/>".print_r($ress_val,true)."<br/>".mysql_error();
+            } else {
+                $query = DataEngine::sql("SELECT * FROM `SQL_PREFIX_Coordonnee_Planetes` where `pID`='$do_update'");
+                $ligne=mysql_fetch_assoc($query);
+                $array = array($ligne['Titane'],$ligne['Cuivre'],$ligne['Fer'],$ligne['Aluminium'],$ligne['Mercure'],$ligne['Silicium'],$ligne['Uranium'],$ligne['Krypton'],$ligne['Azote'],$ligne['Hydrogene']);
+                $array = str_replace('%', '', $array);
+                if (is_numeric($array[0]) && is_numeric($array[1]) && is_numeric($array[2]) && is_numeric($array[3]) && is_numeric($array[4]) && is_numeric($array[5])
+                        && is_numeric($array[6]) && is_numeric($array[7]) && is_numeric($array[8]) && is_numeric($array[9])) {
+                    return $this->AddInfo('La planète est déjà à jour au coordonnée : '.$uni.'-'.$sys);
+                } else {
+                    $query = "UPDATE `SQL_PREFIX_Coordonnee_Planetes` SET $sql WHERE `pID`=$do_update";
+                    DataEngine::sql($query);
+                    return $this->AddInfo('La planète mis à jour au coordonnée : '.$uni.'-'.$sys);
+                }
+            }
         } else {
             $query    = 'INSERT INTO SQL_PREFIX_Coordonnee (TYPE,POSIN,POSOUT,COORDET,USER,EMPIRE,INFOS,NOTE,DATE,UTILISATEUR) ';
             $query   .= "VALUES (2,'$uni','','$sys','','','','$qnote',now(),'{$_SESSION['_login']}')";
@@ -408,12 +415,12 @@ class cartographie {
         $query = 'SELECT TYPE,POSIN,COORDET,USER FROM SQL_PREFIX_Coordonnee WHERE '.$where;
         $sql_result = DataEngine::sql($query);
         if (mysql_num_rows($sql_result)==0) {
-		$query = sprintf('INSERT INTO SQL_PREFIX_Coordonnee (TYPE,POSIN,POSOUT,COORDET,COORDETOUT,USER,EMPIRE,INFOS,DATE,water,batiments,UTILISATEUR)'.
+            $query = sprintf('INSERT INTO SQL_PREFIX_Coordonnee (TYPE,POSIN,POSOUT,COORDET,COORDETOUT,USER,EMPIRE,INFOS,DATE,water,batiments,UTILISATEUR)'.
                     ' VALUES (2,\'%s\',\'\',\'%s\',\'\',\'\',\'\',\'\',now(),\'%s\',\'%s\',\'%s\')',
                     $sys, $det, $water, $batiments, sqlesc($_SESSION['_login']));
-        DataEngine::sql($query);
-		}
-		
+            DataEngine::sql($query);
+        }
+
         $item = mysql_fetch_assoc($sql_result);
 
         $value = array();
@@ -441,8 +448,8 @@ class cartographie {
             array_unshift($amsg, $this->lngmain['types']['string'][$item['TYPE']]);
         } else {
             $amsg = array($this->lngmain['types']['string'][$item['TYPE']],
-                $item['USER'],
-                $item['POSIN'].'-'.$item['COORDET']);
+                    $item['USER'],
+                    $item['POSIN'].'-'.$item['COORDET']);
         }
         return $this->AddInfo(vsprintf($msg, $amsg));
     }
