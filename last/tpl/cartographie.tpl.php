@@ -115,7 +115,7 @@ ROW;
     </tr>
     <tr>
         <td>
-        <form name="search" method="post" action="{$this->BASE_FILE}?{$this->BASE_GET}">
+        <form name="search" method="post" action="{$this->BASE_FILE}?page=1">
         <table class="table_center table_nospacing color_row0" width="100%">
             <tr>
                 <TD class="text_center color_bigheader" colspan="11">{$this->lng['search_header']}</TD>
