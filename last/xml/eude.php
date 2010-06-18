@@ -115,6 +115,19 @@ q;
         $xml['log']=troops::getinstance()->AddPillage_log($mode, $idate, $smsg);
         break;
 
+    case 'troop_howmany': //--------------------------------------------------------
+
+        if (!DataEngine::CheckPerms('in_dev')) {
+            $carto->AddErreur('Permissions manquante');
+            break;
+        }
+        $lastcoords = gpc_esc($_POST['lastcoords']);
+        $carto->Edit_Entry($lastcoords,
+                array('TROOP'=>gpc_esc($_POST['EnnemyTroops'])),
+                'Mise à jour des troupes en %3$s');
+        $xml['log']= sprintf('Mise à jour des troupes en %s',$lastcoords);
+        break;
+
     case 'wormhole': //---------------------------------------------------------
         $carto->add_vortex($_POST['IN'], $_POST['OUT']);
         $xml['log']='Vortex '.$_POST['IN'].' <--> '.$_POST['OUT'];

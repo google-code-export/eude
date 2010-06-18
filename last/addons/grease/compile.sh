@@ -2,6 +2,7 @@
 
 sdir=`dirname $0`
 if [ "$sdir" == "." ]; then sdir=`pwd`; fi
+cd $sdir
 
 echo "//" > eude.user.js
 echo "// DO NO MODIFY DIRECTLY !!!" >> eude.user.js

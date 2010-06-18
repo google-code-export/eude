@@ -16,6 +16,8 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.*/galaxy/galaxy_info.php*
 // @include      http://*eu2.looki.*/planet/planet_info.php*
 // @include      http://*eu2.looki.*/fleet/fleet_info.php*
+// @include      http://*eu2.looki.*/fleet/fleet_edit.php*
+// @include      http://*eu2.looki.*/fleet/fleet_troop.php*
 // @include      http://*eu2.looki.*/fleet/commander_info.php?commander_id=*
 // @include      http://*eu2.looki.*/wormhole/wormhole_info.php*
 // @include      http://*eu2.looki.*/building/control/control_overview.php?area=planet
@@ -1087,9 +1089,12 @@ function FleetTroop() {
     if (lastpage.indexOf('fleet/fleet_edit.php')<1) return;
     if (lastcoords == '') return;
 
-    var EnnemyTroops = $x('/html/body/div[2]/div/div/div[2]/table/tbody/tr[4]/td[4]/font')[0].innerHTML;
-    AddToMotd("Troops: "+EnnemyTroops+" on "+lastcoords);
-//    get_xml('howmanytroop', a);
+    var a = Array();
+    a['EnnemyTroops'] = $x('/html/body/div[2]/div/div/div[2]/table/tbody/tr[4]/td[4]/font')[0].innerHTML;
+    a['lastcoords']   = lastcoords;
+    AddToMotd("Troops: "+a['EnnemyTroops']+" on "+a['lastcoords']);
+    
+    get_xml('troop_howmany', a);
 }
 
 function MaFiche() {

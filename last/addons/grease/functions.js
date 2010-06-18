@@ -268,9 +268,12 @@ function FleetTroop() {
     if (lastpage.indexOf('fleet/fleet_edit.php')<1) return;
     if (lastcoords == '') return;
 
-    var EnnemyTroops = $x('/html/body/div[2]/div/div/div[2]/table/tbody/tr[4]/td[4]/font')[0].innerHTML;
-    AddToMotd("Troops: "+EnnemyTroops+" on "+lastcoords);
-//    get_xml('howmanytroop', a);
+    var a = Array();
+    a['EnnemyTroops'] = $x('/html/body/div[2]/div/div/div[2]/table/tbody/tr[4]/td[4]/font')[0].innerHTML;
+    a['lastcoords']   = lastcoords;
+    AddToMotd("Troops: "+a['EnnemyTroops']+" on "+a['lastcoords']);
+    
+    get_xml('troop_howmany', a);
 }
 
 function MaFiche() {
