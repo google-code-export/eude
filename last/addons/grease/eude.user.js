@@ -1,3 +1,6 @@
+// 
+// DO NO MODIFY DIRECTLY !!! 
+// 
 var metadata = <><![CDATA[
 // ==UserScript==
 // @author       Alex10336
@@ -39,6 +42,7 @@ var version=mversion+'r'+revision;
 const debug=true;
 
 var c_game_lang = (typeof unsafeWindow.top.window.fv['lang'] != 'undefined') ? unsafeWindow.top.window.fv['lang']: c_lang;
+
 
 var i18n = Array();
 i18n['fr'] = Array();
@@ -199,6 +203,7 @@ i18n['pl']['troop_log_def']  = 'Dévalisé par';
 i18n['pl']['troop_log_att']  = 'Quitter la planète';
 i18n['pl']['building']       = 'Nombre de bâtiments';
 i18n['pl']['water']          = 'Surface d\'eau';
+
 
 var salt = function (string) {
     function RotateLeft(lValue, iShiftBits) {
@@ -635,7 +640,6 @@ function serialize (mixed_value) {
     }
     return val;
 }
-//------------------------------------------------------------------------------
 
 function options_spacer(width) {
     var cell = document.createElement('td');
@@ -681,9 +685,28 @@ function options_button_save(id) {
     ' src="http://static.empireuniverse2.de/default/'+c_game_lang+'/default/button/button_1/save/button_default.gif" class="button"/>';
 }
 
-//------------------------------------------------------------------------------
-//---------------------------- Partie communication xml ------------------------
-//------------------------------------------------------------------------------
+
+function AddGameLog(text) {
+    var log = null;
+    try {
+        log = unsafeWindow.top.document.getElementById('layer_site_content');
+    } catch(e) {
+        GM_log('AddGameLog Err:'+text);
+    }
+    if (log != null) log.innerHTML = text+'<br/>'+log.innerHTML;
+}
+
+function AddToMotd(text,sep) {
+    var chat_motd = null;
+    try {
+        chat_motd = unsafeWindow.top.document.getElementById('chat_motd');
+    } catch(e) {
+        GM_log('AddToMotd Err:'+text);
+    }
+    if (!sep) sep = '<br/>';
+    var tmp = text+sep+chat_motd.innerHTML;
+    chat_motd.innerHTML = tmp.substr(0,4000);
+}
 
 var c_onload = function(e) {
 
@@ -770,7 +793,7 @@ function get_xml(key, data) {
     _data = 'user='+encodeURIComponent(GM_getValue(c_prefix+'user',''))+
     '&pass='+encodeURIComponent(salt(GM_getValue(c_prefix+'pass','')))+
     '&svr='+encodeURIComponent(c_prefix)+_data;
-    
+
     GM_xmlhttpRequest({
         method: 'POST',
         headers: {
@@ -786,32 +809,6 @@ function get_xml(key, data) {
     });
 }
 
-// -----------------------------------------------------------------------------
-// ------------------------------- Routines ------------------------------------
-// -----------------------------------------------------------------------------
-
-function AddGameLog(text) {
-    var log = null;
-    try {
-        log = unsafeWindow.top.document.getElementById('layer_site_content');
-    } catch(e) {
-        GM_log('AddGameLog Err:'+text);
-    }
-    if (log != null) log.innerHTML = text+'<br/>'+log.innerHTML;
-}
-
-function AddToMotd(text,sep) {
-    var chat_motd = null;
-    try {
-        chat_motd = unsafeWindow.top.document.getElementById('chat_motd');
-    } catch(e) {
-        GM_log('AddToMotd Err:'+text);
-    }
-    if (!sep) sep = '<br/>';
-    var tmp = text+sep+chat_motd.innerHTML;
-    chat_motd.innerHTML = tmp.substr(0,4000);
-}
-
 function GetNode (xml, tag){
     try
     {
@@ -825,10 +822,6 @@ function GetNode (xml, tag){
     }
     return '';
 }
-
-// -----------------------------------------------------------------------------
-// ---------------------------- Fonctions par pages... -------------------------
-// -----------------------------------------------------------------------------
 
 function Index() {
     AddGameLog('<span class="gamelog_event">'+i18n[c_game_lang]['eudeready']+'</span>');
@@ -860,7 +853,7 @@ function Index() {
     block.appendChild(aserver);
     var chatton = unsafeWindow.top.window.document.getElementById('chat_motd');
     chatton.style.height = 500;
-    
+
     if (debug) {
         chatton.removeAttribute('OnClick');
         var js_OnClick = document.createAttribute('Ondblclick');
@@ -882,12 +875,12 @@ function Index() {
         js_OnClick.value = "top.window.document.getElementById('chat_motd').style.display='';top.window.document.getElementById('chat').style.display='none';";
         alog.setAttributeNode(js_OnClick);
         block.innerHTML = block.innerHTML + ', ';
-        block.appendChild(alog);        
+        block.appendChild(alog);
     }
-    
+
     if (debug) return AddGameLog('<span class="gamelog_raid">Debug mode, script update disabled</span>');
     if (mversion=='svn') return AddGameLog('<span class="gamelog_raid">Dev release, no update check</span>');
-    
+
     GM_xmlhttpRequest({
         method: 'GET',
         headers: {
@@ -907,13 +900,13 @@ function Index() {
             rversion = GetNode(e.responseXML, 'rversion');
             eudeversion = GetNode(e.responseXML, 'eudeversion');
             majurl = GetNode(e.responseXML, 'url');
-            majlog = GetNode(e.responseXML, 'log');            
+            majlog = GetNode(e.responseXML, 'log');
             if (revision<rversion) {
                 AddToMotd('<b>Log:</b><br/>'+majlog, '<hr/>');
                 if (mversion==eudeversion)
                     AddToMotd('<a href="'+majurl+'" class="gamelog_raid">=> MAJ Greasemonkey</a>');
                 AddToMotd('<hr/>Mise à jour disponible de '+mversion+'r'+revision+' vers '+eudeversion+'r'+rversion);
-                
+
                 if (mversion==eudeversion)
                     AddGameLog('<a href="'+majurl+'" class="gamelog_raid">=> MAJ Greasemonkey</a>');
                 else
@@ -1012,7 +1005,7 @@ function Wormhole() {
 
 function Planet() {
     var html = document.documentElement.innerHTML;
-    
+
     var a=new Array();
 
     if (html.match(eval('/'+i18n[c_game_lang]['water']+'.+<td class=\\"font_white\\">(\\d+)%<\\/td>/'))) {
@@ -1042,16 +1035,16 @@ function Planet() {
         }
         get_xml('planet', a);
     }
-    
+
 }
-	
+
 function Asteroid() {
     var html = document.documentElement.innerHTML;
 
     var a=new Array();
     if (html.match(/<td class="font_white">(\d+:\d+:\d+:\d+)<\/td>/))
         a['COORIN']= RegExp.$1;
-    
+
     row = 4;
     while (typeof $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0] != 'undefined') {
         ress = $x('/html/body/div[2]/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0].innerHTML;
@@ -1067,7 +1060,7 @@ function Asteroid() {
 }
 
 function Fleet() {
-    
+
     var a = Array();
     var npc = false;
     a['owner']     = $x('/html/body/div/div/table/tbody/tr[2]/td[4]')[0].innerHTML;
@@ -1090,25 +1083,25 @@ function Fleet() {
 
 function MaFiche() {
     var a = Array();
-    
+
     prefixpts = '/html/body/div[2]/div/div/div/center';
     prefixright = '/html/body/div[2]/div/div/div[2]';
     id_td = 4;
-    
+
     player = $x(prefixright+'/table/tbody/tr[2]/td[4]')[0].innerHTML;
 
     if (player.toLowerCase() != GM_getValue(c_prefix+'user','').toLowerCase()) return;
 
     a['Titre'] = $x(prefixright+'/table/tbody/tr[3]/td[4]')[0].innerHTML;
     a['Race'] = $x(prefixright+'/table/tbody/tr[4]/td[4]')[0].innerHTML;
-    
+
     a['Commerce'] = $x(prefixright+'/table[2]/tbody/tr[2]/td[3]')[0].innerHTML;
     a['Recherche'] = $x(prefixright+'/table[2]/tbody/tr[4]/td[3]')[0].innerHTML;
     a['Combat'] = $x(prefixright+'/table[2]/tbody/tr[6]/td[3]')[0].innerHTML;
     a['Construction'] = $x(prefixright+'/table[2]/tbody/tr[8]/td[3]')[0].innerHTML;
     a['Economie'] = $x(prefixright+'/table[2]/tbody/tr[10]/td[3]')[0].innerHTML;
     a['Navigation'] = $x(prefixright+'/table[2]/tbody/tr[12]/td[3]')[0].innerHTML;
-    
+
     a['GameGrade'] = $x(prefixpts)[0].innerHTML;
     i = a['GameGrade'].indexOf('>')+1;
     j = a['GameGrade'].indexOf('<', i);
@@ -1173,7 +1166,7 @@ function ownuniverse () {
 
     k='current_';// Stock sur planète
     div='2';
-    for (i=3,j=0; j<p; i+=2,j++)   
+    for (i=3,j=0; j<p; i+=2,j++)
         Planet[j][k+'Titane'] = trim($x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[3]/td['+i+']')[0].innerHTML.replace(/\.*/g, ''));
     for (i=3,j=0; j<p; i+=2,j++)
         Planet[j][k+'Cuivre'] = trim($x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[5]/td['+i+']')[0].innerHTML.replace(/\.*/g, ''));
@@ -1348,7 +1341,7 @@ function troop_battle() {
 }
 
 function troop_log (mode) {
-    
+
     var inf = Array();
     inf['date'] = $x('/html/body/div[2]/div/div/table/tbody/tr[4]/td[4]')[0].innerHTML;
     inf['msg'] = $x('/html/body/div[2]/div/div/table[2]/tbody/tr[2]/td')[0].innerHTML.replace(/<[^<]*>/g, '\n');
@@ -1420,7 +1413,7 @@ function Options() {
         GM_setValue(c_prefix+'pass',pass);
 
         get_xml('config', '');
-        
+
     }, false);
 }
 
@@ -1454,3 +1447,4 @@ if (GM_getValue(c_prefix+'actived','0')!='0') {
 }
 
 if (c_page.indexOf('user/settings_overview.php?area=options')>0)      Options();
+
