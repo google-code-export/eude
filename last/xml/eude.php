@@ -45,6 +45,8 @@ switch ($_GET['act']) {
         $xml['GM_planet_info']   = DataEngine::CheckPerms('CARTOGRAPHIE_PLANETS')  ? '1':'0';
         $xml['GM_asteroid_info'] = DataEngine::CheckPerms('CARTOGRAPHIE_ASTEROID') ? '1':'0';
         $xml['GM_pnj_info']      = DataEngine::CheckPerms('CARTOGRAPHIE_PNJ')  ? '1':'0';
+
+        $xml['GM_troops_battle']      = DataEngine::CheckPerms('PERSO_TROOPS_BATTLE')  ? '1':'0';
         break;
 
     case 'mafiche': //----------------------------------------------------------
@@ -72,6 +74,10 @@ q;
 
     case 'ownuniverse': //------------------------------------------------------
 
+        if (!DataEngine::CheckPerms('PERSO_OWNUNIVERSE')) {
+            $carto->AddErreur('Permissions manquante');
+            break;
+        }
         require_once(CLASS_PATH.'ownuniverse.class.php');
         $data = unserialize(gpc_esc($_POST['data']));
         list($info, $warn) = ownuniverse::getinstance()->add_ownuniverse($data);
@@ -80,7 +86,7 @@ q;
 
     case 'troop_battle': //-----------------------------------------------------
 
-        if (!DataEngine::CheckPerms('in_dev')) {
+        if (!DataEngine::CheckPerms('PERSO_TROOPS_BATTLE')) {
             $carto->AddErreur('Permissions manquante');
             break;
         }
@@ -100,7 +106,7 @@ q;
 
     case 'troop_log': //--------------------------------------------------------
 
-        if (!DataEngine::CheckPerms('in_dev')) {
+        if (!DataEngine::CheckPerms('PERSO_TROOPS_BATTLE')) {
             $carto->AddErreur('Permissions manquante');
             break;
         }
@@ -117,7 +123,7 @@ q;
 
     case 'troop_howmany': //--------------------------------------------------------
 
-        if (!DataEngine::CheckPerms('in_dev')) {
+        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')) {
             $carto->AddErreur('Permissions manquante');
             break;
         }

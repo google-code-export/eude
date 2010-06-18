@@ -85,6 +85,7 @@ $cxx['PERSO'] = 'Page Mafiche';
 $cxx['PERSO_RESEARCH'] = 'Page recherche';
 $cxx['PERSO_OWNUNIVERSE'] = 'Page production';
 $cxx['PERSO_OWNUNIVERSE_READONLY'] = 'Page production (mode lecture seule)';
+$cxx['PERSO_TROOPS_BATTLE'] = 'Listings des combats terrestre';
 $cxx[] = 'Cartographie';
 $cxx['CARTOGRAPHIE'] = 'Page Cartographie';
 $cxx['CARTOGRAPHIE_ASTEROID'] = 'Ajout Astéroïdes';
@@ -110,7 +111,7 @@ $lng['axx'] = array(
                 AXX_DISABLED	=>'Désactivé'
         );
 
-$lng['minimalpermsneeded'] = 'Permission minimale manquante (<b>%s</b> ou supérieur)';
+$lng['minimalpermsneeded'] = 'Permission minimale manquante (<small>%s</small>)';
 $lng['nopermsanddie'] = 'Permission minimale manquante ou option désactivée.';
 
 // Types pris en charge !

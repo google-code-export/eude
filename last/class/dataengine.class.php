@@ -471,6 +471,7 @@ class Members {
         $cxx['PERSO_RESEARCH'] = AXX_VALIDATING;
         $cxx['PERSO_OWNUNIVERSE'] = AXX_MEMBER;
         $cxx['PERSO_OWNUNIVERSE_READONLY'] = AXX_ADMIN;
+        $cxx['PERSO_TROOPS_BATTLE'] = AXX_MEMBER;
 
         $cxx['MEMBRES_HIERARCHIE'] = AXX_MEMBER;
         $cxx['MEMBRES_NEW'] = AXX_ADMIN; // inclus les grades...
@@ -551,8 +552,11 @@ class Members {
     static public function CheckPermsOrDie($NeededAXX=AXX_MEMBER) {
         if (!self::CheckPerms($NeededAXX)) {
             $lng = language::getinstance()->GetLngBlock('dataengine');
+            if (is_numeric($NeededAXX)) {
             $perm = self::s_perms();
-            $str = sprintf($lng['minimalpermsneeded'], $perm[$NeededAXX]);
+            $NeededAXX = $perm[$NeededAXX];
+            }
+            $str = sprintf($lng['minimalpermsneeded'], $NeededAXX);
             $out = <<<PERM
 <br/><br/>
 	<center>

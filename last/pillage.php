@@ -10,8 +10,10 @@
 require_once('./init.php');
 require_once(INCLUDE_PATH.'Script.php');
 
-require_once(TEMPLATE_PATH.'troops.tpl.php');
+DataEngine::CheckPermsOrDie('PERSO_TROOPS_BATTLE');
 
+
+require_once(TEMPLATE_PATH.'troops.tpl.php');
 $tpl = tpl_troops::getinstance();
 
 

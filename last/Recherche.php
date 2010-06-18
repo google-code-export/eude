@@ -11,7 +11,7 @@
 require_once('./init.php');
 require_once(INCLUDE_PATH.'Script.php');
 
-DataEngine::CheckPerms('PERSO_RESEARCH');
+DataEngine::CheckPermsOrDie('PERSO_RESEARCH');
 
 $Rech[0][0]=0.1;
 $Rech[0][1]=2.6;
