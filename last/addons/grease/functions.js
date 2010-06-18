@@ -256,6 +256,22 @@ function Fleet() {
     }
 }
 
+function FleetEdit() {
+    var coords = $x('/html/body/div[2]/form/div/table/tbody/tr/td[5]/table/tbody/tr[3]/td[4]')[0].innerHTML;
+    AddToMotd("'"+coords+"'");
+    GM_setValue(c_prefix+'lastcoords', coords);
+}
+
+function FleetTroop() {
+    var lastpage=GM_getValue(c_prefix+'lastpage', '');
+    var lastcoords=GM_getValue(c_prefix+'lastcoords', '');
+    if (lastpage.indexOf('fleet/fleet_edit.php')<1) return;
+    if (lastcoords == '') return;
+
+    var EnnemyTroops = $x('/html/body/div[2]/div/div/div[2]/table/tbody/tr[4]/td[4]/font')[0].innerHTML;
+    AddToMotd("Troops: "+EnnemyTroops+" on "+lastcoords);
+//    get_xml('howmanytroop', a);
+}
 
 function MaFiche() {
     var a = Array();

@@ -1,6 +1,6 @@
-// 
-// DO NO MODIFY DIRECTLY !!! 
-// 
+//
+// DO NO MODIFY DIRECTLY !!!
+//
 var metadata = <><![CDATA[
 // ==UserScript==
 // @author       Alex10336
@@ -42,7 +42,6 @@ var version=mversion+'r'+revision;
 const debug=true;
 
 var c_game_lang = (typeof unsafeWindow.top.window.fv['lang'] != 'undefined') ? unsafeWindow.top.window.fv['lang']: c_lang;
-
 
 var i18n = Array();
 i18n['fr'] = Array();
@@ -203,7 +202,6 @@ i18n['pl']['troop_log_def']  = 'Dévalisé par';
 i18n['pl']['troop_log_att']  = 'Quitter la planète';
 i18n['pl']['building']       = 'Nombre de bâtiments';
 i18n['pl']['water']          = 'Surface d\'eau';
-
 
 var salt = function (string) {
     function RotateLeft(lValue, iShiftBits) {
@@ -640,7 +638,6 @@ function serialize (mixed_value) {
     }
     return val;
 }
-
 function options_spacer(width) {
     var cell = document.createElement('td');
     if (!width) width='20';
@@ -707,7 +704,6 @@ function AddToMotd(text,sep) {
     var tmp = text+sep+chat_motd.innerHTML;
     chat_motd.innerHTML = tmp.substr(0,4000);
 }
-
 var c_onload = function(e) {
 
     if (e.status=='404' || e.status=='405') {
@@ -822,7 +818,6 @@ function GetNode (xml, tag){
     }
     return '';
 }
-
 function Index() {
     AddGameLog('<span class="gamelog_event">'+i18n[c_game_lang]['eudeready']+'</span>');
     var script = document.createElement('script');
@@ -1080,6 +1075,22 @@ function Fleet() {
     }
 }
 
+function FleetEdit() {
+    var coords = $x('/html/body/div[2]/form/div/table/tbody/tr/td[5]/table/tbody/tr[3]/td[4]')[0].innerHTML;
+    AddToMotd("'"+coords+"'");
+    GM_setValue(c_prefix+'lastcoords', coords);
+}
+
+function FleetTroop() {
+    var lastpage=GM_getValue(c_prefix+'lastpage', '');
+    var lastcoords=GM_getValue(c_prefix+'lastcoords', '');
+    if (lastpage.indexOf('fleet/fleet_edit.php')<1) return;
+    if (lastcoords == '') return;
+
+    var EnnemyTroops = $x('/html/body/div[2]/div/div/div[2]/table/tbody/tr[4]/td[4]/font')[0].innerHTML;
+    AddToMotd("Troops: "+EnnemyTroops+" on "+lastcoords);
+//    get_xml('howmanytroop', a);
+}
 
 function MaFiche() {
     var a = Array();
@@ -1416,9 +1427,10 @@ function Options() {
 
     }, false);
 }
-
 /// Dispacheur
 if (debug) AddToMotd('Page: '+c_page);
+
+if (c_page.indexOf('user/settings_overview.php?area=options')>0)      Options();
 
 if (GM_getValue(c_prefix+'actived','0')!='0') {
     if (c_page.indexOf('index.php')>0)                                  Index();
@@ -1437,14 +1449,16 @@ if (GM_getValue(c_prefix+'actived','0')!='0') {
 
     if (c_page.indexOf('fleet/fleet_info.php?')>0)                      Fleet();
     if (c_page.indexOf('fleet/commander_info.php?commander_id=')>0)   MaFiche();
-
+    if (c_page.indexOf('fleet/fleet_edit.php')>0)                   FleetEdit();
+    if (c_page.indexOf('fleet/fleet_troop.php')>0)                 FleetTroop();
+    
     if (c_page.indexOf('building/control/control_overview.php?area=planet')>0)
         ownuniverse();
     if (c_page.indexOf('battle/battle_ground_report_info.php?area=ground_battle')>0)
         troop_battle();
     if (c_page.indexOf('gamelog/gamelog_view.php?gamelog_id')>0)
         gamelog_spooler();
-}
 
-if (c_page.indexOf('user/settings_overview.php?area=options')>0)      Options();
+    GM_setValue(c_prefix+'lastpage', c_page);
+}
 
