@@ -37,6 +37,7 @@ class tpl_menu {
                                 array('%ROOT_URL%Mafiche.php','%IMAGES_URL%Btn-Mafiche.png','DataEngine::CheckPerms("PERSO")'),
                                 array('%ROOT_URL%Recherche.php','%IMAGES_URL%Btn-Recherche.png','DataEngine::CheckPerms("PERSO_RESEARCH")'),
                                 array('%ROOT_URL%ownuniverse.php','%IMAGES_URL%Btn-Production.png','DataEngine::CheckPerms("PERSO_OWNUNIVERSE")'),
+                                array('%ROOT_URL%pillage.php','%IMAGES_URL%btn-pillage.png','DataEngine::CheckPerms("PERSO_TROOPS_BATTLE")'),
                         ),
                 ),
                 'addon' => array('', '%IMAGES_URL%btn-addon.png',180, 'addons::getinstance()->IncludeAddonMenu()', array() ),

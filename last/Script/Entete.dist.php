@@ -65,7 +65,6 @@ final class Config implements iDataEngine_Config {
          * Quel pack de langue utiliser ?
          */
         define('LNG_CODE','fr');
-        setlocale(LC_ALL, "fr_FR");
     }
     /**
      * Connexion a la base de donnée.

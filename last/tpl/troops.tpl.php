@@ -11,10 +11,12 @@ if (!SCRIPT_IN) die('Need by included');
 class tpl_troops extends output {
     protected $BASE_FILE = '';
     private $ress;
+    private $lng;
 
     public function __construct() {
         $this->BASE_FILE = ROOT_URL.'pillage.php';
         $this->ress = DataEngine::a_ressources();
+        $this->lng = language::getinstance()->GetLngBlock('pillage');
         parent::__construct();
     }
 
@@ -26,22 +28,22 @@ class tpl_troops extends output {
         $this->currow = <<<ROW
    <table class="table_center table_nospacing">
     <tr class="color_header text_center">
-        <td colspan="7">Légende sur deux lignes.</td>
+        <td colspan="7">{$this->lng['legend_header']}</td>
     </tr>
     <tr class="color_row1">
         <td class="color_header">&nbsp;</td>
-        <td class="spacing_row1">Type</td>
-        <td class="spacing_row1">Date</td>
-        <td class="spacing_row1">Coordonnées</td>
-        <td class="spacing_row1">Attaquants</td>
-        <td class="spacing_row1">Défenseurs</td>
-        <td class="spacing_row">Pertes</td>
+        <td class="spacing_row1">{$this->lng['legend_type']}</td>
+        <td class="spacing_row1">{$this->lng['legend_date']}</td>
+        <td class="spacing_row1">{$this->lng['legend_coords']}</td>
+        <td class="spacing_row1">{$this->lng['legend_attack']}</td>
+        <td class="spacing_row1">{$this->lng['legend_defend']}</td>
+        <td class="spacing_row">{$this->lng['legend_lost']}</td>
     </tr>
  <tr><td colspan="7">
      <table class="table_nospacing" width="100%">
     <tr class="color_row0">
-        <td class="spacing_row0">Joueur</td>
-        <td class="spacing_row0">Date</td>
+        <td class="spacing_row0">{$this->lng['legend_player']}</td>
+        <td class="spacing_row0">{$this->lng['legend_date']}</td>
         <td class="spacing_row0"><img src="{$this->ress[0]['Image']}"/> {$this->ress[0]['Nom']}</td>
         <td class="spacing_row0"><img src="{$this->ress[1]['Image']}"/> {$this->ress[1]['Nom']}</td>
         <td class="spacing_row0"><img src="{$this->ress[2]['Image']}"/> {$this->ress[2]['Nom']}</td>
@@ -59,11 +61,11 @@ class tpl_troops extends output {
         <td colspan="7" height="1"></td>
     </tr>
     <tr class="color_header text_center">
-        <td colspan="5">Liste des pillages</td>
+        <td colspan="5">{$this->lng['listing_header']}</td>
         <td colspan="2">
             <form method="get" action="{$this->BASE_FILE}">
                 <input class="color_header" type="text" name="player" value="%%player%%"/>
-                <input class="color_header" type="submit" value="Afficher"/>
+                <input class="color_header" type="submit" value="{$this->lng['listing_btnfilter']}"/>
             </form>
         </td>
     </tr>
@@ -78,12 +80,12 @@ ROW;
     </tr>
     <tr class="color_row%%rowid%%">
         <td class="color_header">&nbsp;</td>
-        <td class="spacing_row%%rowid%%">%%Type%%</td>
-        <td class="spacing_row%%rowid%%">%%Date%%</td>
-        <td class="spacing_row%%rowid%%">%%Coords%%</td>
-        <td class="spacing_row%%rowid%%">%%Attaquants%%</td>
-        <td class="spacing_row%%rowid%%">%%Defenseurs%%</td>
-        <td class="spacing_row">%%Pertes%%</td>
+        <td class="spacing_row%%rowid%%">%%type%%</td>
+        <td class="spacing_row%%rowid%%">%%date%%</td>
+        <td class="spacing_row%%rowid%%">%%coords%%</td>
+        <td class="spacing_row%%rowid%%">%%attack%%</td>
+        <td class="spacing_row%%rowid%%">%%defend%%</td>
+        <td class="spacing_row">%%lost%%</td>
     </tr>
 ROW;
        $this->curtpl = 'SetBattleRow';
@@ -99,7 +101,7 @@ ROW;
     public function SetlogRow() {
         $this->currow .= <<<ROW
     <tr class="color_row%%class%%">
-        <td class="spacing_row%%class%%">%%Player%%</td>
+        <td class="spacing_row%%class%%">%%player%%</td>
         <td class="spacing_row%%class%%">%%date%%</td>
         <td class="spacing_row%%class%%"><img src="{$this->ress[0]['Image']}"/> %%ress0%%</td>
         <td class="spacing_row%%class%%"><img src="{$this->ress[1]['Image']}"/> %%ress1%%</td>

@@ -267,6 +267,7 @@ function FleetTroop() {
     var lastcoords=GM_getValue(c_prefix+'lastcoords', '');
     if (lastpage.indexOf('fleet/fleet_edit.php')<1) return;
     if (lastcoords == '') return;
+    if (!GM_getValue(c_prefix+'galaxy_info',false)) return;
 
     var a = Array();
     a['EnnemyTroops'] = $x('/html/body/div[2]/div/div/div[2]/table/tbody/tr[4]/td[4]/font')[0].innerHTML;
@@ -310,11 +311,6 @@ function MaFiche() {
     a['pts_amiral'] = $x(prefixpts+'/table/tbody/tr[10]/td['+id_td+']')[0].innerHTML;
     a['pts_guerrier'] = $x(prefixpts+'/table/tbody/tr[11]/td['+id_td+']')[0].innerHTML;
 
-
-    //    tmp = a['Commerce']+'-'+a['Recherche']+'-'+a['Combat']+'-'+a['Construction']+'-'+a['Economie']+'-'+a['Navigation'];
-    //    tmp = a['POINTS']+'-'+a['pts_architecte']+'-'+a['pts_mineur']+'-'+a['pts_science']+'-'+a['pts_commercant']+'-'+a['pts_amiral']+'-'+a['pts_guerrier'];
-    //    tmp = i+'--'+a['GameGrade']+'-'+a['Race']+'-'+a['Titre'];
-    //        AddToMotd(serialize(a));
     get_xml('mafiche', a);
 }
 
@@ -332,7 +328,6 @@ function ownuniverse () {
         i += 2;
         p++;
     }
-    //    AddToMotd(p+' Planets', '<hr/>');
 
     for (i=3,j=0; j<p; i+=2,j++)
         Planet[j]['Name'] = trim($x('/html/body/div[2]/div/div[2]/table/tbody/tr/td['+i+']')[0].innerHTML);
@@ -451,15 +446,12 @@ function ownuniverse () {
     for (i=3,j=0; j<p; i+=2,j++)
         Planet[j][k+'Hydrogene'] = trim($x('/html/body/div[2]/div/div[3]/div/div['+div+']/table/tbody/tr[21]/td['+i+']')[0].innerHTML.replace(/\.*/g, ''));
 
-    //    var key = k+'Hydrogene';
-    //    data = key+': ';
-    //    for (j=0; j<p;j++) data += Planet[j][key]+'¤ ';
-    //    data +=' @'+p;
-    //    AddToMotd(data);
     get_xml('ownuniverse', serialize(Planet));
 }
 
 function troop_battle() {
+
+    if (!GM_getValue(c_prefix+'troops_battle',false)) return;
 
     var inf = Array();
     inf['date'] = $x('/html/body/div[2]/div/div/table[2]/tbody/tr/td/table/tbody/tr[2]/td[4]')[0].innerHTML;
@@ -485,7 +477,6 @@ function troop_battle() {
         var pertes=new Array();
         for (i = 0; i < m.length; i++) {
             m[i].search(reg);
-            //            if (i==0) iddefenseur=RegExp.$2;
             if (typeof pertes[IdToPlayer[RegExp.$2]] == 'undefined')
                 pertes[IdToPlayer[RegExp.$2]] = parseInt(RegExp.$3);
             else
@@ -493,9 +484,6 @@ function troop_battle() {
         }
     }
     inf['pertes'] = serialize(pertes);
-    //    reg= eval('/shiplist\\['+iddefenseur+"\\]\\['color'\\] = '(.*)'/");
-    //    m = document.documentElement.innerHTML.match(reg);
-    //    AddToMotd('Def color: '+RegExp.$1);
 
     reg= /shiplist\[(\d+)\]\['color'\] = 'green'/g;
     m = document.documentElement.innerHTML.match(reg);
@@ -531,11 +519,12 @@ function troop_battle() {
     }
     inf['right'] = serialize(arr);
 
-    //    AddToMotd(inf['coords']);
     get_xml('troop_battle', inf);
 }
 
 function troop_log (mode) {
+
+    if (!GM_getValue(c_prefix+'troops_battle',false)) return;
 
     var inf = Array();
     inf['date'] = $x('/html/body/div[2]/div/div/table/tbody/tr[4]/td[4]')[0].innerHTML;

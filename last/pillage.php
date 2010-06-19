@@ -15,7 +15,7 @@ DataEngine::CheckPermsOrDie('PERSO_TROOPS_BATTLE');
 
 require_once(TEMPLATE_PATH.'troops.tpl.php');
 $tpl = tpl_troops::getinstance();
-
+$lng = language::getinstance()->GetLngBlock('pillage');
 
 if ($_GET['player'] != '')
     $player = gpc_esc($_GET['player']);
@@ -56,12 +56,12 @@ while ($row = mysql_fetch_assoc($result)) {
 
         $tpl->SetBattleRow();
         $tpl->AddToRow($i%2, 'rowid');
-        $tpl->AddToRow($row['type'], 'Type');
-        $tpl->AddToRow(strftime('%A %d %B à %R', $row['when']), 'Date');
-        $tpl->AddToRow($row['coords_ss'].'-'.$row['coords_3p'], 'Coords');
-        $tpl->AddToRow(implode('<br/>', $row['players_attack']), 'Attaquants');
-        $tpl->AddToRow(implode('<br/>', $row['players_defender']), 'Defenseurs');
-        $tpl->AddToRow(implode('<br/>', $row['players_pertes']), 'Pertes');
+        $tpl->AddToRow($lng['listing_type'][$row['type']], 'type');
+        $tpl->AddToRow(date($lng['listing_dateformat'], $row['when']), 'date');
+        $tpl->AddToRow($row['coords_ss'].'-'.$row['coords_3p'], 'coords');
+        $tpl->AddToRow(implode('<br/>', $row['players_attack']), 'attack');
+        $tpl->AddToRow(implode('<br/>', $row['players_defender']), 'defend');
+        $tpl->AddToRow(implode('<br/>', $row['players_pertes']), 'lost');
         $tpl->PushRow();
         $id = $row['ID'];
         $i++;
@@ -74,8 +74,8 @@ while ($row = mysql_fetch_assoc($result)) {
 
         $tpl->SetlogRow();
         $tpl->AddToRow($i%2, 'class');
-        $tpl->AddToRow(strftime('%A %d %B à %R', $row['date']), 'date');
-        $tpl->AddToRow($row['Player'], 'Player');
+        $tpl->AddToRow(date($lng['listing_dateformat'], $row['date']), 'date');
+        $tpl->AddToRow($row['Player'], 'player');
         for ($r=0;$r<10;$r++)
             $tpl->AddToRow($row['ress'.$r], 'ress'.$r);
         $tpl->PushRow();
@@ -87,6 +87,7 @@ if ($closepillagelog)
 $tpl->DoOutput();
 
 function formatarr(&$value, $key) {
-    $value = $key.': '.DataEngine::format_number($value, true);
+    global $lng;
+    $value = sprintf($lng['listing_playerrow'],$key,DataEngine::format_number($value, true));
     return true;
 }
