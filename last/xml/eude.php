@@ -129,7 +129,7 @@ q;
         }
         $lastcoords = gpc_esc($_POST['lastcoords']);
         $carto->Edit_Entry($lastcoords,
-                array('TROOP'=>gpc_esc($_POST['EnnemyTroops'])),
+                array('TROOP'=>DataEngine::strip_number($_POST['EnnemyTroops'])),
                 'Mise à jour des troupes en %3$s');
         $xml['log']= sprintf('Mise à jour des troupes en %s',$lastcoords);
         break;
