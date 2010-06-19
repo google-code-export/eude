@@ -137,8 +137,8 @@ ROW;
                 <td class="spacing_row1">
                     <select class="color_row1" name="Recherche[Status]">
                             <option value="-1"%%status-1%%>&nbsp;</option>
-                            <option value="0"%%status0%%>Actif</option>
-                            <option value="1"%%status1%%>Inactif</option>
+                            <option value="0"%%status0%%>{$this->lng['search_col_status_on']}</option>
+                            <option value="1"%%status1%%>{$this->lng['search_col_status_off']}</option>
                     </select>
                 </td>
                 <td class="spacing_row1">
@@ -191,7 +191,7 @@ ROW;
             <tr class="text_center color_header">
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_type%%">{$this->lng['search_col_type']}</a><br/>
                                          <a href="{$this->BASE_FILE}?%%sort_date%%">{$this->lng['search_col_date']}</a></TD>
-                <TD class="spacing_row0">Coordonnées</TD>
+                <TD class="spacing_row0">{$this->lng['add_items_col_corrds']}</TD>
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_user%%">{$this->lng['search_col_player']}</a>/<a href="{$this->BASE_FILE}?%%sort_empire%%">{$this->lng['search_col_empire']}</a></TD>
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_infos%%">{$this->lng['search_col_fleet']}</a><br/>
                                          <a href="{$this->BASE_FILE}?%%sort_note%%">{$this->lng['search_col_note']}</a></TD>

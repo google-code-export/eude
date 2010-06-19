@@ -50,7 +50,7 @@ o;
 		<TD colspan="{$cols}"><b>E</b>mpire <b>U</b>niverse 2: <b>D</b>ata <b>E</b>ngine ({$this->version})</TD>
 	</TR>
         <TR class="base_row1">
-            <TD colspan="{$cols}"><a href='http://eude.googlecode.com/' target='_blank'>Un bug, une suggestion ?</a></TD>
+            <TD colspan="{$cols}"><a href='http://eude.googlecode.com/' target='_blank'>{$this->lng['page_hlink']}</a></TD>
 	</TR>
         <TR class="base_row1">
             <TD align=right><b>Mysql <br/>PHP <br/>GD </b></td><TD colspan="{$colsminus}">{$version[0]}<br/>{$version[1]}<br/>{$version[2]}</TD>
@@ -380,8 +380,8 @@ cleaning_msg;
 <form method="post" action="{$this->BASE_FILE}">
     <input type="hidden" name="add_coords_unique_index" value="true"/>
 	<TR class="color_header">
-		<TD colspan=3>Rechercher des doublons dans la base de donnée (cartographie)</TD>
-		<TD class="text_center"><input class="color_header" value="Rechercher" type=submit></TD>
+		<TD colspan=3>{$this->lng['cleaning_add_coords_unique_index']}</TD>
+		<TD class="text_center"><input class="color_header" value="{$this->lng['cleaning_btn']}" type=submit></TD>
 	</TR>
 </form>
 <tr class="color_row1">
@@ -397,8 +397,8 @@ out;
 <form method="post" action="{$this->BASE_FILE}">
     <input type="hidden" name="clean_orphan_planets" value="true"/>
 	<TR class="color_header">
-		<TD colspan=3>Rechercher des éléments orphelin dans la base de donnée (cartographie)</TD>
-		<TD class="text_center"><input class="color_header" value="Rechercher" type=submit></TD>
+		<TD colspan=3>{$this->lng['cleaning_orphan_planets']}</TD>
+		<TD class="text_center"><input class="color_header" value="{$this->lng['cleaning_btn']}" type=submit></TD>
 	</TR>
 </form>
 <tr class="color_row1">
@@ -505,7 +505,7 @@ mcf;
 <form method="post" action="{$this->BASE_FILE}?act=config">
 <table class="table_center table_nospacing base_row1" width="650px">           
 <tr>
-    <td class="color_titre text_center" colspan=2>Configuration de eude:</td>
+    <td class="color_titre text_center" colspan=2>{$this->lng['config_header']}</td>
 </tr>
 out;
         $this->PushOutput($out);
@@ -527,43 +527,43 @@ out;
         $out =<<<out
 <input type="hidden" name="configuration" value="true"/>
 <TR class="color_row0">
-    <TD>Lien forum:</TD>
+    <TD>{$this->lng['config_forumlink']}</TD>
     <TD><input class="color_row0 size250" name="data[ForumLink]" value="{$config['ForumLink']}" type="text"/></TD>
 </TR>
 <TR class="color_row1">
-    <TD>Enregistrement de compte:</TD>
+    <TD>{$this->lng['config_canregister']}</TD>
     <TD><select class="color_row1" name="data[CanRegister]">
-        <option value="0"{$CanRegister[0]}>Non</option>
-        <option value="1"{$CanRegister[1]}>Oui</option>
+        <option value="0"{$CanRegister[0]}>{$this->lng['config_canregister_off']}</option>
+        <option value="1"{$CanRegister[1]}>{$this->lng['config_canregister_on']}</option>
     </select></TD>
 </TR>
 <TR class="color_row0">
-    <TD>Grade par défaut:</TD>
-    <TD><select class="color_row0" name="data[DefaultGrade]">
+    <TD>{$this->lng['config_defaultgrade']}</TD>
+    <TD {$this->lng['config_defaultgrade_tip']}><select class="color_row0" name="data[DefaultGrade]">
     {$combograde}
     </select></TD>
 </TR>
 <TR class="color_row1">
-    <TD>Mon Empire:</TD>
-    <TD><input class="color_row1" name="data[MyEmpire]" value="{$config['MyEmpire']}" type="text"/></TD>
+    <TD>{$this->lng['config_myempire']}</TD>
+    <TD {$this->lng['config_myempire_tip']}><input class="color_row1 size250" name="data[MyEmpire]" value="{$config['MyEmpire']}" type="text"/></TD>
 </TR>
 <TR class="color_row0">
-    <TD>Temps max de calcul d'un parcours (sec.):</TD>
-    <TD><input class="color_row0" name="data[Parcours_Max_Time]" value="{$config['Parcours_Max_Time']}" type="text"/></TD>
+    <TD>{$this->lng['config_Parcours_Max_Time']}</TD>
+    <TD {$this->lng['config_Parcours_Max_Time_tip']}><input class="color_row0 size20" name="data[Parcours_Max_Time]" value="{$config['Parcours_Max_Time']}" type="text"/></TD>
 </TR>
 <TR class="color_row1">
-    <TD>Nb de pc pour le calcul rapide:</TD>
-    <TD><input class="color_row1" name="data[Parcours_Nearest]" value="{$config['Parcours_Nearest']}" type="text"/></TD>
+    <TD>{$this->lng['config_Parcours_Nearest']}</TD>
+    <TD {$this->lng['config_Parcours_Nearest_tip']}><input class="color_row1 size20" name="data[Parcours_Nearest]" value="{$config['Parcours_Nearest']}" type="text"/></TD>
 </TR>
 <TR class="color_row0">
-    <TD>Serveur de jeu autorisé pour GreaseMonkey:</TD>
-    <TD><input class="color_row0" name="data[eude_srv]" value="{$config['eude_srv']}" type="text"/></TD>
+    <TD>{$this->lng['config_greasemonkey']}</TD>
+    <TD {$this->lng['config_greasemonkey_tip']}><input class="color_row0 size1210" name="data[eude_srv]" value="{$config['eude_srv']}" type="text"/></TD>
 </TR>
 <TR class="color_row1">
-    <TD>Fermer le site (pas actif)</TD>
+    <TD>{$this->lng['config_closed']}</TD>
     <TD><select class="color_row1" name="data[closed]">
-        <option value="0"{$closed[0]}>Non</option>
-        <option value="1"{$closed[1]}>Oui</option>
+        <option value="0"{$closed[0]}>{$this->lng['config_closed_no']}</option>
+        <option value="1"{$closed[1]}>{$this->lng['config_closed_yes']}</option>
     </select></TD>
 </TR>
 out;
@@ -573,7 +573,7 @@ out;
     public function config_footer() {
         $out =<<<out
 <tr class="color_header">
-<td colspan="2" class="text_right"><input class="color_header" type="submit"/></td>
+<td colspan="2" class="text_right"><input class="color_header" value="{$this->lng['config_apply']}" type="submit"/></td>
 </tr>
 </table>
 </form>

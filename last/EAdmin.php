@@ -415,7 +415,7 @@ if ($_REQUEST['act'] == 'config' && Members::CheckPerms(AXX_ROOTADMIN)) {
     while ($ligne=mysql_fetch_assoc($mysql_result))
         $Grades[] = $ligne;
 
-    $tpl->page_title = 'EU2: Administration, Configuration';// $lng['perms_title'];
+    $tpl->page_title = $lng['config_title'];
     $tpl->config_header();
     $tpl->config_xxx($Grades);
     $tpl->config_footer();

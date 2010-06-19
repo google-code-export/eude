@@ -18,7 +18,7 @@ require_once(CLASS_PATH.'language.class.php');
 
 DataEngine::init();
 
-if (CHECK_LOGIN) require_once(INCLUDE_PATH.'/login.php');
+if (CHECK_LOGIN)  require_once(INCLUDE_PATH.'/login.php');
 
 
 if (date('w')==0) DataEngine::conf_cache('wormhole_cleaning');

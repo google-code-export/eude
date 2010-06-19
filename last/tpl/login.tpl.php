@@ -20,6 +20,16 @@ class tpl_login extends output {
     }
 
     public function DoOutput($login_msg='',$register=false) {
+        if (DataEngine::config_key('config', 'closed')) {
+            $closedhtml = <<<ch
+	<tr class="text_center color_header">
+		<td colspan="3">{$this->lng['currently_closed']}</td>
+	</tr>
+ch;
+            $register=false;
+        } else
+            $closedhtml='';
+
         $action = ($register) ? $this->BASE_FILE: '?'.Get_string();
         $btn_text = ($register) ? $this->lng['register']: $this->lng['signin'];
         $out =<<<BASE
@@ -29,6 +39,7 @@ class tpl_login extends output {
 	<tr class="text_center color_bigheader">
 		<td colspan="3">Empire Universe 2: Data Engine ({$this->version})<br/><br/></td>
 	</tr>
+                {$closedhtml}
 	<tr class="color_row0">
 		<td>{$this->lng['player']} :</td>
 		<td><input class="color_row0" tabindex=1 type="text" value="" name="login" /></td>

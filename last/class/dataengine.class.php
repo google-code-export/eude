@@ -222,6 +222,13 @@ class DataEngine extends Members {
 
                 }
 
+                if (CHECK_LOGIN && $GLOBALS['validsession']) {
+                    if (self::$settings['config']['closed'] && !Members::CheckPerms(AXX_ROOTADMIN)) {
+                        session_destroy();
+                        output::Boink(ROOT_URL);
+                    }
+                }
+
             }
             self::$conf_load=array();
         }
@@ -236,7 +243,7 @@ class DataEngine extends Members {
         else
             return false;
     }
-    
+
     static public function config_key($key, $subkey) {
         if (!self::$conf_loaded) self::conf_load();
 
@@ -335,7 +342,7 @@ class DataEngine extends Members {
         $out = <<<ead
             <br/><br/>
 	<center>
-		<a href='%ROOT_URL%'>
+		<a href='%ROOT_URL%logout.php'>
 		<font color=red><i>
                 {$error}
 		</i></font></a>
@@ -553,8 +560,8 @@ class Members {
         if (!self::CheckPerms($NeededAXX)) {
             $lng = language::getinstance()->GetLngBlock('dataengine');
             if (is_numeric($NeededAXX)) {
-            $perm = self::s_perms();
-            $NeededAXX = $perm[$NeededAXX];
+                $perm = self::s_perms();
+                $NeededAXX = $perm[$NeededAXX];
             }
             $str = sprintf($lng['minimalpermsneeded'], $NeededAXX);
             $out = <<<PERM

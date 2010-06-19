@@ -13,7 +13,7 @@ $login_msg = ''; // Message en cas d'erreur.
 
 /// ### Procédure de déconnexion ###
 if (isset($do_logout) && $do_logout) {
-    $_SESSION['_login'] = $_SESSION['_pass'] = $_SESSION['_Perm'] = $_SESSION['_IP'] = '';
+    session_destroy();
     output::Boink(ROOT_URL);
 }
 $lng = language::getinstance()->GetLngBlock('login');
