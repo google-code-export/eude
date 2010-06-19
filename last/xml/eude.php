@@ -19,14 +19,16 @@ require_once(INCLUDE_PATH.'Script.php');
 require_once(CLASS_PATH.'parser.class.php');
 require_once(CLASS_PATH.'cartographie.class.php');
 
+$lng = language::getinstance()->GetLngBlock('eude');
+
 if (!DataEngine::CheckPerms('CARTOGRAPHIE_GREASE')) {
     header('HTTP/1.1 403 Forbidden');
-    output::_DoOutput('<eude><alert>Accès refusée</alert><GM_active>0</GM_active></eude>');
+    output::_DoOutput('<eude><alert>'.$lng['err_403'].'</alert><GM_active>0</GM_active></eude>');
 }
 $serveur = DataEngine::config_key('config', 'eude_srv');
 if ($serveur != '' && $serveur != $_POST['svr']) {
     header('HTTP/1.1 403 Forbidden');
-    output::_DoOutput("<eude><alert>Accès refusée.\nMauvais serveur de jeu.</alert><GM_active>0</GM_active></eude>");
+    output::_DoOutput("<eude><alert>{$lng['err_wrongserver']}</alert><GM_active>0</GM_active></eude>");
 }
 
 $xml = array();
@@ -38,7 +40,7 @@ switch ($_GET['act']) {
         DataEngine::sql_spool("UPDATE SQL_PREFIX_Membres SET Date=now() WHERE Joueur='".$_SESSION['_login']."'");
 
     case 'config': //-----------------------------------------------------------
-        $msg = $xml['log'] = 'Initialisation au Data Engine Ok.';
+        $msg = $xml['log']       = $lng['config_helloworld'];
         $xml['logtype']          = 'none';
         $xml['GM_active']        = '1';
         $xml['GM_galaxy_info']   = DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')  ? '1':'0';
@@ -46,7 +48,7 @@ switch ($_GET['act']) {
         $xml['GM_asteroid_info'] = DataEngine::CheckPerms('CARTOGRAPHIE_ASTEROID') ? '1':'0';
         $xml['GM_pnj_info']      = DataEngine::CheckPerms('CARTOGRAPHIE_PNJ')  ? '1':'0';
 
-        $xml['GM_troops_battle']      = DataEngine::CheckPerms('PERSO_TROOPS_BATTLE')  ? '1':'0';
+        $xml['GM_troops_battle'] = DataEngine::CheckPerms('PERSO_TROOPS_BATTLE')  ? '1':'0';
         break;
 
     case 'mafiche': //----------------------------------------------------------
@@ -69,13 +71,13 @@ q;
                 DataEngine::strip_number($_POST['pts_guerrier']), $_SESSION['_login']
                 )
         );
-        $xml['log']='information joueur mis à jour';
+        $xml['log']=$lng['mafiche_maj'];
         break;
 
     case 'ownuniverse': //------------------------------------------------------
 
         if (!DataEngine::CheckPerms('PERSO_OWNUNIVERSE')) {
-            $carto->AddErreur('Permissions manquante');
+            $carto->AddErreur($lng['err_noaxx']);
             break;
         }
         require_once(CLASS_PATH.'ownuniverse.class.php');
@@ -87,7 +89,7 @@ q;
     case 'troop_battle': //-----------------------------------------------------
 
         if (!DataEngine::CheckPerms('PERSO_TROOPS_BATTLE')) {
-            $carto->AddErreur('Permissions manquante');
+            $carto->AddErreur($lng['err_noaxx']);
             break;
         }
         require_once(CLASS_PATH.'map.class.php');
@@ -107,7 +109,7 @@ q;
     case 'troop_log': //--------------------------------------------------------
 
         if (!DataEngine::CheckPerms('PERSO_TROOPS_BATTLE')) {
-            $carto->AddErreur('Permissions manquante');
+            $carto->AddErreur($lng['err_noaxx']);
             break;
         }
         require_once(CLASS_PATH.'map.class.php');
@@ -124,25 +126,25 @@ q;
     case 'troop_howmany': //--------------------------------------------------------
 
         if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')) {
-            $carto->AddErreur('Permissions manquante');
+            $carto->AddErreur($lng['err_noaxx']);
             break;
         }
         $lastcoords = gpc_esc($_POST['lastcoords']);
         $carto->Edit_Entry($lastcoords,
                 array('TROOP'=>DataEngine::strip_number($_POST['EnnemyTroops'])),
-                'Mise à jour des troupes en %3$s');
-        $xml['log']= sprintf('Mise à jour des troupes en %s',$lastcoords);
+                $lng['players_troopnb']);
+        $xml['log']= sprintf($lng['players_troopnb'],$lastcoords);
         break;
 
     case 'wormhole': //---------------------------------------------------------
         $carto->add_vortex($_POST['IN'], $_POST['OUT']);
-        $xml['log']='Vortex '.$_POST['IN'].' <--> '.$_POST['OUT'];
+        $xml['log']=sprintf($lng['wormhole'],$_POST['IN'],$_POST['OUT']);
         break;
 
     case 'galaxy_info': //------------------------------------------------------
 
         if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')) {
-            $carto->AddErreur('Permissions manquante');
+            $carto->AddErreur($lng['err_noaxx']);
             break;
         }
         $galaxy_info = unserialize(gpc_esc($_POST['data']));
@@ -176,7 +178,7 @@ q;
             $query = "UPDATE SQL_PREFIX_Coordonnee SET Type='2', USER='', EMPIRE='', INFOS='', batiments='', troop='' where Type in (0,3,5) AND POSIN='{$cur_ss}' AND COORDET in ({$del_planet})";
             $array = DataEngine::sql($query);
             if ( ($num = mysql_affected_rows()) > 0)
-                $carto->AddInfo($num.' planète(s) devenue inoccupée');
+                $this->AddInfo(sprintf($this->lng['solar_msg1'],$num));
         }
 
         $query = "SELECT USER,EMPIRE FROM SQL_PREFIX_Coordonnee where POSIN='{$cur_ss}' AND TYPE in (0,3,5)";
@@ -195,7 +197,7 @@ q;
                         $qempire = sqlesc($empire);
                         $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}',DATE=now() WHERE USER='{$qnom}'";
                         DataEngine::sql($query);
-                        $carto->AddInfo('Changement d\'empire du joueur: \''.$nom.'\'');
+                        $this->AddInfo(sprintf($this->lng['solar_msg2'],$nom));
                         unset($curss_info[$nom]);
                     }
                 }
@@ -203,50 +205,50 @@ q;
         }
         // fin du repiquage cartographie->add_solar_ss
 
-        $xml['log']='Ajout du système N°'. $_POST['ss'].' ('.$max.' éléments)';
+        $xml['log']=sprintf($lng['solar_msg3'],$_POST['ss'],$max);
         break;
 
 
     case 'planet': // ----------------------------------------------------------
 
         if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLANETS')) {
-            $carto->AddErreur('Permissions manquante');
+            $carto->AddErreur($lng['err_noaxx']);
             break;
         }
         foreach(DataEngine::a_Ressources() as $id => $dummy)
             $Ress[$id] = gpc_esc($_POST[$id]);
 
-        $ok = $carto->add_planet(gpc_esc($_POST['COORIN']), $Ress) ? ' a été ajouté': 'n\'a pût être ajouté';
-        $xml['log']='La planète '.$_POST['COORIN'].$ok;
+        $ok = $carto->add_planet(gpc_esc($_POST['COORIN']), $Ress) ? $lng['planet_msg1']: $lng['planet_msg2'];
+        $xml['log']=sprintf($ok,$_POST['COORIN']);
         break;
     case 'asteroid': // --------------------------------------------------------
 
         if (!DataEngine::CheckPerms('CARTOGRAPHIE_ASTEROID')) {
-            $carto->AddErreur('Permissions manquante');
+            $carto->AddErreur($lng['err_noaxx']);
             break;
         }
         foreach(DataEngine::a_Ressources() as $id => $dummy)
             $Ress[$id] = gpc_esc($_POST[$id]);
 
-        $ok = $carto->add_asteroid(gpc_esc($_POST['COORIN']), $Ress) ? ' a été ajouté': 'n\'a pût être ajouté';
-        $xml['log']='L\'astéroïde '.$_POST['COORIN'].$ok;
+        $ok = $carto->add_asteroid(gpc_esc($_POST['COORIN']), $Ress) ? $lng['asteroid_msg1']: $lng['asteroid_msg2'];
+        $xml['log']=sprintf($ok,$_POST['COORIN']);
         break;
 
     case 'pnj': // -------------------------------------------------------------
 
         if (!DataEngine::CheckPerms('CARTOGRAPHIE_PNJ')) {
-            $carto->AddErreur('Permissions manquante');
+            $carto->AddErreur($lng['err_noaxx']);
             break;
         }
         $_POST['fleetname'] = gpc_esc($_POST['fleetname']);
-        $ok = $carto->add_PNJ($_POST['coords'], gpc_esc($_POST['owner']), $_POST['fleetname']);
-        $xml['log']= ($ok ? 'Ajout: ':'Ignoré: ').$_POST['fleetname'];
+        $ok = $carto->add_PNJ($_POST['coords'], gpc_esc($_POST['owner']), $_POST['fleetname']) ? $lng['asteroid_msg1']: $lng['asteroid_msg2'];
+        $xml['log']= sprintf($ok,$_POST['fleetname']);
         break;
 
     case 'player': // --------------------------------------------------------
 
         if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')) {
-            $carto->AddErreur('Permissions manquante');
+            $carto->AddErreur($lng['err_noaxx']);
             break;
         }
         $water = (($_POST['WATER'] != "") && (is_numeric($_POST['WATER']))) ?
@@ -254,19 +256,19 @@ q;
         $batiments = (($_POST['BUILDINGS'] != "") && (is_numeric($_POST['BUILDINGS']))) ?
                 DataEngine::strip_number($_POST["BUILDINGS"]) : "";
         if (!$carto->FormatId(trim($_POST['COORIN']), $uni, $sys,'')) {
-            $xml['log'] = 'Les coordonnées '.$_POST['COORIN'].' ne sont pas correctes';
-            $carto->AddWarn('Les coordonnées '.$_POST['COORIN'].' ne sont pas correctes');
+            $xml['log'] = sprintf($lng['player_err_coords'],$_POST['COORIN']);
+            $carto->AddWarn($xml['log']);
         } else {
             $carto->Edit_Entry($_POST['COORIN'],
                     array('water'=> $water,
-                        'batiments'=>$batiments),
-                    '%s "%s" mis à jour');
-		$xml['log']='Infos planète misent à jour : '.$_POST['COORIN'].$ok;
+                    'batiments'=>$batiments),
+                    $lng['player_edit_msg']);
+            $xml['log']=sprintf($lng['player_edit_log'],$sys);
         }
         break;
 
     default:
-        $xml['log']='Erreur demande inconnue!';
+        $xml['log']=$lng['err_unknown'];
         $xml['logtype']='raid';
 }
 
