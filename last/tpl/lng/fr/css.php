@@ -15,15 +15,18 @@ $color_1                    = '#660050'; // alias row0 bg, couleur 'claire'
 $color_2                    = '#480038'; // alias row1 bg, couleur 'plus foncé'
 $color_3                    = '#800040'; // alias header bg
 $color_4                    = '#ffcccc'; // alias header text
+$color_5                    = '#cb9e03'; // alias big header text
+$color_6                    = '#330033'; // alias bg discret...
+$color_infobulle            = '#ffe38f'; // alias infobulle bg
 
 $cls['color_lnk']           = $color_txt;
 $cls['color_lnk_hover']     = '#00FF00';
-$cls['color_bg']            = '#330033';
+$cls['color_bg']            = $color_6;
 $cls['color_cibleur']       = $color_txt; // bg
 $cls['color_pagination']    = '#ff944e';
-$cls['color_header']        = 'white';
+$cls['color_header']        = $color_txt;
 $cls['color_header_bg']     = $color_3;
-$cls['color_bigheader']     = '#cb9e03';
+$cls['color_bigheader']     = $color_5;
 $cls['color_bigheader_bg']  = $color_3;
 $cls['color_titre']         = $color_4;
 $cls['color_titre_bg']      = $color_3;
@@ -37,7 +40,7 @@ $cls['color_spacing_row0']  = $cls['color_row1_bg'];
 $cls['color_spacing_row1']  = $cls['color_row0_bg'];
 $cls['color_spacing_h_tr']  = $color_3;
 $cls['color_spacing_h_td']  = $color_1;
-$cls['color_infobulle']     = $ffe38f;
+$cls['color_infobulle']     = $color_infobulle;
 
 
 /*
