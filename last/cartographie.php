@@ -144,7 +144,8 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
         switch ($key) {
             case 'Pos':
                 if ($key=='Pos' && $Recherche['Rayon']!='') {
-                    $ListeCoor = implode(',',$map->Parcours()->GetListeCoorByRay($Recherche['Pos'],max($Recherche['Rayon'],10)));
+                    $Recherche['Rayon'] = min($Recherche['Rayon'],10);
+                    $ListeCoor = implode(',',$map->Parcours()->GetListeCoorByRay($Recherche['Pos'],$Recherche['Rayon']));
                     $where.= 'AND (POSIN IN ('.$ListeCoor.') OR POSOUT IN ('.$ListeCoor.'))';
                 } else if ($key=='Pos')
                     $where.= 'AND (POSIN=\''.$value.'\' OR POSOUT=\''.$value.'\') ';
