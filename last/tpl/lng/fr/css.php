@@ -10,6 +10,36 @@ define('CHECK_LOGIN', false);
 include '../../../init.php';
 include ROOT_PATH.'Script/Script.php';
 
+$color_txt                  = 'white';
+$color_1                    = '#660050'; // alias row0 bg, couleur 'claire'
+$color_2                    = '#480038'; // alias row1 bg, couleur 'plus foncé'
+$color_3                    = '#800040'; // alias header bg
+$color_4                    = '#ffcccc'; // alias header text
+
+$cls['color_lnk']           = $color_txt;
+$cls['color_lnk_hover']     = '#00FF00';
+$cls['color_bg']            = '#330033';
+$cls['color_cibleur']       = $color_txt; // bg
+$cls['color_pagination']    = '#ff944e';
+$cls['color_header']        = 'white';
+$cls['color_header_bg']     = $color_3;
+$cls['color_bigheader']     = '#cb9e03';
+$cls['color_bigheader_bg']  = $color_3;
+$cls['color_titre']         = $color_4;
+$cls['color_titre_bg']      = $color_3;
+$cls['color_cols']          = $color_4;
+$cls['color_cols_bg']       = $color_2;
+$cls['color_row0']          = $color_txt;
+$cls['color_row0_bg']       = $color_1;
+$cls['color_row1']          = $color_txt;
+$cls['color_row1_bg']       = $color_2;
+$cls['color_spacing_row0']  = $cls['color_row1_bg'];
+$cls['color_spacing_row1']  = $cls['color_row0_bg'];
+$cls['color_spacing_h_tr']  = $color_3;
+$cls['color_spacing_h_td']  = $color_1;
+$cls['color_infobulle']     = $ffe38f;
+
+
 /*
  Listing couleurs...
 - nom css ----------|- couleur -|- bgc -|- Autre -------------------------------
@@ -29,6 +59,7 @@ infobulle           |           |ffe38f |
 messager & co       |           |330033 & 800040 |
 
 */
+
 ob_start();
 ?>
 /*<style type="hack ide syntax">*/
@@ -41,11 +72,11 @@ ob_start();
     }
 
     address, a:link, a:active, a:visited {
-        color: #ffffff;
+        color: %color_lnk%;
         text-decoration: none;
     }
     a:hover {
-        color: #00FF00;
+        color: %color_lnk_hover%;
     }
 
     img {
@@ -67,32 +98,32 @@ ob_start();
         background-color: #d6d6d6;
     }
     .color_cibleur {
-        background-color: white;
+        background-color: %color_cibleur%;
     }
 
     .color_bg {
-        background-color: #330033;
+        background-color: %color_bg%;
         color: white;
     }
     .color_header {
-        background-color: #800040;
-        color: white;
+        background-color: %color_header_bg%;
+        color: %color_header%;
         font-weight: bold;
     }
     .color_bigheader {
-        background-color: #800040;
-        color: #CB9E03;
+        background-color: %color_bigheader_bg%;
+        color: %color_bigheader%;
         font-size: 20px;
         font-weight: bold;
     }
 
     .color_row0 {
-        background-color: #660050;
-        color: white;
+        background-color: %color_row0_bg%;
+        color: %color_row0%;
     }
     .color_row1 {
-        background-color: #480038;
-        color: white;
+        background-color: %color_row1_bg%;
+        color: %color_row1%;
     }
     .table_center {
         margin-left:auto;
@@ -108,33 +139,33 @@ ob_start();
         padding: 2px 6px;
     }
     td.spacing_row0 {
-        border-right: solid 3px #480038;
+        border-right: solid 3px %color_spacing_row0%;
         padding: 2px 6px;
     }
     td.spacing_row1 {
-        border-right: solid 3px #660050;
+        border-right: solid 3px %color_spacing_row1%;
         padding: 2px 6px;
     }
     tr.spacing_header {
-        border-top: solid 3px #800040;
+        border-top: solid 3px %color_spacing_h_tr%;
     }
     tr.spacing_header td {
         padding: 2px 6px;
-        border-right: solid 3px #660050;
+        border-right: solid 3px %color_spacing_h_td%;
     }
 
     .color_titre {
-        background-color: #800040;
-        color: #FFCCCC;
+        background-color: %color_titre_bg%;
+        color: %color_titre%;
         font-weight: bold;
     }
     .color_cols {
-        background-color: #480038;
-        color: #FFCCCC;
+        background-color: %color_cols_bg%;
+        color: %color_cols%;
         font-weight: bold;
     }
     .color_pagination {
-        color: #FF944E;
+        color: %color_pagination%;
     }
     .text_center {
         text-align: center;
@@ -157,7 +188,7 @@ ob_start();
 
     /* Vous avez un nouveau message, cliquez pour supprimer, ne rien toucher pour conserver... */
     div.messagerbg {
-        background-color:#330033;
+        background-color:%color_bg%;
         bottom:0;
         height:100%;
         left:0;
@@ -176,7 +207,7 @@ ob_start();
         z-index:90;
     }
     table.newmessage {
-        background-color: #800040;
+        background-color: %color_header_bg%;
         color: white;
         font-weight: bold;
         text-align: center;
@@ -268,7 +299,7 @@ ob_start();
         visibility:hidden;
         border: 1px solid White;
         padding: 10px;
-        background-color: #FFE38F;
+        background-color: %color_infobulle%;
         white-space:nowrap;
     }
 
@@ -284,6 +315,9 @@ $css = ob_get_clean();
 
 header('Content-type: text/css');
 header("Last-Modified: " . gmdate("D, d M Y H:i:s", filemtime(__FILE__)) . " GMT");
+
+foreach($cls as $key => $color)
+    $css = str_replace("%$key%", $color, $css);
 
 $css = str_replace('%ROOT_URL%', ROOT_URL, $css);
 $css = str_replace('%INCLUDE_URL%', INCLUDE_URL, $css);
