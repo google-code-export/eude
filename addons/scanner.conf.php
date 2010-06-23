@@ -40,8 +40,8 @@ class scanner_addons implements addon_config {
 
         // juste la partie 'sous-menu'
         $submenu = array(
-//                array('%ROOT_URL%cartographie.php','%IMAGES_URL%btn-cartographie.png','true'), // sous-menu 1
-                array('%ADDONS_URL%scanner/index.php','%IMAGES_URL%test.png','DataEngine::CheckPerms("CARTOGRAPHIE_SCANNER")'), // sous-menu 1
+//                array('%ROOT_URL%cartographie.php','%BTN_URL%cartographie.png','true'), // sous-menu 1
+                array('%ADDONS_URL%scanner/index.php','%BTN_URL%addons_scanner.png','DataEngine::CheckPerms("CARTOGRAPHIE_SCANNER")'), // sous-menu 1
         );
 
         return array('insertafter' => 'carto', // empty for first.(ceux déjà inclus: carto,perso,addon,admin,forum, et logout)
@@ -61,6 +61,10 @@ class scanner_addons implements addon_config {
     }
     public function OnVortexCleaned() {
 //        FB::info('addons::OnVortexCleaned');
+        return true;
+    }
+    public function OnButtonRegen(&$listing) {
+        $listing['addons_scanner'] = 'SCANNEUR';
         return true;
     }
     public function GetCustomPerms() {
