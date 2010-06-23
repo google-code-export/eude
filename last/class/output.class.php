@@ -195,6 +195,7 @@ abstract class output {
         $data = str_replace('%TEMPLATE_URL%', TEMPLATE_URL, $data);
         $data = str_replace('%ADDONS_URL%', ADDONS_URL, $data);
         $data = str_replace('%LNG_URL%', TEMPLATE_URL.'lng'.DIRECTORY_SEPARATOR.LNG_CODE.DIRECTORY_SEPARATOR, $data);
+        $data = str_replace('%BTN_URL%', TEMPLATE_URL.'lng'.DIRECTORY_SEPARATOR.LNG_CODE.DIRECTORY_SEPARATOR.'btn'.DIRECTORY_SEPARATOR, $data);
         
         header('Cache-Control: no-cache, must-revalidate'); // HTTP/1.1
         header('Expires: Mon, 16 Jul 2008 04:21:44 GMT'); // HTTP/1.0 Date dans le passé

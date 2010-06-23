@@ -10,20 +10,21 @@ define('CHECK_LOGIN', false);
 include '../../../init.php';
 include ROOT_PATH.'Script/Script.php';
 
+// http://www.w3schools.com/tags/ref_colorpicker.asp
 $color_txt                  = 'white';
-$color_1                    = '#660050'; // alias row0 bg, couleur 'claire'
-$color_2                    = '#480038'; // alias row1 bg, couleur 'plus foncé'
-$color_3                    = '#800040'; // alias header bg
-$color_4                    = '#ffcccc'; // alias header text
-$color_5                    = '#cb9e03'; // alias big header text
-$color_6                    = '#330033'; // alias bg discret...
+$color_1                    = '#1F1F99'; // alias row0 bg, couleur 'claire'
+$color_2                    = '#16166B'; // alias row1 bg, couleur 'plus foncé'
+$color_3                    = '#3535A3'; // alias header bg
+$color_4                    = '#0066CC'; // alias header text
+$color_5                    = '#6666FF'; // alias big header text
+$color_6                    = '#10104C'; // alias bg discret...
 $color_infobulle            = '#ffe38f'; // alias infobulle bg
 
 $cls['color_lnk']           = $color_txt;
 $cls['color_lnk_hover']     = '#00FF00';
 $cls['color_bg']            = $color_6;
 $cls['color_cibleur']       = $color_txt; // bg
-$cls['color_pagination']    = '#ff944e';
+$cls['color_pagination']    = $color_4;
 $cls['color_header']        = $color_txt;
 $cls['color_header_bg']     = $color_3;
 $cls['color_bigheader']     = $color_5;

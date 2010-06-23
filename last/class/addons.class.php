@@ -1,31 +1,34 @@
 <?php
+
 /**
  * @author Alex10336
  * Dernière modification: $Id$
  * @license GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  *
- **/
-
-require_once(ADDONS_PATH.'addons.php');
+ * */
+require_once(ADDONS_PATH . 'addons.php');
 
 class addons {
+
     private $addons_list;
-    private $addons_menu=false;
+    private $addons_menu = false;
     static private $instance;
 
     public function __construct() {
         $this->addons_list = array();
-        foreach( array_diff(scandir(ADDONS_PATH), array('.','..')) as $file ) {
-            if (is_dir($file)) continue;
+        foreach (array_diff(scandir(ADDONS_PATH), array('.', '..')) as $file) {
+            if (is_dir($file))
+                continue;
             $addon = basename($file, '.conf.php');
             if ("{$addon}.conf.php" == $file) {
-                include_once(ADDONS_PATH.$file);
+                include_once(ADDONS_PATH . $file);
                 $class_name = "{$addon}_addons";
                 $class = new $class_name;
                 if ($class->Is_Enabled())
                     $this->addons_list[$addon] = $class;
-                if ($class->InSubAddonMenu()) $this->addons_menu = true;
+                if ($class->InSubAddonMenu())
+                    $this->addons_menu = true;
             }
         }
     }
@@ -38,13 +41,14 @@ class addons {
     public function Is_installed($addon_name) {
         return (array_key_exists($addon_name, $this->addons_list) !== false);
     }
+
     /**
      * Récupère la classe d'un addons
      * @param string $addon_name
      * @return addon_config
      */
     public function Get_Addons($addon_name) {
-        return (array_key_exists($addon_name, $this->addons_list) !== false) ? $this->addons_list[$addon_name]: false;
+        return (array_key_exists($addon_name, $this->addons_list) !== false) ? $this->addons_list[$addon_name] : false;
     }
 
     public function IncludeAddonMenu() {
@@ -55,7 +59,7 @@ class addons {
         $new_menu = array();
         $tmp_menu = array();
 
-        foreach($this->addons_list as $addon => $class)
+        foreach ($this->addons_list as $addon => $class)
             $tmp_menu[$addon] = $class->Get_Menu();
 
         // ajout d'un menu en première place ?
@@ -70,13 +74,14 @@ class addons {
             foreach ($tmp_menu as $addons_menu) {
                 if ($addons_menu['insertafter'] == $id && !$addons_menu['onlysub'])
                     $new_menu[$addons_menu['id']] = $addons_menu['menu'];
-                elseif($addons_menu['insertafter'] == $id && $addons_menu['onlysub'])
-                    foreach($addons_menu['menu'] as $submenu)
+                elseif ($addons_menu['insertafter'] == $id && $addons_menu['onlysub'])
+                    foreach ($addons_menu['menu'] as $submenu)
                         array_push($new_menu[$id][4], $submenu);
             }
         }
         return $new_menu;
     }
+
     /**
      *
      * @param string Nom d'utilisateur
@@ -85,12 +90,13 @@ class addons {
     public function DeleteUser($user) {
         foreach ($this->addons_list as $addon => $class) {
             if (!$class->OnDeleteUser($user)) {
-                trigger_error('Delete user from '.$addon.' failed',E_ERROR);
+                trigger_error('Delete user from ' . $addon . ' failed', E_ERROR);
                 return false;
             }
         }
         return true;
     }
+
     /**
      * Routine de création d'utilisateur
      * @param string Nom d'utilisateur
@@ -99,12 +105,13 @@ class addons {
     public function NewUser($user) {
         foreach ($this->addons_list as $addon => $class) {
             if (!$class->OnNewUser($user)) {
-                trigger_error('New user from '.$addon.' failed',E_ERROR);
+                trigger_error('New user from ' . $addon . ' failed', E_ERROR);
                 return false;
             }
         }
         return true;
     }
+
     /**
      * La base de vortex vient de subir un nettoyage....
      * @return boolean
@@ -112,21 +119,39 @@ class addons {
     public function VortexCleaned() {
         foreach ($this->addons_list as $addon => $class) {
             if (!$class->OnVortexCleaned()) {
-                trigger_error('VortexCleaned from '.$addon.' failed',E_ERROR);
+                trigger_error('VortexCleaned from ' . $addon . ' failed', E_ERROR);
                 return false;
             }
         }
         return true;
     }
+
+    /**
+     * Les boutons sont en cours de modification...
+     * @param array &$listing
+     * @return boolean
+     */
+    public function ButtonRegen(&$listing) {
+        foreach ($this->addons_list as $addon => $class) {
+            if (is_callable(array($class, 'OnButtonRegen'))) {
+                if (!$class->OnButtonRegen($listing)) {
+                    trigger_error('ButtonRegen from ' . $addon . ' failed', E_ERROR);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     /**
      * Récupère les niveau d'accès perso
      * @return array ($key => $humain_value)
      */
     public function CustomPerms() {
-        $cp=array();
+        $cp = array();
         foreach ($this->addons_list as $addon => $class) {
-            if (($arr=$class->GetCustomPerms()))
-                foreach($arr as $k => $v)
+            if (($arr = $class->GetCustomPerms()))
+                foreach ($arr as $k => $v)
                     $cp[$k] = $v;
         }
         return $cp;
@@ -137,9 +162,10 @@ class addons {
      * @return addons
      */
     static public function getinstance() {
-        if ( ! self::$instance )
+        if (!self::$instance)
             self::$instance = new self();
 
         return self::$instance;
     }
+
 }

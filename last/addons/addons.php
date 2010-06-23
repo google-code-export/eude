@@ -47,6 +47,12 @@ interface addon_config {
      */
     public function OnVortexCleaned();
     /**
+     * Les boutons sont en cours de modification...
+     * @param array &$listing
+     * @return boolean
+     */
+//    public function OnButtonRegen(&$listing);
+    /**
      * Routine de gestion d'accès utilisateur pour les addons
      * @param string Nom d'utilisateur
      * @return array (identifiant => valeur humainement lisible)

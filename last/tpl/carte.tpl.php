@@ -224,7 +224,7 @@ iti_h;
 							<option value="3">{$this->lng['parcours_method_3']}</option>
 							<option value="10" selected>{$this->lng['parcours_method_10']}</option>
                                                 </select>
-						<input align=right border=0 src="./Images/Btn-Itineraire.png" type=image Value=submit align="middle" onclick="document.getElementsByName('loadfleet')[0].selectedIndex=0;">
+						<input align=right border=0 src="%BTN_URL%do_parcours.png" type=image Value=submit align="middle" onclick="document.getElementsByName('loadfleet')[0].selectedIndex=0;">
 					</td>
 				</tr>
             </Table>

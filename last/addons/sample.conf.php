@@ -23,20 +23,20 @@ class sample_addons implements addon_config {
     public function Get_Menu () {
 
         // menu simple.
-        $menu = array('%ADDONS_URL%sample/index.php','%IMAGES_URL%test.png',125,'Members::CheckPerms(\'addons_sample\')', null);
+        $menu = array('%ADDONS_URL%sample/index.php','%BTN_URL%addons_sample.png',160,'Members::CheckPerms(\'addons_sample\')', null);
 
         // menu + sous menu
-        $menu2 = array('%ADDONS_URL%sample/index.php','%IMAGES_URL%test.png',125,'DataEngine::CheckPerms(\'addons_sample\')',
+        $menu2 = array('%ADDONS_URL%sample/index.php','%BTN_URL%testonly.png',160,'DataEngine::CheckPerms(\'addons_sample\')',
                 array(
-                        array('%ADDONS_URL%sample/index.php','%IMAGES_URL%test.png','true'), // sous-menu 1
-                        array('%ROOT_URL%index.php','%IMAGES_URL%btn-cartographie.png','true'), // sous-menu 2
+                        array('%ADDONS_URL%sample/index.php','%BTN_URL%addons_sample.png','true'), // sous-menu 1
+                        array('%ROOT_URL%index.php','%BTN_URL%cartographie.png','true'), // sous-menu 2
                 ),
         );
 
         // juste la partie 'sous-menu'
         $submenu = array(
-                array('%ADDONS_URL%sample/index.php','%IMAGES_URL%test.png','true'), // sous-menu 1
-                array('%ROOT_URL%index.php','%IMAGES_URL%btn-cartographie.png','true'), // sous-menu 2
+                array('%ADDONS_URL%sample/index.php','%BTN_URL%addons_sample.png','true'), // sous-menu 1
+                array('%ROOT_URL%index.php','%BTN_URL%cartographie.png','true'), // sous-menu 2
         );
 
         return array('insertafter' => 'perso', // empty for first.(ceux déjà inclus: carto,perso,addon,admin,forum, et logout)
@@ -64,6 +64,10 @@ class sample_addons implements addon_config {
     }
     public function OnVortexCleaned() {
 //        FB::info('addons::OnVortexCleaned');
+        return true;
+    }
+    public function OnButtonRegen(&$listing) {
+        $listing['addons_sample'] = 'EXEMPLE';
         return true;
     }
     public function GetCustomPerms() {
