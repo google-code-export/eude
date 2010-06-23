@@ -350,6 +350,7 @@ if (!isset($_REQUEST['act'])) {
 
     $tpl->add_coords_unique_index();
     $tpl->clean_orphan_planets();
+    $tpl->RegenButtons();
 
     $tpl->admin_footer();
 }

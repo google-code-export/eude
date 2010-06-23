@@ -38,12 +38,22 @@ function do_btn($key) {
     $text = $listing[$key];
 
     list($r, $g, $b) = array(hexdec('1F'), hexdec('1F'), hexdec('99')); // #1F1F99
-    $img = img::Create(160, 30)->FillAlpha($r + 1, $g + 1, $b + 1);
+    $img = img::Create(160, 30)->FillAlpha($r, $g, $b);
 
+    // http://www.dafont.com/
+    $fontsize = 10;
     $img->font = './hachicro.ttf';
+    $img->font = './Impact Label Reversed.ttf';
+//    $img->font = './Impact Label.ttf';
+    $fontsize = 15;
+    $img->font = './Burris.ttf';
+    $img->font = './BurrisGhostTown.ttf';
+//    $img->font = './BurrisShootOut.ttf';
+    $fontsize = 10;
+    $img->font = './CGF Locust Resistance.ttf';
 
     list($r, $g, $b) = array(hexdec('66'), hexdec('a3'), hexdec('ff')); // #66a3ff
-    $img->SetColor($r, $g, $b)->CenteredText($text);
+    $img->SetColor($r, $g, $b)->CenteredText($text,$fontsize);
 
 
 //-- Fin partie personalisable. ------------------------------------------------
