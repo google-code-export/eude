@@ -59,7 +59,7 @@ class tpl_menu {
     protected function _Gen_Menu($menu) {
         $this->left=5;
         $this->out = <<<HEADER
-<div id="menu" style="z-index:4; font-size:10px; width:98%; height:40px; background-image:url('%IMAGES_URL%Fond-Menu.png'); background-repeat: repeat-x; position:absolute; top:0px; margin-left:auto; margin-right:auto;">&nbsp;</div>
+<div id="menu" style="z-index:4; font-size:10px; width:100%; height:40px; position:absolute; top:0px; margin-left:10px; margin-right:auto;">&nbsp;</div>
 
 HEADER;
         foreach($menu as $menu_id => $main_menu) {
