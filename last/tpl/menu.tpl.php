@@ -103,7 +103,7 @@ EOF;
         $content = implode("\n", $content);
         $left = ($this->left-5).'px'; $width=($width+10).'px';
         $this->out .= <<<EOF
-<div id="sm_$id"  onmouseover="montre2('$id');" onmouseout="cache2('$id');" style="z-index:10; font-size:10px; top:30px; left:{$left}; width:$width; background-color: black; visibility:hidden; position:absolute; text-align:center">$content</div>
+<div id="sm_$id"  onmouseover="montre2('$id');" onmouseout="cache2('$id');" style="z-index:10; font-size:10px; top:35px; left:{$left}; width:$width; background-color: black; visibility:hidden; position:absolute; text-align:center">$content</div>
 
 EOF;
     }
