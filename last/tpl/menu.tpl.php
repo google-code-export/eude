@@ -39,7 +39,7 @@ class tpl_menu {
                                 array('%ROOT_URL%pillage.php','%BTN_URL%pillage.png','DataEngine::CheckPerms("PERSO_TROOPS_BATTLE")'),
                         ),
                 ),
-                'addon' => array('', '%BTN_URL%addon.png',180, 'addons::getinstance()->IncludeAddonMenu()', array() ),
+                'addon' => array('', '%BTN_URL%addon.png',160, 'addons::getinstance()->IncludeAddonMenu()', array() ),
                 'admin' => array('%ROOT_URL%Membres.php','%BTN_URL%membres.png',160,'DataEngine::CheckPerms("MEMBRES_HIERARCHIE")', array(
                                 array('%ROOT_URL%Membres.php','%BTN_URL%hierarchie.png','DataEngine::CheckPerms("MEMBRES_HIERARCHIE")'),
                                 array('%ROOT_URL%editmembres.php','%BTN_URL%editmembres.png','DataEngine::CheckPerms("MEMBRES_EDIT")'),

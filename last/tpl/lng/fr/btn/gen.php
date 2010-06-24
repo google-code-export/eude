@@ -9,6 +9,7 @@
 //-- Début partie personalisable -----------------------------------------------
 $listing = array();
 // http://www.dafont.com/
+// http://www.w3schools.com/tags/ref_colorpicker.asp
 // $defaultsetting = array(fontfile, fontsize, alphacolor, textcolor);
 $defaultsetting = array('./hachicro.ttf', 10, '1F1F99', '66a3ff');
 //$defaultsetting = array('./Impact Label Reversed.ttf', 10, '1F1F99', '66a3ff');
@@ -40,7 +41,9 @@ $listing['forum'] = array($defaultsetting, 'FORUM');
 $listing['logout'] = array($defaultsetting, 'DECONNEXION');
 
 $listing['do_parcours'] = array($defaultsetting, 'ITINERAIRE');
-$listing['testonly'] = array($defaultsetting, 'DEV ONLY');
+$setting = $defaultsetting;
+$setting[3] = '#FF9900';
+$listing['testonly'] = array($setting, 'DEV ONLY');
 $setting = $defaultsetting;
 $setting[1] = 6;
 $listing['eude'] = array($setting, "EU\nDE");

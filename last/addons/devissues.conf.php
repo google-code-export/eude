@@ -23,7 +23,7 @@ class devissues_addons implements addon_config {
     public function Get_Menu () {
 
         // menu simple.
-        $menu = array('%ROOT_URL%pillage.php','%BTN_URL%testonly.png',180,'Members::CheckPerms(\'in_dev\')', null);
+        $menu = array('%ROOT_URL%pillage.php','%BTN_URL%testonly.png',160,'Members::CheckPerms(\'in_dev\')', null);
 
         return array('insertafter' => 'perso', // empty for first.(ceux déjà inclus: carto,perso,addon,admin,forum, et logout)
                 'id' => 'iddev', // doit être unique ! (pas écraser qui que ce soit d'autre)

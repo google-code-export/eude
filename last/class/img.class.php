@@ -79,8 +79,8 @@ class img {
     public function CenteredText($string, $size=10) {
 
         $axes = imageftbbox($size, 0, $this->font, $string);
-        $x = ($this->im / 2) - (($axes[2] - $axes[0]) / 2);
-        $y = ($this->im / 2) - (($axes[7] - $axes[1]) / 2);
+        $x = ($this->w / 2) - (($axes[2] - $axes[0]) / 2);
+        $y = ($this->h / 2) - (($axes[7] - $axes[1]) / 2);
 
         imagefttext($this->im, $size, 0, $x, $y, $this->color, $this->font, $string);
         return $this;
