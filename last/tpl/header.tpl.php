@@ -52,6 +52,7 @@ $doctype='';
 <title>{$title}</title>
 {$css}
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" href="%IMAGES_URL%eude.png">
 </head>
 <body>
 {$stats}
