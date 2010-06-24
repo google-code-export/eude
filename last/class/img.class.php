@@ -47,13 +47,12 @@ class img {
     /**
      *
      * @param <type> $string
-     * @param <type> $cl
      * @param <type> $x
      * @param <type> $y
      * @param <type> $size
      * @return img
      */
-    public function Text($string, $cl, $x, $y, $size=10) {
+    public function Text($string, $x, $y, $size=10) {
         imagefttext($this->im, $size, 0, $x, $y, $this->color, $this->font, $string);
         return $this;
     }

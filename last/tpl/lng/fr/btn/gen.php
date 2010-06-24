@@ -41,16 +41,25 @@ $listing['logout'] = array($defaultsetting, 'DECONNEXION');
 
 $listing['do_parcours'] = array($defaultsetting, 'ITINERAIRE');
 $listing['testonly'] = array($defaultsetting, 'DEV ONLY');
+$setting = $defaultsetting;
+$setting[1] = 6;
+$listing['eude'] = array($setting, "EU\nDE");
 
 function do_btn($key) {
     global $listing;
     list($param, $text) = $listing[$key];
     list($fontfile, $fontsize, $alphacolor, $textcolor) = $param;
+    $width = 160; $height = 30;
+    if ($key == 'eude') $width = $height = 16;
 
-    $img = img::Create(160, 30)->FillAlphaHexa($alphacolor);
+    $img = img::Create($width, $height)->FillAlphaHexa($alphacolor);
 
     $img->font = $fontfile;
-    $img->SetColorHexa($textcolor)->CenteredText($text, $fontsize);
+    $img->SetColorHexa($textcolor);
+    if ($key == 'eude')
+        $img->Text($text, 0, 8, $fontsize);
+    else
+        $img->CenteredText($text, $fontsize);
 
 //-- Fin partie personalisable. ------------------------------------------------
     $img->SaveAs($key . '.png')->Render();
@@ -77,13 +86,13 @@ if (isset($_GET['ident'])) {
 
     foreach ($listing as $key => $dummy)
         $tpl->PushOutput('<span class="color_header"> &#37;BTN_URL%' . $key . '.png </span><img src="./gen.php?ident=' . $key . '"/><br/>');
-        $tpl->PushOutput(<<<x
+    $tpl->PushOutput(<<<x
 <script>
 window.onload = function() {
     if (parent.location.href != location.href) parent.location.href=parent.location.href+'?done';
 };
 </script>
 x
-                );
+    );
     $tpl->DoOutput(false);
 }
