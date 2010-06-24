@@ -16,7 +16,7 @@ $defaultsetting = array('./hachicro.ttf', 10, '1F1F99', '66a3ff');
 //$defaultsetting = array('./Burris.ttf', 15, '1F1F99', '66a3ff');
 //$defaultsetting = array('./BurrisGhostTown.ttf', 15, '1F1F99', '66a3ff');
 //$defaultsetting = array('./BurrisShootOut.ttf', 15, '1F1F99', '66a3ff');
-//$defaultsetting = array('./CGF Locust Resistance.ttf', 10, '1F1F99', '66a3ff');
+$defaultsetting = array('./CGF Locust Resistance.ttf', 10, '1F1F99', '66a3ff');
 
 $listing['cartographie'] = array($defaultsetting, 'CARTOGRAPHIE');
 $listing['tableau'] = array($defaultsetting, 'TABLEAU');
@@ -85,7 +85,7 @@ if (isset($_GET['ident'])) {
             unlink($file);
 
     foreach ($listing as $key => $dummy)
-        $tpl->PushOutput('<span class="color_header"> &#37;BTN_URL%' . $key . '.png </span><img src="./gen.php?ident=' . $key . '"/><br/>');
+        $tpl->PushOutput('<span class="color_header"> &#37;BTN_URL%' . $key . '.png </span><img src="./gen.php?ident=' . $key . '&'.time().'"/><br/>');
     $tpl->PushOutput(<<<x
 <script>
 window.onload = function() {

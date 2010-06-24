@@ -91,12 +91,14 @@ function initimg($Nbx,$Nby, $taillex,$tailley) {
 
     $map = map::getinstance();
 
-    $image = imagecreate($Nbx*$taillex+2,$Nby*$tailley+2);
+//    $image = imagecreate($Nbx*$taillex+2,$Nby*$tailley+2);
+    $image = imagecreate($Nbx*$taillex,$Nby*$tailley);
     $background_color = imagecolorallocate ($image, 0, 0, 0);
     $blanc = imagecolorallocate ($image, 254, 254, 254);
     $rouge = imagecolorallocate ($image, 85, 0, 64);
 
-    imagefilledrectangle($image, 2, 2, $Nbx*$taillex+2, $Nby*$tailley+2, $background_color);
+//    imagefilledrectangle($image, 2, 2, $Nbx*$taillex+2, $Nby*$tailley+2, $background_color);
+    imagefilledrectangle($image, 0, 0, $Nbx*$taillex, $Nby*$tailley, $background_color);
 
     // Tableau des couleurs...
     $colormap = DataEngine::config('MapColors');
@@ -123,10 +125,10 @@ function initimg($Nbx,$Nby, $taillex,$tailley) {
                         (($level)*20) * $taillex, (($level)*20) * $tailley, $colormap["0"]);
         }
 
-    ImageLine($image,1,1,$taillex*$Nbx,1,$rouge);
-    ImageLine($image,1,1,1,$tailley*$Nby,$rouge);
-    ImageLine($image,$taillex*$Nbx,1,$taillex*$Nbx,$tailley*$Nby,$rouge);
-    ImageLine($image,1,$tailley*$Nby,$taillex*$Nbx,$tailley*$Nby,$rouge);
+//    ImageLine($image,1,1,$taillex*$Nbx,1,$rouge);
+//    ImageLine($image,1,1,1,$tailley*$Nby,$rouge);
+//    ImageLine($image,$taillex*$Nbx,1,$taillex*$Nbx,$tailley*$Nby,$rouge);
+//    ImageLine($image,1,$tailley*$Nby,$taillex*$Nbx,$tailley*$Nby,$rouge);
 
     if (DEBUG_PLAIN) {
         echo "Comm coords: $Coords x$CoordsX y$CoordsY lvl$level x".(1+($CoordsY-1)*$taillex + round($taillex/2)+1)." y".(1+($CoordsX-1)*$tailley + round($tailley/2)+1)."\n";
@@ -155,8 +157,8 @@ function img_addplot($ss, $data) {
         map::map_debug($data);
     }
 
-    $p1 = (($PosX-1)*$TailleCase)+$spacing+1;
-    $p2 = ($PosY*$TailleCase)+$spacing+1;
+    $p1 = (($PosX-1)*$TailleCase)+$spacing;
+    $p2 = ($PosY*$TailleCase)+$spacing;
     $p3 = ($p1+$TailleCase) - ($spacing*2);
     $p4 = ($p2+$TailleCase) - ($spacing*2);
 
@@ -211,10 +213,10 @@ function img_line($image,$in,$out,$clr) {
 
     list($sX, $sY) = map::ss2xy($in);
     list($sX2, $sY2) = map::ss2xy($out);
-    $x1 = floor( ($tc*$sX) - $tc/2 )+1;
-    $y1 = floor( ($tc*($sY+1)) - $tc/2 )+1;
-    $x2 = floor( ($tc*$sX2) - $tc/2 )+1;
-    $y2 = floor( ($tc*($sY2+1)) - $tc/2 )+1;
+    $x1 = floor( ($tc*$sX) - $tc/2 );
+    $y1 = floor( ($tc*($sY+1)) - $tc/2 );
+    $x2 = floor( ($tc*$sX2) - $tc/2 );
+    $y2 = floor( ($tc*($sY2+1)) - $tc/2 );
     imageline($image, $x1, $y1, $x2, $y2, $clr);
 }
 function img_dot($image,$coord,$clr) {
@@ -224,8 +226,8 @@ function img_dot($image,$coord,$clr) {
     // 		map_debug("img_dot($coord,$clr)");
 
     list($sX, $sY) = map::ss2xy($coord);
-    $x1 = floor( ($tc*$sX) - $tc/2 )+1;
-    $y1 = floor( ($tc*($sY+1)) - $tc/2 )+1;
+    $x1 = floor( ($tc*$sX) - $tc/2 );
+    $y1 = floor( ($tc*($sY+1)) - $tc/2 );
     imagefilledellipse($image,$x1,$y1,$td,$td,$clr);
 }
 
