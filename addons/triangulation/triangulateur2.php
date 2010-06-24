@@ -235,10 +235,9 @@ if($coordvalid) {
 //------------------------------------------------
 // Un petit menu perso pour l'addons
 $menu = array(
-    'carte' => array('%ROOT_URL%Carte.php','%IMAGES_URL%Btn-Carte.png',125,'DataEngine::CheckPerms(AXX_MEMBER)', array()),
-    //'prod' => array('%ROOT_URL%ownuniverse.php','%IMAGES_URL%Btn-Production.png',125,'DataEngine::CheckPerms(AXX_MEMBER)', array()),
-    'triangulation' => array('%ADDONS_URL%triangulation/index.php','%ADDONS_URL%triangulation/Images/Btn-triangulation1.png',125,'DataEngine::CheckPerms(AXX_MEMBER)', array()),
-    'triangulation2' => array('%ADDONS_URL%triangulation/triangulateur2.php','%ADDONS_URL%triangulation/Images/Btn-triangulation2.png',125,'DataEngine::CheckPerms(AXX_MEMBER)', array()));
+    'carte' => array('%ROOT_URL%Carte.php','%BTN_URL%carte.png',160,'DataEngine::CheckPerms(AXX_MEMBER)', array()),
+    'triangulation' => array('%ADDONS_URL%triangulation/index.php','%BTN_URL%triangulation1.png',160,'DataEngine::CheckPerms(AXX_MEMBER)', array()),
+    'triangulation2' => array('%ADDONS_URL%triangulation/triangulateur2.php','%BTN_URL%triangulation2.png',160,'DataEngine::CheckPerms(AXX_MEMBER)', array()));
 
 $tpl->DoOutput($menu,true); // stoppe toute execution du script et transmet les sorties html/xml/...
 // les deux 'true' étant

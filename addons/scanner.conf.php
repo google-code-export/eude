@@ -68,12 +68,13 @@ class scanner_addons implements addon_config {
         return true;
     }
 
-    public function OnButtonRegen(&$listing) {
+    public function OnButtonRegen(&$listing, $defaultsetting) {
+        // $defaultsetting = array(fontfile, fontsize, alphacolor, textcolor);
         switch (LNG_CODE) {
             case 'en':
-                $listing['addons_scanner'] = 'SCANNER';
+                $listing['addons_scanner'] = array($defaultsetting,'SCANNER');
             default:
-                $listing['addons_scanner'] = 'SCANNEUR';
+                $listing['addons_scanner'] = array($defaultsetting,'SCANNEUR');
         }
         return true;
     }

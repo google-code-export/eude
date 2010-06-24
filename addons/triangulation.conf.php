@@ -23,7 +23,7 @@ class triangulation_addons implements addon_config {
         // juste la partie 'sous-menu'
         $submenu = array(
 //                array('%ROOT_URL%cartographie.php','%IMAGES_URL%btn-cartographie.png','true'), // sous-menu 1
-                array('%ADDONS_URL%triangulation/index.php','%ADDONS_URL%triangulation/Images/Btn-triangulation.png','DataEngine::CheckPerms("CARTOGRAPHIE_PLAYERS")'), // sous-menu 1
+                array('%ADDONS_URL%triangulation/index.php','%BTN_URL%triangulation.png','DataEngine::CheckPerms("CARTOGRAPHIE_PLAYERS")'), // sous-menu 1
         );
 
         return array('insertafter' => 'carto', // empty for first.(ceux déjà inclus: carto,perso,addon,admin,forum, et logout)
@@ -43,6 +43,17 @@ class triangulation_addons implements addon_config {
     }
     public function OnVortexCleaned() {
 //        FB::info('addons::OnVortexCleaned');
+        return true;
+    }
+
+    public function OnButtonRegen(&$listing, $defaultsetting) {
+        // $defaultsetting = array(fontfile, fontsize, alphacolor, textcolor);
+        $defaultsetting[3] = '00CC00';
+        $listing['triangulation'] = array($defaultsetting,'TRIANGULATION');
+        $defaultsetting[3] = 'FF9900';
+        $listing['triangulation1'] = array($defaultsetting,'TRIANGULATION 1');
+        $defaultsetting[3] = '00CC00';
+        $listing['triangulation2'] = array($defaultsetting,'TRIANGULATION 2');
         return true;
     }
     public function GetCustomPerms() {
