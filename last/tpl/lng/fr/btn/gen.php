@@ -8,53 +8,49 @@
  */
 //-- Début partie personalisable -----------------------------------------------
 $listing = array();
+// http://www.dafont.com/
+// $defaultsetting = array(fontfile, fontsize, alphacolor, textcolor);
+$defaultsetting = array('./hachicro.ttf', 10, '1F1F99', '66a3ff');
+$defaultsetting = array('./Impact Label Reversed.ttf', 10, '1F1F99', '66a3ff');
+$defaultsetting = array('./Impact Label.ttf', 10, '1F1F99', '66a3ff');
+$defaultsetting = array('./Burris.ttf', 15, '1F1F99', '66a3ff');
+$defaultsetting = array('./BurrisGhostTown.ttf', 15, '1F1F99', '66a3ff');
+$defaultsetting = array('./BurrisShootOut.ttf', 15, '1F1F99', '66a3ff');
+$defaultsetting = array('./CGF Locust Resistance.ttf', 10, '1F1F99', '66a3ff');
 
-$listing['cartographie'] = 'CARTOGRAPHIE';
-$listing['tableau'] = 'TABLEAU';
-$listing['carte'] = 'CARTE';
+$listing['cartographie'] = array($defaultsetting, 'CARTOGRAPHIE');
+$listing['tableau'] = array($defaultsetting, 'TABLEAU');
+$listing['carte'] = array($defaultsetting, 'CARTE');
 
-$listing['mafiche'] = 'MA FICHE';
-$listing['recherche'] = 'RECHERCHE';
-$listing['ownuniverse'] = 'PRODUCTION';
-$listing['pillage'] = 'PILLAGE';
+$listing['mafiche'] = array($defaultsetting, 'MA FICHE');
+$listing['recherche'] = array($defaultsetting, 'RECHERCHE');
+$listing['ownuniverse'] = array($defaultsetting, 'PRODUCTION');
+$listing['pillage'] = array($defaultsetting, 'PILLAGE');
 
-$listing['addon'] = 'ADDONS';
+$listing['addon'] = array($defaultsetting, 'ADDONS');
 
-$listing['membres'] = 'MEMBRES';
-$listing['hierarchie'] = 'HIERARCHIE';
-$listing['editmembres'] = 'EDITIONS';
-$listing['stats'] = 'STATISTIQUES';
-$listing['eadmin'] = 'ADMIN';
+$listing['membres'] = array($defaultsetting, 'MEMBRES');
+$listing['hierarchie'] = array($defaultsetting, 'HIERARCHIE');
+$listing['editmembres'] = array($defaultsetting, 'EDITIONS');
+$listing['stats'] = array($defaultsetting, 'STATISTIQUES');
+$listing['eadmin'] = array($defaultsetting, 'ADMIN');
 
-$listing['forum'] = 'FORUM';
+$listing['forum'] = array($defaultsetting, 'FORUM');
 
-$listing['logout'] = 'DECONNEXION';
+$listing['logout'] = array($defaultsetting, 'DECONNEXION');
 
-$listing['do_parcours'] = 'ITINERAIRE';
-$listing['testonly'] = 'DEV ONLY';
+$listing['do_parcours'] = array($defaultsetting, 'ITINERAIRE');
+$listing['testonly'] = array($defaultsetting, 'DEV ONLY');
 
 function do_btn($key) {
     global $listing;
-    $text = $listing[$key];
+    list($param, $text) = $listing[$key];
+    list($fontfile, $fontsize, $alphacolor, $textcolor) = $param;
 
-    list($r, $g, $b) = array(hexdec('1F'), hexdec('1F'), hexdec('99')); // #1F1F99
-    $img = img::Create(160, 30)->FillAlpha($r, $g, $b);
+    $img = img::Create(160, 30)->FillAlphaHexa($alphacolor);
 
-    // http://www.dafont.com/
-    $fontsize = 10;
-    $img->font = './hachicro.ttf';
-    $img->font = './Impact Label Reversed.ttf';
-//    $img->font = './Impact Label.ttf';
-    $fontsize = 15;
-    $img->font = './Burris.ttf';
-    $img->font = './BurrisGhostTown.ttf';
-//    $img->font = './BurrisShootOut.ttf';
-    $fontsize = 10;
-    $img->font = './CGF Locust Resistance.ttf';
-
-    list($r, $g, $b) = array(hexdec('66'), hexdec('a3'), hexdec('ff')); // #66a3ff
-    $img->SetColor($r, $g, $b)->CenteredText($text,$fontsize);
-
+    $img->font = $fontfile;
+    $img->SetColorHexa($textcolor)->CenteredText($text, $fontsize);
 
 //-- Fin partie personalisable. ------------------------------------------------
     $img->SaveAs($key . '.png')->Render();
@@ -65,7 +61,7 @@ include_once(INCLUDE_PATH . 'Script.php');
 
 Members::CheckPermsOrDie(AXX_ROOTADMIN);
 
-addons::getinstance()->ButtonRegen($listing);
+addons::getinstance()->ButtonRegen($listing, $defaultsetting);
 
 if (isset($_GET['ident'])) {
     include CLASS_PATH . 'img.class.php';

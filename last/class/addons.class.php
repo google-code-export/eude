@@ -131,10 +131,10 @@ class addons {
      * @param array &$listing
      * @return boolean
      */
-    public function ButtonRegen(&$listing) {
+    public function ButtonRegen(&$listing, $defaultsetting) {
         foreach ($this->addons_list as $addon => $class) {
             if (is_callable(array($class, 'OnButtonRegen'))) {
-                if (!$class->OnButtonRegen($listing)) {
+                if (!$class->OnButtonRegen($listing, $defaultsetting)) {
                     trigger_error('ButtonRegen from ' . $addon . ' failed', E_ERROR);
                     return false;
                 }
