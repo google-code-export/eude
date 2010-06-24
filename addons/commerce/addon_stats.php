@@ -45,6 +45,13 @@ WHERE SQL_PREFIX_Modules_Template.Categorie <> 4 AND SQL_PREFIX_Users_Config.Com
   $mysql_result = DataEngine::sql($sqlreq) or die(mysql_error());
   $datas = mysql_fetch_array($mysql_result)
 ?>
+<?php
+  if ($datas['TotalBuildModules'] > 0) {
+  $TotalSellModules = number_format($datas['TotalBuildModules'] / $datas['TotalModules'] * 100, 2);
+  } else {
+  $TotalSellModules = 0;
+  }
+ ?>
   <tr><td>
 Nombre de membres inscrits: <b><?php echo $datas['TotalUser']; ?></b><br />
 Dernier membre inscrit: <b><?php echo $datas['UserLastCreate']; ?></b> le <b><?php echo $datas['DateLastCreate']; ?></b><br />
@@ -52,7 +59,7 @@ Dernière connexion: <b><?php echo $datas['UserLastConnect']; ?></b> le <b><?php
 <br />
 Nombre de schémas de modules: <b><?php echo $datas['TotalModules']; ?></b><br />
 Nombre de modules différents vendus: <b><?php echo $datas['TotalBuildModules']; ?></b><br />
-Vendus par l'Empire: <b><?php echo number_format($datas['TotalBuildModules'] / $datas['TotalModules'] * 100, 2); ; ?>%</b> des modules totaux.<br />
+Vendus par l'Empire: <b><?php echo $TotalSellModules; ?>%</b> des modules totaux.<br />
   </td></tr></table>
 <br />
 

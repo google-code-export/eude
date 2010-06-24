@@ -100,6 +100,14 @@ public function GetCustomPerms() {
         FB::info($user,'addons::OnNewUser');
         return true;
     }
+	public function OnButtonRegen(&$listing, $defaultsetting) {
+        // $defaultsetting = array(fontfile, fontsize, alphacolor, textcolor);
+        $listing['modules'] = array($defaultsetting, 'COMMERCE');
+		// Partie à modifier
+		$defaultsetting = array('./CGF Locust Resistance.ttf', 10, '1F1F99', 'ffffff');
+        $listing['modules_red'] = array($defaultsetting, 'COMMERCE');
+        return true;
+    }
 	public function OnVortexCleaned() {
 //        FB::info('addons::OnVortexCleaned');
         return true;
