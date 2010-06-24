@@ -434,7 +434,7 @@ class map /*extends parcours*/ {
             }
         }
 
-        $callback($CurrSS, $CurrSS_a);
+        call_user_func($callback,$CurrSS, $CurrSS_a);
 
         $CurrSS_a = array();
     }
@@ -448,7 +448,7 @@ class map /*extends parcours*/ {
         $Y= floor(($ID-1) / 100);
         $X= (($ID-1)      % 100)+1;
         $X= ($X == 0) ? 100: $X;
-        return array($X,$Y);
+        return array((int)$X,(int)$Y);
     }
 
     /**
