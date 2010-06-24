@@ -410,10 +410,12 @@ out;
     }
 
     public function RegenButtons() {
-        if (isset ($_POST['RegenButtons']))
+        if (isset ($_POST['RegenButtons'])) {
             $frame =<<<frame
    <iframe src="%BTN_URL%gen.php" width="0px" height="0px"/>
 frame;
+            output::Messager($this->lng['regen_buttons_inwork']);
+        }
         $out =<<<out
 <form method="post" action="{$this->BASE_FILE}">
     <input type="hidden" name="RegenButtons" value="true"/>
