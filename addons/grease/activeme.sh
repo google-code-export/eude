@@ -1,5 +1,8 @@
-#!/bin/sh
-sdir=$1
+#!/bin/bash
+
+sdir=`dirname $0`
+if [ "$sdir" == "." ]; then sdir=`pwd`; fi
+
 mdir=~/.mozilla/firefox/*.default/gm_scripts/data_engine
 
 cd $mdir

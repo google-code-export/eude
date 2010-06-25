@@ -27,8 +27,8 @@ c_lang = c_lang.substr(c_lang.indexOf('.')+1);
 var c_page = c_url.substr(7+c_host.length);
 var c_prefix = c_server+'.'+c_lang;
 if (c_prefix == 'eu2.fr') c_prefix = 'australis.fr';
-metadata.search(/\@version\s+(\d+\.\d+\.\d+(\.\d+)?)/);
-var mversion=RegExp.$1.replace(/\.+/g, '');
+metadata.search(/\@version\s+(.*)/);
+var mversion=RegExp.$1.replace(/\.*/g, '');
 metadata.search(/Id\:\ eude\.user\.js\ (\d+)\ \d+\-\d+\-\d+\ .+\$/);
 var revision=RegExp.$1;
 var version=mversion+'r'+revision;
@@ -772,7 +772,7 @@ function get_xml(key, data) {
 function AddGameLog(text) {
     var log = null;
     try {
-        log = unsafeWindow.top.document.getElementById('layer_site_content');
+        log = unsafeWindow.top.document.getElementById('gamelog');
     } catch(e) {
         GM_log('AddGameLog Err:'+text);
     }
@@ -858,6 +858,44 @@ function Index() {
         block.innerHTML = block.innerHTML + ', ';
         block.appendChild(alog);
     }
+
+    if (debug) return AddGameLog('<span class="gamelog_raid">Debug mode, script update disabled</span>');
+    if (mversion=='svn') return AddGameLog('<span class="gamelog_raid">Dev release, no update check</span>');
+
+    GM_xmlhttpRequest({
+        method: 'GET',
+        headers: {
+            "User-Agent": navigator.userAgent,
+            "Accept": "text/xml",
+            "Accept-Encoding":"deflate"
+        },
+        url: 'http://eude.googlecode.com/svn/tag/GreaseMonkey/lastrelease.xml',
+        onload: function(e){
+            if (e.status!='200') {
+                AddGameLog('<span class="gamelog_raid">Official server has dirty answer (omg)</span>');
+                return;
+            }
+
+            if (!e.responseXML)
+                e.responseXML = new DOMParser().parseFromString(e.responseText, "text/xml");
+            rversion = GetNode(e.responseXML, 'rversion');
+            eudeversion = GetNode(e.responseXML, 'eudeversion');
+            majurl = GetNode(e.responseXML, 'url');
+            majlog = GetNode(e.responseXML, 'log');
+            if (revision<rversion) {
+                AddToMotd('<b>Log:</b><br/>'+majlog, '<hr/>');
+                if (mversion==eudeversion)
+                    AddToMotd('<a href="'+majurl+'" class="gamelog_raid">=> MAJ Greasemonkey</a>');
+                AddToMotd('<hr/>Mise à jour disponible de '+mversion+'r'+revision+' vers '+eudeversion+'r'+rversion);
+
+                if (mversion==eudeversion)
+                    AddGameLog('<a href="'+majurl+'" class="gamelog_raid">=> MAJ Greasemonkey</a>');
+                else
+                    AddGameLog('<span class="gamelog_raid">Mise à jour manuelle a faire !</span>');
+            }
+        },
+        onerror: c_onerror
+    });
 }
 
 function Galaxy() {
