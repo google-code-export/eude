@@ -244,7 +244,7 @@ class cartographie {
             $query = "UPDATE SQL_PREFIX_Coordonnee SET Type='2', USER='', EMPIRE='', INFOS='', batiments='', troop='' where Type in (0,3,5) AND POSIN='{$uni}' AND COORDET='{$sys}'";
             $array = DataEngine::sql($query);
             if (mysql_affected_rows() > 0)
-                return $this->AddWarn(sprint($this->lng['class_player_msg1'],$coords));
+                return $this->AddWarn(sprintf($this->lng['class_player_msg1'],$coords));
         }
         $query = 'SELECT ID,TYPE FROM SQL_PREFIX_Coordonnee where POSIN=\''.$uni.'\' AND COORDET=\''.$sys.'\'';
         $array = DataEngine::sql($query);
@@ -258,15 +258,15 @@ class cartographie {
 
             DataEngine::sql($query);
             if (mysql_affected_rows() > 0)
-                return $this->AddInfo(srpintf($this->lng['class_player_msg2'],$stype,$nom,$uni,$sys));
+                return $this->AddInfo(sprintf($this->lng['class_player_msg2'],$stype,$nom,$uni,$sys));
             else
-                return $this->AddInfo(srpintf($this->lng['class_player_msg3'],$stype,$nom,$uni,$sys));
+                return $this->AddInfo(sprintf($this->lng['class_player_msg3'],$stype,$nom,$uni,$sys));
         } else {
             $query = sprintf('INSERT INTO SQL_PREFIX_Coordonnee (TYPE,POSIN,POSOUT,COORDET,COORDETOUT,USER,EMPIRE,INFOS,DATE,UTILISATEUR)'.
                     ' VALUES (%d,\'%s\',\'\',\'%s\',\'\',\'%s\',\'%s\',\'%s\',now(),\'%s\')',
                     $type, $uni, $sys, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']));
             DataEngine::sql($query);
-            return $this->AddInfo(srpintf($this->lng['class_player_msg4'],$stype,$nom,$uni,$sys));
+            return $this->AddInfo(sprintf($this->lng['class_player_msg4'],$stype,$nom,$uni,$sys));
         }
     }
 
@@ -290,15 +290,15 @@ class cartographie {
 
             DataEngine::sql($query);
             if (mysql_affected_rows() > 0)
-                return $this->AddInfo(srpintf($this->lng['class_npc_msg1'],$nom,$uni,$sys));
+                return $this->AddInfo(sprintf($this->lng['class_npc_msg1'],$nom,$uni,$sys));
             else
-                return $this->AddInfo(srpintf($this->lng['class_npc_msg2'],$nom,$uni,$sys));
+                return $this->AddInfo(sprintf($this->lng['class_npc_msg2'],$nom,$uni,$sys));
         } else {
             $query = sprintf('INSERT INTO SQL_PREFIX_Coordonnee (TYPE,POSIN,POSOUT,COORDET,COORDETOUT,USER,EMPIRE,INFOS,DATE,UTILISATEUR)'.
                     ' VALUES (6,\'%s\',\'\',\'%s\',\'\',\'%s\',\'\',\'%s\',now(),\'%s\')',
                     $uni, $sys, $qnom, $qfleet, sqlesc($_SESSION['_login']));
             DataEngine::sql($query);
-            return $this->AddInfo(srpintf($this->lng['class_npc_msg3'],$nom,$uni,$sys));
+            return $this->AddInfo(sprintf($this->lng['class_npc_msg3'],$nom,$uni,$sys));
         }
     }
 
