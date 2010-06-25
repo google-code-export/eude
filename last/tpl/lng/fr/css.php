@@ -12,23 +12,14 @@ include '../../../init.php';
 include ROOT_PATH . 'Script/Script.php';
 
 // http://www.w3schools.com/tags/ref_colorpicker.asp
-// http://alphadesign.fr/joomla/palette-de-couleur.php
+// http://css4design.com/choisir-sa-palette-de-couleur
 $color_txt = 'white';
-$color_1 = '#1F1F99'; // alias row0 bg, couleur 'claire'
-$color_2 = '#16166B'; // alias row1 bg, couleur 'plus foncé'
-$color_3 = '#3535A3'; // alias header bg
-$color_4 = '#0066CC'; // alias header text
-$color_5 = '#6666FF'; // alias big header text
-$color_6 = '#10104C'; // alias bg discret...
-$color_infobulle = '#ffe38f'; // alias infobulle bg
-
-$color_txt = 'white';
-$color_1 = '#46996F'; // alias row0 bg, couleur 'claire'
-$color_2 = '#17998B'; // alias row1 bg, couleur 'plus foncé'
-$color_3 = '#2E997D'; // alias header bg
-$color_4 = '#A29938'; // alias header text
-$color_5 = '#E8990E'; // alias big header text
-$color_6 = '#009999'; // alias bg discret...
+$color_1 = '#2d3a40'; // alias row0 bg, couleur 'claire'
+$color_2 = '#202c32'; // alias row1 bg, couleur 'plus foncé'
+$color_3 = '#3f3b38'; // alias header bg
+$color_4 = '#666666'; // alias header text
+$color_5 = '#bbccff'; // alias big header text
+$color_6 = '#202c32'; // alias bg discret...
 $color_infobulle = '#ffe38f'; // alias infobulle bg
 
 $cls['color_lnk'] = $color_txt;
