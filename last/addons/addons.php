@@ -34,18 +34,18 @@ interface addon_config {
      * @param string Nom d'utilisateur
      * @return boolean
      */
-    public function OnDeleteUser($user);
+//    public function OnDeleteUser($user);
     /**
      * Routine de création pour les addons
      * @param string Nom d'utilisateur
      * @return boolean
      */
-    public function OnNewUser($user);
+//    public function OnNewUser($user);
     /**
      * La base de vortex vient de subir un nettoyage....
      * @return boolean
      */
-    public function OnVortexCleaned();
+//    public function OnVortexCleaned();
     /**
      * Les boutons sont en cours de modification...
      * @param array &$listing
@@ -57,5 +57,5 @@ interface addon_config {
      * @param string Nom d'utilisateur
      * @return array (identifiant => valeur humainement lisible)
      */
-    public function GetCustomPerms();
+//    public function GetCustomPerms();
 }

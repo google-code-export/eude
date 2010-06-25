@@ -40,18 +40,6 @@ class devissues_addons implements addon_config {
         return false;
     }
 
-    public function OnDeleteUser($user) {
-//        FB::info($user,'addons::OnDeleteUser');
-        return true;
-    }
-    public function OnNewUser($user) {
-//        FB::info($user,'addons::OnNewUser');
-        return true;
-    }
-    public function OnVortexCleaned() {
-//        FB::info('addons::OnVortexCleaned');
-        return true;
-    }
     public function GetCustomPerms() {
         srand();
         return array(rand()+100=>'Config de dev...',

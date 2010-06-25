@@ -89,9 +89,11 @@ class addons {
      */
     public function DeleteUser($user) {
         foreach ($this->addons_list as $addon => $class) {
-            if (!$class->OnDeleteUser($user)) {
-                trigger_error('Delete user from ' . $addon . ' failed', E_ERROR);
-                return false;
+            if (is_callable(array($class, 'OnDeleteUser'))) {
+                if (!$class->OnDeleteUser($user)) {
+                    trigger_error('Delete user from ' . $addon . ' failed', E_ERROR);
+                    return false;
+                }
             }
         }
         return true;
@@ -104,9 +106,11 @@ class addons {
      */
     public function NewUser($user) {
         foreach ($this->addons_list as $addon => $class) {
-            if (!$class->OnNewUser($user)) {
-                trigger_error('New user from ' . $addon . ' failed', E_ERROR);
-                return false;
+            if (is_callable(array($class, 'OnNewUser'))) {
+                if (!$class->OnNewUser($user)) {
+                    trigger_error('New user from ' . $addon . ' failed', E_ERROR);
+                    return false;
+                }
             }
         }
         return true;
@@ -118,9 +122,11 @@ class addons {
      */
     public function VortexCleaned() {
         foreach ($this->addons_list as $addon => $class) {
-            if (!$class->OnVortexCleaned()) {
-                trigger_error('VortexCleaned from ' . $addon . ' failed', E_ERROR);
-                return false;
+            if (is_callable(array($class, 'OnVortexCleaned'))) {
+                if (!$class->OnVortexCleaned()) {
+                    trigger_error('VortexCleaned from ' . $addon . ' failed', E_ERROR);
+                    return false;
+                }
             }
         }
         return true;
@@ -150,9 +156,11 @@ class addons {
     public function CustomPerms() {
         $cp = array();
         foreach ($this->addons_list as $addon => $class) {
-            if (($arr = $class->GetCustomPerms()))
-                foreach ($arr as $k => $v)
-                    $cp[$k] = $v;
+            if (is_callable(array($class, 'OnButtonRegen'))) {
+                if (($arr = $class->GetCustomPerms()))
+                    foreach ($arr as $k => $v)
+                        $cp[$k] = $v;
+            }
         }
         return $cp;
     }
