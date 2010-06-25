@@ -133,7 +133,7 @@ q;
         $carto->Edit_Entry($lastcoords,
                 array('TROOP'=>DataEngine::strip_number($_POST['EnnemyTroops'])),
                 $lng['players_troopnb']);
-        $xml['log']= sprintf($lng['players_troopnb'],$lastcoords);
+        $xml['log']= sprintf($lng['players_troopnb2'],$lastcoords);
         break;
 
     case 'wormhole': //---------------------------------------------------------
