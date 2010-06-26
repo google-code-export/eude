@@ -47,7 +47,7 @@ function options_button_save(id) {
 function AddGameLog(text) {
     var log = null;
     try {
-        log = unsafeWindow.top.document.getElementById('layer_site_content');
+        log = unsafeWindow.top.document.getElementById('gamelog');
     } catch(e) {
         GM_log('AddGameLog Err:'+text);
     }

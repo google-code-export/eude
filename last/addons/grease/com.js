@@ -83,7 +83,7 @@ function get_xml(key, data) {
             break;
     }
     _data = 'user='+encodeURIComponent(GM_getValue(c_prefix+'user',''))+
-    '&pass='+encodeURIComponent(salt(GM_getValue(c_prefix+'pass','')))+
+    '&pass='+encodeURIComponent(md5(GM_getValue(c_prefix+'pass','')))+
     '&svr='+encodeURIComponent(c_prefix)+_data;
 
     GM_xmlhttpRequest({

@@ -205,6 +205,10 @@ iti_h;
 					</td>
 				</tr>
 				<tr>
+					<td colspan="3" class="color_row1 spacing_row0" height="1px"></td>
+					<td colspan="3" class="color_row0" height="1px"></td>
+				</tr>
+				<tr>
 					<td colspan="3" class="spacing_row0">{$this->lng['parcours_old_wormhole']}</td>
 					<td align=center>
 						<input class="color_row1" type="checkbox" name="inactif" value="1"{$checked}>
@@ -215,6 +219,9 @@ iti_h;
 					<td align=center>
 						<input class="color_row1" type="checkbox" name="nointrass" value="1"{$checked2}>
 					</td>
+				</tr>
+				<tr>
+					<td colspan="4" class="color_row1" height="1px"></td>
 				</tr>
 				<tr>
 					<td colspan=4>

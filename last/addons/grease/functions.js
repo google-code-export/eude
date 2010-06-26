@@ -193,11 +193,11 @@ function Planet() {
         if (debug) GM_log(i18n[c_game_lang]['building']+':'+a['BUILDINGS']);
         get_xml('player', a);
     } else {
-		if ($x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[3]/td[2]')[0].innerHTML != i18n[c_game_lang]['coords']) {
-			a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[4]/td[4]')[0].innerHTML;
-		} else {
-			a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]')[0].innerHTML;
-		}
+        if ($x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[3]/td[2]')[0].innerHTML != i18n[c_game_lang]['coords']) {
+            a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[4]/td[4]')[0].innerHTML;
+        } else {
+            a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[3]/td[4]')[0].innerHTML;
+        }
         if (debug) GM_log(i18n[c_game_lang]['coords']+':'+a['COORIN']);
         row=4;
         while (typeof $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr['+row+']/td[2]')[0] != 'undefined') {
@@ -269,8 +269,18 @@ function FleetTroop() {
     if (lastcoords == '') return;
     if (!GM_getValue(c_prefix+'galaxy_info',false)) return;
 
+    Planets = unserialize(GM_getValue(c_prefix+'ownplanets', false));
+    xpath = '/html/body/div[2]/div/div/div[2]/table/tbody/tr[4]/td[4]/font';
+    i=0;
+    while (typeof(Planets[i]) != 'undefined') {
+        if (Planets[i]['Coord']==lastcoords) {
+            xpath = '/html/body/div[2]/div/div/div[2]/table/tbody/tr[5]/td[4]/font';
+            break;
+        }
+        i++;
+    }
     var a = Array();
-    a['EnnemyTroops'] = $x('/html/body/div[2]/div/div/div[2]/table/tbody/tr[4]/td[4]/font')[0].innerHTML;
+    a['EnnemyTroops'] = $x(xpath)[0].innerHTML;
     a['lastcoords']   = lastcoords;
     AddToMotd("Troops: "+a['EnnemyTroops']+" on "+a['lastcoords']);
     
@@ -328,6 +338,7 @@ function ownuniverse () {
         i += 2;
         p++;
     }
+    GM_setValue(c_prefix+'ownplanets', serialize(Planet));
 
     for (i=3,j=0; j<p; i+=2,j++)
         Planet[j]['Name'] = trim($x('/html/body/div[2]/div/div[2]/table/tbody/tr/td['+i+']')[0].innerHTML);
