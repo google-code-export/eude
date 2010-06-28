@@ -178,7 +178,7 @@ q;
             $query = "UPDATE SQL_PREFIX_Coordonnee SET Type='2', USER='', EMPIRE='', INFOS='', batiments='', troop='' where Type in (0,3,5) AND POSIN='{$cur_ss}' AND COORDET in ({$del_planet})";
             $array = DataEngine::sql($query);
             if ( ($num = mysql_affected_rows()) > 0)
-                $this->AddInfo(sprintf($this->lng['solar_msg1'],$num));
+                $carto->AddInfo(sprintf($lng['solar_msg1'],$num));
         }
 
         $query = "SELECT USER,EMPIRE FROM SQL_PREFIX_Coordonnee where POSIN='{$cur_ss}' AND TYPE in (0,3,5)";
@@ -197,7 +197,7 @@ q;
                         $qempire = sqlesc($empire);
                         $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}',DATE=now() WHERE USER='{$qnom}'";
                         DataEngine::sql($query);
-                        $this->AddInfo(sprintf($this->lng['solar_msg2'],$nom));
+                        $carto->AddInfo(sprintf($lng['solar_msg2'],$nom));
                         unset($curss_info[$nom]);
                     }
                 }
