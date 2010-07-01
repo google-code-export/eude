@@ -106,7 +106,8 @@ class cartographie {
             DataEngine::sql($query);
             $query = "SELECT COUNT(pID) AS NOMBRE FROM  `SQL_PREFIX_Coordonnee_Planetes` where `pID`='$do_update'";
             $mysql_result = DataEngine::sql($query);
-            if (mysql_num_rows($mysql_result) == 0) {
+			$ligne=mysql_fetch_assoc($mysql_result);
+            if ($ligne['NOMBRE'] == 0) {
                 $query2="INSERT INTO `SQL_PREFIX_Coordonnee_Planetes` (`pID`,$sql3) VALUES($do_update,$sql2)";
                 DataEngine::sql($query2,false) or $warn="($rows) $query<br/>$query2<br/>".print_r($ress_val,true)."<br/>".mysql_error();
             } else {
