@@ -30,3 +30,5 @@ $lng['allreadyhaveone'] = 'Déjà un compte ?';
 // register.php
 $lng['signin_page_title'] = 'EU2: DataEngine, Inscription';
 $lng['user_exists']       = 'Joueur existe déjà...';
+
+$lng['currently_closed'] = '<u>/<small>!</small>\</u> Le serveur est temporairement fermé <u>/<small>!</small>\</u>';
