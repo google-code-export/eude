@@ -26,7 +26,7 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.*/gamelog/gamelog_view.php?gamelog_id*
 // @exclude      http://vs.eu2.looki.*/*
 // ==/UserScript==
-]]></>;
+]]></>.toString();
 
 var c_url = document.location.href;
 var c_host = document.location.hostname;
@@ -42,9 +42,18 @@ metadata.search(/Id\:\ eude\.user\.js\ (\d+)\ \d+\-\d+\-\d+\ .+\$/);
 var revision=RegExp.$1;
 var version=mversion+'r'+revision;
 const debug=true;
+const UseTamper = function_exists('TM_log');
 
+if (UseTamper) {
+    TM_log('Version '+version);
+    TM_log('Page Check '+c_page);
+}
+
+try {
 var c_game_lang = (typeof unsafeWindow.top.window.fv['lang'] != 'undefined') ? unsafeWindow.top.window.fv['lang']: c_lang;
+} catch(e) {c_game_lang = c_lang;}
 
+if (UseTamper) TM_log('Check Point, should no work after yet !');
 var i18n = Array();
 i18n['fr'] = Array();
 i18n['fr']['eudeready']      = '<u>Data Engine</u> Français, actif';
@@ -439,10 +448,18 @@ function md5 (str) {
         }
     };
 
-    var _F = function (x,y,z) {return (x & y) | ((~x) & z);};
-    var _G = function (x,y,z) {return (x & z) | (y & (~z));};
-    var _H = function (x,y,z) {return (x ^ y ^ z);};
-    var _I = function (x,y,z) {return (y ^ (x | (~z)));};
+    var _F = function (x,y,z) {
+        return (x & y) | ((~x) & z);
+    };
+    var _G = function (x,y,z) {
+        return (x & z) | (y & (~z));
+    };
+    var _H = function (x,y,z) {
+        return (x ^ y ^ z);
+    };
+    var _I = function (x,y,z) {
+        return (y ^ (x | (~z)));
+    };
 
     var _FF = function (a,b,c,d,x,s,ac) {
         a = addUnsigned(a, addUnsigned(addUnsigned(_F(b, c, d), x), ac));
@@ -498,19 +515,25 @@ function md5 (str) {
     };
 
     var x=[],
-        k,AA,BB,CC,DD,a,b,c,d,
-        S11=7, S12=12, S13=17, S14=22,
-        S21=5, S22=9 , S23=14, S24=20,
-        S31=4, S32=11, S33=16, S34=23,
-        S41=6, S42=10, S43=15, S44=21;
+    k,AA,BB,CC,DD,a,b,c,d,
+    S11=7, S12=12, S13=17, S14=22,
+    S21=5, S22=9 , S23=14, S24=20,
+    S31=4, S32=11, S33=16, S34=23,
+    S41=6, S42=10, S43=15, S44=21;
 
     str = utf8_encode(str);
     x = convertToWordArray(str);
-    a = 0x67452301;b = 0xEFCDAB89;c = 0x98BADCFE;d = 0x10325476;
+    a = 0x67452301;
+    b = 0xEFCDAB89;
+    c = 0x98BADCFE;
+    d = 0x10325476;
 
     xl = x.length;
     for (k=0;k<xl;k+=16) {
-        AA=a;BB=b;CC=c;DD=d;
+        AA=a;
+        BB=b;
+        CC=c;
+        DD=d;
         a=_FF(a,b,c,d,x[k+0], S11,0xD76AA478);
         d=_FF(d,a,b,c,x[k+1], S12,0xE8C7B756);
         c=_FF(c,d,a,b,x[k+2], S13,0x242070DB);
@@ -679,7 +702,7 @@ function serialize (mixed_value) {
                 objname[1] = this.serialize(objname[1]);
                 val = "O" + objname[1].substring(1, objname[1].length - 1);
             }
-            */
+             */
             var count = 0;
             var vals = "";
             var okey;
@@ -692,7 +715,7 @@ function serialize (mixed_value) {
 
                 okey = (key.match(/^[0-9]+$/) ? parseInt(key, 10) : key);
                 vals += serialize(okey) +
-                        serialize(mixed_value[key]);
+                serialize(mixed_value[key]);
                 count++;
             }
             val += ":" + count + ":{" + vals + "}";
@@ -741,13 +764,15 @@ function unserialize (data) {
             return 0;
         }
         if (code < 0x0800) {
-             return 1;
+            return 1;
         }
         return 2;
     };
 
 
-    var error = function (type, msg, filename, line){throw new window[type](msg, filename, line);};
+    var error = function (type, msg, filename, line){
+        throw new window[type](msg, filename, line);
+    };
     var read_until = function (data, offset, stopchr){
         var buf = [];
         var chr = data.slice(offset, offset + 1);
@@ -782,37 +807,47 @@ function unserialize (data) {
         var keyandchrs;
         var keys;
 
-        if (!offset) {offset = 0;}
+        if (!offset) {
+            offset = 0;
+        }
         var dtype = (data.slice(offset, offset + 1)).toLowerCase();
 
         var dataoffset = offset + 2;
-        var typeconvert = function(x) {return x;};
+        var typeconvert = function(x) {
+            return x;
+        };
 
         switch (dtype){
             case 'i':
-                typeconvert = function (x) {return parseInt(x, 10);};
+                typeconvert = function (x) {
+                    return parseInt(x, 10);
+                };
                 readData = read_until(data, dataoffset, ';');
                 chrs = readData[0];
                 readdata = readData[1];
                 dataoffset += chrs + 1;
-            break;
+                break;
             case 'b':
-                typeconvert = function (x) {return parseInt(x, 10) !== 0;};
+                typeconvert = function (x) {
+                    return parseInt(x, 10) !== 0;
+                };
                 readData = read_until(data, dataoffset, ';');
                 chrs = readData[0];
                 readdata = readData[1];
                 dataoffset += chrs + 1;
-            break;
+                break;
             case 'd':
-                typeconvert = function (x) {return parseFloat(x);};
+                typeconvert = function (x) {
+                    return parseFloat(x);
+                };
                 readData = read_until(data, dataoffset, ';');
                 chrs = readData[0];
                 readdata = readData[1];
                 dataoffset += chrs + 1;
-            break;
+                break;
             case 'n':
                 readdata = null;
-            break;
+                break;
             case 's':
                 ccount = read_until(data, dataoffset, ':');
                 chrs = ccount[0];
@@ -830,7 +865,7 @@ function unserialize (data) {
                 // Length was calculated on an utf-8 encoded string
                 // so wait with decoding
                 readdata = utf8_decode(readdata);
-            break;
+                break;
             case 'a':
                 readdata = {};
 
@@ -854,10 +889,10 @@ function unserialize (data) {
                 }
 
                 dataoffset += 1;
-            break;
+                break;
             default:
                 error('SyntaxError', 'Unknown / Unhandled data type(s): ' + dtype);
-            break;
+                break;
         }
         return [dtype, dataoffset - offset, typeconvert(readdata)];
     };
@@ -953,7 +988,22 @@ function utf8_encode ( argString ) {
 
     return utftext;
 }
-
+function function_exists (function_name) {
+    // Checks if the function exists
+    //
+    // version: 1006.1915
+    // discuss at: http://phpjs.org/functions/function_exists
+    // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // +   improved by: Steve Clay
+    // +   improved by: Legaev Andrey
+    // *     example 1: function_exists('isFinite');
+    // *     returns 1: true
+    if (typeof function_name == 'string'){
+        return (typeof this.window[function_name] == 'function');
+    } else {
+        return (function_name instanceof Function);
+    }
+}
 function options_spacer(width) {
     var cell = document.createElement('td');
     if (!width) width='20';

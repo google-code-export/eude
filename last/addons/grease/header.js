@@ -23,7 +23,7 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.*/gamelog/gamelog_view.php?gamelog_id*
 // @exclude      http://vs.eu2.looki.*/*
 // ==/UserScript==
-]]></>;
+]]></>.toString();
 
 var c_url = document.location.href;
 var c_host = document.location.hostname;
@@ -39,5 +39,15 @@ metadata.search(/Id\:\ eude\.user\.js\ (\d+)\ \d+\-\d+\-\d+\ .+\$/);
 var revision=RegExp.$1;
 var version=mversion+'r'+revision;
 const debug=true;
+const UseTamper = function_exists('TM_log');
 
+if (UseTamper) {
+    TM_log('Version '+version);
+    TM_log('Page Check '+c_page);
+}
+
+try {
 var c_game_lang = (typeof unsafeWindow.top.window.fv['lang'] != 'undefined') ? unsafeWindow.top.window.fv['lang']: c_lang;
+} catch(e) {c_game_lang = c_lang;}
+
+if (UseTamper) TM_log('Check Point, should no work after yet !');
