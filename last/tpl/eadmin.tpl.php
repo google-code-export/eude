@@ -246,7 +246,7 @@ col1_r;
         $out =<<<col2_r
 		</select>
 		</TD>
-                <td class="color_header text_center"><input class="color_header" name='emp_war_add' type=submit value="Ajouter"{$this->lng['empire_wars_add']}"></td>
+                <td class="color_header text_center"><input class="color_header" name='emp_war_add' type=submit value="{$this->lng['empire_wars_add']}"></td>
 	</TR>
 	<TR class="base_row1">
 		<TD colspan=3><font color="red">

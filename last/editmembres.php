@@ -132,7 +132,6 @@ foreach (DataEngine::s_perms() as $k => $v) {
 }
 require_once(TEMPLATE_PATH.'editmembres.tpl.php');
 $tpl = tpl_editmembres::getinstance();
-$tpl->page_title = 'EU2: Membres (Éditions)';
 
 $mysql_result = DataEngine::sql('SELECT m.*,u.Permission from SQL_PREFIX_Membres m, SQL_PREFIX_Users u WHERE (m.Joueur=u.Login)'.$where.$Order);
 

@@ -8,6 +8,8 @@
  *
 */
 
+setlocale(LC_ALL, 'pl');
+
 $lng = array();
 $lng['Titane'] = 'Tytan';
 $lng['Cuivre'] = 'Miedź';
@@ -68,6 +70,7 @@ $cxx = array();
 $cxx[] = 'Partie administrative';
 $cxx['MEMBRES_ADMIN'] = 'Page admin';
 $cxx['MEMBRES_ADMIN_LOG'] = 'Log des connexions';
+$cxx['MEMBRES_ADMIN_MAP_COLOR'] = 'Modification des couleurs de la carte';
 $cxx['MEMBRES_NEW'] = 'Ajout membre (inclus les grades)';
 $cxx['MEMBRES_EDIT'] = 'Modification membre';
 $cxx['MEMBRES_NEWPASS'] = 'Changer pass';
@@ -84,11 +87,13 @@ $cxx['PERSO'] = 'Page Mafiche';
 $cxx['PERSO_RESEARCH'] = 'Page recherche';
 $cxx['PERSO_OWNUNIVERSE'] = 'Page production';
 $cxx['PERSO_OWNUNIVERSE_READONLY'] = 'Page production (mode lecture seule)';
+$cxx['PERSO_TROOPS_BATTLE'] = 'Listings des combats terrestre';
 $cxx[] = 'Cartographie';
 $cxx['CARTOGRAPHIE'] = 'Page Cartographie';
 $cxx['CARTOGRAPHIE_ASTEROID'] = 'Ajout Astéroïdes';
 $cxx['CARTOGRAPHIE_PLANETS'] = 'Ajout planètes';
-$cxx['CARTOGRAPHIE_PLAYERS'] = 'Ajout Joueur/Flottes PNJ';
+$cxx['CARTOGRAPHIE_PLAYERS'] = 'Ajout Joueur';
+$cxx['CARTOGRAPHIE_PNJ'] = 'Ajout Flottes PNJ';
 $cxx['CARTOGRAPHIE_SEARCH'] = 'Fonction recherche';
 $cxx['CARTOGRAPHIE_DELETE'] = 'Accès de suppression';
 $cxx['CARTOGRAPHIE_EDIT']   = 'Accès de modification';

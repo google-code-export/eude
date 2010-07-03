@@ -27,7 +27,7 @@ $sql = <<<sql
   SELECT * FROM SQL_PREFIX_troops_attack ta
   LEFT JOIN SQL_PREFIX_troops_pillage tp on (tp.mid=ta.id)
    WHERE players_attack LIKE '%"{$sql}"%' OR players_defender LIKE '%"{$sql}"%'
-  ORDER BY `when` DESC
+  ORDER BY `when` DESC LIMIT 0,30
 
 sql;
 $result = DataEngine::sql($sql);
@@ -57,7 +57,7 @@ while ($row = mysql_fetch_assoc($result)) {
         $tpl->SetBattleRow();
         $tpl->AddToRow($i%2, 'rowid');
         $tpl->AddToRow($lng['listing_type'][$row['type']], 'type');
-        $tpl->AddToRow(date($lng['listing_dateformat'], $row['when']), 'date');
+        $tpl->AddToRow(strftime($lng['listing_dateformat'], $row['when']), 'date');
         $tpl->AddToRow($row['coords_ss'].'-'.$row['coords_3p'], 'coords');
         $tpl->AddToRow(implode('<br/>', $row['players_attack']), 'attack');
         $tpl->AddToRow(implode('<br/>', $row['players_defender']), 'defend');
@@ -74,10 +74,10 @@ while ($row = mysql_fetch_assoc($result)) {
 
         $tpl->SetlogRow();
         $tpl->AddToRow($i%2, 'class');
-        $tpl->AddToRow(date($lng['listing_dateformat'], $row['date']), 'date');
+        $tpl->AddToRow(strftime($lng['listing_dateformat'], $row['date']), 'date');
         $tpl->AddToRow($row['Player'], 'player');
         for ($r=0;$r<10;$r++)
-            $tpl->AddToRow($row['ress'.$r], 'ress'.$r);
+            $tpl->AddToRow(DataEngine::format_number($row['ress'.$r]), 'ress'.$r);
         $tpl->PushRow();
         $i++;
     }

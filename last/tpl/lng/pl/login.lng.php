@@ -10,7 +10,6 @@
 
 $lng = array();
 // Script/login.php
-// Script/login.php
 $lng['wronglogin'] = 'Login lub Has³o nieprawid³owe';
 $lng['wronglogin_log'] = 'Logowanie nieprawid³owe do Data Engine.';
 $lng['session_lost'] = 'Nieprawidlowa sesja !';
@@ -31,3 +30,5 @@ $lng['allreadyhaveone'] = 'Konto ju¿ istnieje ?';
 // register.php
 $lng['signin_page_title'] = 'EU2: DataEngine, Inscription';
 $lng['user_exists']       = 'Joueur existe déjà...';
+
+$lng['currently_closed'] = '<u>/<small>!</small>\</u> Le serveur est temporairement fermé <u>/<small>!</small>\</u>';

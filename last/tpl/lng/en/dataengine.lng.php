@@ -8,6 +8,8 @@
  *
 */
 
+setlocale(LC_ALL, 'en_GB.utf8', 'en_GB','en_US.utf8', 'en_US', 'en');
+
 $lng = array();
 $lng['Titane'] = 'Titanium';
 $lng['Cuivre'] = 'Copper';

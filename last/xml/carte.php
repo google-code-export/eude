@@ -13,11 +13,13 @@ require_once(INCLUDE_PATH.'Script.php');
 require_once(CLASS_PATH.'map.class.php');
 
 if (!DataEngine::CheckPerms('CARTE_SEARCH')) {
+    $msg = language::getinstance()->GetLngBlock('dateengine');
+    $msg = $msg['nopermsanddie'];
     $out=<<<o
 <carte>
     <script>
     Carte.DetailsShow(false);
-    alert('Accès requis manquant');
+    alert('{$msg}');
     </script>
 </carte>
 o;

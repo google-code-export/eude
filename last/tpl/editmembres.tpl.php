@@ -13,13 +13,16 @@ $tpl->DoOutput();
 */
 class tpl_editmembres extends output {
     protected $BASE_FILE = '';
+    private $lng;
 
     private $cols_cls=array('#d6d6d6','#CCCCCC','#AAAAAA');
 
     public function __construct() {
-        $this->BASE_FILE = ROOT_URL."editmembres.php";
+        $this->BASE_FILE = ROOT_URL.'editmembres.php';
+        $this->lng = language::getinstance()->GetLngBlock('editmembres');
 
         parent::__construct();
+        $this->page_title = $this->lng['page_title'];
     }
 
     public function header($myget, $TriMembre, $triPermission,
@@ -27,26 +30,26 @@ class tpl_editmembres extends output {
         $out = <<<h
 <TABLE align="center">
 <TR>
-<TD class="color_bigheader text_center">Liste des membres</TD>
+<TD class="color_bigheader text_center">{$this->lng['table_header']}</TD>
 </TR><TR>
 <TD>
 <TABLE bgcolor="#d6d6d6" style="font-size:11;">
 <form name="ModifJoueur" method="post" action="editmembres.php{$myget}" onSubmit="return validateform(this);">
 <TR valign="top" bgcolor="{$this->cols_cls[2]}">
-<TD onclick="location.href='./editmembres.php?TriMembre={$TriMembre}';">Membre</TD>
-<TD onclick="location.href='./editmembres.php?TriGrade={$TriGrade}';">Grade</TD>
-<TD onclick="location.href='./editmembres.php?TriPermission={$TriPermission}';">Accès</TD>
-<TD onclick="location.href='./editmembres.php?TriPoints={$TriPoints}';">Points</TD>
-<TD>Eco/ Rec/ Comb/ Cons/ Navi</TD>
-<TD onclick="location.href='./editmembres.php?TriRace={$TriRace}';">Race</TD>
-<TD onclick="location.href='./editmembres.php?TriShip={$TriShip}';">Dernier Chassis dispo</TD>
-<TD onclick="location.href='./editmembres.php?TriModif={$TriModif}';">Dernière connexion</TD>
+<TD onclick="location.href='./editmembres.php?TriMembre={$TriMembre}';">{$this->lng['table_members']}</TD>
+<TD onclick="location.href='./editmembres.php?TriGrade={$TriGrade}';">{$this->lng['table_grades']}</TD>
+<TD onclick="location.href='./editmembres.php?TriPermission={$TriPermission}';">{$this->lng['table_axx']}</TD>
+<TD onclick="location.href='./editmembres.php?TriPoints={$TriPoints}';">{$this->lng['table_pts']}</TD>
+<TD>{$this->lng['table_researchs']}</TD>
+<TD onclick="location.href='./editmembres.php?TriRace={$TriRace}';">{$this->lng['table_races']}</TD>
+<TD onclick="location.href='./editmembres.php?TriShip={$TriShip}';">{$this->lng['table_last_ship']}</TD>
+<TD onclick="location.href='./editmembres.php?TriModif={$TriModif}';">{$this->lng['table_last_login']}</TD>
 h;
         $this->PushOutput($out);
         if(DataEngine::CheckPerms('MEMBRES_NEWPASS'))
-            $this->PushOutput('<td>nouveau mot de passe</td>');
+            $this->PushOutput("<td>{$this->lng['table_setnewpass']}</td>");
         if(DataEngine::CheckPerms('MEMBRES_DELETE'))
-            $this->PushOutput('<td>Effacement</td>');
+            $this->PushOutput("<td>{$this->lng['table_deleteone']}</td>");
     }
 
     public function row($i, $ligne, $Grades, $tabrace, $axx) {
@@ -83,7 +86,7 @@ r;
         if (array_key_exists($ligne['Permission'], $axx))
             $this->SelectOptions($axx, $ligne['Permission']);
         else
-            $this->PushOutput('<option value="'.$ligne['Permission'].'">[Valeur verrouillé]</option>');
+            $this->PushOutput('<option value="'.$ligne['Permission'].'">'.$this->lng['select_noeditaxx'].'</option>');
 
         foreach ($tabrace as $v) {
             $comborace.=	'<option value="'.$v.'"'.($ligne['Race']==$v ? ' selected' : '').'>'.$v.'</option>';
@@ -104,7 +107,7 @@ r2;
         if(DataEngine::CheckPerms('MEMBRES_NEWPASS'))
             $this->PushOutput('<TD><INPUT type="password" name="pass'.$i.'" value=""/></TD>');
         if(DataEngine::CheckPerms('MEMBRES_DELETE'))
-            $this->PushOutput('<TD><INPUT type="checkbox" name="Suppr'.$i.'" value="1">Effacer</TD>');
+            $this->PushOutput('<TD><INPUT type="checkbox" name="Suppr'.$i.'" value="1">'.$this->lng['ckb_delete'].'</TD>');
 
 
         $this->PushOutput('</tr>');
@@ -116,7 +119,7 @@ r2;
         if(DataEngine::CheckPerms('MEMBRES_DELETE')) $cols++;
         
         $out = <<<f
-            <TR align=right><TD Colspan=$cols><input type="submit" value="Modifier"></TD></TR>
+            <TR align=right><TD Colspan=$cols><input type="submit" value="{$this->lng['btn_submit']}"></TD></TR>
 </Form>
 </TABLE>
 </TD>

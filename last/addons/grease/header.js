@@ -8,20 +8,20 @@ var metadata = <><![CDATA[
 // @license      GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
 // @license      Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
 // @description  Script de liaison entre firefox et un serveur Data Engine
-// @include      http://*eu2.looki.*/index.php
-// @include      http://*eu2.looki.*/galaxy/galaxy_overview.php*
-// @include      http://*eu2.looki.*/galaxy/galaxy_info.php*
-// @include      http://*eu2.looki.*/planet/planet_info.php*
-// @include      http://*eu2.looki.*/fleet/fleet_info.php*
-// @include      http://*eu2.looki.*/fleet/fleet_edit.php*
-// @include      http://*eu2.looki.*/fleet/fleet_troop.php*
-// @include      http://*eu2.looki.*/fleet/commander_info.php?commander_id=*
-// @include      http://*eu2.looki.*/wormhole/wormhole_info.php*
-// @include      http://*eu2.looki.*/building/control/control_overview.php?area=planet
-// @include      http://*eu2.looki.*/user/settings_overview.php?area=options
-// @include      http://*eu2.looki.*/battle/battle_ground_report_info.php?area=ground_battle*
-// @include      http://*eu2.looki.*/gamelog/gamelog_view.php?gamelog_id*
-// @exclude      http://vs.eu2.looki.*/*
+// @include      http://*eu2.looki.tld/index.php
+// @include      http://*eu2.looki.tld/galaxy/galaxy_overview.php*
+// @include      http://*eu2.looki.tld/galaxy/galaxy_info.php*
+// @include      http://*eu2.looki.tld/planet/planet_info.php*
+// @include      http://*eu2.looki.tld/fleet/fleet_info.php*
+// @include      http://*eu2.looki.tld/fleet/fleet_edit.php*
+// @include      http://*eu2.looki.tld/fleet/fleet_troop.php*
+// @include      http://*eu2.looki.tld/fleet/commander_info.php?commander_id=*
+// @include      http://*eu2.looki.tld/wormhole/wormhole_info.php*
+// @include      http://*eu2.looki.tld/building/control/control_overview.php?area=planet
+// @include      http://*eu2.looki.tld/user/settings_overview.php?area=options
+// @include      http://*eu2.looki.tld/battle/battle_ground_report_info.php?area=ground_battle*
+// @include      http://*eu2.looki.tld/gamelog/gamelog_view.php?gamelog_id*
+// @exclude      http://vs.eu2.looki.tld/*
 // ==/UserScript==
 ]]></>.toString();
 

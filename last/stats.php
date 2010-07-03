@@ -14,8 +14,6 @@ DataEngine::CheckPermsOrDie('MEMBRES_STATS');
 require_once(TEMPLATE_PATH.'stats.tpl.php');
 
 $tpl = tpl_stats::getinstance();
-//$tpl->css_file=false;
-$tpl->page_title = "EU2: Statistiques";
 
 $invert_sort = array(''=>'DESC','DESC' => 'ASC', 'ASC' => 'DESC');
 if (isset($_GET['act']) && $_GET['act'] == 'pts') {

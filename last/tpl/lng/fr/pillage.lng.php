@@ -23,7 +23,7 @@ $lng['legend_player']            = 'Joueur';
 
 $lng['listing_header']           = 'Liste des pillages';
 $lng['listing_btnfilter']        = 'Filtrer';
-$lng['listing_dateformat']       = 'G:i D d/m';
+$lng['listing_dateformat']       = '%a %d %B à %R';
 $lng['listing_playerrow']        = '<a href="?player=%s">%1$s</a>: %2$s';
 $lng['listing_type']             = array();
 $lng['listing_type']['defender'] = 'Défenseur';

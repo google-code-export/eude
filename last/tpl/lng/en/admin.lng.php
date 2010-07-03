@@ -19,6 +19,7 @@ $lng['page_links5']         = 'Logs';
 
 //------------------------------------------------------------------------------
 $lng['page_title']          = 'EU2: Administration, Général';
+$lng['page_hlink']          = 'Un bug, une suggestion ?';
 $lng['dates']               = array();
 $lng['dates'][0]            = '[Aucun changement]';
 $lng['dates'][1]            = 'Aujourd\'hui (tout)';

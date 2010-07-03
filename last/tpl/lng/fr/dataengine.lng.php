@@ -7,6 +7,8 @@
  *
 */
 
+setlocale(LC_ALL, 'fr_FR.utf8', 'fr_FR', 'fr');
+
 $lng = array();
 $lng['Titane'] = 'Titane';
 $lng['Cuivre'] = 'Cuivre';

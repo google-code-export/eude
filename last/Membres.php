@@ -42,7 +42,6 @@ while ($ligne=mysql_fetch_assoc($mysql_result))
 
 require_once(TEMPLATE_PATH.'membre.tpl.php');
 $tpl = tpl_membre::getinstance();
-$tpl->page_title = 'EU2: Membres';
 
 $levels = array();
 foreach ($Grades as $id => $Grade) {

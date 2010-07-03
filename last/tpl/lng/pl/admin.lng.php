@@ -14,10 +14,12 @@ $lng = array();
 $lng['page_links1']         = 'Général';
 $lng['page_links2']         = 'Gestion des droits utilisateurs';
 $lng['page_links3']         = 'Couleurs de la carte';
-$lng['page_links4']         = 'Logs';
+$lng['page_links4']         = 'Configuration';
+$lng['page_links5']         = 'Logs';
 
 //------------------------------------------------------------------------------
 $lng['page_title']          = 'EU2: Administration, Général';
+$lng['page_hlink']          = 'Un bug, une suggestion ?';
 $lng['dates']               = array();
 $lng['dates'][0]            = '[Aucun changement]';
 $lng['dates'][1]            = 'Aujourd\'hui (tout)';
@@ -89,6 +91,12 @@ $lng['cleaning_asteroides']   = 'Suppression des Astéroïdes';
 $lng['cleaning_asteroides_result'] = '%d astéroïdes supprimé';
 $lng['cleaning_inactif']      = 'Suppression des éléments inactifs';
 $lng['cleaning_inactif_result'] = '%d éléments inactifs supprimé';
+
+$lng['cleaning_add_coords_unique_index'] = 'Rechercher des doublons dans la base de donnée (cartographie)';
+$lng['cleaning_orphan_planets'] = 'Rechercher des éléments orphelin dans la base de donnée (cartographie)';
+$lng['regen_buttons']     = 'Regénérer les boutons (en cas de modification ou Mise à jour)';
+$lng['regen_buttons_inwork'] = 'Régénération des bouton en cours...<br/>Pensez a vider votre cache après.';
+$lng['regen_buttons_btn'] = 'Regénérer';
 
 //------------------------------------------------------------------------------
 $lng['perms_title']         = 'EU2: Administration, permissions';
@@ -163,6 +171,30 @@ $lng['colorslegend'][2][10] = 'Résultat(s) de recherche';
 //$lng['colorslegend'][2][22] = 'N/A';
 //$lng['colorslegend'][2][24] = 'N/A';
 //$lng['colorslegend'][2][25] = 'N/A';
+
+//------------------------------------------------------------------------------
+
+$lng['config_title']           = 'EU2: Administration, Configuration';
+$lng['config_header']          = 'Configuration de eude:';
+$lng['config_forumlink']       = 'Lien forum:';
+$lng['config_canregister']     = 'Enregistrement de compte:';
+$lng['config_canregister_off'] = 'Désactivé';
+$lng['config_canregister_on']  = 'Autorisé';
+$lng['config_defaultgrade']    = 'Grade par défaut:';
+$lng['config_defaultgrade_tip']= bulle('Grade par défaut lors de la création d\'un nouveau compte.');
+$lng['config_myempire']    = 'Mon Empire:';
+$lng['config_myempire_tip']= bulle('Nom de votre empire (nom exact requis)');
+$lng['config_Parcours_Max_Time']    = 'Temps max de calcul d\'un parcours (sec.):';
+$lng['config_Parcours_Max_Time_tip']= bulle('Temps max avant avortement du calcul...');
+$lng['config_Parcours_Nearest']    = 'Nb de pc pour le calcul "Au plus proche":';
+$lng['config_Parcours_Nearest_tip']= bulle('Rayon en PC inclus dans le calcul');
+$lng['config_greasemonkey']    = 'Serveur de jeu autorisé pour GreaseMonkey:';
+$lng['config_greasemonkey_tip']= bulle('<b>Format</b>:<br/>[Préfixe].looki.[domaine]<br/><b>Exemples</b>:<br/>australis.fr<br/>polaris.fr<br/>eu2.com</br/>beta.de');
+$lng['config_closed']    = 'Fermer le site ?';
+$lng['config_closed_no']    = 'Ouvert';
+$lng['config_closed_yes']    = 'Fermé (Hors Super-administrateur)';
+
+$lng['config_apply']         = 'Enregistrer';
 
 //------------------------------------------------------------------------------
 $lng['logs_title']          = 'EU2: Administration, logs';

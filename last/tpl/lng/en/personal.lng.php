@@ -30,6 +30,7 @@ $lng['logout_btn']   = 'Logout';
 
 // Détection automatique:
 
+
 // info\['(\w+)'\].*\'(.+)'[\)]*  @@ lng['$1']\t= '$2'
 $lng['ident']           = 'Name';
 $lng['Race']            = 'Race';
