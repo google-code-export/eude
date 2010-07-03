@@ -35,9 +35,9 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
   }
   elseif(isset($_POST["ID"])) {
     $datas_id=$_POST["ID"];
-    $datas["Nom"]=stripslashes($_POST["Nom"]);
-    $datas["Abreviation"]=stripslashes($_POST["Abreviation"]);
-    $datas["Description"]=stripslashes($_POST["Description"]);
+    $datas["Nom"]=sqlesc(stripslashes($_POST["Nom"]));
+    $datas["Abreviation"]=sqlesc(stripslashes($_POST["Abreviation"]));
+    $datas["Description"]=sqlesc(stripslashes($_POST["Description"]));
     $datas["Categorie"]=$_POST["Categorie"];
     $datas["Taille"]=$_POST["Taille"];
     $datas["PAChasseur"]=$_POST["PAChasseur"];
