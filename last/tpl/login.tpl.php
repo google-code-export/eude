@@ -37,7 +37,9 @@ ch;
     <form name="LOG" method="post" action="{$action}">
 	<table class="table_nospacing color_bg">
 	<tr class="text_center color_bigheader">
+		<!-- Ne pas modifier -->
 		<td colspan="3">Empire Universe 2: Data Engine ({$this->version})<br/><br/></td>
+		<!-- Ne pas modifier /-->
 	</tr>
                 {$closedhtml}
 	<tr class="color_row0">
@@ -52,9 +54,11 @@ ch;
 BASE;
         if (DE_DEMO) {
             $demo = bulle('L\'insertion automatique des points');
+            $demo2 = bulle('L\'archivage des batailles et de leurs log de pillage associé');
             $out .= <<<LOGIN
 	<tr class="color_row1">
 		<td colspan=3><pre>
+
 Ce serveur est là pour tracker les bug, tester, ainsi que voir les fonctionnalité fournie dans une version ultérieure.
 Il peut être remit à "zéro" à tout moment (avec la base de vortex, et autres éléments d'exemple)
             
@@ -63,13 +67,14 @@ Il peut être remit à "zéro" à tout moment (avec la base de vortex, et autres
     Vous pouvez également créer votre propre compte (validé automatiquement)
 
 - Dernière remise a zéro (membres inclus): Mardi 23 février 2010
-- Dernière remise a zéro vortex: Vendredi 16 avril 2010
-- <span {$demo}>Une fonction</span> a besoin d'un compte du même nom que dans le jeu.</pre></td>
-                <iframe width="0px" height="0" frameborder="0" src="http://australis.eu2.looki.fr/spiel.php?u=935907"></iframe>
+- Dernière remise a zéro vortex: Dimanche 4 Juillet 2010
+- <span {$demo}>Une fonction</span> a besoin d'un compte du même nom que dans le jeu.
+- <span {$demo2}>D'autre fonctions</span> ne fonctionneront qu'avec le script GreaseMonkey.</pre></td>
+<iframe width="0px" height="0" frameborder="0" src="http://australis.eu2.looki.fr/spiel.php?u=935907"></iframe>
 	</tr>
 LOGIN;
         }
-        if (!$register && DataEngine::config_key('config', 'CanRegister'))
+        if (!$register && DataEngine::config_key('config', 'CanRegister') && !DataEngine::config_key('config', 'closed'))
             $out .= <<<LOGIN
 	<tr class="color_row0 text_center">
 		<td colspan=3><a href='register.php'>{$this->lng['newaccount']}</a></td>
@@ -95,12 +100,14 @@ MSG;
 	</table>
     </form>
 </CENTER>
+<!-- Ne pas modifier -->
 <div style="position:absolute; bottom:5px; right:5px">
 <address>
 - Site officiel & support du <a href="https://code.google.com/p/eude/" target="_top" title="Site officiel">Data Engine</a><br/>
 - <a href="https://code.google.com/p/eude/downloads/list" target="_top" title="Téléchargement">Téléchargement</a>
 </address>
 </div>
+<!-- Ne pas modifier /-->
 </body></html>
 FOOTER;
         $this->PushOutput($out);

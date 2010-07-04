@@ -70,6 +70,7 @@ class sample_addons implements addon_config {
 
     public function OnButtonRegen(&$listing, $defaultsetting) {
         // $defaultsetting = array(fontfile, fontsize, alphacolor, textcolor);
+        $defaultsetting[3] = '#FF9900';
         $listing['addons_sample'] = array($defaultsetting, 'EXEMPLE');
         return true;
     }
