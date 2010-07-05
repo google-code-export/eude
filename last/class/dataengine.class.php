@@ -448,7 +448,7 @@ ead;
      */
     static public function Get_Version() {
         if (DE_DEMO)
-            return 'r437 démo';
+            return 'r441 démo';
         elseif (IN_DEV)
             return 'svn-'.time();
         else
