@@ -140,8 +140,8 @@ $map->TabData = '';
 function map_additem($ss, $data) {
     global $map;
     if ($map->itineraire) {
-        if ($ss == $map->parcours['1']['0']) $map->parcours['2']['0'] = true;
-        if ($ss == $map->parcours['1'][count($map->parcours['1'])-1]) $map->parcours['2']['1'] = true;
+        if ($ss == $map->parcours[1][0]) $map->parcours[2][0] = true;
+        if ($ss == $map->parcours[1][count($map->parcours[1])-1]) $map->parcours[2][1] = true;
     }
 //  $map->TabData.='TabData['.$ss.'] =\''.$map->ss_info($ss,$data).'\';'."\n"; à voir
     $map->TabData.="TabData[\"$ss\"] =\"".$map->ss_info($ss,$data)."\";\n";
@@ -176,8 +176,8 @@ if ($map->vortex && count($vortex_a) >0)
     }
 
 if ($map->itineraire) { // forçage si le parcours est en zone "désertique"..
-    if (!$map->parcours['2']['0']) $map->add_ss($map->parcours['1']['0'],'map_additem'); // départ
-    if (!$map->parcours['2']['1']) $map->add_ss($map->parcours['1'][count($map->parcours['1'])-1],'map_additem'); // arrivée
+    if (!$map->parcours[2][0]) $map->add_ss($map->parcours[1][0],'map_additem'); // départ
+    if (!$map->parcours[2][1]) $map->add_ss($map->parcours[1][count($map->parcours[1])-1],'map_additem'); // arrivée
 }
 unset($vortex_a);
 /// PARTIE NON EXPORTÉ ///
@@ -198,29 +198,29 @@ if (is_array($array)) $tpl->SelectOptions($array,$map->loadfleet);
 $tpl->itineraire_form();
 
 if( $map->itineraire ) {
-    $tpl->Parcours_Start($map->parcours['1']['0']);
+    $tpl->Parcours_Start($map->parcours[1][0]);
 
-    $i = $dt = 0; $last = count($map->parcours['1'])-1;
-    foreach($map->parcours['1'] as $k => $v) {
+    $i = $dt = 0; $last = count($map->parcours[1])-1;
+    foreach($map->parcours[1] as $k => $v) {
         if ( ($k%2)==0) continue;
         if ( $k==$last) continue;
         $i++;
-        $ss1 = $map->Parcours()->get_coords_part($map->parcours['1'][$k-1]);
-        $ss2 = $map->Parcours()->get_coords_part($map->parcours['1'][$k]);
+        $ss1 = $map->Parcours()->get_coords_part($map->parcours[1][$k-1]);
+        $ss2 = $map->Parcours()->get_coords_part($map->parcours[1][$k]);
 
         $d = $map->Parcours()->Calcul_Distance($ss1,$ss2);
 
-        $tpl->Parcours_Row($i,$map->parcours['1'][$k],$map->parcours['1'][$k+1],$d);
+        $tpl->Parcours_Row($i,$map->parcours[1][$k],$map->parcours[1][$k+1],$d);
 
         $dt += $d;
     }//foreach
-    $ss1 = $map->Parcours()->get_coords_part($map->parcours['1'][$last-1]);
-    $ss2 = $map->Parcours()->get_coords_part($map->parcours['1'][$last]);
+    $ss1 = $map->Parcours()->get_coords_part($map->parcours[1][$last-1]);
+    $ss2 = $map->Parcours()->get_coords_part($map->parcours[1][$last]);
     $d = $map->Parcours()->Calcul_Distance($ss1,$ss2);
 
     $dt += $d; $db = $map->Parcours()->Calcul_Distance($map->IN,$map->OUT);
     $dd = $db-$dt;
-    $tpl->Parcours_End($d,$db,$dt,$dd,$map->parcours['1'][$last]);
+    $tpl->Parcours_End($d,$db,$dt,$dd,$map->parcours[1][$last]);
 
 } // $map->itineraire 
 
