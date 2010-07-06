@@ -12,7 +12,7 @@ class language {
 
     public function  __construct() {
         if (!defined('LNG_CODE')) define('LNG_CODE','fr');
-        define ('LNG_PATH', TEMPLATE_PATH.'lng'.DIRECTORY_SEPARATOR.LNG_CODE.DIRECTORY_SEPARATOR);
+        define ('LNG_PATH', TEMPLATE_PATH.'lng/'.LNG_CODE.'/');
         if (!file_exists(LNG_PATH))
             trigger_error(sprintf('Language pack "%s" not found', LNG_PATH), E_USER_ERROR);
         $this->lngs = array();
