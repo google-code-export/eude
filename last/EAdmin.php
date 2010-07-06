@@ -91,8 +91,10 @@ if(isset($_POST['inactif']) && $_POST['inactif'] != '-1') {
 if(isset($_POST['add_coords_unique_index']) && $_POST['add_coords_unique_index'] != '') {
 
     $sql = <<<sql
-SELECT COUNT(`POSIN`) as nb
+SELECT COUNT(`POSIN`) as nb, `POSIN`, `COORDET`
 FROM  `SQL_PREFIX_Coordonnee`
+GROUP BY CONCAT_WS('-', `POSIN`, `COORDET`)
+ORDER BY nb DESC
 sql;
 
     $result = DataEngine::sql($sql);

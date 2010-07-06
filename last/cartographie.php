@@ -137,7 +137,7 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     $fieldtable['Empire'] = '`EMPIRE` like \'%%%s%%\' ';
     $fieldtable['Infos']  = '`INFOS` like \'%%%s%%\' ';
     $fieldtable['Note']   = '`NOTE` like \'%%%s%%\' ';
-    $fieldtable['Troop']   = '`TROOP`<%d AND `TROOP`>0 ';
+    $fieldtable['Troop']   = '`TROOP`<%d AND `TROOP`>=0 ';
     foreach ($Recherche as $key => $value) {
         $value = sqlesc($value);
 
@@ -301,7 +301,7 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
 
     $tmp = sprintf($lng['search_userdate'], $ligne['UTILISATEUR'], date($lng['search_date_long_format'],$ligne['udate']));
     $tpl->AddToRow(bulle($tmp), 'userdate');
-    $tpl->AddToRow(date($lng['search_date_long_format'],$ligne['udate']), 'udate');
+    $tpl->AddToRow(date($lng['search_date_short_format'],$ligne['udate']), 'udate');
 //    $tpl->AddToRow($ligne['UTILISATEUR'], 'user');
 
 

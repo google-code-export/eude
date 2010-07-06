@@ -26,7 +26,7 @@ $sql = sqlesc($player);
 $sql = <<<sql
   SELECT  ta.`ID`, `type`, `players_attack`, `players_defender`, `players_pertes`, `when`, `coords_ss`, `coords_3p`, tp.`mid`, `Player`, `ress0`, `ress1`, `ress2`, `ress3`, `ress4`, `ress5`, `ress6`, `ress7`, `ress8`, `ress9`, `date` FROM `SQL_PREFIX_troops_attack` ta
   LEFT JOIN `SQL_PREFIX_troops_pillage` tp on (tp.`mid`=ta.`id`)
-   WHERE `players_attack` LIKE '%$sql%' OR `players_defender` LIKE '%$sql%'
+   WHERE `players_attack` LIKE '%"$sql"%' OR `players_defender` LIKE '%"$sql"%'
   ORDER BY `when` DESC LIMIT 0,30
 
 sql;
