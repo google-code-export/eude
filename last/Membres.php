@@ -21,22 +21,22 @@ if(DataEngine::checkPerms('MEMBRES_NEW')) {
     //Modification niveaux de grade
     IF(isset($_POST['GradeId'])) {
         if($_POST['GradeId']==-1)
-            DataEngine::sql("INSERT INTO SQL_PREFIX_Grade(Grade,Niveau,Rattachement) VALUES('".$_POST['GradeNom']."','".$_POST['GradeNiv']."','".$_POST['GradePere']."')");
+            DataEngine::sql('INSERT INTO `SQL_PREFIX_Grade`(`Grade`,`Niveau`,`Rattachement`) VALUES(\''.$_POST['GradeNom'].'\',\''.$_POST['GradeNiv'].'\',\''.$_POST['GradePere'].'\')');
         else
-            DataEngine::sql("UPDATE SQL_PREFIX_Grade SET Niveau=".$_POST['GradeNiv'].", Rattachement=".$_POST['GradePere'].", Grade='".$_POST['GradeNom']."' WHERE GradeId='".$_POST['GradeId']."'");
+            DataEngine::sql('UPDATE `SQL_PREFIX_Grade` SET `Niveau`=\''.$_POST['GradeNiv'].'\', `Rattachement`=\''.$_POST['GradePere'].'\', `Grade`=\''.$_POST['GradeNom'].'\' WHERE `GradeId`=\''.$_POST['GradeId'].'\'');
     }
 
     if(isset($_POST['GradeSuppr'])) {
         if($_POST['GradeSuppr']=='1') {
-            DataEngine::sql("UPDATE SQL_PREFIX_Grade SET Rattachement=0 WHERE Rattachement='".$_POST['GradeId']."'");
-            DataEngine::sql("UPDATE SQL_PREFIX_Membres SET Grade=9 WHERE Grade='".$_POST['GradeId']."'");
-            DataEngine::sql("DELETE FROM SQL_PREFIX_Grade Where GradeId='".$_POST['GradeId']."'");
+            DataEngine::sql('UPDATE `SQL_PREFIX_Grade` SET `Rattachement`=0 WHERE Rattachement=\''.$_POST['GradeId'].'\'');
+            DataEngine::sql('UPDATE `SQL_PREFIX_Membres` SET `Grade`=9 WHERE `Grade`=\''.$_POST['GradeId'].'\'');
+            DataEngine::sql('DELETE FROM `SQL_PREFIX_Grade` Where `GradeId`=\''.$_POST['GradeId'].'\'');
         }
     }
 } // Edit Perms
 
 $Grades = array();
-$mysql_result = DataEngine::sql('SELECT * from SQL_PREFIX_Grade ORDER BY Rattachement,Niveau');
+$mysql_result = DataEngine::sql('SELECT `GradeId`, `Grade` , `Niveau`, `Rattachement` from `SQL_PREFIX_Grade` ORDER BY `Rattachement`, `Niveau`');
 while ($ligne=mysql_fetch_assoc($mysql_result))
     $Grades[] = $ligne;
 
@@ -61,7 +61,7 @@ do {
 } while ($lid<count($levels));
 
 $players = array();
-$mysql_result = DataEngine::sql('SELECT * from SQL_PREFIX_Membres ORDER BY Grade,Joueur ASC');
+$mysql_result = DataEngine::sql('SELECT `Joueur`, `Grade`, `Points`, `Economie`, `Commerce`, `Recherche`, `Combat`, `Construction`, `Navigation` from `SQL_PREFIX_Membres` ORDER BY `Grade`, `Joueur` ASC');
 while ($ligne=mysql_fetch_assoc($mysql_result))
     $players[$ligne['Grade']][] = $ligne;
 

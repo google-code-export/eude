@@ -19,7 +19,7 @@ if (isset($_POST['login']) && $_POST['login'] !='' && $_POST['mdp'] != '') {
     $login = sqlesc($_POST['login'],false);
     $pass  = md5($_POST['mdp']);
 
-    $query = "SELECT LOWER(Login) as Login from SQL_PREFIX_Users WHERE LOWER(Login)=LOWER('$login')";
+    $query = 'SELECT LOWER(`Login`) as `Login` from `SQL_PREFIX_Users` WHERE LOWER(`Login`)=LOWER(\''.$login.'\')';
     $mysql_result = DataEngine::sql($query);
     $ligne=mysql_fetch_array($mysql_result);
 
@@ -29,13 +29,13 @@ if (isset($_POST['login']) && $_POST['login'] !='' && $_POST['mdp'] != '') {
         if (DE_DEMO)
             $axx = AXX_MEMBER;
         else
-            $axx = AXX_GUEST;
+            $axx = AXX_VALIDATING;
         DataEngine::NewUser($login, $pass, $axx, 0, DataEngine::config_key('config', 'DefaultGrade'));
         $_SESSION['_login'] = $login;
         $_SESSION['_pass']  = $pass;
         $_SESSION['_Perm']  = $axx;
         $_SESSION['_IP']    = Get_IP();
-        $query = "INSERT INTO SQL_PREFIX_Log (DATE,LOGIN,IP) VALUES(NOW(),'New:$login','{$_SESSION['_IP']}')";
+        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),\''.$login.'\',\''.$_SESSION['_IP'].'\')';
         DataEngine::sql($query);
         output::boink('./');
     }

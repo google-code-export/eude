@@ -44,12 +44,12 @@ if(isset($_POST['importation'])) {
         foreach ($info as $k => $v) $info[$k] = sqlesc($v);
 
         $query = <<<q
-            UPDATE SQL_PREFIX_Membres SET POINTS='%d',
-        Economie='%d', Commerce='%d', Recherche='%d', Combat='%d',
-        Construction='%s', Navigation='%d', Race='%s',
-        Titre='%s', GameGrade='%s', pts_architecte='%d', pts_mineur='%d',
-        pts_science='%d', pts_commercant='%d', pts_amiral='%d',
-        pts_guerrier='%d', Date=now() WHERE Joueur='%s'
+            UPDATE `SQL_PREFIX_Membres` SET `POINTS`='%d',
+        `Economie`='%d', `Commerce`='%d', `Recherche`='%d', `Combat`='%d',
+        `Construction`='%s', `Navigation`='%d', `Race`='%s',
+        `Titre`='%s', `GameGrade`='%s', `pts_architecte`='%d', `pts_mineur`='%d',
+        `pts_science`='%d', `pts_commercant`='%d', `pts_amiral`='%d',
+        `pts_guerrier`='%d' WHERE `Joueur`='%s'
 q;
         DataEngine::sql(sprintf($query, $info['POINTS'],
             $info['Economie'], $info['Commerce'], $info['Recherche'], $info['Combat'],
@@ -62,7 +62,7 @@ q;
     }
 
 }
-if(isset($_POST["JOUEUR"])) {
+if(isset($_POST['JOUEUR'])) {
 
     foreach ($_POST as $k => $v) $_POST[$k] = gpc_esc($v);
 
@@ -84,12 +84,12 @@ if(isset($_POST["JOUEUR"])) {
     foreach ($_POST as $k => $v) $_POST[$k] = sqlesc($v);
 
     $query = <<<q
-        UPDATE SQL_PREFIX_Membres SET POINTS='%d', ship='%s',
-        Economie='%d', Commerce='%d', Recherche='%d', Combat='%d',
-        Construction='%s', Navigation='%d',
-        pts_architecte='%d', pts_mineur='%d',
-        pts_science='%d', pts_commercant='%d', pts_amiral='%d',
-        pts_guerrier='%d', Date=now() WHERE Joueur='%s'
+        UPDATE `SQL_PREFIX_Membres` SET `POINTS`='%d', `ship`='%s',
+        `Economie`='%d', `Commerce`='%d', `Recherche`='%d', `Combat`='%d',
+        `Construction`='%s', `Navigation`='%d',
+        `pts_architecte`='%d', `pts_mineur`='%d',
+        `pts_science`='%d', `pts_commercant`='%d', `pts_amiral`='%d',
+        `pts_guerrier`='%d' WHERE `Joueur`='%s'
 q;
     DataEngine::sql(sprintf($query, $_POST['Points'], $_POST['ship'],
         $_POST['Economie'], $_POST['Commerce'], $_POST['Recherche'], $_POST['Combat'],
@@ -103,11 +103,11 @@ q;
 }
 
 if (isset($_POST['pwd']) && !($_SESSION['_login'] == 'test' && DE_DEMO)) {
-    $query = "UPDATE SQL_PREFIX_Users SET Password='".md5(sqlesc($_POST['pwd'],false))."' WHERE Login='".$_SESSION['_login']."'";
+    $query = 'UPDATE `SQL_PREFIX_Users` SET `Password`=md5(sqlesc(\''.$_POST['pwd'].'\',false)) WHERE `Login`=\''.$_SESSION['_login'].'\'';
     DataEngine::sql($query);
 }
 
-$mysql_result = DataEngine::sql("Select m.*,g.Grade from SQL_PREFIX_Membres as m, SQL_PREFIX_Grade as g WHERE Joueur='".$_SESSION['_login']."' AND (m.Grade=g.GradeId)");
+$mysql_result = DataEngine::sql('Select m.`Joueur`, `Points`, `Economie`, `Commerce`, `Recherche`, `Combat`, `Construction`, `Navigation`, `Race`, `ship`, `Titre`, `GameGrade`, `pts_architecte`, `pts_mineur`, `pts_science`, `pts_commercant`, `pts_amiral`, `pts_guerrier`, g.`Grade` from `SQL_PREFIX_Membres` as m, `SQL_PREFIX_Grade` as g WHERE `Joueur`=\''.$_SESSION['_login'].'\' AND (m.`Grade`=g.`GradeId`)');
 $ligne = mysql_fetch_assoc($mysql_result);
 
 require_once(TEMPLATE_PATH.'mafiche.tpl.php');

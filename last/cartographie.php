@@ -137,7 +137,7 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     $fieldtable['Empire'] = '`EMPIRE` like \'%%%s%%\' ';
     $fieldtable['Infos']  = '`INFOS` like \'%%%s%%\' ';
     $fieldtable['Note']   = '`NOTE` like \'%%%s%%\' ';
-    $fieldtable['Troop']   = '`TROOP`<%d AND `TROOP`>=0 ';
+    $fieldtable['Troop']   = '`TROOP`<%d AND `TROOP`>0 ';
     foreach ($Recherche as $key => $value) {
         $value = sqlesc($value);
 
@@ -146,12 +146,12 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
                 if ($key=='Pos' && $Recherche['Rayon']!='') {
                     $Recherche['Rayon'] = min($Recherche['Rayon'],10);
                     $ListeCoor = implode(',',$map->Parcours()->GetListeCoorByRay($Recherche['Pos'],$Recherche['Rayon']));
-                    $where.= 'AND (POSIN IN ('.$ListeCoor.') OR POSOUT IN ('.$ListeCoor.'))';
+                    $where.= 'AND (`POSIN` IN ('.$ListeCoor.') OR `POSOUT` IN ('.$ListeCoor.'))';
                 } else if ($key=='Pos')
                     $where.= 'AND (POSIN=\''.$value.'\' OR POSOUT=\''.$value.'\') ';
                 break;
             case 'Moi':
-                $where.= ' AND UTILISATEUR=\''.mb_strtolower($_SESSION['_login'], 'utf8').'\' ';
+                $where.= ' AND `UTILISATEUR`=\''.mb_strtolower($_SESSION['_login'], 'utf8').'\' ';
                 break;
             case 'Status':
             case 'Type':
@@ -217,7 +217,7 @@ $PageCurr = (isset($_GET['page'])) ? max(intval($_GET['page']),1): 1;
 $Maxline = 20;
 $limit = ' LIMIT '.(($PageCurr-1)*$Maxline).','.$Maxline;
 
-$query = 'SELECT count(*) as Nb from SQL_PREFIX_Coordonnee a left outer join SQL_PREFIX_Coordonnee_Planetes b on (a.ID=b.pID) '.$where;
+$query = 'SELECT count(`ID`) as Nb from `SQL_PREFIX_Coordonnee` '.$where;
 $mysql_result = DataEngine::sql($query);
 
 $ligne=mysql_fetch_assoc($mysql_result);
@@ -234,9 +234,9 @@ $invert_sort = array(''=>'ASC','DESC' => 'ASC', 'ASC' => 'DESC');
 $sort_key = array('type', 'user', 'empire', 'infos', 'note', 'date', 'water', 'batiments', 'troop');
 
 if ($Recherche['Troop']>0)
-    $sort='ORDER BY Troop_date DESC';
+    $sort='ORDER BY `Troop_date` DESC';
 else
-    $sort='ORDER BY DATE DESC';
+    $sort='ORDER BY `DATE` DESC';
 
 foreach($sort_key as $v) {
     if (isset($_GET['sort']) && in_array($_GET['sort'][$v],$invert_sort))
@@ -250,7 +250,9 @@ foreach($sort_key as $v) {
 
 $tpl->PushRow();
 
-$sql='SELECT UNIX_TIMESTAMP(a.DATE) as udate,a.*,b.* from SQL_PREFIX_Coordonnee a left outer join SQL_PREFIX_Coordonnee_Planetes b on (a.ID=b.pID) '.$where.$sort.$limit;
+$sql='SELECT UNIX_TIMESTAMP(a.`DATE`) as udate,a.`ID`, `TYPE`, `POSIN`, `POSOUT`, `COORDET`, `COORDETOUT`, `USER`, `EMPIRE`, `INFOS`, `DATE`, `NOTE`, `water`,
+	`batiments`, `troop`, `troop_date`, `INACTIF`, `UTILISATEUR`, b.`pID`, `Titane`, `Cuivre`, `Fer`, `Aluminium`, `Mercure`, `Silicium`, `Uranium`, `Krypton`, 
+	`Azote`, `Hydrogene` from `SQL_PREFIX_Coordonnee` a left outer join `SQL_PREFIX_Coordonnee_Planetes` b on (a.`ID`=b.`pID`) '.$where.$sort.$limit;
 $mysql_result = DataEngine::sql($sql);
 
 $lngmain = language::getinstance()->GetLngBlock('dataengine');
@@ -299,7 +301,7 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
 
     $tmp = sprintf($lng['search_userdate'], $ligne['UTILISATEUR'], date($lng['search_date_long_format'],$ligne['udate']));
     $tpl->AddToRow(bulle($tmp), 'userdate');
-    $tpl->AddToRow(date($lng['search_date_short_format'],$ligne['udate']), 'udate');
+    $tpl->AddToRow(date($lng['search_date_long_format'],$ligne['udate']), 'udate');
 //    $tpl->AddToRow($ligne['UTILISATEUR'], 'user');
 
 

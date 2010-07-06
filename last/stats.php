@@ -21,7 +21,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'pts') {
     $tpl->SetheaderPoints();
     $sort_key = array('Points', 'pts_architecte', 'pts_mineur', 'pts_commercant',
         'pts_science', 'pts_amiral', 'pts_guerrier');    
-    $sort='Points DESC';
+    $sort='`Points` DESC';
     foreach($sort_key as $v) {
         $newvalue = array('sort' => array($v=>$invert_sort[$_GET['sort'][$v]]));
         $tpl->AddToRow(Get_string($newvalue), $v);
@@ -29,7 +29,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'pts') {
     }
 
     $tpl->PushRow(true);
-    $sql='SELECT * FROM SQL_PREFIX_Membres ORDER BY '.$sort;
+    $sql='SELECT `Joueur`, `Points`, `pts_architecte`, `pts_mineur`, `pts_commercant`, `pts_science`, `pts_amiral`, `pts_guerrier` FROM `SQL_PREFIX_Membres` ORDER BY '.$sort;
     $mysql_result = DataEngine::sql($sql);
 
     $cols = array('Points', 'pts_architecte', 'pts_mineur', 'pts_commercant',
@@ -45,14 +45,14 @@ if (isset($_GET['act']) && $_GET['act'] == 'pts') {
 
 } else {
 
-    $sql='SELECT Joueur FROM SQL_PREFIX_Membres ORDER BY Joueur ASC';
+    $sql='SELECT `Joueur` FROM `SQL_PREFIX_Membres` ORDER BY `Joueur` ASC';
     $mysql_result = DataEngine::sql($sql);
 
     $tpl->SetRowtpl();
     $tpl->Setheader();
     while($line=mysql_fetch_assoc($mysql_result)) {
         $tpl->AddToRow($line['Joueur'], -2);
-        $sql='SELECT Type,count(*) AS Nb FROM SQL_PREFIX_Coordonnee WHERE Utilisateur=\''.$line['Joueur'].'\' AND inactif=0 GROUP BY Type';
+        $sql='SELECT `Type`,count(`Type`) AS Nb FROM `SQL_PREFIX_Coordonnee` WHERE `Utilisateur`=\''.$line['Joueur'].'\' AND `inactif`=0 GROUP BY `Type`';
         $mysql_result2 = DataEngine::sql($sql);
         $ut=0;
         while($line2=mysql_fetch_assoc($mysql_result2)) {

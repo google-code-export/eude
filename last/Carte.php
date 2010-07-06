@@ -91,28 +91,28 @@ if (isset($boink)) {
 }
 
 /// DATABASE MODIFICATION ///
-if (isset($_GET["savefleet"])) { // enregistrement
-    $mysql_result = DataEngine::sql("SELECT * from SQL_PREFIX_itineraire where `Flotte`='".sqlesc($_GET["savefleet"])."' AND Joueur='".$_SESSION["_login"]."'");
+if (isset($_GET['savefleet'])) { // enregistrement
+    $mysql_result = DataEngine::sql('SELECT `ID` from `SQL_PREFIX_itineraire` where `Flotte`=\''.sqlesc($_GET['savefleet']).'\' AND `Joueur`=\''.$_SESSION['_login'].'\'');
     if (mysql_num_rows($mysql_result) > 0) // MAJ du parcours
     {
         $ligne=mysql_fetch_array($mysql_result, MYSQL_ASSOC);
-        $mysql_result = DataEngine::sql("UPDATE `SQL_PREFIX_itineraire` SET `Flotte`='".sqlesc($_GET["savefleet"])."',`Start`=".intval($_GET["in"]).",`End`=".intval($_GET["out"])." where `ID`={$ligne["ID"]} LIMIT 1");
-        output::boink("Carte.php?loadfleet=".$ligne["ID"]);
+        $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_itineraire` SET `Flotte`=\''.sqlesc($_GET['savefleet']).'\',`Start`=\''.intval($_GET['in']).'\',`End`=\''.intval($_GET['out']).'\' where `ID`=\''.$ligne['ID'].'\' LIMIT 1');
+        output::boink('Carte.php?loadfleet='.$ligne['ID']);
     } else { // Nouveau parcours
-        $sql = "INSERT INTO `SQL_PREFIX_itineraire` (`Joueur`,`Flotte`,`Start`,`End`) VALUES ('".$_SESSION["_login"]."','".sqlesc($_GET["savefleet"])."',".intval($_GET["in"]).",".intval($_GET["out"]).")";
+        $sql = 'INSERT INTO `SQL_PREFIX_itineraire` (`Joueur`,`Flotte`,`Start`,`End`) VALUES (\''.$_SESSION['_login'].'\',\''.sqlesc($_GET['savefleet']).'\',\''.intval($_GET['in']).'\',\''.intval($_GET['out']).'\')';
         $mysql_result = DataEngine::sql($sql);
-        output::boink("Carte.php?loadfleet=".mysql_insert_id());
+        output::boink('Carte.php?loadfleet='.mysql_insert_id());
     }
 }
 if (isset($_GET["delfleet"])) { // suppression
-    $mysql_result = DataEngine::sql("SELECT * from SQL_PREFIX_itineraire where ID='".intval($_GET["delfleet"])."' AND Joueur='".$_SESSION["_login"]."'");
+    $mysql_result = DataEngine::sql('SELECT `ID` from `SQL_PREFIX_itineraire` where `ID`=\''.intval($_GET['delfleet']).'\' AND `Joueur`=\''.$_SESSION['_login'].'\'');
     if (mysql_num_rows($mysql_result) > 0)
-        DataEngine::sql("DELETE FROM `SQL_PREFIX_itineraire` WHERE `ID` = ".intval($_GET["delfleet"])." LIMIT 1");
+        DataEngine::sql('DELETE FROM `SQL_PREFIX_itineraire` WHERE `ID`=\''.intval($_GET['delfleet']).'\' LIMIT 1');
     output::boink("Carte.php");
 }
 
-$_SESSION['inactif'] = $map->inactif = (isset($_POST["inactif"])) ? true: false;
-$_SESSION['emp']  = $_SESSION['jou']  = "";
+$_SESSION['inactif'] = $map->inactif = (isset($_POST['inactif'])) ? true: false;
+$_SESSION['emp']  = $_SESSION['jou']  = '';
 
 /// CHARGEMENT PARCOURS ///
 
@@ -126,7 +126,7 @@ if ( $map->itineraire ) {
 include_once(TEMPLATE_PATH.'carte.tpl.php');
 $tpl = tpl_carte::getinstance();
 
-$tpl->page_title = ($title != "") ? "Carte: $title": "EU2: Carte";
+$tpl->page_title = ($title != '') ? 'Carte: '.$title.'': 'EU2: Carte';
 $tpl->navigation(); // menu carte
 $tpl->maparea();	// la carte
 
@@ -135,14 +135,15 @@ $map->update_session();
 /// PARTIE NON EXPORTÉ ///
 
 $mysql_result = $map->init_map();
-$map->TabData = "";
+$map->TabData = '';
 
 function map_additem($ss, $data) {
     global $map;
     if ($map->itineraire) {
-        if ($ss == $map->parcours[1][0]) $map->parcours[2][0] = true;
-        if ($ss == $map->parcours[1][count($map->parcours[1])-1]) $map->parcours[2][1] = true;
+        if ($ss == $map->parcours['1']['0']) $map->parcours['2']['0'] = true;
+        if ($ss == $map->parcours['1'][count($map->parcours['1'])-1]) $map->parcours['2']['1'] = true;
     }
+//  $map->TabData.='TabData['.$ss.'] =\''.$map->ss_info($ss,$data).'\';'."\n"; à voir
     $map->TabData.="TabData[\"$ss\"] =\"".$map->ss_info($ss,$data)."\";\n";
 }
 
@@ -175,8 +176,8 @@ if ($map->vortex && count($vortex_a) >0)
     }
 
 if ($map->itineraire) { // forçage si le parcours est en zone "désertique"..
-    if (!$map->parcours[2][0]) $map->add_ss($map->parcours[1][0],'map_additem'); // départ
-    if (!$map->parcours[2][1]) $map->add_ss($map->parcours[1][count($map->parcours[1])-1],'map_additem'); // arrivée
+    if (!$map->parcours['2']['0']) $map->add_ss($map->parcours['1']['0'],'map_additem'); // départ
+    if (!$map->parcours['2']['1']) $map->add_ss($map->parcours['1'][count($map->parcours['1'])-1],'map_additem'); // arrivée
 }
 unset($vortex_a);
 /// PARTIE NON EXPORTÉ ///
@@ -188,8 +189,8 @@ unset($vortex_a);
 $tpl->itineraire_header();
 
 
-$mysql_result = DataEngine::sql("SELECT ID,Flotte from SQL_PREFIX_itineraire where Joueur='".$_SESSION["_login"]."' ORDER BY Flotte ASC");
-while ($ligne=mysql_fetch_assoc($mysql_result)) $array[$ligne["ID"]] = $ligne["Flotte"];
+$mysql_result = DataEngine::sql('SELECT `ID`,`Flotte` from `SQL_PREFIX_itineraire` where `Joueur`=\''.$_SESSION['_login'].'\' ORDER BY `Flotte` ASC');
+while ($ligne=mysql_fetch_assoc($mysql_result)) $array[$ligne['ID']] = $ligne['Flotte'];
 
 if (is_array($array)) $tpl->SelectOptions($array,$map->loadfleet);
 
@@ -197,29 +198,29 @@ if (is_array($array)) $tpl->SelectOptions($array,$map->loadfleet);
 $tpl->itineraire_form();
 
 if( $map->itineraire ) {
-    $tpl->Parcours_Start($map->parcours[1][0]);
+    $tpl->Parcours_Start($map->parcours['1']['0']);
 
-    $i = $dt = 0; $last = count($map->parcours[1])-1;
-    foreach($map->parcours[1] as $k => $v) {
+    $i = $dt = 0; $last = count($map->parcours['1'])-1;
+    foreach($map->parcours['1'] as $k => $v) {
         if ( ($k%2)==0) continue;
         if ( $k==$last) continue;
         $i++;
-        $ss1 = $map->Parcours()->get_coords_part($map->parcours[1][$k-1]);
-        $ss2 = $map->Parcours()->get_coords_part($map->parcours[1][$k]);
+        $ss1 = $map->Parcours()->get_coords_part($map->parcours['1'][$k-1]);
+        $ss2 = $map->Parcours()->get_coords_part($map->parcours['1'][$k]);
 
         $d = $map->Parcours()->Calcul_Distance($ss1,$ss2);
 
-        $tpl->Parcours_Row($i,$map->parcours[1][$k],$map->parcours[1][$k+1],$d);
+        $tpl->Parcours_Row($i,$map->parcours['1'][$k],$map->parcours['1'][$k+1],$d);
 
         $dt += $d;
     }//foreach
-    $ss1 = $map->Parcours()->get_coords_part($map->parcours[1][$last-1]);
-    $ss2 = $map->Parcours()->get_coords_part($map->parcours[1][$last]);
+    $ss1 = $map->Parcours()->get_coords_part($map->parcours['1'][$last-1]);
+    $ss2 = $map->Parcours()->get_coords_part($map->parcours['1'][$last]);
     $d = $map->Parcours()->Calcul_Distance($ss1,$ss2);
 
     $dt += $d; $db = $map->Parcours()->Calcul_Distance($map->IN,$map->OUT);
     $dd = $db-$dt;
-    $tpl->Parcours_End($d,$db,$dt,$dd,$map->parcours[1][$last]);
+    $tpl->Parcours_End($d,$db,$dt,$dd,$map->parcours['1'][$last]);
 
 } // $map->itineraire 
 

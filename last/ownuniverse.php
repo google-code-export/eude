@@ -48,7 +48,7 @@ if (isset($_POST['importation'])) {
             list($info, $warn) = $ownuniverse->add_ownuniverse($cleandata);
 
         // Partie affichage planète
-    } elseif ( $data != "" and strpos($data,$lng['planet_ident']) !== false ) {
+    } elseif ( $data != '' and strpos($data,$lng['planet_ident']) !== false ) {
         $cleandata = $ownuniverse->get_universe(false);
         if ($cleandata && is_array($cleandata[0])) {
             $result = $ownuniverse->parse_planet($data);
@@ -107,13 +107,13 @@ if ($cleandata && is_array($cleandata[0])) {
     for($i=0;$i<$nb_planet;$i++) {
         $pt = 0;
         for ($j=0;$j<10;$j++) {
-            $v = $cleandata[$i]["current_{$keys[$j]}"]+$cleandata[$i]["bunker_{$keys[$j]}"];
-            $cleandata[$i]["total_{$keys[$j]}"] = $v;
-            $total_all["{$keys[$j]}"] +=$v;
+            $v = $cleandata[$i]['current_'.$keys[$j]]+$cleandata[$i]['bunker_'.$keys[$j]];
+            $cleandata[$i]['total_'.$keys[$j]] = $v;
+            $total_all[$keys[$j]] +=$v;
             $pt+=$v;
         }
-        $cleandata[$i]["total_total"] = $pt;
-        $total_all["total"] +=$pt;
+        $cleandata[$i]['total_total'] = $pt;
+        $total_all['total'] +=$pt;
     }
 
 //------------------------------------------------------------------------------

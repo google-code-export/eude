@@ -23,9 +23,9 @@ $lng = language::getinstance()->GetLngBlock('admin');
 // -----------------------------------------------------------------------------
 // -- Nettoyage vortex périmé --------------------------------------------------
 if(isset($_POST['cleanvortex'])) {
-    $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE INACTIF=1 AND TYPE=1 AND `DATE`<'{$_POST['cleanvortex_inactif']}'");
+    $mysql_result = DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `INACTIF`=1 AND `TYPE`=1 AND `DATE`<\''.$_POST['cleanvortex_inactif'].'\'');
     $cleanvortex_delete = mysql_affected_rows();
-    $sql="UPDATE SQL_PREFIX_Coordonnee SET INACTIF=1 WHERE TYPE=1 AND `DATE`< '{$_POST['cleanvortex']}'";
+    $sql='UPDATE `SQL_PREFIX_Coordonnee` SET `INACTIF`=1 WHERE `TYPE`=1 AND `DATE`<\''.$_POST['cleanvortex'].'\'';
     $mysql_result = DataEngine::sql($sql);
     $cleanvortex_inactif = mysql_affected_rows();
 
@@ -47,41 +47,41 @@ if(isset($_GET['switch']) && $_GET['switch'] =='vortex_cron') {
 
 $cleaning=false;
 if(isset($_POST['joueurs']) && $_POST['joueurs'] != '-1') {
-    $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE TYPE IN (0,3,5) AND `DATE`<'{$_POST['joueurs']}'");
+    $mysql_result = DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE` IN (0,3,5) AND `DATE`<\''.$_POST['joueurs'].'\'');
     $cleaning['cleaning_joueurs_result'] = mysql_affected_rows();
 }
 if(isset($_POST['pnj']) && $_POST['pnj'] != '-1') {
-    $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE TYPE=6 AND `DATE`<'{$_POST['pnj']}'");
+    $mysql_result = DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=6 AND `DATE`<\''.$_POST['pnj'].'\'');
     $cleaning['cleaning_pnj_result'] = mysql_affected_rows();
 }
 if(isset($_POST['wormshole']) && $_POST['wormshole'] != '-1') {
-    $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE TYPE=1 AND `DATE`<'{$_POST['wormshole']}'");
+    $mysql_result = DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=1 AND `DATE`<\''.$_POST['wormshole'].'\'');
     $cleaning['cleaning_wormshole_result'] = mysql_affected_rows();
 }
 if(isset($_POST['planetes']) && $_POST['planetes'] != '-1') {
     $tmp = array();
-    $mysql_result = DataEngine::sql("SELECT ID FROM SQL_PREFIX_Coordonnee WHERE TYPE=2 AND `DATE`<'{$_POST['planetes']}'");
+    $mysql_result = DataEngine::sql('SELECT `ID` FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=2 AND `DATE`<\''.$_POST['planetes'].'\'');
     $cleaning['cleaning_planetes_result'] = mysql_num_rows($mysql_result);
     if ($cleaning['cleaning_planetes_result'] > 0) {
         while ($row = mysql_fetch_assoc($mysql_result)) $tmp[] = $row['ID'];
         $tmp = implode(',',$tmp);
-        DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE ID in ($tmp)");
-        DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee_Planetes WHERE pID in ($tmp)");
+        DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID` in ('.$tmp.')');
+        DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` in ('.$tmp.')');
     }
 }
 if(isset($_POST['asteroides']) && $_POST['asteroides'] != '-1') {
     $tmp = array();
-    $mysql_result = DataEngine::sql("SELECT ID FROM SQL_PREFIX_Coordonnee WHERE TYPE=4 AND `DATE`<'{$_POST['asteroides']}'");
+    $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=4 AND `DATE`<\''.$_POST['asteroides'].'\'');
     $cleaning['cleaning_asteroides_result'] = mysql_num_rows($mysql_result);
     if ($cleaning['cleaning_asteroides_result'] > 0) {
         while ($row = mysql_fetch_assoc($mysql_result)) $tmp[] = $row['ID'];
         $tmp = implode(',',$tmp);
-        DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE ID in ($tmp)");
-        DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee_Planetes WHERE pID in ($tmp)");
+        DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID` in ('.$tmp.')');
+        DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` in ('.$tmp.')');
     }
 }
 if(isset($_POST['inactif']) && $_POST['inactif'] != '-1') {
-    $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Coordonnee WHERE inactif=1");
+    $mysql_result = DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `inactif`=1');
     $cleaning['cleaning_inactif_result'] = mysql_affected_rows();
 }
 // -- Partie Nettoyage ---------------------------------------------------------
@@ -91,10 +91,8 @@ if(isset($_POST['inactif']) && $_POST['inactif'] != '-1') {
 if(isset($_POST['add_coords_unique_index']) && $_POST['add_coords_unique_index'] != '') {
 
     $sql = <<<sql
-SELECT COUNT(*) as nb, `POSIN` ,  `COORDET`
-FROM  `SQL_PREFIX_Coordonnee` 
-GROUP BY CONCAT_WS('-', `POSIN`, `COORDET`)
-ORDER BY nb DESC
+SELECT COUNT(`POSIN`) as nb
+FROM  `SQL_PREFIX_Coordonnee`
 sql;
 
     $result = DataEngine::sql($sql);
@@ -103,7 +101,7 @@ sql;
         if ($line['nb']<2) break;
         $i = 0;
         $sql = <<<sql
-SELECT ID, `POSIN`, `COORDET`, `DATE`
+SELECT `ID`, `POSIN`, `COORDET`, `DATE`
 FROM  `SQL_PREFIX_Coordonnee`
 WHERE `POSIN`='{$line['POSIN']}' AND `COORDET`='{$line['COORDET']}'
 ORDER BY CONCAT_WS('-', `POSIN`, `COORDET`), DATE DESC
@@ -127,7 +125,7 @@ sql;
     }
 
     // Ajout de l'index 'unique' s'il n'y est pas déjà...
-    $result = DataEngine::sql('SHOW INDEXES FROM SQL_PREFIX_Coordonnee WHERE key_name=\'coords\'');
+    $result = DataEngine::sql('SHOW INDEXES FROM `SQL_PREFIX_Coordonnee` WHERE `key_name`=\'coords\'');
     $cleaning['index_add']= mysql_num_rows($result)<1;
     if ($cleaning['index_add'])
         $result = DataEngine::sql('ALTER TABLE `SQL_PREFIX_Coordonnee` ADD UNIQUE `coords` (`POSIN`, `COORDET`)');
@@ -141,9 +139,9 @@ sql;
 if(isset($_POST['clean_orphan_planets']) && $_POST['clean_orphan_planets'] != '') {
 
     $sql = <<<sql
-SELECT p.pID FROM  `SQL_PREFIX_Coordonnee_Planetes` p
-LEFT JOIN  `SQL_PREFIX_Coordonnee` c ON ( p.pID = c.id )
-WHERE c.id IS NULL OR c.Type NOT in (0,2,3,5)
+SELECT p.`pID` FROM  `SQL_PREFIX_Coordonnee_Planetes` p
+LEFT JOIN  `SQL_PREFIX_Coordonnee` c ON ( p.`pID` = c.`id` )
+WHERE c.`id` IS NULL OR c.`Type` NOT in (0,2,3,5)
 sql;
 
     $delid = array();
@@ -167,8 +165,8 @@ $emp_upd = false;
 if(isset($_POST['emp_upd']) && $_POST['emp_upd'] != '') {
     $old_emp = sqlesc($_POST['emp_orig'], false);
     $new_emp = sqlesc($_POST['emp_new'], false);
-    if ($old_emp!=$new_emp && $old_emp != "") {
-        $mysql_result = DataEngine::sql("UPDATE SQL_PREFIX_Coordonnee SET EMPIRE='{$new_emp}' WHERE TYPE in (0,3,5) AND `EMPIRE` LIKE '{$old_emp}'");
+    if ($old_emp!=$new_emp && $old_emp != '') {
+        $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `EMPIRE`=\''.$new_emp.'\' WHERE `TYPE` in (0,3,5) AND `EMPIRE` LIKE \''.$old_emp.'\'');
         $emp_upd = mysql_affected_rows();
     }
 }
@@ -178,14 +176,14 @@ function array_fullsqlesc(&$item1, $key) {
     $item1 = '\''.mysql_escape_string($item1).'\'';
 }
 if(isset($_POST['emp_allywars']) && $_POST['emp_allywars'] != '') {
-    $mysql_result = DataEngine::sql('UPDATE SQL_PREFIX_Coordonnee SET TYPE=0 WHERE TYPE in (3,5)');
+    $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=0 WHERE `TYPE` in (3,5)');
 
     $tmp = DataEngine::config('EmpireAllys');
     if (is_array($tmp) && $tmp != '') {
         array_walk($tmp, 'array_fullsqlesc');
         $tmp = implode(',', $tmp);
         if ($tmp!='') {
-            $mysql_result = DataEngine::sql('UPDATE SQL_PREFIX_Coordonnee SET TYPE=3 WHERE TYPE in (0,5) AND `EMPIRE` in ('.$tmp.')');
+            $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=3 WHERE `TYPE` in (0,5) AND `EMPIRE` in ('.$tmp.')');
             $allysnb = mysql_affected_rows();
         } else $allysnb = 0;
     }
@@ -195,17 +193,17 @@ if(isset($_POST['emp_allywars']) && $_POST['emp_allywars'] != '') {
         array_walk($tmp, 'array_fullsqlesc');
         $tmp = implode(',', $tmp);
         if ($tmp!='') {
-            $mysql_result = DataEngine::sql('UPDATE SQL_PREFIX_Coordonnee SET TYPE=5 WHERE TYPE in (0,3) AND `EMPIRE` in ('.$tmp.')');
+            $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=5 WHERE `TYPE` in (0,3) AND `EMPIRE` in ('.$tmp.')');
             $warsnb = mysql_affected_rows();
         } else $warsnb = 0;
     }
 }
 if(isset($_POST['emp_war_add']) && $_POST['emp_war_add'] != '') {
     $emp = sqlesc($_POST['emp'],false);
-    if ($emp != "") {
+    if ($emp != '') {
         $wars = DataEngine::config('EmpireEnnemy');
         if (!in_array(gpc_esc($_POST['emp']), $wars)) {
-            $mysql_result = DataEngine::sql("UPDATE SQL_PREFIX_Coordonnee SET TYPE=5 WHERE TYPE in (0,3,5) AND `EMPIRE` LIKE '{$emp}'");
+            $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=5 WHERE `TYPE` in (0,3,5) AND `EMPIRE` LIKE \''.$emp.'\'');
             $wars[] = gpc_esc($_POST['emp']);
             DataEngine::conf_update('EmpireEnnemy', $wars);
         }
@@ -215,17 +213,17 @@ if(isset($_GET['emp_war_rm']) && $_GET['emp_war_rm'] != '') {
     $wars = DataEngine::config('EmpireEnnemy');
     $emp = sqlesc($wars[$_GET['emp_war_rm']], false);
     if ($emp != "") {
-        $mysql_result = DataEngine::sql("UPDATE SQL_PREFIX_Coordonnee SET TYPE=0 WHERE TYPE in (0,3,5) AND `EMPIRE` LIKE '{$emp}'");
+        $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=0 WHERE `TYPE` in (0,3,5) AND `EMPIRE` LIKE \''.$emp.'\'');
         unset ($wars[$_GET['emp_war_rm']]);
         DataEngine::conf_update('EmpireEnnemy', $wars);
     }
 }
 if(isset($_POST['emp_allys_add']) && $_POST['emp_allys_add'] != '') {
     $emp = sqlesc($_POST['emp'],false);
-    if ($emp != "") {
+    if ($emp != '') {
         $allys = DataEngine::config('EmpireAllys');
         if (!in_array(gpc_esc($_POST['emp']), $allys)) {
-            $mysql_result = DataEngine::sql("UPDATE SQL_PREFIX_Coordonnee SET TYPE=3 WHERE TYPE in (0,3,5) AND `EMPIRE` LIKE '{$emp}'");
+            $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=3 WHERE `TYPE` in (0,3,5) AND `EMPIRE` LIKE \''.$emp.'\'');
             $allys[] = gpc_esc($_POST['emp']);
             DataEngine::conf_update('EmpireAllys', $allys);
         }
@@ -234,8 +232,8 @@ if(isset($_POST['emp_allys_add']) && $_POST['emp_allys_add'] != '') {
 if(isset($_GET['emp_allys_rm']) && $_GET['emp_allys_rm'] != '') {
     $allys = DataEngine::config('EmpireAllys');
     $emp = sqlesc($allys[$_GET['emp_allys_rm']], false);
-    if ($emp != "") {
-        $mysql_result = DataEngine::sql("UPDATE SQL_PREFIX_Coordonnee SET TYPE=0 WHERE TYPE in (0,3,5) AND `EMPIRE` LIKE '{$emp}'");
+    if ($emp != '') {
+        $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=0 WHERE `TYPE` in (0,3,5) AND `EMPIRE` LIKE \''.$emp.'\'');
         unset ($allys[$_GET['emp_allys_rm']]);
         DataEngine::conf_update('EmpireAllys', $allys);
     }
@@ -298,7 +296,7 @@ if (!isset($_REQUEST['act'])) {
 //---
 
     $empire = array();
-    $mysql_result = DataEngine::sql('SELECT EMPIRE from SQL_PREFIX_Coordonnee GROUP BY EMPIRE ASC');
+    $mysql_result = DataEngine::sql('SELECT `EMPIRE` from `SQL_PREFIX_Coordonnee` GROUP BY `EMPIRE` ASC');
     while ($ligne=mysql_fetch_array($mysql_result)) {
         if (trim($ligne['EMPIRE'])=='') continue;
         $cur_emp = htmlentities(stripslashes($ligne['EMPIRE']), ENT_QUOTES, 'utf-8');
@@ -374,7 +372,7 @@ if ($_REQUEST['act'] == 'mapcolor' && Members::CheckPerms('MEMBRES_ADMIN_MAP_COL
 if ($_REQUEST['act'] == 'logs' && Members::CheckPerms('MEMBRES_ADMIN_LOG')) {
     $tpl->page_title = $lng['logs_title'];
     $tpl->log_header();
-    $mysql_result = DataEngine::sql('SELECT * from SQL_PREFIX_Log ORDER BY ID DESC LIMIT 40');
+    $mysql_result = DataEngine::sql('SELECT `DATE`, `LOGIN`, `IP` from `SQL_PREFIX_Log` ORDER BY `ID` DESC LIMIT 40');
     while ($ligne=mysql_fetch_array($mysql_result))
         $tpl->log_row($ligne);
     $tpl->log_footer();
@@ -412,7 +410,7 @@ if ($_REQUEST['act'] == 'perms' && Members::CheckPerms(AXX_ROOTADMIN)) {
 
 if ($_REQUEST['act'] == 'config' && Members::CheckPerms(AXX_ROOTADMIN)) {
 
-    $mysql_result = DataEngine::sql('SELECT * from SQL_PREFIX_Grade ORDER BY Rattachement,Niveau');
+    $mysql_result = DataEngine::sql('SELECT `Grade` ,`Niveau`, `Rattachement` from `SQL_PREFIX_Grade` ORDER BY `Rattachement`, `Niveau`');
     while ($ligne=mysql_fetch_assoc($mysql_result))
         $Grades[] = $ligne;
 
