@@ -79,5 +79,5 @@ $css = str_replace('%INCLUDE_URL%', INCLUDE_URL, $css);
 $css = str_replace('%IMAGES_URL%', IMAGES_URL, $css);
 $css = str_replace('%TEMPLATE_URL%', TEMPLATE_URL, $css);
 $css = str_replace('%ADDONS_URL%', ADDONS_URL, $css);
-$css = str_replace('%LNG_URL%', TEMPLATE_URL . 'lng' . DIRECTORY_SEPARATOR . LNG_CODE . DIRECTORY_SEPARATOR, $css);
+$css = str_replace('%LNG_URL%', TEMPLATE_URL . 'lng/' . LNG_CODE . '/', $css);
 echo $css;
