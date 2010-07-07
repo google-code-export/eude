@@ -254,10 +254,10 @@ class ownuniverse {
             $qdataa[$k]		= sqlesc(serialize($data[$k]));
         }
 
-        $query = "SELECT data0 FROM SQL_PREFIX_ownuniverse where UTILISATEUR='$qnom'";
+        $query = 'SELECT `data0` FROM `SQL_PREFIX_ownuniverse` where `UTILISATEUR`=\''.$qnom.'\'';
         $array = DataEngine::sql($query);
         if (mysql_num_rows($array) > 0) {
-            $query = "UPDATE SQL_PREFIX_ownuniverse SET `planet0`='%s',`coord0`='%s',`data0`='%s', `planet1`='%s',`coord1`='%s',`data1`='%s', `planet2`='%s',`coord2`='%s',`data2`='%s', `planet3`='%s',`coord3`='%s',`data3`='%s', `planet4`='%s',`coord4`='%s',`data4`='%s' where UTILISATEUR='%s'";
+            $query = "UPDATE `SQL_PREFIX_ownuniverse` SET `planet0`='%s',`coord0`='%s',`data0`='%s', `planet1`='%s',`coord1`='%s',`data1`='%s', `planet2`='%s',`coord2`='%s',`data2`='%s', `planet3`='%s',`coord3`='%s',`data3`='%s', `planet4`='%s',`coord4`='%s',`data4`='%s' where `UTILISATEUR`='%s'";
             // Remettre les planètes a zéro ?  // , ress0='',ress1='',ress2='',ress3='',ress4=''
             $query = sprintf($query, $qp[0],$qc[0],$qdataa[0], $qp[1],$qc[1],$qdataa[1], $qp[2],$qc[2],$qdataa[2], $qp[3],$qc[3],$qdataa[3], $qp[4],$qc[4],$qdataa[4], $qnom);
             $array = DataEngine::sql($query);
@@ -266,7 +266,7 @@ class ownuniverse {
             else
                 $warn.=$this->lng['universe_nochange'];
         } else {
-            $query    = "INSERT INTO SQL_PREFIX_ownuniverse (UTILISATEUR, `planet0`,`coord0`,`data0`, `planet1`,`coord1`,`data1`, `planet2`,`coord2`,`data2`, `planet3`,`coord3`,`data3`, `planet4`,`coord4`,`data4`) VALUES ('%s', '%s','%s','%s', '%s','%s','%s', '%s','%s','%s', '%s','%s','%s', '%s','%s','%s')";
+            $query    = "INSERT INTO `SQL_PREFIX_ownuniverse` (`UTILISATEUR`, `planet0`,`coord0`,`data0`, `planet1`,`coord1`,`data1`, `planet2`,`coord2`,`data2`, `planet3`,`coord3`,`data3`, `planet4`,`coord4`,`data4`) VALUES ('%s', '%s','%s','%s', '%s','%s','%s', '%s','%s','%s', '%s','%s','%s', '%s','%s','%s')";
             $query = sprintf($query,$qnom, $qp[0],$qc[0],$qdataa[0], $qp[1],$qc[1],$qdataa[1], $qp[2],$qc[2],$qdataa[2], $qp[3],$qc[3],$qdataa[3], $qp[4],$qc[4],$qdataa[4]);
             DataEngine::sql($query);
             $info .= $this->lng['universe_added'];
@@ -280,11 +280,11 @@ class ownuniverse {
         $info=$warn='';
         $qnom  = sqlesc($_SESSION['_login']);
 
-        $query = "SELECT planet{$id} as name FROM SQL_PREFIX_ownuniverse where UTILISATEUR='$qnom'";
+        $query = 'SELECT `planet'.$id.'` as name FROM `SQL_PREFIX_ownuniverse` where `UTILISATEUR`=\''.$qnom.'\'';
         $sql_r = DataEngine::sql($query);
         if (mysql_num_rows($sql_r) > 0) {
             $name = mysql_fetch_assoc($sql_r);
-            $query = "UPDATE SQL_PREFIX_ownuniverse SET `ress{$id}`='%s' where UTILISATEUR='%s'";
+            $query = "UPDATE `SQL_PREFIX_ownuniverse` SET `ress{$id}`='%s' where `UTILISATEUR`='%s'";
             $query = sprintf($query, sqlesc(serialize($data)), $qnom);
             $array = DataEngine::sql($query);
             if (mysql_affected_rows() > 0)
@@ -303,7 +303,8 @@ class ownuniverse {
         } else $player = $_SESSION['_login'];
         if (!$this->universe_data) {
             $qnom  = sqlesc($player);
-            $query = "SELECT planet0, coord0, data0, ress0, planet1, coord1, data1, ress1, planet2, coord2, data2, ress2, planet3, coord3, data3, ress3, planet4, coord4, data4, ress4 FROM SQL_PREFIX_ownuniverse where UTILISATEUR='$qnom'";
+            $query = 'SELECT `planet0`, `coord0`, `data0`, `ress0`, `planet1`, `coord1`, `data1`, `ress1`, `planet2`, `coord2`, `data2`, `ress2`,
+			`planet3`, `coord3`, `data3`, `ress3`, `planet4`, `coord4`, `data4`, `ress4` FROM `SQL_PREFIX_ownuniverse` where `UTILISATEUR`=\''.$qnom.'\'';
             $sql_r = DataEngine::sql($query);
             $ligne = mysql_fetch_assoc($sql_r);
             $max = 0;
@@ -380,7 +381,7 @@ class ownuniverse {
     public function get_race() {
         if ($this->race != '') return $this->race;
 
-        $result = DataEngine::sql('SELECT Race FROM SQL_PREFIX_Membres WHERE Joueur=\''.$_SESSION['_login'].'\'');
+        $result = DataEngine::sql('SELECT `Race` FROM `SQL_PREFIX_Membres` WHERE `Joueur`=\''.$_SESSION['_login'].'\'');
         $line = mysql_fetch_assoc($result);
         $this->race = $line['Race'];
         return $this->race;

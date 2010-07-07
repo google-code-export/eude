@@ -17,8 +17,8 @@ class parcours {
 
         $this->map = map::getinstance();
         //Chargement d'un liste de tous les vortex actif ou non...
-        $sql = 'SELECT ID,POSIN,POSOUT,COORDET,COORDETOUT from SQL_PREFIX_Coordonnee where Type=1';
-        if (!$this->map->inactif) $sql .= ' and Inactif=0';
+        $sql = 'SELECT `ID`, `POSIN`, `POSOUT`, `COORDET`, `COORDETOUT` from `SQL_PREFIX_Coordonnee` where `Type`=1';
+        if (!$this->map->inactif) $sql .= ' and `INACTIF`=0';
 
         // @since 1.4.1
         if ($this->map->method == 10) {
@@ -28,7 +28,7 @@ class parcours {
                     $this->GetListeCoorByRay($OUT, $max_dist)
             );
             $limit = implode (',',$limit);
-            $sql .= " AND (POSIN in ($limit) OR POSOUT in ($limit) )";
+            $sql .= ' AND (`POSIN` in ('.$limit.') OR `POSOUT` in ('.$limit.') )';
         }
 
         $mysql_result = DataEngine::sql($sql);
@@ -247,9 +247,9 @@ class map /*extends parcours*/ {
 
         // mise en variable, plus rapide que 36 call function
         if ( ($this->empire = trim(DataEngine::config_key('config', 'MyEmpire'))) == '') {
-            $mysql_result = DataEngine::sql("Select g.Grade from
-		SQL_PREFIX_Membres as m, SQL_PREFIX_Grade as g WHERE
-		Joueur='".sqlesc($_SESSION['_login'])."' AND (m.Grade=g.GradeId)");
+            $mysql_result = DataEngine::sql('Select g.`Grade` from
+		`SQL_PREFIX_Membres` as m, `SQL_PREFIX_Grade` as g WHERE
+		`Joueur`=\''.sqlesc($_SESSION['_login']).'\' AND (m.`Grade`=g.`GradeId`)');
             $ligne = mysql_fetch_assoc($mysql_result);
             $grade = $ligne['Grade'];
             $this->empire = $ligne['Grade'];
@@ -292,7 +292,7 @@ class map /*extends parcours*/ {
                 )
         );
         if ($_SESSION['carte_prefs'] != $tmp || $_SESSION['carte_prefs'] == '')
-            DataEngine::sql_spool('UPDATE SQL_PREFIX_Membres SET carte_prefs=\''.$tmp.'\' WHERE Joueur=\''.$_SESSION['_login'].'\'');
+            DataEngine::sql_spool('UPDATE `SQL_PREFIX_Membres` SET `carte_prefs`=\''.$tmp.'\' WHERE `Joueur`=\''.$_SESSION['_login'].'\'');
     }
 
     private function perms_prefs() {
@@ -319,7 +319,7 @@ class map /*extends parcours*/ {
     public function Parcours_loadfleet() {
 
         if ($this->loadfleet==0) return false;
-        $mysql_result = DataEngine::sql("SELECT Start,End,Flotte from SQL_PREFIX_itineraire where ID='".$this->loadfleet."' AND Joueur='".$_SESSION["_login"]."'");
+        $mysql_result = DataEngine::sql('SELECT `Start`, `End`, `Flotte` from `SQL_PREFIX_itineraire` where `ID`=\''.$this->loadfleet.'\' AND `Joueur`=\''.$_SESSION['_login'].'\'');
         if (mysql_num_rows($mysql_result) > 0) {
             $ligne			= mysql_fetch_array($mysql_result, MYSQL_ASSOC);
             $this->IN		= $ligne['Start'];
@@ -342,8 +342,8 @@ class map /*extends parcours*/ {
 
         /// RÉCUPÉRATION DES VORTEX (POSOUT) ///
         if ($this->vortex) {
-            $where = ( ($this->inactif) ? '':' AND INACTIF=0 ' );
-            $sql = 'SELECT ID,POSIN,POSOUT from SQL_PREFIX_Coordonnee where Type=1'.$where;
+            $where = ( ($this->inactif) ? '':' AND `INACTIF`=0 ' );
+            $sql = 'SELECT `ID`, `POSIN`, `POSOUT` from `SQL_PREFIX_Coordonnee` where `Type`=1'.$where;
             $mysql_result = DataEngine::sql($sql);
             while($line=mysql_fetch_assoc($mysql_result)) {
                 $vortex_a[$line['POSOUT']][$line['ID']]['POSIN'] = $line['POSOUT'];
@@ -357,9 +357,9 @@ class map /*extends parcours*/ {
 
         /// filtre spécial...
         $if = array();
-        if (!$this->ennemis && !$this->allys)   $if[] = 'IF(a.TYPE in (3,5), 0, a.TYPE) as TYPE,';
-        if (!$this->ennemis && $this->allys)    $if[] = 'IF(a.TYPE=5, 0, a.TYPE) as TYPE,';
-        if ($this->ennemis && !$this->allys)    $if[] = 'IF(a.TYPE=3, 0, a.TYPE) as TYPE,';
+        if (!$this->ennemis && !$this->allys)   $if[] = 'IF(a.`TYPE` in (3,5), 0, a.`TYPE`) as TYPE,';
+        if (!$this->ennemis && $this->allys)    $if[] = 'IF(a.`TYPE`=5, 0, a.`TYPE`) as TYPE,';
+        if ($this->ennemis && !$this->allys)    $if[] = 'IF(a.`TYPE`=3, 0, a.`TYPE`) as TYPE,';
 
         /// filtre in type:
         $in = array();
@@ -376,7 +376,7 @@ class map /*extends parcours*/ {
             $in = '';
         /// filtre au cas par cas:
         $cas = array();
-        if (!$this->joueur)		$cas[] = '(Type=0 AND b.Joueur=\''.$_SESSION['_login'].'\')';
+        if (!$this->joueur)		$cas[] = '(`Type`=0 AND b.`Joueur`=\''.$_SESSION['_login'].'\')';
 
         // compilation des filtres
         $if = ' '.trim(implode(' ', $if));
@@ -389,10 +389,10 @@ class map /*extends parcours*/ {
             if ($in != '')
                 $where = $in.' ) ';
         }
-        $where = 'WHERE '.$custom. ( ($this->inactif) ? '1=1 ':'INACTIF=0 ' ) . $where;
+        $where = 'WHERE '.$custom. ( ($this->inactif) ? '1=1 ':'`INACTIF`=0 ' ) . $where;
 
-        $where = $where." ORDER BY POSIN ASC";
-        $sql='SELECT a.ID, TYPE, USER, POSIN, POSOUT, EMPIRE, INACTIF,'.$if.' IFNULL(b.Joueur,"") as Joueur,IFNULL(c.Grade,"") as Grade FROM SQL_PREFIX_Coordonnee a left outer join SQL_PREFIX_Membres b on (a.USER=b.Joueur) left outer join SQL_PREFIX_Grade c on (b.Grade=c.GradeId) '.$where;
+        $where = $where.' ORDER BY `POSIN` ASC';
+        $sql='SELECT a.`ID`, `TYPE`, `POSIN`, `POSOUT`, `USER`, `EMPIRE`,'.$if.' IFNULL(b.`Joueur`,"") as Joueur,IFNULL(c.`Grade`,"") as Grade FROM `SQL_PREFIX_Coordonnee` a left outer join `SQL_PREFIX_Membres` b on (a.`USER`=b.`Joueur`) left outer join `SQL_PREFIX_Grade` c on (b.`Grade`=c.`GradeId`) '.$where;
         $mysql_result = DataEngine::sql($sql);
 
         return $mysql_result;

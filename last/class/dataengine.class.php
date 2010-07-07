@@ -182,7 +182,7 @@ class DataEngine extends Members {
         if (!self::$conf_loaded) {
             self::$conf_loaded=true;
             $keys = '\''.implode('\',\'',self::$conf_load).'\'';
-            $mysql_result = self::sql('SELECT * FROM SQL_PREFIX_Config WHERE `key` IN ('.$keys.')');
+            $mysql_result = self::sql('SELECT `key`, `value` FROM SQL_PREFIX_Config WHERE `key` IN ('.$keys.')');
             while ($ligne=mysql_fetch_assoc($mysql_result)) {
                 if (trim($ligne['key'])=='') continue;
                 self::$settings[$ligne['key']] = unserialize(stripslashes($ligne['value']));
@@ -197,9 +197,9 @@ class DataEngine extends Members {
                         $runat = mktime(3, 01, 0, date("m"), date("d"), date("Y"));
                         $now   = time();
                         if ($now > $runat && $runat > $wormhole_cleaning['lastrun']) {
-                            self::sql('DELETE FROM SQL_PREFIX_Coordonnee WHERE `TYPE` = 1 AND `INACTIF` = 1');
-                            self::sql('UPDATE SQL_PREFIX_Coordonnee SET `INACTIF` = 1 WHERE `TYPE` = 1');
-                            self::sql('INSERT INTO SQL_PREFIX_Log (DATE,LOGIN,IP) VALUES(NOW(),\'vortex_reset_by:'.$_SESSION['_login'].'\' ,\''.Get_IP().'\')');
+                            self::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE` = 1 AND `INACTIF` = 1');
+                            self::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `INACTIF` = 1 WHERE `TYPE` = 1');
+                            self::sql('INSERT `INTO SQL_PREFIX_Log` (DATE,LOGIN,IP) VALUES(NOW(),\'vortex_reset_by:'.$_SESSION['_login'].'\' ,\''.Get_IP().'\')');
                             $wormhole_cleaning['lastrun'] = $now;
                             self::conf_update('wormhole_cleaning', $wormhole_cleaning);
                             self::sql_do_spool(); // Mettre à jour maintenant, pas que deux membres le fasse a 1/2sec d'intervalle.
@@ -276,11 +276,11 @@ class DataEngine extends Members {
      */
     static public function conf_add($key, $value) {
         self::$settings[$key] = $value;
-        self::sql_spool('INSERT INTO SQL_PREFIX_Config (`key`,`value`) VALUES (\''.$key.'\',\''.sqlesc(serialize($value)).'\')');
+        self::sql_spool('INSERT INTO `SQL_PREFIX_Config` (`key`,`value`) VALUES (\''.$key.'\',\''.sqlesc(serialize($value)).'\')');
     }
     static public function conf_del($key) {
         unset(self::$settings[$key]);
-        self::sql_spool('DELETE FROM SQL_PREFIX_Config WHERE `key`=\''.$key.'\' LIMIT 1');
+        self::sql_spool('DELETE FROM `SQL_PREFIX_Config` WHERE `key`=\''.$key.'\' LIMIT 1');
     }
 
     static public function debug() {
@@ -289,7 +289,7 @@ class DataEngine extends Members {
     }
 
     static public function parse_backtrace($row=-1) {
-        $output="";
+        $output='';
         if ($row==-1)
             $raw=debug_backtrace();
         else
@@ -585,9 +585,9 @@ PERM;
      * @param string $user Nom d'utilisateur
      */
     static public function DeleteUser($user) {
-        DataEngine::sql('DELETE FROM SQL_PREFIX_Membres WHERE Joueur=\''.$user.'\'');
-        DataEngine::sql('DELETE FROM SQL_PREFIX_Users WHERE Login=\''.$user.'\'');
-        DataEngine::sql('DELETE FROM SQL_PREFIX_ownuniverse WHERE Utilisateur=\''.$user.'\'');
+        DataEngine::sql('DELETE FROM `SQL_PREFIX_Membres` WHERE `Joueur`=\''.$user.'\'');
+        DataEngine::sql('DELETE FROM `SQL_PREFIX_Users` WHERE `Login`=\''.$user.'\'');
+        DataEngine::sql('DELETE FROM `SQL_PREFIX_ownuniverse` WHERE `Utilisateur`=\''.$user.'\'');
         addons::getinstance()->DeleteUser($user);
     }
     /**
@@ -598,9 +598,9 @@ PERM;
      * @param integer $points nombre de points
      * @param integer $grade id du grade dans l'empire
      */
-    static public function NewUser($user, $md5pass, $axx=AXX_GUEST, $points=0, $grade=3) {
-        DataEngine::sql('INSERT INTO SQL_PREFIX_Users VALUES(\''.$user.'\',\''.$md5pass.'\','.$axx.')');
-        DataEngine::sql('INSERT INTO SQL_PREFIX_Membres(Joueur,Points,Date,Grade) '
+    static public function NewUser($user, $md5pass, $axx=AXX_VALIDATING, $points=0, $grade=3) {
+        DataEngine::sql('INSERT INTO `SQL_PREFIX_Users` VALUES(\''.$user.'\',\''.$md5pass.'\','.$axx.')');
+        DataEngine::sql('INSERT INTO `SQL_PREFIX_Membres` (`Joueur`,`Points`,`Date`,`Grade`) '
                 .'VALUES(\''.$user.'\',\''.$points.'\',now(),'.$grade.')');
         addons::getinstance()->NewUser($user);
     }
