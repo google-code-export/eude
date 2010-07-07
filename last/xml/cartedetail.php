@@ -26,7 +26,7 @@ o;
 if (!isset($_GET["ID"]) or $_GET["ID"] == "") {
     output::_DoOutput("<CarteDetails><content><![CDATA[Aucune donn&eacute;e a charger, retour :<a href='javascript:void();' onclick='Carte.DetailsShow(false)'>Carte</a>]]></content></CarteDetails>");
 }
-$sql = "SELECT * from SQL_PREFIX_Coordonnee WHERE INACTIF=0 AND (POSIN='".intval($_GET["ID"])."' OR POSOUT='".intval($_GET["ID"])."') ORDER BY USER";
+$sql = 'SELECT `TYPE`, `POSIN`, `POSOUT`, `COORDET`, `COORDETOUT`, `USER`, `EMPIRE`, `INFOS` from `SQL_PREFIX_Coordonnee` WHERE `INACTIF`=0 AND (`POSIN`='.intval($_GET['ID']).' OR `POSOUT`='.intval($_GET['ID']).') ORDER BY `USER`';
 $mysql_result = DataEngine::sql($sql);
 
 require_once(TEMPLATE_PATH.'cartedetails.tpl.php');

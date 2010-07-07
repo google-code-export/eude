@@ -22,7 +22,7 @@ if (NO_SESSIONS) {
     $login = sqlesc(mb_strtolower($_POST['user'], 'utf8'), false);
     $mdp = $_POST['pass'];
 
-    $query = 'SELECT LOWER(Login) as Login, Permission, m.carte_prefs from SQL_PREFIX_Users, SQL_PREFIX_Membres m WHERE LOWER(Login)=LOWER(\''.$login.'\') AND Password=\''.$mdp.'\' AND (m.Joueur=LOWER(\''.$login.'\'))';
+    $query = 'SELECT LOWER(`Login`) as `Login`, `Permission`, m.`carte_prefs` from `SQL_PREFIX_Users`, `SQL_PREFIX_Membres` m WHERE LOWER(`Login`)=LOWER(\''.$login.'\') AND `Password`=\''.$mdp.'\' AND (m.`Joueur`=LOWER(\''.$login.'\'))';
 
     $mysql_result = DataEngine::sql($query);
     $ligne=mysql_fetch_assoc($mysql_result);
@@ -39,7 +39,7 @@ if (NO_SESSIONS) {
 //        DataEngine::sql($query);
         return true;
     } else { // login/pass pas bon...
-        $query = 'INSERT INTO SQL_PREFIX_Log (DATE,LOGIN,IP) VALUES(NOW(),"err.eude:'.$login.'",\''.Get_IP().'\')';
+        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"err.eude:'.$login.'",\''.Get_IP().'\')';
         DataEngine::sql($query);
         header('HTTP/1.1 403 Forbidden');
         $out = <<<o
@@ -61,7 +61,7 @@ if($_POST && !empty($_POST['login']) && !empty($_POST['mdp'])) {
     $login = sqlesc(mb_strtolower($_POST['login'], 'utf8'), false);
     $mdp = md5($_POST['mdp']);
 
-    $query = 'SELECT LOWER(Login) as Login, Permission, m.carte_prefs from SQL_PREFIX_Users, SQL_PREFIX_Membres m WHERE LOWER(Login)=LOWER(\''.$login.'\') AND Password=\''.$mdp.'\' AND (m.Joueur=LOWER(\''.$login.'\'))';
+    $query = 'SELECT LOWER(`Login`) as `Login`, `Permission`, m.`carte_prefs` from `SQL_PREFIX_Users`, `SQL_PREFIX_Membres` m WHERE LOWER(`Login`)=LOWER(\''.$login.'\') AND `Password`=\''.$mdp.'\' AND (m.`Joueur`=LOWER(\''.$login.'\'))';
 
     $mysql_result = DataEngine::sql($query);
     $ligne=mysql_fetch_assoc($mysql_result);
@@ -74,12 +74,12 @@ if($_POST && !empty($_POST['login']) && !empty($_POST['mdp'])) {
         $_SESSION['carte_prefs']  = $ligne['carte_prefs'];
         $_SESSION['_IP']  	= Get_IP();
         $_SESSION['_permkey']  = sha1($mdp.$_SESSION['_IP']);
-        DataEngine::sql_spool('INSERT INTO SQL_PREFIX_Log (DATE,LOGIN,IP) VALUES(NOW(),\''.$login.'\',\''.$_SESSION['_IP'].'\')');
-        DataEngine::sql_spool('UPDATE SQL_PREFIX_Membres SET Date=now() WHERE Joueur=\''.$login.'\'');
+        DataEngine::sql_spool('INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),\''.$login.'\',\''.$_SESSION['_IP'].'\')');
+        DataEngine::sql_spool('UPDATE `SQL_PREFIX_Membres` SET `Date`=now() WHERE `Joueur`=\''.$login.'\'');
     } else { // login/pass pas bon...
         $validsession=-1;
         $login_msg = $lng['wronglogin'];
-        $query = 'INSERT INTO SQL_PREFIX_Log (DATE,LOGIN,IP) VALUES(NOW(),"Err:'.$login.'",\''.Get_IP().'\')';
+        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"Err:'.$login.'",\''.Get_IP().'\')';
         DataEngine::sql($query);
     }
 }
@@ -89,7 +89,7 @@ if( ($validsession===false) && isset($_SESSION['_login']) && $_SESSION['_login']
     $login = $_SESSION['_login'];
     $mdp = $_SESSION['_pass'];
 
-    $query = 'SELECT LOWER(Login) as Login, Permission, m.carte_prefs from SQL_PREFIX_Users, SQL_PREFIX_Membres m WHERE LOWER(Login)=LOWER(\''.$login.'\') AND Password=\''.$mdp.'\' AND (m.Joueur=LOWER(\''.$login.'\'))';
+    $query = 'SELECT LOWER(`Login`) as `Login`, `Permission`, m.`carte_prefs` from `SQL_PREFIX_Users`, `SQL_PREFIX_Membres` m WHERE LOWER(`Login`)=LOWER(\''.$login.'\') AND `Password`=\''.$mdp.'\' AND (m.`Joueur`=LOWER(\''.$login.'\'))';
     $mysql_result = DataEngine::sql($query);// or mysql_die($query,__file__,__line__);
     $ligne=mysql_fetch_array($mysql_result);
     if($ligne['Login'] == $login && $_SESSION['_IP'] == Get_IP()) {
@@ -98,7 +98,7 @@ if( ($validsession===false) && isset($_SESSION['_login']) && $_SESSION['_login']
         $_SESSION['carte_prefs']  = $ligne['carte_prefs'];
     } else {
         $validsession=-1;
-        $query = 'INSERT INTO SQL_PREFIX_Log (DATE,LOGIN,IP) VALUES(NOW(),"invalid:'.$login.'/'.$_SESSION['_Perm'].'/'.$_SESSION['_IP'].',\''.Get_IP().'\')';
+        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"invalid:'.$login.'/'.$_SESSION['_Perm'].'/'.$_SESSION['_IP'].',\''.Get_IP().'\')';
         $_SESSION['_login'] = $_SESSION['_pass'] = $_SESSION['_Perm'] = $_SESSION['_IP'] = ''; // déconnexion...
         DataEngine::sql($query);
     }
@@ -139,7 +139,7 @@ if ( $validsession !== true && IS_IMG ) {
 // $validsession
 
 if ($validsession === true && $_SESSION['_Perm'] < AXX_VALIDATING) {
-    $query = 'INSERT INTO SQL_PREFIX_Log (DATE,LOGIN,IP) VALUES(NOW(),"AXX_VALIDATING:'.$_SESSION['_login'].','.$_SESSION['_IP'].')';
+    $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"AXX_VALIDATING:'.$_SESSION['_login'].','.$_SESSION['_IP'].')';
     $_SESSION['_login'] = '';
     DataEngine::sql($query);
     output::_DoOutput('<a href="'.GetForumLink().'"><p style="color:red">'.$lng['no_axx'].'</p></a>');
