@@ -37,7 +37,7 @@ $carto = cartographie::getinstance();
 
 switch ($_GET['act']) {
     case 'init': //-------------------------------------------------------------
-        DataEngine::sql_spool("UPDATE SQL_PREFIX_Membres SET Date=now() WHERE Joueur='".$_SESSION['_login']."'");
+        DataEngine::sql_spool('UPDATE `SQL_PREFIX_Membres` SET `Date`=now() WHERE `Joueur`=\''.$_SESSION['_login'].'\'');
 
     case 'config': //-----------------------------------------------------------
         $msg = $xml['log']       = $lng['config_helloworld'];
@@ -53,12 +53,12 @@ switch ($_GET['act']) {
 
     case 'mafiche': //----------------------------------------------------------
         $query = <<<q
-            UPDATE SQL_PREFIX_Membres SET POINTS='%d',
-        Economie='%d', Commerce='%d', Recherche='%d', Combat='%d',
-        Construction='%s', Navigation='%d', Race='%s',
-        Titre='%s', GameGrade='%s', pts_architecte='%d', pts_mineur='%d',
-        pts_science='%d', pts_commercant='%d', pts_amiral='%d',
-        pts_guerrier='%d', Date=now() WHERE Joueur='%s'
+            UPDATE `SQL_PREFIX_Membres` SET `POINTS`='%d',
+        `Economie`='%d', `Commerce`='%d', `Recherche`='%d', `Combat`='%d',
+        `Construction`='%s', `Navigation`='%d', `Race`='%s',
+        `Titre`='%s', `GameGrade`='%s', `pts_architecte`='%d', `pts_mineur`='%d',
+        `pts_science`='%d', `pts_commercant`='%d', `pts_amiral`='%d',
+        `pts_guerrier`='%d', `Date`=now() WHERE `Joueur`='%s'
 q;
         DataEngine::sql(sprintf($query, DataEngine::strip_number($_POST['POINTS']),
                 DataEngine::strip_number($_POST['Economie']), DataEngine::strip_number($_POST['Commerce']),
@@ -174,14 +174,14 @@ q;
 
         // repiquage cartographie->add_solar_ss
         if (count($del_planet)>0) {
-            $del_planet = "'".implode("','",$del_planet)."'";
-            $query = "UPDATE SQL_PREFIX_Coordonnee SET Type='2', USER='', EMPIRE='', INFOS='', batiments='', troop='' where Type in (0,3,5) AND POSIN='{$cur_ss}' AND COORDET in ({$del_planet})";
+            $del_planet = ''.implode("','",$del_planet).'';
+            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `Type`=2, `USER`=\'\', `EMPIRE`=\'\', `INFOS`=\'\', `batiments`=\'NULL\', `troop`=\'\' where `Type` in (0,3,5) AND `POSIN`=\''.$cur_ss.'\' AND `COORDET` in (\''.$del_planet.'\')';
             $array = DataEngine::sql($query);
             if ( ($num = mysql_affected_rows()) > 0)
                 $carto->AddInfo(sprintf($lng['solar_msg1'],$num));
         }
 
-        $query = "SELECT USER,EMPIRE FROM SQL_PREFIX_Coordonnee where POSIN='{$cur_ss}' AND TYPE in (0,3,5)";
+        $query = 'SELECT `USER`, `EMPIRE` FROM `SQL_PREFIX_Coordonnee` where `POSIN`=\''.$cur_ss.'\' AND `TYPE` in (0,3,5)';
         $sql_result = DataEngine::sql($query);
         while ($row = mysql_fetch_assoc($sql_result))
         // par nom de joueur
@@ -195,7 +195,7 @@ q;
                     if ($curss_info[$nom] != $empire) {
                         $qnom    = sqlesc($nom);
                         $qempire = sqlesc($empire);
-                        $query = "UPDATE SQL_PREFIX_Coordonnee SET `EMPIRE`='{$qempire}',`UTILISATEUR`='{$_SESSION['_login']}',DATE=now() WHERE USER='{$qnom}'";
+                        $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `EMPIRE`=\''.$qempire.'\', `UTILISATEUR`=\''.$_SESSION['_login'].'\', `DATE`=now() WHERE `USER`=\''.$qnom.'\'';
                         DataEngine::sql($query);
                         $carto->AddInfo(sprintf($lng['solar_msg2'],$nom));
                         unset($curss_info[$nom]);
@@ -251,10 +251,10 @@ q;
             $carto->AddErreur($lng['err_noaxx']);
             break;
         }
-        $water = (($_POST['WATER'] != "") && (is_numeric($_POST['WATER']))) ?
-                DataEngine::strip_number($_POST["WATER"]) : "";
+        $water = (($_POST['WATER'] != '') && (is_numeric($_POST['WATER']))) ?
+                DataEngine::strip_number($_POST['WATER']) : '';
         $batiments = (($_POST['BUILDINGS'] != "") && (is_numeric($_POST['BUILDINGS']))) ?
-                DataEngine::strip_number($_POST["BUILDINGS"]) : "";
+                DataEngine::strip_number($_POST['BUILDINGS']) : '';
         if (!$carto->FormatId(trim($_POST['COORIN']), $uni, $sys,'')) {
             $xml['log'] = sprintf($lng['player_err_coords'],$_POST['COORIN']);
             $carto->AddWarn($xml['log']);
