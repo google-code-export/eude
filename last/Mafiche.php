@@ -103,7 +103,7 @@ q;
 }
 
 if (isset($_POST['pwd']) && !($_SESSION['_login'] == 'test' && DE_DEMO)) {
-    $query = 'UPDATE `SQL_PREFIX_Users` SET `Password`=md5(sqlesc(\''.$_POST['pwd'].'\',false)) WHERE `Login`=\''.$_SESSION['_login'].'\'';
+    $query = 'UPDATE `SQL_PREFIX_Users` SET `Password`=md5(\''.sqlesc($_POST['pwd'],false).'\') WHERE `Login`=\''.$_SESSION['_login'].'\'';
     DataEngine::sql($query);
 }
 
