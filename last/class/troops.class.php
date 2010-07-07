@@ -57,7 +57,7 @@ class troops {
     function AddPillage_log ($mode, $idate, $msg) {
 
         // check si existant
-        $sql = sprintf('SELECT * FROM SQL_PREFIX_troops_pillage WHERE Player=\'%s\' AND date=%d',
+        $sql = sprintf('SELECT pid FROM SQL_PREFIX_troops_pillage WHERE Player=\'%s\' AND date=%d',
                 sqlesc($_SESSION['_login']), $idate);
         $result = DataEngine::sql($sql);
         if (mysql_numrows($result)>0) return 'Log déjà ajouté';

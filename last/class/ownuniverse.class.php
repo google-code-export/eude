@@ -303,7 +303,7 @@ class ownuniverse {
         } else $player = $_SESSION['_login'];
         if (!$this->universe_data) {
             $qnom  = sqlesc($player);
-            $query = "SELECT * FROM SQL_PREFIX_ownuniverse where UTILISATEUR='$qnom'";
+            $query = "SELECT planet0, coord0, data0, ress0, planet1, coord1, data1, ress1, planet2, coord2, data2, ress2, planet3, coord3, data3, ress3, planet4, coord4, data4, ress4 FROM SQL_PREFIX_ownuniverse where UTILISATEUR='$qnom'";
             $sql_r = DataEngine::sql($query);
             $ligne = mysql_fetch_assoc($sql_r);
             $max = 0;
