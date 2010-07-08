@@ -107,7 +107,7 @@ if (isset($_POST['pwd']) && !($_SESSION['_login'] == 'test' && DE_DEMO)) {
     DataEngine::sql($query);
 }
 
-$mysql_result = DataEngine::sql('Select m.`Joueur`, `Points`, `Economie`, `Commerce`, `Recherche`, `Combat`, `Construction`, `Navigation`, `Race`, `ship`, `Titre`, `GameGrade`, `pts_architecte`, `pts_mineur`, `pts_science`, `pts_commercant`, `pts_amiral`, `pts_guerrier`, g.`Grade` from `SQL_PREFIX_Membres` as m, `SQL_PREFIX_Grade` as g WHERE `Joueur`=\''.$_SESSION['_login'].'\' AND (m.`Grade`=g.`GradeId`)');
+$mysql_result = DataEngine::sql('Select m.`Joueur`, m.`Points`, m.`Economie`, m.`Commerce`, m.`Recherche`, m.`Combat`, m.`Construction`, m.`Navigation`, m.`Race`, m.`ship`, m.`Titre`, m.`GameGrade`, m.`pts_architecte`, m.`pts_mineur`, m.`pts_science`, m.`pts_commercant`, m.`pts_amiral`, m.`pts_guerrier`, g.`Grade` from `SQL_PREFIX_Membres` m, `SQL_PREFIX_Grade` g WHERE m.`Joueur`=\''.$_SESSION['_login'].'\' AND (m.`Grade`=g.`GradeId`)');
 $ligne = mysql_fetch_assoc($mysql_result);
 
 require_once(TEMPLATE_PATH.'mafiche.tpl.php');

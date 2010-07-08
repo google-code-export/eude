@@ -148,7 +148,7 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
                     $ListeCoor = implode(',',$map->Parcours()->GetListeCoorByRay($Recherche['Pos'],$Recherche['Rayon']));
                     $where.= 'AND (`POSIN` IN ('.$ListeCoor.') OR `POSOUT` IN ('.$ListeCoor.'))';
                 } else if ($key=='Pos')
-                    $where.= 'AND (POSIN=\''.$value.'\' OR POSOUT=\''.$value.'\') ';
+                    $where.= 'AND (`POSIN`=\''.$value.'\' OR `POSOUT`=\''.$value.'\') ';
                 break;
             case 'Moi':
                 $where.= ' AND `UTILISATEUR`=\''.mb_strtolower($_SESSION['_login'], 'utf8').'\' ';
@@ -250,9 +250,9 @@ foreach($sort_key as $v) {
 
 $tpl->PushRow();
 
-$sql='SELECT UNIX_TIMESTAMP(a.`DATE`) as udate,a.`ID`, `TYPE`, `POSIN`, `POSOUT`, `COORDET`, `COORDETOUT`, `USER`, `EMPIRE`, `INFOS`, `DATE`, `NOTE`, `water`,
-	`batiments`, `troop`, `troop_date`, `INACTIF`, `UTILISATEUR`, b.`pID`, `Titane`, `Cuivre`, `Fer`, `Aluminium`, `Mercure`, `Silicium`, `Uranium`, `Krypton`, 
-	`Azote`, `Hydrogene` from `SQL_PREFIX_Coordonnee` a left outer join `SQL_PREFIX_Coordonnee_Planetes` b on (a.`ID`=b.`pID`) '.$where.$sort.$limit;
+$sql='SELECT UNIX_TIMESTAMP(a.`DATE`) as udate, a.`ID`, a.`TYPE`, a.`POSIN`, a.`POSOUT`, a.`COORDET`, a.`COORDETOUT`, a.`USER`, a.`EMPIRE`, a.`INFOS`, a.`NOTE`, a.`water`,
+	a.`batiments`, a.`troop`, a.`troop_date`, a.`INACTIF`, a.`UTILISATEUR`, b.`pID`, b.`Titane`, b.`Cuivre`, b.`Fer`, b.`Aluminium`, b.`Mercure`, b.`Silicium`, b.`Uranium`, b.`Krypton`, 
+	b.`Azote`, b.`Hydrogene` from `SQL_PREFIX_Coordonnee` a left outer join `SQL_PREFIX_Coordonnee_Planetes` b on (a.`ID`=b.`pID`) '.$where.$sort.$limit;
 $mysql_result = DataEngine::sql($sql);
 
 $lngmain = language::getinstance()->GetLngBlock('dataengine');

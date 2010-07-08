@@ -52,7 +52,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'pts') {
     $tpl->Setheader();
     while($line=mysql_fetch_assoc($mysql_result)) {
         $tpl->AddToRow($line['Joueur'], -2);
-        $sql='SELECT `Type`,count(`Type`) AS Nb FROM `SQL_PREFIX_Coordonnee` WHERE `Utilisateur`=\''.$line['Joueur'].'\' AND `inactif`=0 GROUP BY `Type`';
+        $sql='SELECT `Type`, count(`Type`) AS Nb FROM `SQL_PREFIX_Coordonnee` WHERE `Utilisateur`=\''.$line['Joueur'].'\' AND `inactif`=0 GROUP BY `Type`';
         $mysql_result2 = DataEngine::sql($sql);
         $ut=0;
         while($line2=mysql_fetch_assoc($mysql_result2)) {

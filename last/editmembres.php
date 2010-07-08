@@ -124,7 +124,7 @@ foreach (DataEngine::s_perms() as $k => $v) {
 require_once(TEMPLATE_PATH.'editmembres.tpl.php');
 $tpl = tpl_editmembres::getinstance();
 
-$mysql_result = DataEngine::sql('SELECT m.`Joueur`, `Points`, `Date`, `Economie`, `Commerce`, `Recherche`, `Combat`, `Construction`, `Navigation`, `Grade`, `Race`, `ship`, u.`Permission` from `SQL_PREFIX_Membres` m, `SQL_PREFIX_Users` u WHERE (m.`Joueur`=u.`Login`)'.$where.$Order);
+$mysql_result = DataEngine::sql('SELECT m.`Joueur`, m.`Points`, m.`Date`, m.`Economie`, m.`Commerce`, m.`Recherche`, m.`Combat`, m.`Construction`, m.`Navigation`, m.`Grade`, m.`Race`, m.`ship`, u.`Permission` from `SQL_PREFIX_Membres` m, `SQL_PREFIX_Users` u WHERE (m.`Joueur`=u.`Login`)'.$where.$Order);
 
 if (mysql_num_rows($mysql_result) == 0)
     output::Boink('Membres.php');

@@ -22,7 +22,7 @@ if (NO_SESSIONS) {
     $login = sqlesc(mb_strtolower($_POST['user'], 'utf8'), false);
     $mdp = $_POST['pass'];
 
-    $query = 'SELECT LOWER(`Login`) as `Login`, `Permission`, m.`carte_prefs` from `SQL_PREFIX_Users`, `SQL_PREFIX_Membres` m WHERE LOWER(`Login`)=LOWER(\''.$login.'\') AND `Password`=\''.$mdp.'\' AND (m.`Joueur`=LOWER(\''.$login.'\'))';
+    $query = 'SELECT LOWER(u.`Login`) as `Login`, u.`Permission`, m.`carte_prefs` from `SQL_PREFIX_Users` u, `SQL_PREFIX_Membres` m WHERE LOWER(u.`Login`)=LOWER(\''.$login.'\') AND u.`Password`=\''.$mdp.'\' AND (m.`Joueur`=LOWER(\''.$login.'\'))';
 
     $mysql_result = DataEngine::sql($query);
     $ligne=mysql_fetch_assoc($mysql_result);
@@ -61,7 +61,7 @@ if($_POST && !empty($_POST['login']) && !empty($_POST['mdp'])) {
     $login = sqlesc(mb_strtolower($_POST['login'], 'utf8'), false);
     $mdp = md5($_POST['mdp']);
 
-    $query = 'SELECT LOWER(`Login`) as `Login`, `Permission`, m.`carte_prefs` from `SQL_PREFIX_Users`, `SQL_PREFIX_Membres` m WHERE LOWER(`Login`)=LOWER(\''.$login.'\') AND `Password`=\''.$mdp.'\' AND (m.`Joueur`=LOWER(\''.$login.'\'))';
+    $query = 'SELECT LOWER(u.`Login`) as `Login`, u.`Permission`, m.`carte_prefs` from `SQL_PREFIX_Users` u, `SQL_PREFIX_Membres` m WHERE LOWER(u.`Login`)=LOWER(\''.$login.'\') AND u.`Password`=\''.$mdp.'\' AND (m.`Joueur`=LOWER(\''.$login.'\'))';
 
     $mysql_result = DataEngine::sql($query);
     $ligne=mysql_fetch_assoc($mysql_result);
@@ -89,16 +89,16 @@ if( ($validsession===false) && isset($_SESSION['_login']) && $_SESSION['_login']
     $login = $_SESSION['_login'];
     $mdp = $_SESSION['_pass'];
 
-    $query = 'SELECT LOWER(`Login`) as `Login`, `Permission`, m.`carte_prefs` from `SQL_PREFIX_Users`, `SQL_PREFIX_Membres` m WHERE LOWER(`Login`)=LOWER(\''.$login.'\') AND `Password`=\''.$mdp.'\' AND (m.`Joueur`=LOWER(\''.$login.'\'))';
+    $query = 'SELECT LOWER(u.`Login`) as `Login`, u.`Permission`, m.`carte_prefs` from `SQL_PREFIX_Users` u, `SQL_PREFIX_Membres` m WHERE LOWER(u.`Login`)=LOWER(\''.$login.'\') AND u.`Password`=\''.$mdp.'\' AND (m.`Joueur`=LOWER(\''.$login.'\'))';
     $mysql_result = DataEngine::sql($query);// or mysql_die($query,__file__,__line__);
     $ligne=mysql_fetch_array($mysql_result);
-    if($ligne['Login'] == $login && $_SESSION['_IP'] == Get_IP()) {
+    if($ligne['Login'] == $login) {
         $validsession=true;
         $_SESSION['_Perm']  = $ligne['Permission']; // Maj les permission en cas de changement
         $_SESSION['carte_prefs']  = $ligne['carte_prefs'];
     } else {
         $validsession=-1;
-        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"invalid:'.$login.'/'.$_SESSION['_Perm'].'/'.$_SESSION['_IP'].',\''.Get_IP().'\')';
+        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"invalid:'.$login.'/'.$_SESSION['_Perm'].'/'.$_SESSION['_IP'].'",\''.Get_IP().'\')';
         $_SESSION['_login'] = $_SESSION['_pass'] = $_SESSION['_Perm'] = $_SESSION['_IP'] = ''; // déconnexion...
         DataEngine::sql($query);
     }
@@ -139,10 +139,10 @@ if ( $validsession !== true && IS_IMG ) {
 // $validsession
 
 if ($validsession === true && $_SESSION['_Perm'] < AXX_VALIDATING) {
-    $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"AXX_VALIDATING:'.$_SESSION['_login'].','.$_SESSION['_IP'].')';
+    $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"AXX_VALIDATING:'.$_SESSION['_login'].'",\''.$_SESSION['_IP'].'\')';
     $_SESSION['_login'] = '';
     DataEngine::sql($query);
-    output::_DoOutput('<a href="'.GetForumLink().'"><p style="color:red">'.$lng['no_axx'].'</p></a>');
+    output::_DoOutput('<a href="'.DataEngine::config_key('config', 'ForumLink').'"><p style="color:red">'.$lng['no_axx'].'</p></a>');
 }
 
 if ($validsession !==true) {
