@@ -93,7 +93,7 @@ r;
         }
         $out = <<<r2
     </select></td>
-    <TD><INPUT style="font-size:10; width=80;" type="text" name="ModifPoints{$i}" value="{$ligne['Points']}"></TD>
+    <TD><INPUT style="font-size:10; width:80;" type="text" name="ModifPoints{$i}" value="{$ligne['Points']}"></TD>
     <TD>{$ligne['Economie']}/{$ligne['Commerce']}/{$ligne['Recherche']}/{$ligne['Combat']}/{$ligne['Construction']}/{$ligne['Navigation']}</TD>
     <TD><select name="ModifRace{$i}">
     <option value="">&nbsp;</option>
