@@ -120,7 +120,7 @@ tr.spacing_header td {
 .size80  {width:80px;}
 .size110 {width:110px;}
 .size180 {width:180px;}
-.size250 {width:250px;}
+.size500 {width:500px;}
 
 /* Vous avez un nouveau message, cliquez pour supprimer, ne rien toucher pour conserver... */
 div.messagerbg {
