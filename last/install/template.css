@@ -1,0 +1,246 @@
+body {
+    background-color: black;
+    background-image: url(../Images/Fond-Site.jpg);
+    background-repeat: repeat;
+    font-family: Geneva,Arial,Helvetica,sans-serif;
+    font-size:12px;
+}
+
+address, a:link, a:active, a:visited {
+    color: white;
+    text-decoration: none;
+}
+a:hover {
+    color: #00FF00;
+}
+
+img {
+    border: 0px;
+}
+
+/* @since 1.4.2 */
+
+.base_h {
+    background-color: #aaaaaa;
+}
+.base_t {
+    color: red;
+}
+.base_row0 {
+    background-color: #cccccc;
+}
+.base_row1 {
+    background-color: #d6d6d6;
+}
+.color_cibleur {
+    background-color: white;
+}
+
+.color_bg {
+    background-color: #202c32;
+    color: white;
+}
+.color_header {
+    background-color: #3f3b38;
+    color: white;
+    font-weight: bold;
+}
+.color_bigheader {
+    background-color: #3f3b38;
+    color: #bbccff;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.color_row0 {
+    background-color: #2d3a40;
+    color: white;
+}
+.color_row1 {
+    background-color: #202c32;
+    color: white;
+}
+.table_center {
+    margin-left:auto;
+    margin-right:auto;
+}
+.table_nospacing {
+    border-width: 0px;
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+.spacing_row {
+    border-right: none !important;
+    padding: 2px 6px;
+}
+td.spacing_row0 {
+    border-right: solid 3px #202c32;
+    padding: 2px 6px;
+}
+td.spacing_row1 {
+    border-right: solid 3px #2d3a40;
+    padding: 2px 6px;
+}
+tr.spacing_header {
+    border-top: solid 3px #3f3b38;
+}
+tr.spacing_header td {
+    padding: 2px 6px;
+    border-right: solid 3px #2d3a40;
+}
+
+.color_titre {
+    background-color: #3f3b38;
+    color: #666666;
+    font-weight: bold;
+}
+.color_cols {
+    background-color: #202c32;
+    color: #666666;
+    font-weight: bold;
+}
+.color_pagination {
+    color: #666666;
+}
+.text_center {
+    text-align: center;
+}
+.text_right {
+    text-align: right;
+}
+
+.link {
+    cursor: pointer;
+}
+
+.size20  {width:20px;}
+.size40  {width:40px;}
+.size60  {width:60px;}
+.size80  {width:80px;}
+.size110 {width:110px;}
+.size180 {width:180px;}
+.size250 {width:250px;}
+.size500 {width:500px;}
+
+/* Vous avez un nouveau message, cliquez pour supprimer, ne rien toucher pour conserver... */
+div.messagerbg {
+    background-color:#202c32;
+    bottom:0;
+    height:100%;
+    left:0;
+    opacity:0.75;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:89;
+}
+div.newmessage {
+    position:absolute;
+    top:25%;
+    height:50%;
+    width: 100%;
+    opacity: 1;
+    z-index:90;
+}
+table.newmessage {
+    background-color: #3f3b38;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    margin-left:auto;
+    margin-right:auto;
+    width: 700px;
+}
+
+.ress_0 {
+    position: absolute;
+    background-color: red;
+    width: 3px;
+}
+.ress_1 {
+    position: absolute;
+    background-color: red;
+    width: 10px;
+}
+
+.ress_2 {
+    position: absolute;
+    background-color: red;
+    width: 20px;
+}
+
+.ress_3{
+    position: absolute;
+    background-color: red;
+    width: 20px;
+}
+
+.ress_4 {
+    position: absolute;
+    background-color: darkorange;
+    width: 40px;
+}
+
+.ress_5 {
+    position: absolute;
+    background-color: darkorange;
+    width: 50px;
+}
+
+.ress_6 {
+    position: absolute;
+    background-color: darkorange;
+    width: 60px;
+}
+
+.ress_7 {
+    position: absolute;
+    background-color: darkgreen;
+    width: 70px;
+}
+
+.ress_8 {
+    position: absolute;
+    background-color: darkgreen;
+    width: 80px;
+}
+
+.ress_9 {
+    position: absolute;
+    background-color: darkgreen;
+    width: 90px;
+}
+
+.ress_10 {
+    position: absolute;
+    background-color: darkgreen;
+    width: 100px;
+}
+#ress_text {
+    position: relative;
+    color: transparent;
+}
+#ress_text:hover {
+    color: white;
+}
+.ress_img {
+    position: relative;
+    padding-right: 3px;
+    padding-left: 20px;
+}
+
+.infobulle {
+    z-index:7;
+    position:absolute;
+    visibility:hidden;
+    border: 1px solid White;
+    padding: 10px;
+    background-color: #ffe38f;
+    white-space:nowrap;
+}
+
+.listing {
+    padding:0px;
+    list-style-type:none;
+    list-style-position:inside;
+}
