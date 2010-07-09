@@ -12,7 +12,7 @@ class tpl_upgrade extends output {
     protected $BASE_FILE = '';
 
     public function __construct() {
-        $this->BASE_FILE = ROOT_URL.'sample.php';
+        $this->BASE_FILE = ROOT_URL.'upgrade/run.php';
 
         parent::__construct();
     }
