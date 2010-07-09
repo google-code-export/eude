@@ -18,7 +18,7 @@ $color_1 = '#2d3a40'; // alias row0 bg, couleur 'claire'
 $color_2 = '#202c32'; // alias row1 bg, couleur 'plus foncé'
 $color_3 = '#3f3b38'; // alias header bg
 $color_4 = '#666666'; // alias header text
-$color_5 = '#bbccff'; // alias big header text
+$color_5 = '#CC7A00'; // alias big header text
 $color_6 = '#202c32'; // alias bg discret...
 $color_infobulle = '#ffe38f'; // alias infobulle bg
 

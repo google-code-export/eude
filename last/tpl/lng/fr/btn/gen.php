@@ -21,8 +21,8 @@ $defaultsetting = array('./hachicro.ttf', 10, '202c32', '666666');
 $defaultsetting = array('./CGF Locust Resistance.ttf', 10, '202c32', '666666');
 
 $listing['cartographie'] = array($defaultsetting, 'CARTOGRAPHIE');
-$listing['tableau'] = array($defaultsetting, 'LISTING');
-$listing['carte'] = array($defaultsetting, 'MAP');
+$listing['tableau'] = array($defaultsetting, 'TABLEAU');
+$listing['carte'] = array($defaultsetting, 'CARTE');
 
 $listing['mafiche'] = array($defaultsetting, 'MA FICHE');
 $listing['recherche'] = array($defaultsetting, 'RECHERCHE');
@@ -31,15 +31,15 @@ $listing['pillage'] = array($defaultsetting, 'PILLAGE');
 
 $listing['addon'] = array($defaultsetting, 'ADDONS');
 
-$listing['membres'] = array($defaultsetting, 'MEMBERS');
+$listing['membres'] = array($defaultsetting, 'MEMBRES');
 $listing['hierarchie'] = array($defaultsetting, 'HIERARCHIE');
 $listing['editmembres'] = array($defaultsetting, 'EDITIONS');
-$listing['stats'] = array($defaultsetting, 'STATISTICS');
+$listing['stats'] = array($defaultsetting, 'STATISTIQUES');
 $listing['eadmin'] = array($defaultsetting, 'ADMIN');
 
-$listing['forum'] = array($defaultsetting, 'BOARD');
+$listing['forum'] = array($defaultsetting, 'FORUM');
 
-$listing['logout'] = array($defaultsetting, 'LOGOUT');
+$listing['logout'] = array($defaultsetting, 'DECONNECTION');
 
 $listing['do_parcours'] = array($defaultsetting, 'ITINERAIRE');
 $setting = $defaultsetting;
