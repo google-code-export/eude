@@ -45,7 +45,7 @@ var c_onload = function(e) {
             GM_setValue(c_prefix+'pnj_info',      GetNode(e.responseXML, 'GM_pnj_info')     =='1'? true:false);
             GM_setValue(c_prefix+'troops_battle', GetNode(e.responseXML, 'GM_troops_battle')=='1'? true:false);
         }
-        top.location.reload(true);
+        if (c_page!='/index.php') top.location.reload(true);
     }
     if (GetNode(e.responseXML, 'content')!='')
         AddToMotd(GetNode(e.responseXML, 'content'));

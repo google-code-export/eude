@@ -54,6 +54,7 @@ function Index() {
         block.appendChild(alog);
     }
 
+    get_xml('init');
     if (debug) return AddGameLog('<span class="gamelog_raid">Debug mode, script update disabled</span>');
     if (mversion=='svn') return AddGameLog('<span class="gamelog_raid">Dev release, no update check</span>');
 

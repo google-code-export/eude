@@ -37,18 +37,19 @@ $carto = cartographie::getinstance();
 
 switch ($_GET['act']) {
     case 'init': //-------------------------------------------------------------
-        DataEngine::sql_spool('UPDATE `SQL_PREFIX_Membres` SET `Date`=now() WHERE `Joueur`=\''.$_SESSION['_login'].'\'');
-
-    case 'config': //-----------------------------------------------------------
-        $msg = $xml['log']       = $lng['config_helloworld'];
-        $xml['logtype']          = 'none';
-        $xml['GM_active']        = '1';
         $xml['GM_galaxy_info']   = DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')  ? '1':'0';
         $xml['GM_planet_info']   = DataEngine::CheckPerms('CARTOGRAPHIE_PLANETS')  ? '1':'0';
         $xml['GM_asteroid_info'] = DataEngine::CheckPerms('CARTOGRAPHIE_ASTEROID') ? '1':'0';
         $xml['GM_pnj_info']      = DataEngine::CheckPerms('CARTOGRAPHIE_PNJ')  ? '1':'0';
 
         $xml['GM_troops_battle'] = DataEngine::CheckPerms('PERSO_TROOPS_BATTLE')  ? '1':'0';
+        
+        DataEngine::sql_spool('INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),\'gm:'.sqlesc($_SESSION['_login']).'\',\''.$_SESSION['_IP'].'\')');
+        DataEngine::sql_spool('UPDATE `SQL_PREFIX_Membres` SET `Date`=now() WHERE `Joueur`=\''.sqlesc($_SESSION['_login']).'\'');
+    case 'config': //-----------------------------------------------------------
+        $msg = $xml['log']       = $lng['config_helloworld'];
+        $xml['logtype']          = 'none';
+        $xml['GM_active']        = '1';
         break;
 
     case 'mafiche': //----------------------------------------------------------

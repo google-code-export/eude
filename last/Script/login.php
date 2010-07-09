@@ -35,11 +35,9 @@ if (NO_SESSIONS) {
         $_SESSION['carte_prefs']  = $ligne['carte_prefs'];
         $_SESSION['_IP']  	= Get_IP();
         $_SESSION['_permkey']  = sha1($mdp.$_SESSION['_IP']);
-//        $query = "INSERT INTO SQL_PREFIX_Log (DATE,LOGIN,IP) VALUES(NOW(),'$login','{$_SESSION['_IP']}')";
-//        DataEngine::sql($query);
         return true;
     } else { // login/pass pas bon...
-        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"err.eude:'.$login.'",\''.Get_IP().'\')';
+        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"err.gm:'.$login.'",\''.Get_IP().'\')';
         DataEngine::sql($query);
         header('HTTP/1.1 403 Forbidden');
         $out = <<<o
@@ -92,7 +90,7 @@ if( ($validsession===false) && isset($_SESSION['_login']) && $_SESSION['_login']
     $query = 'SELECT LOWER(u.`Login`) as `Login`, u.`Permission`, m.`carte_prefs` from `SQL_PREFIX_Users` u, `SQL_PREFIX_Membres` m WHERE LOWER(u.`Login`)=LOWER(\''.$login.'\') AND u.`Password`=\''.$mdp.'\' AND (m.`Joueur`=LOWER(\''.$login.'\'))';
     $mysql_result = DataEngine::sql($query);// or mysql_die($query,__file__,__line__);
     $ligne=mysql_fetch_array($mysql_result);
-    if($ligne['Login'] == $login) {
+    if($ligne['Login'] == $login && $_SESSION['_IP'] == Get_IP()) {
         $validsession=true;
         $_SESSION['_Perm']  = $ligne['Permission']; // Maj les permission en cas de changement
         $_SESSION['carte_prefs']  = $ligne['carte_prefs'];
