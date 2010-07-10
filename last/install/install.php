@@ -11,8 +11,8 @@ $file = 'install';
 $sqlfile = ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . $file . '.sql';
 $lockfile = ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . $file . '.lock';
 
-if (!file_exists($lockfile))
-    trigger_error('Fichier de vérouillage trouvé, installation partielle/en cours ? ('.$lockfile.')', E_USER_ERROR);
+if (file_exists($lockfile))
+    trigger_error('Fichier de vérouillage trouvé, installation partielle/en cours ? ('.$lockfile.')', E_WARNING);
 
 $max = count(preg_split('/;[\n\r]+/', file_get_contents($sqlfile)));
 
