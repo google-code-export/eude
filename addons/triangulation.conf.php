@@ -35,16 +35,6 @@ class triangulation_addons implements addon_config {
     public function InSubAddonMenu () {
         return false;
     }
-    public function OnDeleteUser($user) {
-        return true;
-    }
-    public function OnNewUser($user) {
-        return true;
-    }
-    public function OnVortexCleaned() {
-//        FB::info('addons::OnVortexCleaned');
-        return true;
-    }
 
     public function OnButtonRegen(&$listing, $defaultsetting) {
         // $defaultsetting = array(fontfile, fontsize, alphacolor, textcolor);

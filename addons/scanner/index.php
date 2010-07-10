@@ -70,9 +70,8 @@ if ($ScannerEnabled && is_array($planets)) {
 }
 // Un petit menu perso pour l'addons
 $menu = array(
-    'carte' => array('%ROOT_URL%Carte.php','%IMAGES_URL%Btn-Carte.png',125,'DataEngine::CheckPerms(AXX_MEMBER)', array()),
-    'prod' => array('%ROOT_URL%ownuniverse.php','%IMAGES_URL%Btn-Production.png',125,'DataEngine::CheckPerms(AXX_MEMBER)', array()),
-    'scanner' => array('%ADDONS_URL%scanner/index.php','%IMAGES_URL%test.png',125,'DataEngine::CheckPerms(AXX_MEMBER)', array()),
+    'carte' => array('%ROOT_URL%Carte.php','%BTN_URL%carte.png',160,'DataEngine::CheckPerms(AXX_MEMBER)', array()),
+    'prod' => array('%ROOT_URL%ownuniverse.php','%BTN_URL%ownuniverse.png',160,'DataEngine::CheckPerms(AXX_MEMBER)', array()),
 );
 
 $tpl->DoOutput($menu,true); // stoppe toute execution du script et transmet les sorties html/xml/...
