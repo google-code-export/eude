@@ -77,7 +77,7 @@ LOGIN;
         if (!$register && DataEngine::config_key('config', 'CanRegister') && !DataEngine::config_key('config', 'closed'))
             $out .= <<<LOGIN
 	<tr class="color_row0 text_center">
-		<td colspan=3><a href='register.php'>{$this->lng['newaccount']}</a></td>
+		<td colspan=3><a href='%ROOT_URL%register.php'>{$this->lng['newaccount']}</a></td>
 	</tr>
 LOGIN;
         elseif ($register)
