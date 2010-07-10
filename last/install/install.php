@@ -3,8 +3,8 @@
 include ('../init.php');
 if (file_exists('../Script/Entete.php'))
     trigger_error('Installation existante', E_USER_ERROR);
-if (!file_exists('./config.php'))
-    trigger_error('Fichier de configuration principal manquant (config.php)', E_USER_ERROR);
+if (!file_exists('./install.conf.php'))
+    trigger_error('Fichier de configuration principal manquant (install.conf.php)', E_USER_ERROR);
 
 $file = 'install';
 

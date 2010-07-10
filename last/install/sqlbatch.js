@@ -66,7 +66,7 @@ function maj_progress() {
 }
 
 function test_mysql() {
-    new Ajax.Request('./config.php',{
+    new Ajax.Request('./install.conf.php',{
         method:'post',
         parameters:{
             act:'testmysqlserver',
@@ -97,7 +97,7 @@ function test_mysql() {
 }
 
 function run_install() {
-    new Ajax.Request('./config.php',{
+    new Ajax.Request('./install.conf.php',{
         method:'post',
         parameters:{
             act:'startinstall',
@@ -133,7 +133,7 @@ function run_install() {
 }
 
 function _final_install() {
-    new Ajax.Request('./config.php',{
+    new Ajax.Request('./install.conf.php',{
         method:'post',
         parameters:{
             act:'endinstall'
