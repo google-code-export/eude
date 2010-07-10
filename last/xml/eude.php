@@ -43,6 +43,7 @@ switch ($_GET['act']) {
         $xml['GM_pnj_info']      = DataEngine::CheckPerms('CARTOGRAPHIE_PNJ')  ? '1':'0';
 
         $xml['GM_troops_battle'] = DataEngine::CheckPerms('PERSO_TROOPS_BATTLE')  ? '1':'0';
+		$xml['GM_empire_maj']    = DataEngine::CheckPerms('EMPIRE_GREASE')  ? '1':'0';
         
         DataEngine::sql_spool('INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),\'gm:'.sqlesc($_SESSION['_login']).'\',\''.$_SESSION['_IP'].'\')');
         DataEngine::sql_spool('UPDATE `SQL_PREFIX_Membres` SET `Date`=now() WHERE `Joueur`=\''.sqlesc($_SESSION['_login']).'\'');
@@ -268,6 +269,32 @@ q;
         }
         break;
 
+	case 'empire': // --------------------------------------------------------
+		if (!DataEngine::CheckPerms('EMPIRE_GREASE')) {
+            $carto->AddErreur('Permissions manquante');
+            break;
+        }
+		$empire_name = gpc_esc($_POST['empire']);
+		$membres = unserialize(gpc_esc($_POST['data']));
+		$listemembres ='"'.implode('","',$membres).'"';
+		$query = 'UPDATE `SQL_PREFIX_Coordonnee` SET 
+			`EMPIRE` = \''.sqlesc($empire_name).'\'
+			WHERE `USER` in ('.$listemembres.')';
+		
+		$ok = DataEngine::sql($query) ? ' a été mis à jour': ' n\'a pas été mis à jour';
+		$query2 = 'UPDATE `SQL_PREFIX_Coordonnee` SET 
+			`EMPIRE` = "" 
+			WHERE `USER` not in ('.$listemembres.') 
+			AND `EMPIRE` LIKE "'.sqlesc($empire_name).'"';
+
+		if ($ok) {
+			$ok = DataEngine::sql($query2) ? ' a été mis à jour': ' n\'a pas été mis à jour';
+		}
+		$carto->AddInfo('L\'empire '.$empire_name.$ok);
+		$xml['log']='L\'empire '.$empire_name.$ok;
+		
+		break;
+	
     default:
         $xml['log']=$lng['err_unknown'];
         $xml['logtype']='raid';

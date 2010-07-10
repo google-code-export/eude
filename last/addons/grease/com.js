@@ -44,6 +44,7 @@ var c_onload = function(e) {
             GM_setValue(c_prefix+'asteroid_info', GetNode(e.responseXML, 'GM_asteroid_info')=='1'? true:false);
             GM_setValue(c_prefix+'pnj_info',      GetNode(e.responseXML, 'GM_pnj_info')     =='1'? true:false);
             GM_setValue(c_prefix+'troops_battle', GetNode(e.responseXML, 'GM_troops_battle')=='1'? true:false);
+			GM_setValue(c_prefix+'empire_maj',  GetNode(e.responseXML, 'GM_empire_maj')     =='1'? true:false);
         }
         if (c_page!='/index.php') top.location.reload(true);
     }

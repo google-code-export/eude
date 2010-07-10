@@ -39,6 +39,7 @@ i18n['fr']['troop_log_att']  = 'Quitter la planète';
 // TODO: Replace by XPath...
 i18n['fr']['building']       = 'Nombre de bâtiments';
 i18n['fr']['water']          = 'Surface d\'eau';
+i18n['fr']['active_empire']  = 'Activer MAJ empire';
 
 if (c_game_lang == 'com') c_game_lang = 'en';
 i18n['en'] = Array();
@@ -79,6 +80,7 @@ i18n['en']['troop_log_def']  = 'Dévalisé par';
 i18n['en']['troop_log_att']  = 'Quitter la planète';
 i18n['en']['building']       = 'Amount of buildings';
 i18n['en']['water']          = 'Water surface';
+i18n['en']['active_empire']  = 'Activate empire update';
 
 i18n['de'] = Array();
 i18n['de']['eudeready']      = '<u>Data Engine</u> "de", actif';
@@ -118,6 +120,7 @@ i18n['de']['troop_log_def']  = 'Dévalisé par';
 i18n['de']['troop_log_att']  = 'Quitter la planète';
 i18n['de']['building']       = 'Nombre de bâtiments';
 i18n['de']['water']          = 'Surface d\'eau';
+i18n['de']['active_empire']  = 'Activer MAJ empire';
 
 // [PL] translation by jhonny
 i18n['pl'] = Array();
@@ -158,3 +161,4 @@ i18n['pl']['troop_log_def']  = 'Dévalisé par';
 i18n['pl']['troop_log_att']  = 'Quitter la planète';
 i18n['pl']['building']       = 'Nombre de bâtiments';
 i18n['pl']['water']          = 'Surface d\'eau';
+i18n['pl']['active_empire']  = 'Activer MAJ empire';

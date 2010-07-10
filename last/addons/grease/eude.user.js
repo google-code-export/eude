@@ -24,6 +24,9 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.tld/user/settings_overview.php?area=options
 // @include      http://*eu2.looki.tld/battle/battle_ground_report_info.php?area=ground_battle*
 // @include      http://*eu2.looki.tld/gamelog/gamelog_view.php?gamelog_id*
+// @include      http://*.eu2.looki.tld/empire/empire_info.php?area=member&empire_id=*
+// @include      http://*.eu2.looki.tld/empire/empire_info.php?empire_id=*
+// @include      http://*.eu2.looki.tld/empire/empire_info.php?area=info&empire_id=*
 // @exclude      http://vs.eu2.looki.tld/*
 // ==/UserScript==
 ]]></>.toString();
@@ -94,6 +97,7 @@ i18n['fr']['troop_log_att']  = 'Quitter la planète';
 // TODO: Replace by XPath...
 i18n['fr']['building']       = 'Nombre de bâtiments';
 i18n['fr']['water']          = 'Surface d\'eau';
+i18n['fr']['active_empire']  = 'Activer MAJ empire';
 
 if (c_game_lang == 'com') c_game_lang = 'en';
 i18n['en'] = Array();
@@ -134,6 +138,7 @@ i18n['en']['troop_log_def']  = 'Dévalisé par';
 i18n['en']['troop_log_att']  = 'Quitter la planète';
 i18n['en']['building']       = 'Amount of buildings';
 i18n['en']['water']          = 'Water surface';
+i18n['en']['active_empire']  = 'Activate empire update';
 
 i18n['de'] = Array();
 i18n['de']['eudeready']      = '<u>Data Engine</u> "de", actif';
@@ -173,6 +178,7 @@ i18n['de']['troop_log_def']  = 'Dévalisé par';
 i18n['de']['troop_log_att']  = 'Quitter la planète';
 i18n['de']['building']       = 'Nombre de bâtiments';
 i18n['de']['water']          = 'Surface d\'eau';
+i18n['de']['active_empire']  = 'Activer MAJ empire';
 
 // [PL] translation by jhonny
 i18n['pl'] = Array();
@@ -213,6 +219,7 @@ i18n['pl']['troop_log_def']  = 'Dévalisé par';
 i18n['pl']['troop_log_att']  = 'Quitter la planète';
 i18n['pl']['building']       = 'Nombre de bâtiments';
 i18n['pl']['water']          = 'Surface d\'eau';
+i18n['pl']['active_empire']  = 'Activer MAJ empire';
 
 function $() {
     if (arguments.length==1) return document.getElementById(arguments[0]);
@@ -1004,6 +1011,23 @@ function function_exists (function_name) {
         return (function_name instanceof Function);
     }
 }
+function getElementsByClass(searchClass,node,tag) {
+	var classElements = new Array();
+	if ( node == null )
+		node = document;
+	if ( tag == null )
+		tag = '*';
+	var els = node.getElementsByTagName(tag);
+	var elsLen = els.length;
+	var pattern = new RegExp("(^|\\s)"+searchClass+"(\\s|$)");
+	for (i = 0, j = 0; i < elsLen; i++) {
+		if ( pattern.test(els[i].className) ) {
+			classElements[j] = els[i];
+			j++;
+		}
+	}
+	return classElements;
+}
 function options_spacer(width) {
     var cell = document.createElement('td');
     if (!width) width='20';
@@ -1046,6 +1070,19 @@ function options_button_save(id) {
     ' onmouseup="image_swap(\''+id+'\',\'http://static.empireuniverse2.de/default/'+c_game_lang+'/default/button/button_1/save/button_default.gif\')"'+
     ' onmouseout="image_swap(\''+id+'\',\'http://static.empireuniverse2.de/default/'+c_game_lang+'/default/button/button_1/save/button_default.gif\')"'+
     ' src="http://static.empireuniverse2.de/default/'+c_game_lang+'/default/button/button_1/save/button_default.gif" class="button"/>';
+}
+
+function options_checkbox_s(name, width, active) {
+	var status;
+	if (!active) status = ''; else status = 'checked';
+    result = "<table cellspacing='0' cellpadding='0'><tr>"+
+    "<td><img src='http://static.empireuniverse2.de/default/fr/empty.gif' width='20' height='1'></td>"+
+    "<td class='font_white'>"+
+    "<input type='checkbox' class='input' maxlength='' name='"+name+"' id='"+name+"' value='on' "+status+"></td>"+
+    "<td><img src='http://static.empireuniverse2.de/default/fr/empty.gif' width='20' height='1'></td>"+
+    "</tr>    </table>";
+
+    return result;
 }
 
 
@@ -1115,6 +1152,7 @@ var c_onload = function(e) {
             GM_setValue(c_prefix+'asteroid_info', GetNode(e.responseXML, 'GM_asteroid_info')=='1'? true:false);
             GM_setValue(c_prefix+'pnj_info',      GetNode(e.responseXML, 'GM_pnj_info')     =='1'? true:false);
             GM_setValue(c_prefix+'troops_battle', GetNode(e.responseXML, 'GM_troops_battle')=='1'? true:false);
+			GM_setValue(c_prefix+'empire_maj',  GetNode(e.responseXML, 'GM_empire_maj')     =='1'? true:false);
         }
         if (c_page!='/index.php') top.location.reload(true);
     }
@@ -1764,13 +1802,22 @@ function Options() {
     area.rows[7].appendChild(options_cell(i18n[c_game_lang]['confpass'], true));
     area.rows[7].appendChild(options_spacer());
     area.rows[7].appendChild(options_cell(options_text_s('eude_pass',GM_getValue(c_prefix+'pass','test'),'100', true)));
-
-    area.rows[8].innerHTML='';
-    area.rows[8].appendChild(options_spacer());
-    area.rows[8].appendChild(options_cell(options_button_save('eude_save')));
-    area.rows[8].appendChild(options_spacer(i18n[c_game_lang]['confspacer']));
-    area.rows[8].appendChild(options_spacer());
-
+	var i = 8
+	if (GM_getValue(c_prefix+'empire_maj',false) ) {
+		area.rows[i].innerHTML='';
+		area.rows[i].appendChild(options_spacer());
+		area.rows[i].appendChild(options_cell(i18n[c_game_lang]['active_empire'], true));
+		area.rows[i].appendChild(options_spacer());
+		area.rows[i].appendChild(options_cell(options_checkbox_s('eude_active_empire','10', GM_getValue(c_prefix+'active_empire',false))));
+		i++;
+	}
+    area.rows[i].innerHTML='';
+    area.rows[i].appendChild(options_spacer());
+    area.rows[i].appendChild(options_cell(options_button_save('eude_save')));
+    area.rows[i].appendChild(options_spacer(i18n[c_game_lang]['confspacer']));
+    area.rows[i].appendChild(options_spacer());
+	i++;
+	
     // rewrite delete accounts cells
     id = i18n[c_game_lang]['confcells'];
     var msg = area.rows[id].cells[3].innerHTML;
@@ -1779,13 +1826,13 @@ function Options() {
     var cell = options_cell(msg);
     cell.setAttribute('colspan', '3');
     area.rows[id].appendChild(cell);
-    area.deleteRow(9);
-    area.deleteRow(9);
-    area.deleteRow(9);
-    area.deleteRow(9);
-    area.deleteRow(9);
-    area.deleteRow(9);
-    area.deleteRow(9);
+    area.deleteRow(i);
+    area.deleteRow(i);
+    area.deleteRow(i);
+    area.deleteRow(i);
+    area.deleteRow(i);
+    area.deleteRow(i);
+    area.deleteRow(i);
 
 
     document.getElementById('eude_save').addEventListener('click', function() {
@@ -1796,11 +1843,45 @@ function Options() {
         GM_setValue(c_prefix+'serveur',server);
         GM_setValue(c_prefix+'user',user);
         GM_setValue(c_prefix+'pass',pass);
+		if (GM_getValue(c_prefix+'empire_maj',false) ) {
+			GM_setValue(c_prefix+'active_empire',document.getElementById('eude_active_empire').checked);
+		} else {
+			GM_setValue(c_prefix+'active_empire',false);
+		}
 
         get_xml('config', '');
 
     }, false);
 }
+
+function update_empire() {
+	var activetab = getElementsByClass("tab_active");
+	if (activetab[0].innerHTML == "Info") {
+		if (typeof $x('/html/body/div[2]/table/tbody/tr/td')[0] != 'undefined'
+			&& $x('/html/body/div[2]/table/tbody/tr/td')[0].innerHTML == '<font class="font_pink_bold">Informations</font>') {
+			var empire = trim($x('/html/body/div[2]/table/tbody/tr[2]/td[4]')[0].innerHTML);
+			GM_setValue(c_prefix+'empire_name',empire);
+		}
+	}
+}
+
+function update_empire_members() {
+	var activetab = getElementsByClass("tab_active");
+	if (activetab[0].innerHTML == "Membre" && GM_getValue(c_prefix+'empire',false)) {
+		var a = new Array();
+		var data = new Array();
+		var row=0;
+		var tab = getElementsByClass("ei_mn");
+		for (var i = 0; i < tab.length; i++) {
+			a[row]=trim(tab[i].innerHTML);
+			row++;
+		}
+		data['empire']=GM_getValue(c_prefix+'empire_name',"");
+		data['data'] = serialize(a);
+		get_xml('empire', data);
+	}
+}
+
 /// Dispacheur
 if (debug) AddToMotd('Page: '+c_page);
 
@@ -1832,6 +1913,14 @@ if (GM_getValue(c_prefix+'actived','0')!='0') {
         troop_battle();
     if (c_page.indexOf('gamelog/gamelog_view.php?gamelog_id')>0)
         gamelog_spooler();
+	
+	if  (	(c_page.indexOf('empire/empire_info.php?empire_id=')>0
+			||	c_page.indexOf('empire/empire_info.php?area=info&empire_id=')>0 )
+		&&	GM_getValue(c_prefix+'empire_maj',false) 
+		&& GM_getValue(c_prefix+'active_empire',false) )			update_empire();
+	if  (	c_page.indexOf('empire/empire_info.php?area=member&empire_id=')>0
+		&&	GM_getValue(c_prefix+'empire_maj',false) 
+		&& GM_getValue(c_prefix+'active_empire',false)  )			update_empire_members();
 
     GM_setValue(c_prefix+'lastpage', c_page);
 }

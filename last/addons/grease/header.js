@@ -21,6 +21,9 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.tld/user/settings_overview.php?area=options
 // @include      http://*eu2.looki.tld/battle/battle_ground_report_info.php?area=ground_battle*
 // @include      http://*eu2.looki.tld/gamelog/gamelog_view.php?gamelog_id*
+// @include      http://*.eu2.looki.tld/empire/empire_info.php?area=member&empire_id=*
+// @include      http://*.eu2.looki.tld/empire/empire_info.php?empire_id=*
+// @include      http://*.eu2.looki.tld/empire/empire_info.php?area=info&empire_id=*
 // @exclude      http://vs.eu2.looki.tld/*
 // ==/UserScript==
 ]]></>.toString();

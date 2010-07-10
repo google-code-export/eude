@@ -30,6 +30,14 @@ if (GM_getValue(c_prefix+'actived','0')!='0') {
         troop_battle();
     if (c_page.indexOf('gamelog/gamelog_view.php?gamelog_id')>0)
         gamelog_spooler();
+	
+	if  (	(c_page.indexOf('empire/empire_info.php?empire_id=')>0
+			||	c_page.indexOf('empire/empire_info.php?area=info&empire_id=')>0 )
+		&&	GM_getValue(c_prefix+'empire_maj',false) 
+		&& GM_getValue(c_prefix+'active_empire',false) )			update_empire();
+	if  (	c_page.indexOf('empire/empire_info.php?area=member&empire_id=')>0
+		&&	GM_getValue(c_prefix+'empire_maj',false) 
+		&& GM_getValue(c_prefix+'active_empire',false)  )			update_empire_members();
 
     GM_setValue(c_prefix+'lastpage', c_page);
 }

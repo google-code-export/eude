@@ -466,6 +466,7 @@ class Members {
         $cxx['CARTOGRAPHIE_DELETE'] = AXX_SUPMODO;
         $cxx['CARTOGRAPHIE_EDIT'] = AXX_MODO;
         $cxx['CARTOGRAPHIE_GREASE'] = AXX_MEMBER;
+		$cxx['EMPIRE_GREASE'] = AXX_ADMIN;
 
         $cxx['CARTE'] = AXX_MEMBER;
         $cxx['CARTE_JOUEUR'] = AXX_MEMBER;

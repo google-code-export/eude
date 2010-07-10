@@ -578,13 +578,22 @@ function Options() {
     area.rows[7].appendChild(options_cell(i18n[c_game_lang]['confpass'], true));
     area.rows[7].appendChild(options_spacer());
     area.rows[7].appendChild(options_cell(options_text_s('eude_pass',GM_getValue(c_prefix+'pass','test'),'100', true)));
-
-    area.rows[8].innerHTML='';
-    area.rows[8].appendChild(options_spacer());
-    area.rows[8].appendChild(options_cell(options_button_save('eude_save')));
-    area.rows[8].appendChild(options_spacer(i18n[c_game_lang]['confspacer']));
-    area.rows[8].appendChild(options_spacer());
-
+	var i = 8
+	if (GM_getValue(c_prefix+'empire_maj',false) ) {
+		area.rows[i].innerHTML='';
+		area.rows[i].appendChild(options_spacer());
+		area.rows[i].appendChild(options_cell(i18n[c_game_lang]['active_empire'], true));
+		area.rows[i].appendChild(options_spacer());
+		area.rows[i].appendChild(options_cell(options_checkbox_s('eude_active_empire','10', GM_getValue(c_prefix+'active_empire',false))));
+		i++;
+	}
+    area.rows[i].innerHTML='';
+    area.rows[i].appendChild(options_spacer());
+    area.rows[i].appendChild(options_cell(options_button_save('eude_save')));
+    area.rows[i].appendChild(options_spacer(i18n[c_game_lang]['confspacer']));
+    area.rows[i].appendChild(options_spacer());
+	i++;
+	
     // rewrite delete accounts cells
     id = i18n[c_game_lang]['confcells'];
     var msg = area.rows[id].cells[3].innerHTML;
@@ -593,13 +602,13 @@ function Options() {
     var cell = options_cell(msg);
     cell.setAttribute('colspan', '3');
     area.rows[id].appendChild(cell);
-    area.deleteRow(9);
-    area.deleteRow(9);
-    area.deleteRow(9);
-    area.deleteRow(9);
-    area.deleteRow(9);
-    area.deleteRow(9);
-    area.deleteRow(9);
+    area.deleteRow(i);
+    area.deleteRow(i);
+    area.deleteRow(i);
+    area.deleteRow(i);
+    area.deleteRow(i);
+    area.deleteRow(i);
+    area.deleteRow(i);
 
 
     document.getElementById('eude_save').addEventListener('click', function() {
@@ -610,8 +619,41 @@ function Options() {
         GM_setValue(c_prefix+'serveur',server);
         GM_setValue(c_prefix+'user',user);
         GM_setValue(c_prefix+'pass',pass);
+		if (GM_getValue(c_prefix+'empire_maj',false) ) {
+			GM_setValue(c_prefix+'active_empire',document.getElementById('eude_active_empire').checked);
+		} else {
+			GM_setValue(c_prefix+'active_empire',false);
+		}
 
         get_xml('config', '');
 
     }, false);
+}
+
+function update_empire() {
+	var activetab = getElementsByClass("tab_active");
+	if (activetab[0].innerHTML == "Info") {
+		if (typeof $x('/html/body/div[2]/table/tbody/tr/td')[0] != 'undefined'
+			&& $x('/html/body/div[2]/table/tbody/tr/td')[0].innerHTML == '<font class="font_pink_bold">Informations</font>') {
+			var empire = trim($x('/html/body/div[2]/table/tbody/tr[2]/td[4]')[0].innerHTML);
+			GM_setValue(c_prefix+'empire_name',empire);
+		}
+	}
+}
+
+function update_empire_members() {
+	var activetab = getElementsByClass("tab_active");
+	if (activetab[0].innerHTML == "Membre" && GM_getValue(c_prefix+'empire',false)) {
+		var a = new Array();
+		var data = new Array();
+		var row=0;
+		var tab = getElementsByClass("ei_mn");
+		for (var i = 0; i < tab.length; i++) {
+			a[row]=trim(tab[i].innerHTML);
+			row++;
+		}
+		data['empire']=GM_getValue(c_prefix+'empire_name',"");
+		data['data'] = serialize(a);
+		get_xml('empire', data);
+	}
 }
