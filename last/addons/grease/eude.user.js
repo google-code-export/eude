@@ -1847,6 +1847,7 @@ function Options() {
 			GM_setValue(c_prefix+'active_empire',document.getElementById('eude_active_empire').checked);
 		} else {
 			GM_setValue(c_prefix+'active_empire',false);
+			GM_deleteValue(c_prefix+'empire_name');
 		}
 
         get_xml('config', '');
@@ -1867,7 +1868,7 @@ function update_empire() {
 
 function update_empire_members() {
 	var activetab = getElementsByClass("tab_active");
-	if (activetab[0].innerHTML == "Membre" && GM_getValue(c_prefix+'empire',false)) {
+	if (activetab[0].innerHTML == "Membre" && GM_getValue(c_prefix+'empire_name',false)) {
 		var a = new Array();
 		var data = new Array();
 		var row=0;
@@ -1879,9 +1880,9 @@ function update_empire_members() {
 		data['empire']=GM_getValue(c_prefix+'empire_name',"");
 		data['data'] = serialize(a);
 		get_xml('empire', data);
+		GM_deleteValue(c_prefix+'empire_name');
 	}
 }
-
 /// Dispacheur
 if (debug) AddToMotd('Page: '+c_page);
 
