@@ -258,7 +258,10 @@ function Fleet() {
 }
 
 function FleetEdit() {
-    var coords = $x('/html/body/div[2]/form/div/table/tbody/tr/td[5]/table/tbody/tr[3]/td[4]')[0].innerHTML;
+	var html = document.documentElement.innerHTML;
+    var coords = '';
+	if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+<td class=\\"font_white\\">(\\d+-\\d+-\\d+-\\d+)<\\/td>/')))
+        coords=trim(RegExp.$1);
     AddToMotd("'"+coords+"'");
     GM_setValue(c_prefix+'lastcoords', coords);
 }
