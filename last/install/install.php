@@ -40,7 +40,7 @@ $max = $max - $cur;
         }
     </style>
     <form autocomplete="off" name="install" action="?" method="POST" Onsubmit="return false;">
-        <input type="hidden" id="sqlrooturl" value="<?php echo dirname(dirname($_SERVER['SCRIPT_URL'])).'/'; ?>" />
+        <input type="hidden" id="sqlrooturl" value="<?php echo dirname(dirname($_ENV['SCRIPT_URL'])).'/'; ?>" />
         <input type="hidden" id="sqlmax" value="<?php echo $max; ?>" />
         <table id="install" class="table_nospacing table_center color_bg size500">
             <tr class="color_bigheader text_center">
