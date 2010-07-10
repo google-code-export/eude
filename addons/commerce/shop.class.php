@@ -42,8 +42,8 @@ class BasketClass {
     foreach($_POST as $key => $value) {
       if(mb_substr($key, 0, 4) == "Mod_" && is_numeric($value)) {
         if($value > 0) {
-          $this->items[$this->total]["ID"] = (int)mb_substr($key, 4);
-          $this->items[$this->total]["NB"] = (int)$value;
+          $this->items[$this->total]['ID'] = (int)mb_substr($key, 4);
+          $this->items[$this->total]['NB'] = (int)$value;
           $this->total++;
         }
       }
@@ -68,7 +68,7 @@ class BasketClass {
       $extendedinfos = func_get_arg(0);
 
     $i = 0;
-    foreach($_SESSION["basket"] as $key => $value) {
+    foreach($_SESSION['basket'] as $key => $value) {
       $this->items[$i]['ID'] = $key;
       $this->items[$i]['NB'] = $value;
       
@@ -119,7 +119,7 @@ class BasketClass {
         $extendedinfos = true;
     
     $total = 0;
-    foreach($_SESSION["checkout"] as $key => $value) {
+    foreach($_SESSION['checkout'] as $key => $value) {
       $this->selvendors[$key] = $value;
       $total++;
     }
@@ -140,7 +140,7 @@ class BasketClass {
   // -------------------------------------------------------------------------
   public function GetBasketArray() {
     for($i = 0; $i < sizeof($this->items); $i++)
-      $result[$this->items[$i]["ID"]] = $this->items[$i]["NB"];
+      $result[$this->items[$i]['ID']] = $this->items[$i]['NB'];
     
     return $result;       
   }
@@ -178,32 +178,32 @@ class BasketClass {
     $this->total = sizeof($this->items);
 
     for($ni = 0; $ni < sizeof($this->items); $ni++) {
-      $this->nbtotal += $this->items[$ni]["NB"]; 
+      $this->nbtotal += $this->items[$ni]['NB']; 
         
       if($extendedinfos) {
-        $results = self::GetModInfos($this->items[$ni]["ID"]);
-        $this->items[$ni]["Nom"] = $results["Nom"];
+        $results = self::GetModInfos($this->items[$ni]['ID']);
+        $this->items[$ni]['Nom'] = $results['Nom'];
 
-        $this->items[$ni]["RessourcesTotal"] = 0;
-        $this->items[$ni]["RessourcesNBTotal"] = 0;
+        $this->items[$ni]['RessourcesTotal'] = 0;
+        $this->items[$ni]['RessourcesNBTotal'] = 0;
         foreach($cnhMineraisName as $value) {
-          $this->items[$ni]["Ressources"][$value] = (int)$results[$value];
-          $this->items[$ni]["RessourcesTotal"] += $this->items[$ni]["Ressources"][$value];
+          $this->items[$ni]['Ressources'][$value] = (int)$results[$value];
+          $this->items[$ni]['RessourcesTotal'] += $this->items[$ni]['Ressources'][$value];
           
-          $this->items[$ni]["RessourcesNB"][$value] = $this->items[$ni]["Ressources"][$value] * $this->items[$ni]["NB"];
-          $this->items[$ni]["RessourcesNBTotal"] += $this->items[$ni]["RessourcesNB"][$value];
+          $this->items[$ni]['RessourcesNB'][$value] = $this->items[$ni]['Ressources'][$value] * $this->items[$ni]['NB'];
+          $this->items[$ni]['RessourcesNBTotal'] += $this->items[$ni]['RessourcesNB'][$value];
           
-          $this->totalitems[$value] += $this->items[$ni]["RessourcesNB"][$value];
-          $this->totalress += $this->items[$ni]["RessourcesNB"][$value];
+          $this->totalitems[$value] += $this->items[$ni]['RessourcesNB'][$value];
+          $this->totalress += $this->items[$ni]['RessourcesNB'][$value];
         }
       }
       else {
-        $this->items[$ni]["Nom"] = null;
-        $this->items[$ni]["RessourcesTotal"] = null;
-        $this->items[$ni]["RessourcesNBTotal"] = null;
+        $this->items[$ni]['Nom'] = null;
+        $this->items[$ni]['RessourcesTotal'] = null;
+        $this->items[$ni]['RessourcesNBTotal'] = null;
         for($i = 0; $i < sizeof($cnhMineraisName); $i++) {
-          $this->items[$ni]["Ressources"][$cnhMineraisName[$i]] = null;
-          $this->items[$ni]["RessourcesNB"][$cnhMineraisName[$i]] = null;
+          $this->items[$ni]['Ressources'][$cnhMineraisName[$i]] = null;
+          $this->items[$ni]['RessourcesNB'][$cnhMineraisName[$i]] = null;
         }
       }
     }
@@ -215,7 +215,7 @@ class BasketClass {
   public function GetModInfos($modid) {
     global $cnhMineraisName;
   
-    $mysql_result = DataEngine::sql("SELECT Nom, ".implode(", ", $cnhMineraisName)." FROM SQL_PREFIX_Modules_Template WHERE ID = ".$modid);
+    $mysql_result = DataEngine::sql('SELECT `Nom`, '.implode(", ", $cnhMineraisName).' FROM `SQL_PREFIX_Modules_Template` WHERE `ID` = \''.$modid.'\'');
     
     if($datas = mysql_fetch_array($mysql_result))
       return $datas;
@@ -226,28 +226,26 @@ class BasketClass {
   // -------------------------------------------------------------------------
   public function FillVendors() {
     for($i = 0; $i < sizeof($this->items); $i++) {
-      $modid = $this->items[$i]["ID"]; 
+      $modid = $this->items[$i]['ID']; 
       
-      $mysql_result = DataEngine::sql("
-        SELECT SQL_PREFIX_Modules_Users.Login, Paiement, SQL_PREFIX_Modules_Users.Modifier
-        FROM SQL_PREFIX_Users_Config
-        LEFT JOIN SQL_PREFIX_Modules_Users ON SQL_PREFIX_Users_Config.Login = SQL_PREFIX_Modules_Users.Login
-        WHERE CommerceType <= 1 AND Module_ID = ".$modid." 
-        ORDER BY SQL_PREFIX_Modules_Users.Login;
-      ") or die(mysql_error());
+      $mysql_result = DataEngine::sql('
+        SELECT u.`Login`, c.`Paiement`, u.`Modifier` FROM `SQL_PREFIX_Modules_Users_Config` c
+        LEFT JOIN `SQL_PREFIX_Modules_Users` u ON c.`Login` = u.`Login`
+        WHERE `CommerceType` <= 1 AND `Module_ID` = \''.$modid.'\' ORDER BY u.`Login`;
+      ') or die(mysql_error());
       
-      $this->vendors[$modid][0]["Paiement"] = 0;
+      $this->vendors[$modid][0]['Paiement'] = 0;
       
       $j = 1;
       while($ligne = mysql_fetch_array($mysql_result)) {
-        $this->vendors[$modid][$j]["Login"] = $ligne["Login"];
-        $this->vendors[$modid][$j]["Paiement"] = $ligne["Paiement"];
-        $this->vendors[$modid][$j]["Modifier"] = $ligne["Modifier"];
+        $this->vendors[$modid][$j]['Login'] = $ligne['Login'];
+        $this->vendors[$modid][$j]['Paiement'] = $ligne['Paiement'];
+        $this->vendors[$modid][$j]['Modifier'] = $ligne['Modifier'];
         
         $j++;
     	}
 
-      $this->vendors[$modid][0]["Total"] = $j - 1;
+      $this->vendors[$modid][0]['Total'] = $j - 1;
     }
   }
  
@@ -265,12 +263,12 @@ class BasketClass {
   // -------------------------------------------------------------------------
   public function StringPaiements($paiementbit) {
     if($paiementbit == 0)
-      return("Aucun moyen de paiement activé.");
+      return('Aucun moyen de paiement activé.');
 
     global $cnhMineraisName;
                 
     $radiobouton = false;
-    $groupname = "";
+    $groupname = '';
     if(func_num_args() >= 2) {
       $tmp = func_get_arg(1);
       if(!empty($tmp)) {
@@ -279,7 +277,7 @@ class BasketClass {
       }
     } 
 
-    $implodechar = ", ";
+    $implodechar = ', ';
     if(func_num_args() >= 3) {
       $tmp = func_get_arg(2);
       if(!empty($tmp)) {
@@ -302,20 +300,20 @@ class BasketClass {
 
     $i = 0;
     if($paiementbit & UP_CREDITS)
-      $out[$i++] = sprintf($addtxt.'<img src="images/credits.gif" />&nbsp;Crédits', UP_CREDITS, ($oldparam == UP_CREDITS ? "checked" : ""));
+      $out[$i++] = sprintf($addtxt.'<img src="images/credits.gif" />&nbsp;Crédits', UP_CREDITS, ($oldparam == UP_CREDITS ? "checked" : ''));
     if($paiementbit & UP_EXACT)
-      $out[$i++] = sprintf($addtxt.'<img src="images/ressources.png" />&nbsp;Ressources utilisées', UP_EXACT, ($oldparam == UP_EXACT ? "checked" : ""));
+      $out[$i++] = sprintf($addtxt.'<img src="images/ressources.png" />&nbsp;Ressources utilisées', UP_EXACT, ($oldparam == UP_EXACT ? "checked" : ''));
     if($paiementbit & UP_CHOIX) {
       $nm = 0;
       for($j = 0; $j < sizeof($cnhMineraisName); $j++)
         if($paiementbit & pow(2, $j + 3)) $nm++;
         
       if($nm == $j)
-        $out[$i++] = sprintf($addtxt.'<img src="images/ressources.png" />&nbsp;Toute ressource', UP_RESS, ($oldparam == UP_RESS ? "checked" : ""));
+        $out[$i++] = sprintf($addtxt.'<img src="images/ressources.png" />&nbsp;Toute ressource', UP_RESS, ($oldparam == UP_RESS ? "checked" : ''));
       else {
         for($j = 0; $j < sizeof($cnhMineraisName); $j++) {
           if($paiementbit & pow(2, $j + 3))
-            $out[$i++] = sprintf($addtxt."<img src='".IMAGES_URL.$cnhMineraisName[$j].".png' />&nbsp;".$cnhMineraisName[$j], pow(2, $j + 3), ($oldparam == pow(2, $j + 3) ? "checked" : ""));
+            $out[$i++] = sprintf($addtxt.'<img src='.IMAGES_URL.$cnhMineraisName[$j].'.png' >'&nbsp;'.$cnhMineraisName[$j], pow(2, $j + 3), ($oldparam == pow(2, $j + 3) ? 'checked' : ''));
         }
       }
     }
@@ -332,8 +330,8 @@ class BasketClass {
     $tabtri = array();    
 
     foreach($cnhMineraisName as $value)
-      $vss["RessourcesNB"][$value] = 0;
-    $vss["RessourcesNBTotal"] = 0;
+      $vss['RessourcesNB'][$value] = 0;
+    $vss['RessourcesNBTotal'] = 0;
 
     $nb = 0;
     foreach($this->selvendors as $key => $value) {
@@ -346,23 +344,23 @@ class BasketClass {
           $vss[$nb]['Index'] = $i; 
           $vss[$nb]['Nom'] = $this->items[$i]['Nom'];
           
-          for($j = 1; $j <= $this->vendors[$key][0]["Total"]; $j++) {
-            if($value == $this->vendors[$key][$j]["Login"]) {
-              $vss[$nb]['Paiement'] = $this->vendors[$key][$j]["Paiement"]; 
-              $vss[$nb]['Modifier'] = $this->vendors[$key][$j]["Modifier"];
+          for($j = 1; $j <= $this->vendors[$key][0]['Total']; $j++) {
+            if($value == $this->vendors[$key][$j]['Login']) {
+              $vss[$nb]['Paiement'] = $this->vendors[$key][$j]['Paiement']; 
+              $vss[$nb]['Modifier'] = $this->vendors[$key][$j]['Modifier'];
               
-              $j = $this->vendors[$key][0]["Total"] + 1;  
+              $j = $this->vendors[$key][0]['Total'] + 1;  
             }
           }
 
           $modifier = 1 + $vss[$nb]['Modifier'] / 100;
           
           foreach($cnhMineraisName as $value2) {
-            $vss[$nb]["RessourcesNB"][$value2] = ($this->items[$i]["RessourcesNB"][$value2] * $modifier);
-            $vss["RessourcesNB"][$value2] += $vss[$nb]["RessourcesNB"][$value2];
+            $vss[$nb]['RessourcesNB'][$value2] = ($this->items[$i]['RessourcesNB'][$value2] * $modifier);
+            $vss['RessourcesNB'][$value2] += $vss[$nb]['RessourcesNB'][$value2];
           }
-          $vss[$nb]["RessourcesNBTotal"] = ($this->items[$i]["RessourcesNBTotal"] * $modifier);
-          $vss["RessourcesNBTotal"] += $vss[$nb]["RessourcesNBTotal"];
+          $vss[$nb]['RessourcesNBTotal'] = ($this->items[$i]['RessourcesNBTotal'] * $modifier);
+          $vss['RessourcesNBTotal'] += $vss[$nb]['RessourcesNBTotal'];
           
           $tabtri[$nb] = $value;
 
@@ -399,17 +397,17 @@ class BasketClass {
 
       $fvss[$i] = $vss[$key]; 
 
-      $fvss[$oldi]['RessTotal'] += $fvss[$i]["RessourcesNBTotal"];
+      $fvss[$oldi]['RessTotal'] += $fvss[$i]['RessourcesNBTotal'];
       foreach($cnhMineraisName as $value2)
-        $fvss[$oldi]['Ress'][$value2] += $fvss[$i]["RessourcesNB"][$value2];
+        $fvss[$oldi]['Ress'][$value2] += $fvss[$i]['RessourcesNB'][$value2];
        
       $i++;
       $nb++;
     }
     $fvss[$oldi]['Total'] = $nb;
 
-    $fvss["RessourcesNB"] = $vss["RessourcesNB"];
-    $fvss["RessourcesNBTotal"] = $vss["RessourcesNBTotal"];
+    $fvss['RessourcesNB'] = $vss['RessourcesNB'];
+    $fvss['RessourcesNBTotal'] = $vss['RessourcesNBTotal'];
     
     return $fvss;
   }

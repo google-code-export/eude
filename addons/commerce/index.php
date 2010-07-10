@@ -1,13 +1,13 @@
 <?php
 // Partie standard d'EU2de
-  require_once("../../init.php");
-  require_once(INCLUDE_PATH."Script.php");
-  require_once(TEMPLATE_PATH."sample.tpl.php");
+  require_once('../../init.php');
+  require_once(INCLUDE_PATH.'Script.php');
+  require_once(TEMPLATE_PATH.'sample.tpl.php');
   $tpl = tpl_sample::getinstance();
 
 // Déclaration variables
-  $Joueur = $_SESSION["_login"];
-  require_once("cnh_fonctions.php");
+  $Joueur = $_SESSION['_login'];
+  require_once('cnh_fonctions.php');
   Init_Addon();
 
   if (!DataEngine::CheckPerms('ZZZ_COMMERCE_INDEX'))
@@ -19,7 +19,6 @@
 
 <HTML>
 <HEAD>
-  <link href="cnh_addon.css" rel="stylesheet" type="text/css" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </HEAD>
 <BODY>

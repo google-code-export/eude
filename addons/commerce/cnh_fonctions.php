@@ -85,9 +85,6 @@ function Init_Addon() {
 
     // User preference
     Load_Prefs();
-    
-    // Log logon
-    Log_Activity(LOG_LOGON);
 }
 
 // --------------------------------------------------------------------------
@@ -95,58 +92,46 @@ function Init_Addon() {
 function Load_Prefs() {
   global $user_prefs;
 
-  $_SESSION["up_Login"] = $_SESSION['_login'];
-  $_SESSION["up_CommerceType"] = 0;
-  $_SESSION["up_ChassisSecret"] = 1;
-  $_SESSION["up_Modifier"] = 0;
-  $_SESSION["up_ListSort"] = 0;
-  $_SESSION["up_ActivatedSort"] = false;
-  $_SESSION["up_DateCreated"] = date(DATE_SQL_FORMAT);
-  $_SESSION["up_DateLast"] = $_SESSION["up_DateCreated"];
-  $_SESSION["up_Paiement"] = 0x000000000000000;
-  $_SESSION["up_Planetes"] = 0x00000;
+  $_SESSION['up_Login'] = $_SESSION['_login'];
+  $_SESSION['up_CommerceType'] = 0;
+  $_SESSION['up_ChassisSecret'] = 1;
+  $_SESSION['up_Modifier'] = 0;
+  $_SESSION['up_ListSort'] = 0;
+  $_SESSION['up_ActivatedSort'] = false;
+  $_SESSION['up_DateCreated'] = date(DATE_SQL_FORMAT);
+  $_SESSION['up_DateLast'] = $_SESSION['up_DateCreated'];
+  $_SESSION['up_Paiement'] = 0x000000000000000;
+  $_SESSION['up_Planetes'] = 0x00000;
 
   if(!empty($_SESSION['_login'])) {
-    $mysql_result = DataEngine::sql("SELECT * FROM SQL_PREFIX_Users_Config WHERE Login='".$_SESSION['_login']."'") or die(sql_error());
+    $mysql_result = DataEngine::sql('SELECT `DateCreated`, `DateLast`, `Modifier`, `ListSort`, `ActivatedSort`, `CommerceType`, `ChassisSecret`, `Paiement`, `Planetes` FROM `SQL_PREFIX_Modules_Users_Config` WHERE `Login`=\''.$_SESSION['_login'].'\'') or die(sql_error());
   
     if($datas = mysql_fetch_array($mysql_result)) {
-      $_SESSION["up_CommerceType"] = $datas["CommerceType"];
-      $_SESSION["up_ChassisSecret"] = $datas["ChassisSecret"];
-      $_SESSION["up_Modifier"] = $datas["Modifier"];
-      $_SESSION["up_ListSort"] = $datas["ListSort"];
-      $_SESSION["up_ActivatedSort"] = $datas["ActivatedSort"];
-      $_SESSION["up_DateCreated"] = $datas["DateCreated"];
-      $_SESSION["up_DateLast"] = $datas["DateLast"];
-      $_SESSION["up_Paiement"] = $datas["Paiement"];
-      $_SESSION["up_Planetes"] = $datas["Planetes"];
+      $_SESSION['up_CommerceType'] = $datas['CommerceType'];
+      $_SESSION['up_ChassisSecret'] = $datas['ChassisSecret'];
+      $_SESSION['up_Modifier'] = $datas['Modifier'];
+      $_SESSION['up_ListSort'] = $datas['ListSort'];
+      $_SESSION['up_ActivatedSort'] = $datas['ActivatedSort'];
+      $_SESSION['up_DateCreated'] = $datas['DateCreated'];
+      $_SESSION['up_DateLast'] = $datas['DateLast'];
+      $_SESSION['up_Paiement'] = $datas['Paiement'];
+      $_SESSION['up_Planetes'] = $datas['Planetes'];
     }
     else
     {
       // S'il n'existe pas, création de l'utilisateur
-      $datas["Login"] = $_SESSION['_login'];
-      $datas["DateCreated"] = $_SESSION["up_DateCreated"];
-      $datas["DateLast"] = $_SESSION["up_DateLast"];
-      mysql_insert_array("SQL_PREFIX_Users_Config", $datas);
+      $datas['Login'] = $_SESSION['_login'];
+      $datas['DateCreated'] = $_SESSION['up_DateCreated'];
+      $datas['DateLast'] = $_SESSION['up_DateLast'];
+      mysql_insert_array('`SQL_PREFIX_Modules_Users_Config`', $datas);
     }
-  }
-}
-
-// --------------------------------------------------------------------------
-// Mise à jour du log
-function Log_Activity($action) {
-  switch($action) {
-    case LOG_LOGON:
-      if(!empty($_SESSION['_login'])) {
-        $mysql_result = DataEngine::sql("UPDATE SQL_PREFIX_Users_Config SET DateLast = '".date(DATE_SQL_FORMAT)."' WHERE Login='".$_SESSION['_login']."'") or die(sql_error());
-      }
-      break;
   }
 }
 
 // --------------------------------------------------------------------------
 // Mise à jour du modifier
 function Update_Modifier($login, $modifier) {
-  $mysql_result = DataEngine::sql("UPDATE SQL_PREFIX_Modules_Users SET Modifier = ".$modifier." WHERE Login='".$login."'") or die(sql_error());
+  $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Modules_Users` SET `Modifier` = \''.$modifier.'\' WHERE `Login`=\''.$login.'\'') or die(sql_error());
   
   return true;
 }
@@ -183,13 +168,13 @@ function strfirstcar($chaine) {
 // Affiche une liste tirée d'un tableau...
 function DisplayListSelect($selectname, $items, $selected) {
   if(!empty($selectname))
-    echo("<select name='".$selectname."' id='".$selectname."'>");
+    echo('<select name='.$selectname.' id='.$selectname.'>');
   
   for($i = 0; $i < sizeof($items); $i++)
-    echo("<option value='".$i."'".($selected == $i ? " selected" : "").">".$items[$i]."</option>");
+    echo('<option value='.$i.($selected == $i ? ' selected' : '').'>'.$items[$i].'</option>');
 
   if(!empty($selectname))
-    echo("</select>");
+    echo('</select>');
 }
 
 // --------------------------------------------------------------------------
@@ -241,8 +226,8 @@ function cnhTB() {
       $nreel++;
   }
 
-  $def_table = "<table border=0 align=center cellpadding=".(!$minibar ? "15" : "3")." cellspacing=0>";
-  $def_tr = "<tr valign=top>";
+  $def_table = '<table border=0 align=center cellpadding='.(!$minibar ? '15' : '3').' cellspacing=0>';
+  $def_tr = '<tr valign=top>';
 
   echo("\n".$def_table.$def_tr);
 
@@ -257,22 +242,22 @@ function cnhTB() {
         if($nreel - $j < $nbcol && number_format(100 / ($nreel - $j), 1) != $wi) {
           $wi = number_format(100 / ($nreel - $j), 1);
           
-          echo("</tr></table>".$def_table.$def_tr);
+          echo('</tr></table>'.$def_table.$def_tr);
         }
         else
-          echo("</tr>".$def_tr);
+          echo('</tr>'.$def_tr);
       } 
     
-      echo("<td align=center width='".$wi."%'>");
+      echo('<td align=center width='.$wi.'%>');
       
       if(!empty($menus[$i][4]))
-        echo("<div title=\"".$menus[$i][4]."\">");
+        echo('<div title=\''.$menus[$i][4].'\'>');
       
       if($minibar)
         echo("<font size='-2'>");
       
       if(!empty($menus[$i][1]))
-        echo("<a href='".$menus[$i][1]."'>");
+        echo('<a href='.$menus[$i][1].'>');
   
       if(!empty($menus[$i][2])) {
         $larg = null;
@@ -281,19 +266,19 @@ function cnhTB() {
         elseif(!empty($menus[$i][3]))
           $larg = $menus[$i][3];
   
-        echo("<img ".(!empty($larg) ? " width=".$larg." height=".$larg." " : "")."src='images/menu/".(!empty($prefixnom) ? $prefixnom : "").$menus[$i][2].".png' border=0 align=absmiddle>");
+        echo('<img '.(!empty($larg) ? ' width='.$larg.' height='.$larg.' ' : '').'src="images/menu/'.(!empty($prefixnom) ? $prefixnom : '').$menus[$i][2].'.png" border=0 align=absmiddle>');
       }
       
       if(!$minibar && !empty($menus[$i][4]))
-        $t = (!empty($menus[$i][0]) ? "<b>".$menus[$i][0]."</b><br>" : "").$menus[$i][4];
+        $t = (!empty($menus[$i][0]) ? '<b>'.$menus[$i][0].'</b><br>' : '').$menus[$i][4];
       elseif(!$minibar && empty($menus[$i][4]))
-        $t = "<b>".$menus[$i][0]."</b><br>";
+        $t = '<b>'.$menus[$i][0].'</b><br>';
       elseif(!empty($menus[$i][0]))
         $t = $menus[$i][0];
       else
         $t = $menus[$i][4];
       
-      echo ("<br />".$t.(!empty($menus[$i][1]) ? "</a>" : "").($minibar ? "</font>" : "").(!empty($menus[$i][4]) ? "</div>" : "")."</td>");
+      echo ('<br />'.$t.(!empty($menus[$i][1]) ? '</a>' : '').($minibar ? '</font>' : '').(!empty($menus[$i][4]) ? '</div>' : '').'</td>');
 
       $j++; 
     }
@@ -305,8 +290,8 @@ function cnhTB() {
 // --------------------------------------------------------------------------
 // Affiche un texte pour debug uniquement pour yelm
 function pDebug($textedebug) {
-  if($_SESSION['_login']=="docl88")
-    echo("<br /><center><font color='#ffffff'>[<tt>".$textedebug."</tt>]</font></center>");
+  if($_SESSION['_login']=='docl88')
+    echo('<br /><center><font color=#ffffff>[<tt>'.$textedebug.'</tt>]</font></center>');
 }
 
 // --------------------------------------------------------------------------
