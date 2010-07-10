@@ -27,7 +27,7 @@ class addons {
                 $class = new $class_name;
                 if ($class->Is_Enabled())
                     $this->addons_list[$addon] = $class;
-                if ($class->InSubAddonMenu())
+                if ($class->InSubAddonMenu() && $class->CheckPerms())
                     $this->addons_menu = true;
             }
         }
@@ -60,7 +60,8 @@ class addons {
         $tmp_menu = array();
 
         foreach ($this->addons_list as $addon => $class)
-            $tmp_menu[$addon] = $class->Get_Menu();
+            if ($class->CheckPerms())
+                $tmp_menu[$addon] = $class->Get_Menu();
 
         // ajout d'un menu en première place ?
         foreach ($tmp_menu as $addon => $addons_menu) {
