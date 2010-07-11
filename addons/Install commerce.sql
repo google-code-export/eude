@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `SQL_PREFIX_Modules_Users` (
   PRIMARY KEY (`Login`,`Module_ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `SQL_PREFIX_Users_Config` (
+CREATE TABLE IF NOT EXISTS `SQL_PREFIX_Modules_Users_Config` (
   `Login` varchar(30) NOT NULL,
   `DateCreated` datetime DEFAULT NULL,
   `DateLast` datetime DEFAULT NULL,
