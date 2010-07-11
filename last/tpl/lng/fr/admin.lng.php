@@ -56,7 +56,7 @@ $lng['empire_switch_current'] = 'Original:';
 $lng['empire_switch_current_sel'] = '[Selectionner un empire]';
 $lng['empire_switch_new']     = 'Nouveau';
 $lng['empire_switch_new_sel'] = '[Supprimer l\'empire]';
-$lng['empire_switch_result']  = '%d joueurs modifié avec le nouvel empire.';
+$lng['empire_switch_result']  = '%d planètes modifiées avec le nouvel empire.';
 
 $lng['empire_allys']          = 'Déclaration d\'alliance à un empire: (Noms simplifiés)';
 $lng['empire_allys_sel']      = '[Selectionner un empire]';
@@ -72,8 +72,8 @@ $lng['empire_wars_empty']     = 'Pas de guerre en cours...';
 
 $lng['empire_allyswars']      = 'Forcer la mise à jour les information sur les alliés/guerres/neutre';
 $lng['empire_allyswars_upd']  = 'MAJ';
-$lng['empire_allyswars_result0'] = '%d joueurs modifié avec le \'nouveau\' status d\'allié.';
-$lng['empire_allyswars_result1'] = '%d joueurs modifié avec le \'nouveau\' status d\'ennemis.';
+$lng['empire_allyswars_result0'] = '%d planètes modifiées avec le \'nouveau\' status d\'allié.';
+$lng['empire_allyswars_result1'] = '%d planètes modifiées avec le \'nouveau\' status d\'ennemis.';
 
 $lng['cleaning_items']        = 'Nettoyage divers...';
 $lng['cleaning_act']          = 'Plus anciens que';
