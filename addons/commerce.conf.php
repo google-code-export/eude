@@ -59,13 +59,13 @@ public function GetCustomPerms() {
 		$sqlreq = 'SELECT `ID` FROM `SQL_PREFIX_modules_commandes` WHERE (`DateLivraison` IS NULL) AND `LoginV` = \''.$Joueur.'\'';
 		$mysql_result = DataEngine::sql($sqlreq);
 		if (mysql_num_rows($mysql_result) > 0) {
-		$bouton = '%ADDONS_URL%commerce/images/menu/btn-modules-red.png';
+		$bouton = '%BTN_URL%modules_red.png';
 		$menu = array('%ADDONS_URL%commerce/commandes_list.php',$bouton,155,'DataEngine::CheckPerms("ZZZ_COMMERCE_INDEX")');
 		$submenu = array(
         array('%ADDONS_URL%commerce/commandes_list.php',$bouton,155,'DataEngine::CheckPerms("ZZZ_COMMERCE_INDEX")'), // sous-menu 2
         );
 		} else {
-		$bouton = '%ADDONS_URL%commerce/images/menu/btn-modules.png';
+		$bouton = '%BTN_URL%modules.png';
 		$menu = array('%ADDONS_URL%commerce/index.php',$bouton,155,'DataEngine::CheckPerms("ZZZ_COMMERCE_INDEX")');
 		$submenu = array(
         array('%ADDONS_URL%commerce/index.php',$bouton,155,'DataEngine::CheckPerms("ZZZ_COMMERCE_INDEX")'), // sous-menu 2
