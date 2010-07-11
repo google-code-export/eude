@@ -132,7 +132,7 @@ switch($_SESSION['cnhAffichageMe']) {
 }
 ?>
 <table border="1" align="center" cellpadding="3" cellspacing="0" >
-<tr class="text_center color_header"><td colspan=<?php echo $tnbcol; ?>><?php echo $titlecat; ?><BR><form action="commandes_list.php" name="form" method="post">Affichage: <select class="color_row0" class="color_row0" name='cnhAffichageMe'><?php DisplayListSelect("", $cnhAffichageMe, $_SESSION["cnhAffichageMe"]); ?></select> / <input class="color_row0" type="submit" name="submitMe" value="Lister"></form></td></tr>
+<tr class="text_center color_header"><td colspan=<?php echo $tnbcol; ?>><?php echo $titlecat; ?><BR><form action="commandes_list.php" name="form" method="post">Affichage: <select class="color_row0" name='cnhAffichageMe'><?php DisplayListSelect("", $cnhAffichageMe, $_SESSION["cnhAffichageMe"]); ?></select> / <input class="color_row0" type="submit" name="submitMe" value="Lister"></form></td></tr>
 <tr class="text_center color_header"><td>Date</td><td>Fournisseur</td><td>Commande</td><td>Paiement</td><td>Date Paiement</td><td>Date Livraison</td><td>Coordonnées</td></tr>
 <?php
   $sqlreq = '
@@ -226,7 +226,7 @@ switch($_SESSION['cnhAffichageHim']) {
 <br /><hr><br />
 <table border="1" align="center" cellpadding="3" cellspacing="0">
 
-<tr class="text_center color_header"><td colspan=<?php echo $tnbcol; ?>><?php echo $titlecathim; ?><BR><form ACTION="commandes_list.php" name="formHim" method="post">Affichage: <select class="color_row0" class="color_row0" name='cnhAffichageHim'><?php DisplayListSelect("", $cnhAffichageHim, $_SESSION["cnhAffichageHim"]); ?></select> / <input class="color_row0" type="submit" name="submitHim" value="Lister"></form></td></tr>
+<tr class="text_center color_header"><td colspan=<?php echo $tnbcol; ?>><?php echo $titlecathim; ?><BR><form ACTION="commandes_list.php" name="formHim" method="post">Affichage: <select class="color_row0" name='cnhAffichageHim'><?php DisplayListSelect("", $cnhAffichageHim, $_SESSION["cnhAffichageHim"]); ?></select> / <input class="color_row0" type="submit" name="submitHim" value="Lister"></form></td></tr>
 <tr class="text_center color_header"><td>Date</td><td>Client</td><td>Commande</td><td>Paiement</td><td>Date Paiement</td><td>Date Livraison</td><td>Coordonnées</td></tr>
 <?php
   $sqlreq = '

@@ -140,7 +140,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_PREF'))
   <tr class="color_row0">
     <td>A qui voulez-vous vendre vos modules?</td>
     <td><?php DisplayListSelect("CommerceType", $cnhCommerceType, $datas['CommerceType']); ?></td>
-  </tr class="color_row0">
+  </tr>
   <tr class="color_row0">
     <td>Quels paiements acceptez-vous?</td>
     <td><table border="0" cellspacing="0" cellpadding="0">
