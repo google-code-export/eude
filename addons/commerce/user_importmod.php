@@ -1,13 +1,13 @@
 <?php
 // Partie standard d'EU2de
-  require_once("../../init.php");
+  require_once('../../init.php');
   require_once(INCLUDE_PATH.'Script.php');
   require_once(TEMPLATE_PATH.'sample.tpl.php');
   $tpl = tpl_sample::getinstance();
 
 // Déclaration variables
   $Joueur = $_SESSION['_login'];
-  require_once("cnh_fonctions.php");
+  require_once('cnh_fonctions.php');
   Init_Addon();
   
 // DEBUT CODE LIBRE
@@ -19,7 +19,6 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
 
 <HTML>
 <HEAD>
-  <link href="cnh_addon.css" rel="stylesheet" type="text/css" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </HEAD>
 <BODY>
@@ -33,14 +32,14 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
   $chainecar = 'abcdefghijklmnopqrstuvwxyz';
 
   if($_POST["ReplaceAll"]=='on') {
-    echo("Effacement de toutes les anciennes données du joueur ".$Joueur."...<br />");
-    $mysql_result = DataEngine::sql("DELETE FROM SQL_PREFIX_Modules_Users WHERE Login='".$Joueur."'") or die(mysql_error());
+    echo('Effacement de toutes les anciennes données du joueur '.$Joueur.'...<br />');
+    $mysql_result = DataEngine::sql('DELETE FROM SQL_PREFIX_Modules_Users WHERE Login=\''.$Joueur.'\'') or die(mysql_error());
   }
 
-  if(isset($_POST["submit"])) {
-    if($_POST["submit"]=='Interpréter' && !empty($_POST["RawData"])) {
-      $t = str_replace("\n", ' ', $_POST["RawData"]);
-      $t = str_replace("\t", ' ', $_POST["RawData"]);
+  if(isset($_POST['submit'])) {
+    if($_POST['submit']=='Interpréter' && !empty($_POST['RawData'])) {
+      $t = str_replace("\n", ' ', $_POST['RawData']);
+      $t = str_replace("\t", ' ', $_POST['RawData']);
 
       $importmod = 0;
       $tmp = strpos($t, "Options");
@@ -105,26 +104,26 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
             
           $tName = trim(mb_substr($t, 0, $i - 1));
     
-          $mysql_result = DataEngine::sql("
+          $mysql_result = DataEngine::sql('
           SELECT ID, Description, SQL_PREFIX_Modules_Own.Modifier
-          FROM SQL_PREFIX_Modules_Template LEFT JOIN (SELECT * FROM SQL_PREFIX_Modules_Users WHERE Login='".$Joueur."') AS SQL_PREFIX_Modules_Own ON SQL_PREFIX_Modules_Template.ID = SQL_PREFIX_Modules_Own.Module_ID  
-          WHERE Nom = '".$tName."' OR Abreviation = '".$tName."'") or die(mysql_error());
+          FROM SQL_PREFIX_Modules_Template LEFT JOIN (SELECT Login, Module_ID, Modifier FROM SQL_PREFIX_Modules_Users WHERE Login='.$Joueur.') AS SQL_PREFIX_Modules_Own ON SQL_PREFIX_Modules_Template.ID = SQL_PREFIX_Modules_Own.Module_ID  
+          WHERE Nom = \''.$tName.'\' OR Abreviation = \''.$tName.'\'') or die(mysql_error());
           
           if($datas = mysql_fetch_array($mysql_result)) {
             $totalmod++;
-            echo("<br />Importation: <b>".$tName."</b>");
+            echo('<br />Importation: <b>'.$tName.'</b>');
             
-            if(empty($datas["ID"])) {
+            if(empty($datas['ID'])) {
               echo(" -> Concordance non-trouvée (vérifiez le nom et l'abbréviation dans le Template du module).");
             }
             else
             {
-              if(empty($datas["Description"]) && !empty($tDesc)){
-                DataEngine::sql("UPDATE SQL_PREFIX_Modules_Template SET Description='".$tDesc."' WHERE ID=".$datas["ID"]) or die(mysql_error());
+              if(empty($datas['Description']) && !empty($tDesc)){
+                DataEngine::sql('UPDATE SQL_PREFIX_Modules_Template SET Description=\''.$tDesc.'\' WHERE ID=\''.$datas['ID'].'\'') or die(mysql_error());
               }
               
-              if(is_null($datas["Modifier"])){          
-                DataEngine::sql("INSERT INTO SQL_PREFIX_Modules_Users(Login, Module_ID, Modifier) VALUES ('".$Joueur."', ".$datas["ID"].", 0)") or die(mysql_error());
+              if(is_null($datas['Modifier'])){          
+                DataEngine::sql('INSERT INTO SQL_PREFIX_Modules_Users(Login, Module_ID, Modifier) VALUES (\''.$Joueur.'\', \''.$datas['ID'].'\', 0)') or die(mysql_error());
                 $addedmod++;
               }
               else
@@ -147,7 +146,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
           $gf++;        
         }
         
-        echo("<br /><br />".$totalmod." module(s) trouvé(s), ".$addedmod." ajouté(s).");
+        echo('<br /><br />'.$totalmod.' module(s) trouvé(s), '.$addedmod.' ajouté(s).');
 
         echo("<br /><br /><hr width='50%' /><p align=center>[&nbsp;<a href='user_importmod.php'>Autre importation...</a>&nbsp;]</p>");
       }
@@ -175,20 +174,16 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
         $i = strpos($t, "Grosseur");
         $j = strpos($t, "\n", $i);
         $datas["PAGVG"] = intval(trim(mb_substr($t, $i + 8, $j - $i - 2)));
-        $datas["PAChasseur"] = intval($datas["PAGVG"] / 2 + 0.5);
+        $datas["PAChasseur"] = intval($datas['PAGVG'] / 2 + 0.5);
         $t = mb_substr($t, $j + 1);
 
         $i = strpos($t, "construction");
         $j = strpos($t, "\n", $i);
         $datas["Temps"] = trim(mb_substr($t, $i + 12, $j - $i - 12));
-		if ($datas["Temps"]>=3600) {
-		$datas["Temps"] = $datas["Temps"] - 3600;
-		$datas["Temps"] = date("H:i:s", $datas["Temps"]);
-		} elseif ($datas["Temps"]<3600) {
-		$datas["Temps"] = date("i:s", $datas["Temps"]);
-		$datas["Temps"] = '00:'.$datas["Temps"];
+        $t = mb_substr($t, $j + 1);
+		if(strlen($datas['Temps']) == 5) {
+		$datas['Temps'] = '00:'.$datas['Temps'];
 		}
-		$t = mb_substr($t, $j + 1);
 		
         // Avantages
 		if(strpos($t, "Avantages") !== false) {
@@ -205,73 +200,73 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
               
               switch($field) {
                 case 'Consommation': // Propulsion 
-                  $datas["Categorie"] = 0; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+                  $datas['Categorie'] = 0; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
                   $field = 'PropConsommation';
                   $value = trim(mb_substr($value, 1));
                   break; 
 	            case 'Impulsions': // Propulsion
-	              $datas["Categorie"] = 0; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas['Categorie'] = 0; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
 	              $field = 'PropImpulsion';
 	              $value = DelPoint(trim(mb_substr($value, 0, strpos($value, ","))));
 	              break; 
 	            case 'Warp': // Propulsion 
-	              $datas["Categorie"] = 0; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas['Categorie'] = 0; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
 	              $field = 'PropWarp';
 	              $value = DelPoint(trim(mb_substr($value, 0, strpos($value, ","))));
 	              break;
 	            case 'Attaque (Laser)': // Armement "Laser"
-	              $datas["Categorie"] = 1; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas['Categorie'] = 1; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
 	              $alertjava = "Attention, il sera nécessaire de rêgler la précision de l'arme manuellement!";
 	              $datas['ArmType'] = 0;
 	              $field = 'ArmDegat';
 	              $value = trim(mb_substr($value, 1));
 	              break; 
 	            case 'Attaque (projectile)': // Armement "Projectile"
-	              $datas["Categorie"] = 1; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas['Categorie'] = 1; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
 	              $alertjava = "Attention, il sera nécessaire de rêgler la précision de l'arme manuellement!";
 	              $datas['ArmType'] = 1;
 	              $field = 'ArmDegat';
 	              $value = trim(mb_substr($value, 1));
 	              break; 
 	            case 'Attaque (Ions)': // Armement "Ion"
-	              $datas["Categorie"] = 1; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas['Categorie'] = 1; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
 	              $alertjava = "Attention, il sera nécessaire de rêgler la précision de l'arme manuellement!";
 	              $datas['ArmType'] = 2;
 	              $field = 'ArmDegat';
 	              $value = trim(mb_substr($value, 1));
 	              break; 
 	            case 'Blindage': // Blindage
-	              $datas["Categorie"] = 2; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas['Categorie'] = 2; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
 	              $datas['ProtType'] = 0;
 	              $field = 'ProtGVG';
 	              $value = trim(mb_substr($value, 1));
 	              $datas['ProtChasseur'] = intval($value / 4 + 0.5);
 	              break; 
 	            case 'Bouclier': // Bouclier
-	              $datas["Categorie"] = 2; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas['Categorie'] = 2; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
 	              $datas['ProtType'] = 1;
 	              $field = 'ProtGVG';
 	              $value = DelPoint(trim(mb_substr($value, 1)));
 	              $datas['ProtChasseur'] = intval($value / 5 + 0.5);
 	              break;
 	            case 'Carburant': // Carburant
-	              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-	              $datas["PAChasseur"] = $datas["PAGVG"];
+	              $datas['Categorie'] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas['PAChasseur'] = $datas['PAGVG'];
 	              $datas['EquipType'] = 5;
 	              $field = 'EquipNiv';
 	              $value = DelPoint(trim(mb_substr($value, 1)));
 	              break; 
 	            case 'Radar': // Scan
-	              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-	              $datas["PAChasseur"] = $datas["PAGVG"];
+	              $datas['Categorie'] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas['PAChasseur'] = $datas['PAGVG'];
 	              $datas['EquipType'] = 3;
 	              $field = 'EquipNiv';
 	              $value = DelPoint(trim(mb_substr($value, 1)));
 	              break; 
 	            case 'Chargement': // Minage 2, Cargo 0, Récupérateur 4
-	              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas['Categorie'] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
 	              $alertjava = "Attention, l'importation ne peut faire la différence entre un Cargo, un Mineur ou un ramasseur de débris!\nVous devrez vous-même effectuer les réglages!";
-	              $datas["PAChasseur"] = $datas["PAGVG"];
+	              $datas['PAChasseur'] = $datas['PAGVG'];
 	              $datas['EquipType'] = 0;
 	              $field = 'EquipNiv';
 	              $value = DelPoint(trim(mb_substr($value, 1)));
@@ -279,15 +274,15 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
 	            case 'Inenterie': // Troupes
 	            case 'Infenterie':
 	            case 'Infanterie':
-	              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-	              $datas["PAChasseur"] = $datas["PAGVG"];
+	              $datas['Categorie'] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas['PAChasseur'] = $datas['PAGVG'];
 	              $datas['EquipType'] = 1;
 	              $field = 'EquipNiv';
 	              $value = DelPoint(trim(mb_substr($value, 1)));
 	              break; 
 	            case 'Coloniser':
-	              $datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-	              $datas["PAChasseur"] = $datas["PAGVG"];
+	              $datas['Categorie'] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+	              $datas['PAChasseur'] = $datas['PAGVG'];
 	              $datas['EquipType'] = 6;
 	              $field = 'EquipNiv';
 	              $value = trim(mb_substr($value, 1));
@@ -304,8 +299,8 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
 		}
 		// MAJ looki camouflage
 		if (preg_match('/camouflage\s+(\d+)/i', $datas["Nom"], $matches)) {
-			$datas["Categorie"] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
-			$datas["PAChasseur"] = $datas["PAGVG"];
+			$datas['Categorie'] = 3; //0 Propulsion, 1 Armement, 2 Protection, 3 Equipement, 4 Chassis
+			$datas['PAChasseur'] = $datas['PAGVG'];
 			$datas['EquipType'] = 7; // Camouflage
 			$datas['EquipNiv']= $matches[1];
 		}
@@ -332,19 +327,19 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
         }
 
         // Description
-        $datas['Description'] = trim($t);
+        $datas['Description'] = addslashes (trim($t));
 
         // Divers
-        $datas["Taille"] = $datas["PAGVG"] * 1000;
+        $datas['Taille'] = $datas['PAGVG'] * 1000;
         
 
 
-	$query = "SELECT ID FROM SQL_PREFIX_Modules_Template WHERE Nom LIKE '$datas[Nom]'";
+	$query = 'SELECT ID FROM SQL_PREFIX_Modules_Template WHERE Nom LIKE \''.$datas['Nom'].'\'';
         $mysql_result = DataEngine::sql($query);
         if (mysql_num_rows($mysql_result) > 0) {
             $ligne = mysql_fetch_assoc($mysql_result);
             if($ligne['ID'] > 0) {
-			DataEngine::sql('UPDATE SQL_PREFIX_Modules_Template SET Nom="'.$datas["Nom"].'", Description="'.$datas['Description'].'", Categorie="'.$datas["Categorie"].'", Taille="'.$datas["Taille"].'", PAChasseur="'.$datas["PAChasseur"].'", PAGVG="'.$datas["PAGVG"].'", Temps="'.$datas["Temps"].'", Titane="'.$datas["Titane"].'", Cuivre="'.$datas["Cuivre"].'", Fer="'.$datas["Fer"].'", Aluminium="'.$datas["Aluminium"].'", Mercure="'.$datas["Mercure"].'", Silicium="'.$datas["Silicium"].'", Uranium="'.$datas["Uranium"].'", Krypton="'.$datas["Krypton"].'", Azote="'.$datas["Azote"].'", Hydrogene="'.$datas["Hydrogene"].'", PropImpulsion="'.$datas["PropImpulsion"].'", PropWarp="'.$datas["PropWarp"].'", PropConsommation="'.$datas["PropConsommation"].'", ArmType="'.$datas["ArmType"].'", ArmDegat="'.$datas["ArmDegat"].'", ProtType="'.$datas["ProtType"].'", ProtChasseur="'.$datas["ProtChasseur"].'", ProtGVG="'.$datas["ProtGVG"].'", EquipType="'.$datas["EquipType"].'", EquipNiv="'.$datas["EquipNiv"].'" WHERE ID='.$ligne["ID"]);
+			DataEngine::sql('UPDATE SQL_PREFIX_Modules_Template SET Nom=\''.$datas['Nom'].'\', Description=\''.$datas['Description'].'\', Categorie=\''.$datas['Categorie'].'\', Taille=\''.$datas['Taille'].'\', PAChasseur=\''.$datas['PAChasseur'].'\', PAGVG=\''.$datas['PAGVG'].'\', Temps=\''.$datas['Temps'].'\', Titane=\''.$datas['Titane'].'\', Cuivre=\''.$datas['Cuivre'].'\', Fer=\''.$datas['Fer'].'\', Aluminium=\''.$datas['Aluminium'].'\', Mercure=\''.$datas['Mercure'].'\', Silicium=\''.$datas['Silicium'].'\', Uranium=\''.$datas['Uranium'].'\', Krypton=\''.$datas['Krypton'].'\', Azote=\''.$datas['Azote'].'\', Hydrogene=\''.$datas['Hydrogene'].'\', PropImpulsion=\''.$datas['PropImpulsion'].'\', PropWarp=\''.$datas['PropWarp'].'\', PropConsommation=\''.$datas['PropConsommation'].'\', ArmType=\''.$datas['ArmType'].'\', ArmDegat=\''.$datas['ArmDegat'].'\', ProtType=\''.$datas['ProtType'].'\', ProtChasseur=\''.$datas['ProtChasseur'].'\', ProtGVG=\''.$datas['ProtGVG'].'\', EquipType=\''.$datas['EquipType'].'\', EquipNiv=\''.$datas['EquipNiv'].'\' WHERE ID=\''.$ligne['ID'].'\'');
 			echo("<br /><center><b>Templates de module mis à jour.</b></center><br /><br />");
 			echo("<br /><br /><hr width='50%' /><p align=center>&nbsp;<a href='user_importmod.php'>Autre importation...</a>&nbsp;</p>");
 			}
@@ -352,7 +347,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
 			else {
 			
             $query    = 'INSERT INTO SQL_PREFIX_Modules_Template (`Nom`, `Description`, `Categorie`, `Taille`, `PAChasseur`, `PAGVG`, `Temps`, `Titane`, `Cuivre`, `Fer`, `Aluminium`, `Mercure`, `Silicium`, `Uranium`, `Krypton`, `Azote`, `Hydrogene`, `PropImpulsion`, `PropWarp`, `PropConsommation`, `ArmType`, `ArmDegat`, `ArmManiabilite`, `ProtType`, `ProtChasseur`, `ProtGVG`, `EquipType`, `EquipNiv`) ';
-            $query   .= 'VALUES (\''.$datas["Nom"].'\', \''.$datas["Description"].'\', \''.$datas["Categorie"].'\', \''.$datas["Taille"].'\', \''.$datas["PAChasseur"].'\', \''.$datas["PAGVG"].'\', \''.$datas["Temps"].'\', \''.$datas["Titane"].'\', \''.$datas["Cuivre"].'\', \''.$datas["Fer"].'\', \''.$datas["Aluminium"].'\', \''.$datas["Mercure"].'\', \''.$datas["Silicium"].'\', \''.$datas["Uranium"].'\', \''.$datas["Krypton"].'\', \''.$datas["Azote"].'\', \''.$datas["Hydrogene"].'\', \''.$datas["PropImpulsion"].'\', \''.$datas["PropWarp"].'\', \''.$datas["PropConsommation"].'\', \''.$datas["ArmType"].'\', \''.$datas["ArmDegat"].'\', \''.$datas["ArmManiabilite"].'\', \''.$datas["ProtType"].'\', \''.$datas["ProtChasseur"].'\', \''.$datas["ProtGVG"].'\', \''.$datas["EquipType"].'\', \''.$datas["EquipNiv"].'\')';
+            $query   .= 'VALUES (\''.$datas['Nom'].'\', \''.$datas['Description'].'\', \''.$datas['Categorie'].'\', \''.$datas['Taille'].'\', \''.$datas['PAChasseur'].'\', \''.$datas['PAGVG'].'\', \''.$datas['Temps'].'\', \''.$datas['Titane'].'\', \''.$datas['Cuivre'].'\', \''.$datas['Fer'].'\', \''.$datas['Aluminium'].'\', \''.$datas['Mercure'].'\', \''.$datas['Silicium'].'\', \''.$datas['Uranium'].'\', \''.$datas['Krypton'].'\', \''.$datas['Azote'].'\', \''.$datas['Hydrogene'].'\', \''.$datas['PropImpulsion'].'\', \''.$datas['PropWarp'].'\', \''.$datas['PropConsommation'].'\', \''.$datas['ArmType'].'\', \''.$datas['ArmDegat'].'\', \''.$datas['ArmManiabilite'].'\', \''.$datas['ProtType'].'\', \''.$datas['ProtChasseur'].'\', \''.$datas['ProtGVG'].'\', \''.$datas['EquipType'].'\', \''.$datas['EquipNiv'].'\')';
             $datas_id = DataEngine::sql($query);
 			echo("<br /><center><b>Templates de module ajouté.</b></center><br /><br />");
 			echo("<br /><br /><hr width='50%' /><p align=center>&nbsp;<a href='user_importmod.php'>Autre importation...</a>&nbsp;</p>");
@@ -375,7 +370,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
 ?>
 <form name="form1" method="post" action="">
 <table border="1" align="center" cellpadding="3" cellspacing="0" width=80%>
-  <tr>
+  <tr class="color_row0">
     <td>Pour importer des données, il vous suffit de sélectionner une page du jeu (CTRL-A), de la copier entièrement (CTRL-C) puis de la coller dans le champs à droite (CTRL-V).<br />
     <br />
     Vous pouvez importer:
@@ -386,13 +381,13 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
 <?php } ?>
     </ul></td>
     <td>
-      Données à interpréter: <textarea name="RawData" cols="45" rows="5" wrap="virtual" id="RawData"></textarea><br />
-      <input type="checkbox" name="ReplaceAll" id="ReplaceAll" /> Avant cette importation, remise à zéro de la liste des modules que vous pouvez fabriquer.
+      Données à interpréter: <textarea class="color_row0" name="RawData" cols="45" rows="5" wrap="virtual" id="RawData"></textarea><br />
+      <input class="color_row0" type="checkbox" name="ReplaceAll" id="ReplaceAll" /> Avant cette importation, remise à zéro de la liste des modules que vous pouvez fabriquer.
     </td>
   </tr>
 </table>
 <br />
-<center><input type="submit" name="submit" id="submit" value="Interpréter"></center>
+<center><input class="color_row0" type="submit" name="submit" id="submit" value="Interpréter"></center>
 </form>
 <br />
 <?php } ?>

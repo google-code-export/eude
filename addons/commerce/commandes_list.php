@@ -132,7 +132,7 @@ switch($_SESSION['cnhAffichageMe']) {
 }
 ?>
 <table border="1" align="center" cellpadding="3" cellspacing="0" >
-<tr class="text_center color_header"><td colspan=<?php echo $tnbcol; ?>><?php echo $titlecat; ?><BR><form action="commandes_list.php" name="form" method="post">Affichage: <select name='cnhAffichageMe'><?php DisplayListSelect("", $cnhAffichageMe, $_SESSION["cnhAffichageMe"]); ?></select> / <input type="submit" name="submitMe" value="Lister"></form></td></tr>
+<tr class="text_center color_header"><td colspan=<?php echo $tnbcol; ?>><?php echo $titlecat; ?><BR><form action="commandes_list.php" name="form" method="post">Affichage: <select class="color_row0" class="color_row0" name='cnhAffichageMe'><?php DisplayListSelect("", $cnhAffichageMe, $_SESSION["cnhAffichageMe"]); ?></select> / <input class="color_row0" type="submit" name="submitMe" value="Lister"></form></td></tr>
 <tr class="text_center color_header"><td>Date</td><td>Fournisseur</td><td>Commande</td><td>Paiement</td><td>Date Paiement</td><td>Date Livraison</td><td>Coordonnées</td></tr>
 <?php
   $sqlreq = '
@@ -149,7 +149,7 @@ switch($_SESSION['cnhAffichageMe']) {
 
 	// echo("<a href='template_list.php".$defquerystring."#ID".$ligne["ID"]."'><img src='images/thumbs_no_faded.png' align=middle border=0></a> <img src='images/thumbs_yes.png' align=middle border=0>");
 	// <a href='template_view.php?viewid=".$ligne["ID"]."'><font color='#FF6600'>".(!empty($ligne["Abreviation"]) ? $ligne["Abreviation"] : $ligne["Nom"])."</font></a>
-	// <input type="button" value="Enregistrer" onclick="location.href=../asp/PRaces.asp">
+	// <input class="color_row0" type="button" value="Enregistrer" onclick="location.href=../asp/PRaces.asp">
 	
     // Colonne 1 - Date
     echo('<td>'.$ligne['DateCreated'].'</td>');
@@ -171,7 +171,7 @@ switch($_SESSION['cnhAffichageMe']) {
     // Colonne 5 - Date Paiement
     echo('<td>');
 	if (is_null($ligne['DatePaiement'])) {
-		echo('<input type="button" value="Paiement effectué" onclick="javascript:redirection('.$ligne['ID'].',\'paiementMe\',\'Paiement de la commande '.$ligne['Items'].'\',\'Vous avez payé\',\'Vous n avez pas payé\')">');
+		echo('<input class="color_row0" type="button" value="Paiement effectué" onclick="javascript:redirection('.$ligne['ID'].',\'paiementMe\',\'Paiement de la commande '.$ligne['Items'].'\',\'Vous avez payé\',\'Vous n avez pas payé\')">');
 	} else {
 		echo($ligne['DatePaiement']);
 	}
@@ -226,7 +226,7 @@ switch($_SESSION['cnhAffichageHim']) {
 <br /><hr><br />
 <table border="1" align="center" cellpadding="3" cellspacing="0">
 
-<tr class="text_center color_header"><td colspan=<?php echo $tnbcol; ?>><?php echo $titlecathim; ?><BR><form ACTION="commandes_list.php" name="formHim" method="post">Affichage: <select name='cnhAffichageHim'><?php DisplayListSelect("", $cnhAffichageHim, $_SESSION["cnhAffichageHim"]); ?></select> / <input type="submit" name="submitHim" value="Lister"></form></td></tr>
+<tr class="text_center color_header"><td colspan=<?php echo $tnbcol; ?>><?php echo $titlecathim; ?><BR><form ACTION="commandes_list.php" name="formHim" method="post">Affichage: <select class="color_row0" class="color_row0" name='cnhAffichageHim'><?php DisplayListSelect("", $cnhAffichageHim, $_SESSION["cnhAffichageHim"]); ?></select> / <input class="color_row0" type="submit" name="submitHim" value="Lister"></form></td></tr>
 <tr class="text_center color_header"><td>Date</td><td>Client</td><td>Commande</td><td>Paiement</td><td>Date Paiement</td><td>Date Livraison</td><td>Coordonnées</td></tr>
 <?php
   $sqlreq = '
@@ -262,7 +262,7 @@ switch($_SESSION['cnhAffichageHim']) {
     echo('<td>');
 	if (is_null($ligne['DatePaiement'])) {
 		if($_SESSION['_login'] == $ligne['LoginV']) {
-			echo('<input type="button" value="Paiement effectué" onclick="javascript:redirection('.$ligne["ID"].',\'paiementHim\',\'Paiement de la commande '.$ligne['Items'].'\',\'Vous avez été payé\',\'Vous n avez pas été payé\')">');
+			echo('<input class="color_row0" type="button" value="Paiement effectué" onclick="javascript:redirection('.$ligne["ID"].',\'paiementHim\',\'Paiement de la commande '.$ligne['Items'].'\',\'Vous avez été payé\',\'Vous n avez pas été payé\')">');
 		} else {
 			echo('En attente de paiement');
 		}
@@ -273,7 +273,7 @@ switch($_SESSION['cnhAffichageHim']) {
     // Colonne 6 - Date Livraison
     echo('<td>');
 	if (is_null($ligne['DateLivraison'])) {
-		echo('<input type="button" value="Livraison effectuée" onclick="javascript:redirection('.$ligne["ID"].',\'livraisonHim\',\'Livraison de la commande '.$ligne['Items'].'\',\'Vous avez livré\',\'Vous n avez pas livré\')">');
+		echo('<input class="color_row0" type="button" value="Livraison effectuée" onclick="javascript:redirection('.$ligne["ID"].',\'livraisonHim\',\'Livraison de la commande '.$ligne['Items'].'\',\'Vous avez livré\',\'Vous n avez pas livré\')">');
 	} else {
 		echo($ligne['DateLivraison']);
 	}

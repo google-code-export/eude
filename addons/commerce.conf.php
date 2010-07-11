@@ -56,11 +56,7 @@ public function GetCustomPerms() {
 		   $root_url=ROOT_URL;
 
 		$Joueur = $_SESSION['_login'];
-		$sqlreq = '
-	  SELECT * FROM `SQL_PREFIX_modules_commandes` 
-	  WHERE (`DateLivraison` IS NULL) 
-	  AND `LoginV` = "'.$Joueur.'" 
-	  ORDER BY `DateCreated`';
+		$sqlreq = 'SELECT `ID` FROM `SQL_PREFIX_modules_commandes` WHERE (`DateLivraison` IS NULL) AND `LoginV` = \''.$Joueur.'\'';
 		$mysql_result = DataEngine::sql($sqlreq);
 		if (mysql_num_rows($mysql_result) > 0) {
 		$bouton = '%ADDONS_URL%commerce/images/menu/btn-modules-red.png';

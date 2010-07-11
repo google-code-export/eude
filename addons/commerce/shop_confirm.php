@@ -1,20 +1,20 @@
 <?php
 // Partie standard d'EU2de
-  require_once("../../init.php");
-  require_once(INCLUDE_PATH."Script.php");
-  require_once(TEMPLATE_PATH."sample.tpl.php");
+  require_once('../../init.php');
+  require_once(INCLUDE_PATH.'Script.php');
+  require_once(TEMPLATE_PATH.'sample.tpl.php');
   $tpl = tpl_sample::getinstance();
 
 // Déclaration variables
-  $Joueur = $_SESSION["_login"];
-  require_once("cnh_fonctions.php");
+  $Joueur = $_SESSION['_login'];
+  require_once('cnh_fonctions.php');
   Init_Addon();
   
 // DEBUT CODE LIBRE
 if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
     output::Boink('./index.php');
 	
-  require_once("shop.class.php");
+  require_once('shop.class.php');
 
   $basket = new BasketClass();
 
@@ -27,11 +27,11 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
       if($basket->CheckoutRecup(true))
         $errback = !$basket->BasketVar(true);
       if(!$errback)
-        $_SESSION["checkout"] = $basket->GetCheckoutArray();
+        $_SESSION['checkout'] = $basket->GetCheckoutArray();
     }
-    elseif($_POST["submit"] == "<< Liste vendeurs")
+    elseif($_POST['submit'] == "<< Liste vendeurs")
       $errback = true;
-    elseif($_POST["submit"] == "Envoyer commande") {
+    elseif($_POST['submit'] == "Envoyer commande") {
       $basket->BasketVar(true);
       $basket->CheckoutVar(true);
       $commandedef = true;
@@ -39,8 +39,8 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
         CHECKOUTVAR
       */
     }
-    elseif($_POST["submit"] == "<< Précédent") {
-      header("Location: template_list.php");
+    elseif($_POST['submit'] == "<< Précédent") {
+      header('Location: template_list.php');
       exit;
     }
   }
@@ -55,7 +55,6 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 
 <HTML>
 <HEAD>
-  <link href="cnh_addon.css" rel="stylesheet" type="text/css" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </HEAD>
 <BODY>
@@ -70,8 +69,8 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 
     $oldvendor = '';
     $nvendor = 0;
-	$coordplanete = $_POST["coordplanete"];
-	$acheteur = $_SESSION["_login"];
+	$coordplanete = $_POST['coordplanete'];
+	$acheteur = $_SESSION['_login'];
     for($i = 0; $i < $vlist['Total']; $i++) {
 		$paiementme = intval($_POST['PaiementMe_'.$i]);
 		$id = $vlist[$i]['Index'];	
@@ -82,24 +81,24 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 		// ressources 1 pour 1
 		$ressourcesitems = '';
 		foreach($cnhMineraisName as $value) {
-			if($vlist[$i]["RessourcesNB"][$value] > 0) {
+			if($vlist[$i]['RessourcesNB'][$value] > 0) {
 				if($ressourcesitems != '') { 
-					$ressourcesitems .= ",".$value."=".DataEngine::format_number($vlist[$i]["RessourcesNB"][$value]);
+					$ressourcesitems .= ','.$value.'='.DataEngine::format_number($vlist[$i]['RessourcesNB'][$value]);
 				} else {
-					$ressourcesitems .= $value."=".DataEngine::format_number($vlist[$i]["RessourcesNB"][$value]);
+					$ressourcesitems .= $value.'='.DataEngine::format_number($vlist[$i]['RessourcesNB'][$value]);
 				}
 			}
 		 }				
 		// ressources total:
-		$RessourcesNBTotal = $vlist[$i]["RessourcesNBTotal"];
+		$RessourcesNBTotal = $vlist[$i]['RessourcesNBTotal'];
 		$typepaiement = '';
 		// paiement choisi
 		if ($paiementme & UP_CREDITS) {
 			$typepaiement = '<img src="images/credits.gif" />&nbsp;Crédits';
-			$paiementitem = "RessourcesNBTotal:".$RessourcesNBTotal;
+			$paiementitem = 'RessourcesNBTotal:'.$RessourcesNBTotal;
 		} elseif ($paiementme & UP_EXACT) {
 			$typepaiement = '<img src="images/ressources.png" />&nbsp;Ressources utilisées';
-			$paiementitem = "ressourcesitems:".$ressourcesitems;
+			$paiementitem = 'ressourcesitems:'.$ressourcesitems;
 		} else {
 			$nm = 0;
 			for($j = 0; $j < sizeof($cnhMineraisName); $j++)
@@ -107,14 +106,14 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 		
 			if($nm == $j){
 				$typepaiement = '<img src="images/ressources.png" />&nbsp;Toute ressource';
-				$paiementitem = "RessourcesNBTotal:".$RessourcesNBTotal;
+				$paiementitem = 'RessourcesNBTotal:'.$RessourcesNBTotal;
 			} else {
 				for($j = 0; $j < sizeof($cnhMineraisName); $j++) {
 					if($paiementme & pow(2, $j + 3)) {
-						$typepaiement = "<img src='".IMAGES_URL.$cnhMineraisName[$j].".png' />&nbsp;".$cnhMineraisName[$j];
+						$typepaiement = '<img src='.IMAGES_URL.$cnhMineraisName[$j].'.png />&nbsp;'.$cnhMineraisName[$j];
 					}
 				}
-				$paiementitem = "RessourcesNBTotal:".$RessourcesNBTotal;
+				$paiementitem = 'RessourcesNBTotal:'.$RessourcesNBTotal;
 			}
 
 		}
@@ -122,7 +121,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 		$typepaiement = htmlentities($typepaiement, ENT_QUOTES);
 		// $paiementitem = "RessourcesNBTotal:".$RessourcesNBTotal.";ressourcesitems:".$ressourcesitems;
         $query    = 'INSERT INTO SQL_PREFIX_modules_commandes (Login,LoginV,Items,TypePaiement,Paiement,DateCreated,CoordLivraison) ';
-        $query   .= "VALUES ('$acheteur','$vendeur','$commande','$typepaiement','$paiementitem',now(),'$coordplanete')";
+        $query   .= 'VALUES (\''.$acheteur.'\',\''.$vendeur.'\',\''.$commande.'\',\''.$typepaiement.'\',\''.$paiementitem.'\',now(),\''.$coordplanete.'\')';
 		// echo("<center><font color=blue>DEBUG commande :<br>");
 		// echo(nl2br(print_r($_POST, true)));
 		// echo("paiementme:".$paiementme."<br>");
@@ -140,26 +139,26 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
     echo("<center><font color=#ff0000><h1>Commande enregistrée</h1><br>
     Vous pourrez la suivre dans la partie <a href='commandes_list.php'>Gestion</a></font></center>");
     
-    unset($_SESSION["checkout"]);
-    unset($_SESSION["basket"]);
+    unset($_SESSION['checkout']);
+    unset($_SESSION['basket']);
   }
   else
   {
     $vlist = $basket->VendorSelSort();
 	$activecommande = false;
 
-	$mysql_result = DataEngine::sql("SELECT * FROM SQL_PREFIX_ownuniverse WHERE `UTILISATEUR`='".$Joueur."'") or die(mysql_error());
+	$mysql_result = DataEngine::sql('SELECT planet0, coord0, planet1, coord1, planet2, coord2, planet3, coord3, planet4, coord4 FROM SQL_PREFIX_ownuniverse WHERE `UTILISATEUR`=\''.$Joueur.'\'') or die(mysql_error());
     $j = 0;
 	$valider_form_cond='';
 	$radiolist = '';
     if(($ownplanetes = mysql_fetch_array($mysql_result))) {
-      for($i = 0; $ownplanetes["planet".$i] != "" && $i < 5; $i++) {
+      for($i = 0; $ownplanetes['planet'.$i] != '' && $i < 5; $i++) {
         if($i > 0) {
-			$radiolist .= "<br>";
+			$radiolist .= '<br>';
 			$valider_form_cond .= ' && ';
 		}
         
-		$radiolist .= '<input name="coordplanete" value="'.$ownplanetes["coord".$i].'" type="radio"> '.$ownplanetes["planet".$i]." aux coordonnées ".$ownplanetes["coord".$i];
+		$radiolist .= '<input class="color_row0" name="coordplanete" value="'.$ownplanetes['coord'.$i].'" type="radio"> '.$ownplanetes['planet'.$i].' aux coordonnées '.$ownplanetes['coord'.$i];
 		$valider_form_cond .= '(document.forms["formMe"].coordplanete['.$i.'].checked==false)';
 		$j++;
       }
@@ -215,9 +214,9 @@ function valider_formulaire()
 EOF;
 	}
 	if ($activecommande) {
-		$defaultbutton = '<input type="submit" name="submit" value="&lt;&lt; Liste vendeurs"> <input type="submit" name="submit" value="Envoyer commande" onClick="return valider_formulaire();">'; 
+		$defaultbutton = '<input class="color_row0" type="submit" name="submit" value="&lt;&lt; Liste vendeurs"> <input class="color_row0" type="submit" name="submit" value="Envoyer commande" onClick="return valider_formulaire();">'; 
 	} else {
-		$defaultbutton = '<input type="submit" name="submit" value="&lt;&lt; Liste vendeurs">'; 
+		$defaultbutton = '<input class="color_row0" type="submit" name="submit" value="&lt;&lt; Liste vendeurs">'; 
 	}
 
 ?>
@@ -228,13 +227,13 @@ EOF;
 
 <form name="formMe" method="post">
 <table border="1" align="center" cellpadding="3" cellspacing="0">
-<tr><th colspan=3>Livraison</th></tr>
-<tr><td colspan=3 align=left>
+<tr class="text_center color_bigheader"><th colspan=3>Livraison</th></tr>
+<tr class="color_row0"><td colspan=3 align=left>
 
 <?php echo $radiolist; ?>
 </td></tr>
-<tr><th>Vendeurs</th><th>Articles</th><th>Total à payer</th></tr>
-<tr><td colspan=3 align=right><?php echo $defaultbutton; ?></td></tr>
+<tr class="text_center color_header"><th>Vendeurs</th><th>Articles</th><th>Total à payer</th></tr>
+<tr class="text_center color_row0"><td colspan=3 align=right><?php echo $defaultbutton; ?></td></tr>
 <?php
     $vlist = $basket->VendorSelSort();
     $oldvendor = '';
@@ -244,7 +243,7 @@ EOF;
       $id = $vlist[$i]['Index'];
   
       // Début de ligne  
-      echo('<tr valign=top>');
+      echo('<tr class="text_center color_row0" valign=top>');
       
       // Vendeur
       if($oldvendor != $vlist[$i]['Login']) {
@@ -261,7 +260,7 @@ EOF;
 
         echo('<br><font size=-1><b>Paiement choisi&nbsp;:</b><br>');
 		
-		// echo('<input type="checkbox" name="PaiementMe_'.$i.'" '.$vlist[$i]["PaiementMe"] & UP_CREDITS ? "checked " : "".'/>')
+		// echo('<input class="color_row0" type="checkbox" name="PaiementMe_'.$i.'" '.$vlist[$i]["PaiementMe"] & UP_CREDITS ? "checked " : "".'/>')
         echo($basket->StringPaiements($vlist[$i]["Paiement"],'PaiementMe_'.$i , "<br>").'</font>');
         
         echo('</td>');
@@ -280,11 +279,11 @@ EOF;
       echo("<td><table border=0 width=100% cellpadding=0 cellspacing=0>");
       
       foreach($cnhMineraisName as $value) {
-        if($vlist[$i]["RessourcesNB"][$value] > 0)
-          echo("<tr><td><img src='".IMAGES_URL.$value.".png' />&nbsp;".$value."</td><td>&nbsp;</td><td align=right>".DataEngine::format_number($vlist[$i]["RessourcesNB"][$value])."</td></tr>");
+        if($vlist[$i]['RessourcesNB'][$value] > 0)
+          echo('<tr class="color_row0"><td><img src='.IMAGES_URL.$value.'.png>&nbsp;'.$value.'</td><td>&nbsp;</td><td align=right>'.DataEngine::format_number($vlist[$i]['RessourcesNB'][$value]).'</td></tr>');
       }
       
-      echo('<tr><td colspan=3><hr size=1></td></tr><tr STYLE="font-weight:bold;"><td><img src="images/ressources.png" />&nbsp;TOTAL</td><td>&nbsp;</td><td align=right>'.DataEngine::format_number($vlist[$i]["RessourcesNBTotal"])."</td></tr>");
+      echo('<tr class="color_row0"><td colspan=3><hr size=1></td></tr><tr class="color_row0" STYLE="font-weight:bold;"><td><img src="images/ressources.png" />&nbsp;TOTAL</td><td>&nbsp;</td><td align=right>'.DataEngine::format_number($vlist[$i]["RessourcesNBTotal"])."</td></tr>");
       echo("</table></td>");
       
       $nex = false;
@@ -295,15 +294,15 @@ EOF;
         
       if($nex) {
         // Total vendeur
-        echo('</tr><tr bgcolor=#151515><td>TOTAL VENDEUR</td>');
+        echo('</tr><tr class="text_center color_row0"><td>TOTAL VENDEUR</td>');
         echo("<td><table border=0 width=100% cellpadding=0 cellspacing=0>");
         
         foreach($cnhMineraisName as $value) {
           if($vlist[$oldi]['Ress'][$value] > 0)
-            echo("<tr><td><img src='".IMAGES_URL.$value.".png' />&nbsp;".$value."</td><td>&nbsp;</td><td align=right>".DataEngine::format_number($vlist[$oldi]['Ress'][$value])."</td></tr>");
+            echo('<tr class="color_row0"><td><img src='.IMAGES_URL.$value.'.png>&nbsp;'.$value.'</td><td>&nbsp;</td><td align=right>'.DataEngine::format_number($vlist[$oldi]['Ress'][$value]).'</td></tr>');
         }
         
-        echo('<tr><td colspan=3><hr size=1></td></tr><tr STYLE="font-weight:bold;"><td><img src="images/ressources.png" />&nbsp;TOTAL</td><td>&nbsp;</td><td align=right>'.DataEngine::format_number($vlist[$oldi]["RessTotal"])."</td></tr>");
+        echo('<tr class="color_row0"><td colspan=3><hr size=1></td></tr><tr class="color_row0" STYLE="font-weight:bold;"><td><img src="images/ressources.png" />&nbsp;TOTAL</td><td>&nbsp;</td><td align=right>'.DataEngine::format_number($vlist[$oldi]['RessTotal']).'</td></tr>');
         echo("</table></td>");
       }
       
@@ -311,16 +310,16 @@ EOF;
     }
   
     // Total général
-    echo("<tr valign=top bgcolor=#272727><td>TOTAL GENERAL</td><td align=center>".$nvendor." vendeur".($nvendor > 1 ? "s" : "")."<br>".$basket->total." article".($basket->total > 1 ? "s" : "")."<br>".$basket->nbtotal." module".($basket->nbtotal > 1 ? "s" : "")."</td><td><table border=0 width=100% cellpadding=0 cellspacing=0>");
+    echo('<tr class="text_center color_row0" valign=top><td>TOTAL GENERAL</td><td align=center>'.$nvendor.' vendeur'.($nvendor > 1 ? 's' : '').'<br>'.$basket->total.' article'.($basket->total > 1 ? 's' : '').'<br>'.$basket->nbtotal.' module'.($basket->nbtotal > 1 ? 's' : '').'</td><td><table border=0 width=100% cellpadding=0 cellspacing=0>');
     
     foreach($cnhMineraisName as $value) {
-      if($vlist["RessourcesNB"][$value] > 0)
-        echo("<tr><td><img src='".IMAGES_URL.$value.".png' />&nbsp;".$value."</td><td>&nbsp;</td><td align=right>".DataEngine::format_number($vlist["RessourcesNB"][$value])."</td><td colspan=2>&nbsp;</td></tr>");
+      if($vlist['RessourcesNB'][$value] > 0)
+        echo('<tr class="color_row0"><td><img src='.IMAGES_URL.$value.'.png>&nbsp;'.$value.'</td><td>&nbsp;</td><td align=right>'.DataEngine::format_number($vlist['RessourcesNB'][$value]).'</td><td colspan=2>&nbsp;</td></tr>');
     }
-    echo('<tr><td colspan=3><hr size=1></td></tr><tr STYLE="font-weight:bold;"><td><img src="images/ressources.png" />&nbsp;TOTAL</td><td>&nbsp;</td><td align=right>'.DataEngine::format_number($vlist["RessourcesNBTotal"])."</td></tr>");
+    echo('<tr><td colspan=3><hr size=1></td></tr><tr class="color_row0" STYLE="font-weight:bold;"><td><img src="images/ressources.png" />&nbsp;TOTAL</td><td>&nbsp;</td><td align=right>'.DataEngine::format_number($vlist['RessourcesNBTotal']).'</td></tr>');
     echo("</table></td></tr>\n");
 ?>
-<tr><td colspan=3 align=right><?php echo $defaultbutton; ?></td></tr>
+<tr class="text_center color_row0"><td colspan=3 align=right><?php echo $defaultbutton; ?></td></tr>
 </table></form>
 <?php
   }

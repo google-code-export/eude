@@ -294,7 +294,7 @@ class BasketClass {
     }
     
     if($radiobouton)
-      $addtxt = '<input name="'.$groupname.'" value="%s" %s type="radio">&nbsp;';
+      $addtxt = '<input class="color_row0" name="'.$groupname.'" value="%s" %s type="radio">&nbsp;';
     else
       $addtxt = '';
 

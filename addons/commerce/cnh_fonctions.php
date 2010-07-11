@@ -168,7 +168,7 @@ function strfirstcar($chaine) {
 // Affiche une liste tirée d'un tableau...
 function DisplayListSelect($selectname, $items, $selected) {
   if(!empty($selectname))
-    echo('<select name='.$selectname.' id='.$selectname.'>');
+    echo('<select class="color_row0" name='.$selectname.' id='.$selectname.'>');
   
   for($i = 0; $i < sizeof($items); $i++)
     echo('<option value='.$i.($selected == $i ? ' selected' : '').'>'.$items[$i].'</option>');
