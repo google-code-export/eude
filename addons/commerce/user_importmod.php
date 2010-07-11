@@ -106,7 +106,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
     
           $mysql_result = DataEngine::sql('
           SELECT ID, Description, SQL_PREFIX_Modules_Own.Modifier
-          FROM SQL_PREFIX_Modules_Template LEFT JOIN (SELECT Login, Module_ID, Modifier FROM SQL_PREFIX_Modules_Users WHERE Login='.$Joueur.') AS SQL_PREFIX_Modules_Own ON SQL_PREFIX_Modules_Template.ID = SQL_PREFIX_Modules_Own.Module_ID  
+          FROM SQL_PREFIX_Modules_Template LEFT JOIN (SELECT Login, Module_ID, Modifier FROM SQL_PREFIX_Modules_Users WHERE Login=\''.$Joueur.'\') AS SQL_PREFIX_Modules_Own ON SQL_PREFIX_Modules_Template.ID = SQL_PREFIX_Modules_Own.Module_ID  
           WHERE Nom = \''.$tName.'\' OR Abreviation = \''.$tName.'\'') or die(mysql_error());
           
           if($datas = mysql_fetch_array($mysql_result)) {

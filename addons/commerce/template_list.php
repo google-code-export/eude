@@ -97,14 +97,14 @@ Notez que dans ce mode "<i>commande</i>",<br />vous ne voyez que les modules, qu
   $titlecat = 0;
 
   if($_SESSION['up_ActivatedSort'])
-    $tritable = '(ISNULL(SQL_PREFIX_Modules_Own.Modifier)), Nom';
+    $tritable = '(ISNULL(SQL_PREFIX_Modules_Own.Modifier)) DESC, Nom';
   else
     $tritable = 'Nom';
 
   switch($_SESSION['up_ListSort']) {
   case 1:
     if($_SESSION['up_ActivatedSort'])
-      $tritable = 'Categorie, (ISNULL(SQL_PREFIX_Modules_Own.Modifier)), Nom';
+      $tritable = 'Categorie, (ISNULL(SQL_PREFIX_Modules_Own.Modifier)) DESC, Nom';
     else
       $tritable = 'Categorie, Nom';
       
@@ -112,7 +112,7 @@ Notez que dans ce mode "<i>commande</i>",<br />vous ne voyez que les modules, qu
     break;
   case 2:
     if($_SESSION['up_ActivatedSort'])
-      $tritable = 'Categorie, CatType, (ISNULL(SQL_PREFIX_Modules_Own.Modifier)), Nom';
+      $tritable = 'Categorie, CatType, (ISNULL(SQL_PREFIX_Modules_Own.Modifier)) DESC, Nom';
     else
       $tritable = 'Categorie, CatType, Nom';
     
@@ -120,7 +120,7 @@ Notez que dans ce mode "<i>commande</i>",<br />vous ne voyez que les modules, qu
     break;
   case 3:
     if($_SESSION['up_ActivatedSort'])
-      $tritable = 'Categorie, CatType, (ISNULL(SQL_PREFIX_Modules_Own.Modifier)), NivTech';
+      $tritable = 'Categorie, CatType, (ISNULL(SQL_PREFIX_Modules_Own.Modifier)) DESC, NivTech';
     else
       $tritable = 'Categorie, CatType, NivTech';
     
