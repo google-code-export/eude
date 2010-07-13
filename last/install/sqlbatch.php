@@ -22,36 +22,38 @@ $xml = <<<xml
 xml;
 
 if (INSTALLED) {
-    error('Allready installed');
+    error('Déjà installé.');
 } else {
 
-    if (!function_exists('gpc_esc')) {
-
-        function gpc_esc($value) {
-            if (!get_magic_quotes_gpc())
-                return $value;
-            else
-                return stripslashes($value);
-        }
-
+    function gpc_esc($value) {
+        if (!get_magic_quotes_gpc())
+            return $value;
+        else
+            return stripslashes($value);
     }
+
     require_once(CLASS_PATH . 'dataengine.class.php');
+    if (!file_exists('./Entete.php'))
+        error('Utilisation incorrecte !');
     require_once('./Entete.php');
-    if (DEBUG_PLAIN) {
-        require_once(CLASS_PATH . 'FirePHP.class.php');
-        require_once(CLASS_PATH . 'fb.php');
-    }
+
+    require_once(CLASS_PATH . 'FirePHP.class.php');
+    require_once(CLASS_PATH . 'fb.php');
+
     Config::init();
     Config::DB_Connect();
 }
 
 
-$file = gpc_esc($_REQUEST['file']);
+$file = gpc_esc($_POST['file']);
 $sqlfile = ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . $file . '.sql';
 //$inffile = ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . $file . '.php';
 $lockfile = ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . $file . '.lock';
 
-if (/*!file_exists($inffile) ||*/ !file_exists($sqlfile))
+
+if (preg_match('/[^a-zA-Z_\.0-9]+/', $file) > 0)
+    error('Tentative d\'injection détecté.');
+if (!file_exists($sqlfile))
     error('Mise à jour corrompue !');
 
 if (file_exists($lockfile))
@@ -62,10 +64,6 @@ if (DEBUG_PLAIN)
     FB::log($cur, '$cur');
 
 $sqls = preg_split('/;[\n\r]+/', file_get_contents($sqlfile));
-//include($inffile);
-
-//if (count($sqls) != count($infs))
-//    error('Incorrect data');
 if ($cur >= count($sqls))
     error('Incorrect $cur');
 
@@ -85,12 +83,18 @@ if (INSTALLED)
 die($xml);
 
 function sql($sql) {
-    if (DEBUG_PLAIN)
-        return FB::log($sql);
     $sql = str_replace('%%username%%', mysql_real_escape_string(gpc_esc($_POST['username'])), $sql);
     $sql = str_replace('%%password%%', mysql_real_escape_string(gpc_esc($_POST['password'])), $sql);
+    $empire = gpc_esc($_POST['empire']);
+    $sql = str_replace('%%empirename%%', mysql_real_escape_string($empire), $sql);
+    $sql = str_replace('%%empirenamelen%%', mb_strlen($empire, 'utf-8'), $sql);
+    $board = gpc_esc($_POST['board']);
+    $sql = str_replace('%%boardname%%', mysql_real_escape_string($board), $sql);
+    $sql = str_replace('%%boardnamelen%%', mb_strlen($board, 'utf-8'), $sql);
     $sql = str_replace('SQL_PREFIX_', SQL_PREFIX_, $sql);
-    $result = mysql_query($sql) or sqlerror($sql);
+    FB::log($sql);
+    if (!DEBUG_PLAIN)
+        $result = mysql_query($sql) or sqlerror($sql);
 }
 
 function sqlerror($sql) {

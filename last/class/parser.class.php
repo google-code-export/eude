@@ -6,7 +6,6 @@
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  *
  * @since 1.4.1
- * @TODO revoir les mb_xxx
  */
 class parser {
     static protected $instance;

@@ -1,4 +1,10 @@
 <?php
+/**
+ * @author Alex10336
+ * Dernière modification: $Id$
+ * @license GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
+ * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
+ */
 include ('../init.php');
 if (file_exists('../Script/Entete.php'))
     trigger_error('Installation existante', E_USER_ERROR);
@@ -31,7 +37,7 @@ function bulle ($texte,$addover='',$addout='') {
 }
 //-- fin repiquage
 
-$bulle_sqlrooturl = bulle('<u>Exemple:</u><br/>Site: http://app216.free.fr<b>/eu2/test/</b><br/>Emplacement publique: <b>/eu2/test/</b><br/>Commence et finit par <b>/</b>');
+$bulle_sqlrooturl = bulle('<u>Exemple:</u><br/>Site: http://app216.free.fr<b>/eu2/test/</b><br/>Emplacement sur le serveur: <b>/eu2/test/</b><br/>Commence et finit par <b>/</b>');
 ?><html xmlns="http://www.w3.org/1999/html" lang="fr" xml:lang="fr">
     <head>
         <title>EU2: DataEngine, Installation</title>
@@ -55,9 +61,9 @@ $bulle_sqlrooturl = bulle('<u>Exemple:</u><br/>Site: http://app216.free.fr<b>/eu
         <input type="hidden" id="sqlmax" value="<?php echo $max; ?>" />
         <table id="install" class="table_nospacing table_center color_bg size500">
             <tr class="color_bigheader text_center">
-                <td rowspan="15" width="2px">&nbsp;</td>
+                <td rowspan="18" width="2px">&nbsp;</td>
                 <td colspan="2">Installation du <b>D</b>ata <b>E</b>ngine</td>
-                <td rowspan="15" width="2px">&nbsp;</td>
+                <td rowspan="18" width="2px">&nbsp;</td>
             </tr>
             <tr>
                 <td colspan="2" height="2px"></td>
@@ -86,15 +92,7 @@ $bulle_sqlrooturl = bulle('<u>Exemple:</u><br/>Site: http://app216.free.fr<b>/eu
                 <td><input class="color_row0 size80" type="text" id="sqlprefix" value="de_" /></td>
             </tr>
             <tr class="color_header">
-                <td colspan="2"><b>Autre</b></td>
-            </tr><!--
-            <tr>
-                <td><b>Votre empire</b></td>
-                <td><input class="color_row0" type="text" maxlength="100" id="empire" value="" /></td>
-            </tr>-->
-            <tr <?php echo $bulle_sqlrooturl; ?>>
-                <td><b>Emplacement publique</b></td>
-                <td><input class="color_row0" type="text" maxlength="100" id="sqlrooturl" value="<?php echo dirname(dirname($_ENV['SCRIPT_URL'])) . '/'; ?>" /></td>
+                <td colspan="2"><b>Compte</b></td>
             </tr>
             <tr>
                 <td><b>Nom d'utilisateur administrateur</b></td>
@@ -103,6 +101,21 @@ $bulle_sqlrooturl = bulle('<u>Exemple:</u><br/>Site: http://app216.free.fr<b>/eu
             <tr>
                 <td><b>Mot de passe</b></td>
                 <td><input class="color_row0" type="text" id="password" value="admin" /></td>
+            </tr>
+            <tr class="color_header">
+                <td colspan="2"><b>Informations complémentaire</b></td>
+            </tr>
+            <tr <?php echo $bulle_sqlrooturl; ?>>
+                <td><b>Emplacement sur le serveur</b></td>
+                <td><input class="color_row0" type="text" id="sqlrooturl" value="<?php echo dirname(dirname($_ENV['SCRIPT_URL'])) . '/'; ?>" /></td>
+            </tr>
+            <tr>
+                <td><b>Votre empire</b></td>
+                <td><input class="color_row0" type="text" maxlength="100" id="empire" value="" /></td>
+            </tr>
+            <tr>
+                <td><b>Votre forum</b></td>
+                <td><input class="color_row0" type="text" maxlength="256" id="board" value="https://eude.googlecode.com/" /></td>
             </tr>
             <tr class="color_header text_center">
                 <td colspan="2"><a href="javascript:test_mysql();">Tester la connexion mysql</a></td>

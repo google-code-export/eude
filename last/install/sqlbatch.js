@@ -23,7 +23,9 @@ function _sql_run() {
         parameters:{
             file:sql_file,
             username:$('username').value,
-            password:$('password').value
+            password:$('password').value,
+            empire:$('empire').value,
+            board:$('board').value
         },
         onSuccess:function(t){
             var xml = '';

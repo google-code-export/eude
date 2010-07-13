@@ -1,11 +1,12 @@
 <?php
-
 /**
  * @author Alex10336
  * Dernière modification: $Id$
  * @license GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  */
+
+define('DEBUG_PLAIN', false); // true => simulation uniquement (génère une fausse erreur à la fin)
 header('Content-Type: text/xml;charset=utf-8');
 
 $config = <<<config
@@ -144,8 +145,14 @@ if ($_REQUEST['act'] == 'startinstall') {
     return_data('Fichier de configuration temporaire créer', '1');
 }
 if ($_REQUEST['act'] == 'endinstall') {
-    rename('./Entete.php','../Script/Entete.php');
-    return_data('Terminé.', '1');
+    if (DEBUG_PLAIN) {
+        @unlink('./Entete.php');
+        @unlink('./install.lock');
+        return_data('Test terminé. raz également');
+    } else {
+        rename('./Entete.php','../Script/Entete.php');
+        return_data('Terminé.', '1');
+    }
 }
 
 return_data('Unknown action');

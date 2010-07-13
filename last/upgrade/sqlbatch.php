@@ -24,24 +24,17 @@ if (INSTALLED) {
     require_once(INCLUDE_PATH . 'Script.php');
     if (!Members::CheckPerms(AXX_ROOTADMIN))
         error('No perms');
-}
-else {
+} else
     error('Install me first =)');
-    require_once('./Entete.php');
-    if (DEBUG_PLAIN) {
-        require_once(CLASS_PATH . 'FirePHP.class.php');
-        require_once(CLASS_PATH . 'fb.php');
-    }
-    Config::init();
-    Config::DB_Connect();
-}
 
 
-$file = gpc_esc($_REQUEST['file']);
+$file = gpc_esc($_POST['file']);
 $sqlfile = ROOT_PATH . 'upgrade' . DIRECTORY_SEPARATOR . $file . '.sql';
 $inffile = ROOT_PATH . 'upgrade' . DIRECTORY_SEPARATOR . $file . '.php';
 $lockfile = ROOT_PATH . 'upgrade' . DIRECTORY_SEPARATOR . $file . '.lock';
 
+if (preg_match('/[^a-zA-Z_0-9]+/', $file) > 0)
+    error('Tentative d\'injection détecté.');
 if (!file_exists($inffile) || !file_exists($sqlfile))
     error('Mise à jour corrompue !');
 
