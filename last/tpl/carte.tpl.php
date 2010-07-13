@@ -80,7 +80,7 @@ class tpl_carte extends output {
 			<TD><img {$helpmsg} width=20 height=20 src='%IMAGES_URL%help.png'></TD>
 			<TD>
 				<A {$msg_cls} HREF="{$this->BASE_FILE}?sc={$get_sc}">
-				<imgwidth=20 height=20 src="%IMAGES_URL%Btn-Couleur-{$onoff_sc}.png"></A>
+				<img width=20 height=20 src="%IMAGES_URL%Btn-Couleur-{$onoff_sc}.png"></A>
 			</TD>
 			<TD>
                             <A {$msg_all_on} HREF="{$this->BASE_FILE}?AllSwitch=1"><img width=10 height=10 src="%IMAGES_URL%Btn-Vortex-On.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Planete-On.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Joueur-On.png"><img width=10 height=10  src="%IMAGES_URL%Btn-Asteroide-On.png"></A><br/>
