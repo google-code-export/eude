@@ -1,5 +1,4 @@
 <?php
-
 include ('../init.php');
 if (file_exists('../Script/Entete.php'))
     trigger_error('Installation existante', E_USER_ERROR);
@@ -12,7 +11,7 @@ $sqlfile = ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . $file . '.sql';
 $lockfile = ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . $file . '.lock';
 
 if (file_exists($lockfile))
-    trigger_error('Fichier de vérouillage trouvé, installation partielle/en cours ? ('.$lockfile.')', E_USER_WARNING);
+    trigger_error('Fichier de vérouillage trouvé, installation partielle/en cours ? (' . $lockfile . ')', E_USER_WARNING);
 
 $max = count(preg_split('/;[\n\r]+/', file_get_contents($sqlfile)));
 
@@ -22,6 +21,17 @@ else
     $cur = 0;
 $max = $max - $cur;
 
+//-- repiquage script/script.php
+function bulle ($texte,$addover='',$addout='') {
+    if(is_array($addover))
+        $addover=implode($addover,'');
+    if(is_array($addout)) $addout=implode($addout,'');
+    $texte=htmlspecialchars(str_replace("\n", '', $texte),ENT_QUOTES,'UTF-8');
+    return ("onmouseover='montre(\"".$texte."\");$addover' onmouseout='cache();$addout'");
+}
+//-- fin repiquage
+
+$bulle_sqlrooturl = bulle('<u>Exemple:</u><br/>Site: http://app216.free.fr<b>/eu2/test/</b><br/>Emplacement publique: <b>/eu2/test/</b><br/>Commence et finit par <b>/</b>');
 ?><html xmlns="http://www.w3.org/1999/html" lang="fr" xml:lang="fr">
     <head>
         <title>EU2: DataEngine, Installation</title>
@@ -29,6 +39,7 @@ $max = $max - $cur;
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="shortcut icon" href="../tpl/lng/fr/btn/eude.png">
         <script type="text/javascript" src="../Script/prototype.js?1.6.1"></script>
+        <script type="text/javascript" src="../Script/Script.js?install"></script>
         <script type="text/javascript" src="../tpl/lng/fr/eude.local.js?install"></script>
         <script type="text/javascript" src="./sqlbatch.js?install"></script>
     </head>
@@ -39,8 +50,8 @@ $max = $max - $cur;
             font-weight: bold;
         }
     </style>
+    <div id="curseur" class="infobulle"></div>
     <form autocomplete="off" name="install" action="?" method="POST" Onsubmit="return false;">
-        <input type="hidden" id="sqlrooturl" value="<?php echo dirname(dirname($_ENV['SCRIPT_URL'])).'/'; ?>" />
         <input type="hidden" id="sqlmax" value="<?php echo $max; ?>" />
         <table id="install" class="table_nospacing table_center color_bg size500">
             <tr class="color_bigheader text_center">
@@ -81,12 +92,16 @@ $max = $max - $cur;
                 <td><b>Votre empire</b></td>
                 <td><input class="color_row0" type="text" maxlength="100" id="empire" value="" /></td>
             </tr>-->
+            <tr <?php echo $bulle_sqlrooturl; ?>>
+                <td><b>Emplacement publique</b></td>
+                <td><input class="color_row0" type="text" maxlength="100" id="sqlrooturl" value="<?php echo dirname(dirname($_ENV['SCRIPT_URL'])) . '/'; ?>" /></td>
+            </tr>
             <tr>
-                <td><b>Nom d'utilisateur admin</b></td>
+                <td><b>Nom d'utilisateur administrateur</b></td>
                 <td><input class="color_row0" type="text" maxlength="30" id="username" value="admin" /></td>
             </tr>
             <tr>
-                <td><b>Mot de passe admin</b></td>
+                <td><b>Mot de passe</b></td>
                 <td><input class="color_row0" type="text" id="password" value="admin" /></td>
             </tr>
             <tr class="color_header text_center">
