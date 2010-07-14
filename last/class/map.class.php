@@ -350,9 +350,9 @@ class map /*extends parcours*/ {
 
         /// filtre spécial...
         $if = array();
-        if (!$this->ennemis && !$this->allys)   $if[] = 'IF(a.`TYPE` in (3,5), 0, a.`TYPE`) as TYPE,';
-        if (!$this->ennemis && $this->allys)    $if[] = 'IF(a.`TYPE`=5, 0, a.`TYPE`) as TYPE,';
-        if ($this->ennemis && !$this->allys)    $if[] = 'IF(a.`TYPE`=3, 0, a.`TYPE`) as TYPE,';
+        if (!$this->ennemis && !$this->allys)   $if[] = 'IF(c.`TYPE` in (3,5), 0, c.`TYPE`) as TYPE,';
+        if (!$this->ennemis && $this->allys)    $if[] = 'IF(c.`TYPE`=5, 0, c.`TYPE`) as TYPE,';
+        if ($this->ennemis && !$this->allys)    $if[] = 'IF(c.`TYPE`=3, 0, c.`TYPE`) as TYPE,';
 
         /// filtre in type:
         $in = array();
@@ -369,7 +369,7 @@ class map /*extends parcours*/ {
             $in = '';
         /// filtre au cas par cas:
         $cas = array();
-        if (!$this->joueur)		$cas[] = '(`Type`=0 AND b.`Joueur`=\''.$_SESSION['_login'].'\')';
+        if (!$this->joueur)		$cas[] = '(`Type`=0 AND m.`Joueur`=\''.$_SESSION['_login'].'\')';
 
         // compilation des filtres
         $if = ' '.trim(implode(' ', $if));
@@ -385,7 +385,14 @@ class map /*extends parcours*/ {
         $where = 'WHERE 1 '.$custom . $where;
 
         $where = $where.' ORDER BY `POSIN` ASC';
-        $sql='SELECT a.`ID`, a.`TYPE`, a.`POSIN`, a.`POSOUT`, a.`USER`, a.`INFOS`, a.`EMPIRE`, '.$if.' IFNULL(b.`Joueur`,"") as Joueur,IFNULL(c.`Grade`,"") as Grade FROM `SQL_PREFIX_Coordonnee` a left outer join `SQL_PREFIX_Membres` b on (a.`USER`=b.`Joueur`) left outer join `SQL_PREFIX_Grade` c on (b.`Grade`=c.`GradeId`) '.$where;
+        $sql= <<<sql
+SELECT c.`ID`, c.`TYPE`, c.`POSIN`, c.`POSOUT`, j.`USER`, j.`INFOS`, j.`EMPIRE`,
+    $if IFNULL(m.`Joueur`,"") as Joueur,IFNULL(g.`Grade`,'') as Grade FROM `SQL_PREFIX_Coordonnee` c
+left outer join `SQL_PREFIX_Coordonnee_Joueurs` j on (c.id=j.jid)
+left outer join `SQL_PREFIX_Membres` m on (j.`USER`=m.`Joueur`)
+left outer join `SQL_PREFIX_Grade` g on (m.`Grade`=g.`GradeId`) 
+    $where
+sql;
         $mysql_result = DataEngine::sql($sql);
 
         return $mysql_result;

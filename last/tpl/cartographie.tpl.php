@@ -121,7 +121,6 @@ ROW;
                 <TD class="text_center color_bigheader" colspan="11">{$this->lng['search_header']}</TD>
             </tr>
             <tr class="color_cols text_center">
-                <td class="spacing_row1">{$this->lng['search_col_status']}</td>
                 <td class="spacing_row1">{$this->lng['search_col_type']}</td>
                 <td class="spacing_row1">{$this->lng['search_col_ss']}</td>
                 <td class="spacing_row1">{$this->lng['search_col_rayon']}</td>
@@ -134,13 +133,6 @@ ROW;
                 <td class="color_header"><input OnClick="location.href='{$this->BASE_FILE}?ResetSearch=1';" class="color_header" type="button" value="{$this->lng['search_col_showall']}"/></td>
             </tr>
             <tr class="color_row1 text_center">
-                <td class="spacing_row1">
-                    <select class="color_row1" name="Recherche[Status]">
-                            <option value="-1"%%status-1%%>&nbsp;</option>
-                            <option value="0"%%status0%%>{$this->lng['search_col_status_on']}</option>
-                            <option value="1"%%status1%%>{$this->lng['search_col_status_off']}</option>
-                    </select>
-                </td>
                 <td class="spacing_row1">
                     <select class="color_row1" name="Recherche[Type]">
                             <option value="-1">&nbsp;</option>

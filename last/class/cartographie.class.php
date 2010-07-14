@@ -33,15 +33,10 @@ class cartographie {
         if (!$this->FormatId(trim($coordsin) , $INidfixe , $INiddet ,'entrée vortex')) return false;
         if (!$this->FormatId(trim($coordsout), $OUTidfixe, $OUTiddet,'sortie vortex')) return false;
 
-        $query = 'SELECT `ID` FROM `SQL_PREFIX_Coordonnee` where `POSIN`=\''.$INidfixe.'\' AND `POSOUT`=\''.$OUTidfixe.'\' AND `COORDET`=\''.$INiddet.'\' AND `COORDETOUT`=\''.$OUTiddet.'\'';
+        $query = 'SELECT `ID` FROM `SQL_PREFIX_Coordonnee` where `POSIN`='.$INidfixe.' AND `POSOUT`=\''.$OUTidfixe.'\' AND `COORDET`=\''.$INiddet.'\' AND `COORDETOUT`=\''.$OUTiddet.'\'';
         $mysql_result = DataEngine::sql($query);
         if (mysql_num_rows($mysql_result) > 0) {
-            $ligne = mysql_fetch_assoc($mysql_result);
-            DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `INACTIF`=0 WHERE `TYPE`=1 AND `ID`='.$ligne['ID']);
-            if (mysql_affected_rows() > 0)
-                return $this->AddInfo(sprintf($this->lng['class_vortex_msg1'],$coordsin,$coordsout));
-            else
-                return $this->AddWarn(sprintf($this->lng['class_vortex_msg2'],$coordsin,$coordsout));
+            return $this->AddWarn(sprintf($this->lng['class_vortex_msg2'],$coordsin,$coordsout));
         } else {
             $query1 = 'INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`POSOUT`,`COORDETOUT`,`DATE`,`UTILISATEUR`) ';
             $query1 .= 'VALUES (1,\''.$INidfixe.'\',\''.$INiddet.'\',\''.$OUTidfixe.'\',\''.$OUTiddet.'\',now(),\''.$_SESSION['_login'].'\')';
@@ -65,7 +60,7 @@ class cartographie {
 
         if (!$this->FormatId(trim($coords), $uni, $sys, 'planet')) return false;
 
-        $query = 'SELECT `ID` FROM `SQL_PREFIX_Coordonnee` where `POSIN`=\''.$uni.'\' AND `COORDET`=\''.$sys.'\'';
+        $query = 'SELECT `ID` FROM `SQL_PREFIX_Coordonnee` where `POSIN`='.$uni.' AND `COORDET`=\''.$sys.'\'';
         $array = DataEngine::sql($query);
         $ligne = mysql_fetch_array($array);
         $do_update = intval($ligne['ID']);
@@ -102,17 +97,17 @@ class cartographie {
 
         if ($do_update) {
             $updated = 0;
-            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `DATE`=NOW(), `INACTIF`=0, `UTILISATEUR`=\''.$_SESSION['_login'].'\' WHERE `ID`=\''.$do_update.'\'';
+            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `DATE`=NOW(), `UTILISATEUR`=\''.$_SESSION['_login'].'\' WHERE `ID`='.$do_update;
             DataEngine::sql($query);
-            $query = 'SELECT COUNT(`pID`) AS NOMBRE FROM  `SQL_PREFIX_Coordonnee_Planetes` where `pID`=\''.$do_update.'\'';
+            $query = 'SELECT COUNT(`pID`) AS NOMBRE FROM `SQL_PREFIX_Coordonnee_Planetes` where `pID`='.$do_update;
             $mysql_result = DataEngine::sql($query);
 			$ligne=mysql_fetch_assoc($mysql_result);
             if ($ligne['NOMBRE'] == 0) {
-                $query2='INSERT INTO `SQL_PREFIX_Coordonnee_Planetes` (`pID`,'.$sql3.') VALUES(\''.$do_update.'\','.$sql2.')';
+                $query2='INSERT INTO `SQL_PREFIX_Coordonnee_Planetes` (`pID`,'.$sql3.') VALUES('.$do_update.','.$sql2.')';
                 DataEngine::sql($query2,false);
 				return $this->AddInfo(sprintf($this->lng['class_planet_msg3'],$uni,$sys));
             } else {
-                $query = DataEngine::sql('SELECT `Titane`, `Cuivre`, `Fer`, `Aluminium`, `Mercure`, `Silicium`, `Uranium`, `Krypton`, `Azote`, `Hydrogene` FROM `SQL_PREFIX_Coordonnee_Planetes` where `pID`=\''.$do_update.'\'');
+                $query = DataEngine::sql('SELECT `Titane`, `Cuivre`, `Fer`, `Aluminium`, `Mercure`, `Silicium`, `Uranium`, `Krypton`, `Azote`, `Hydrogene` FROM `SQL_PREFIX_Coordonnee_Planetes` where `pID`='.$do_update);
                 $ligne=mysql_fetch_assoc($query);
                 $array = array($ligne['Titane'],$ligne['Cuivre'],$ligne['Fer'],$ligne['Aluminium'],$ligne['Mercure'],$ligne['Silicium'],$ligne['Uranium'],$ligne['Krypton'],$ligne['Azote'],$ligne['Hydrogene']);
                 $array = str_replace('%', '', $array);
@@ -120,7 +115,7 @@ class cartographie {
                         && is_numeric($array[6]) && is_numeric($array[7]) && is_numeric($array[8]) && is_numeric($array[9])) {
                     return $this->AddInfo(sprintf($this->lng['class_planet_msg1'],$uni,$sys));
                 } else {
-                    $query = 'UPDATE `SQL_PREFIX_Coordonnee_Planetes` SET '.$sql.' WHERE `pID`=\''.$do_update.'\'';
+                    $query = 'UPDATE `SQL_PREFIX_Coordonnee_Planetes` SET '.$sql.' WHERE `pID`='.$do_update;
                     DataEngine::sql($query);
                     return $this->AddInfo(sprintf($this->lng['class_planet_msg2'],$uni,$sys));
                 }
@@ -134,6 +129,9 @@ class cartographie {
             $query2='INSERT INTO `SQL_PREFIX_Coordonnee_Planetes` (`pID`,'.$insert_field.') VALUES(\''.$pID.'\','.$insert_Val.')';
             DataEngine::sql($query2,false);
 			return $this->AddInfo(sprintf($this->lng['class_planet_msg3'],$uni,$sys));
+
+            $query2='INSERT INTO `SQL_PREFIX_Coordonnee_Joueurs` (`jID`) VALUES('.$pID.')';
+            DataEngine::sql($query2,false);
 
             if ($warn!='') {
                 DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID`=\''.$pID.'\' LIMIT 1');
@@ -159,7 +157,7 @@ class cartographie {
 
         if (!$this->FormatId(trim($coords), $uni, $sys, 'asteroid')) return false;
 
-        $query = 'SELECT `ID` FROM `SQL_PREFIX_Coordonnee` where `POSIN`=\''.$uni.'\' AND `COORDET`=\''.$sys.'\'';
+        $query = 'SELECT `ID` FROM `SQL_PREFIX_Coordonnee` where `POSIN`='.$uni.' AND `COORDET`=\''.$sys.'\'';
         $array = DataEngine::sql($query);
         $ligne = mysql_fetch_array($array);
         $do_update = intval($ligne['ID']);
@@ -190,24 +188,24 @@ class cartographie {
 
         if ($do_update) {
             $updated = 0;
-            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `DATE`=NOW(), `INACTIF`=0, `UTILISATEUR`=\''.$_SESSION['_login'].'\' WHERE `ID`=\''.$do_update.'\'';
+            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `DATE`=NOW(), `UTILISATEUR`=\''.$_SESSION['_login'].'\' WHERE `ID`='.$do_update;
             DataEngine::sql($query);
-            $query = 'UPDATE `SQL_PREFIX_Coordonnee_Planetes` SET '.$sql.' WHERE `pID`=\''.$do_update.'\'';
+            $query = 'UPDATE `SQL_PREFIX_Coordonnee_Planetes` SET '.$sql.' WHERE `pID`='.$do_update;
             DataEngine::sql($query);
             return $this->AddInfo(sprintf($this->lng['class_asteroid_msg1'],$uni,$sys));
 
         } else {
             $query    = 'INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`NOTE`,`DATE`,`UTILISATEUR`) ';
-            $query   .= 'VALUES (4,\''.$uni.'\',\''.$sys.'\',\''.$qnote.'\',now(),\''.$_SESSION['_login'].'\')';
+            $query   .= 'VALUES (4,'.$uni.',\''.$sys.'\',\''.$qnote.'\',now(),\''.$_SESSION['_login'].'\')';
             DataEngine::sql($query);
             $pID = mysql_insert_id();
 
-            $query2='INSERT INTO `SQL_PREFIX_Coordonnee_Planetes` (`pID`,'.$insert_field.') VALUES(\''.$pID.'\','.$insert_Val.')';
+            $query2='INSERT INTO `SQL_PREFIX_Coordonnee_Planetes` (`pID`,'.$insert_field.') VALUES('.$pID.','.$insert_Val.')';
             DataEngine::sql($query2,false);
 			return $this->AddInfo(sprintf($this->lng['class_asteroid_msg2'],$uni,$sys));
 
             if ($warn!='') {
-                DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID`=\''.$pID.'\' LIMIT 1');
+                DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID`='.$pID.' LIMIT 1');
                 return $this->AddErreur($warn);
             }
 
@@ -245,31 +243,44 @@ class cartographie {
         if (!$this->FormatId(trim($coords), $uni, $sys,'')) return false;
 
         if ($nom=='') {
-            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `Type`=2, `USER`=\'\', `EMPIRE`=\'\', `INFOS`=\'\', `batiments`=NULL, `troop`=NULL where `Type` in (0,3,5) AND `POSIN`=\''.$uni.'\' AND `COORDET`=\''.$sys.'\'';
+            $query = 'UPDATE `SQL_PREFIX_Coordonnee`, `SQL_PREFIX_Coordonnee_Joueurs` SET `Type`=2, `USER`=\'\', `EMPIRE`=\'\', `INFOS`=\'\', `batiments`=NULL, `troop`=NULL where `Type` in (0,3,5) AND `POSIN`='.$uni.' AND `COORDET`=\''.$sys.'\'';
             $array = DataEngine::sql($query);
             if (mysql_affected_rows() > 0)
                 return $this->AddWarn(sprintf($this->lng['class_player_msg1'],$coords));
         }
-        $query = 'SELECT `ID`, `TYPE` FROM `SQL_PREFIX_Coordonnee` where `POSIN`=\''.$uni.'\' AND `COORDET`=\''.$sys.'\'';
+        $query = 'SELECT `ID`, `TYPE` FROM `SQL_PREFIX_Coordonnee` where `POSIN`='.$uni.' AND `COORDET`=\''.$sys.'\'';
         $array = DataEngine::sql($query);
         $ligne = mysql_fetch_assoc($array);
         if($ligne['ID'] > 0) {
             if (!$updatetype) $type = $ligne['TYPE'];
             if (!$updatetype && $ligne['TYPE'] == 2) $type = 0;
+            
             $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=%d, `POSOUT`=\'\', `COORDETOUT`=\'\', `USER`=\'%s\', `EMPIRE`=\'%s\','.
                     '`INFOS`=\'%s\', `UTILISATEUR`=\'%s\', `DATE`=NOW() WHERE `ID`=%s',
                     $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']), $ligne['ID'] );
-
             DataEngine::sql($query);
+
+            $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee_Joueurs` SET `USER`=\'%s\', `EMPIRE`=\'%s\','.
+                    '`INFOS`=\'%s\', WHERE `jID`=%s',
+                    $qnom, $qempire, $qplanete, $ligne['ID'] );
+            DataEngine::sql($query);
+
             if (mysql_affected_rows() > 0)
                 return $this->AddInfo(sprintf($this->lng['class_player_msg2'],$stype,$nom,$uni,$sys));
             else
                 return $this->AddInfo(sprintf($this->lng['class_player_msg3'],$stype,$nom,$uni,$sys));
         } else {
-            $query = sprintf('INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`USER`,`EMPIRE`,`INFOS`,`DATE`,`UTILISATEUR`)'.
-                    ' VALUES (%d,\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',now(),\'%s\')',
-                    $type, $uni, $sys, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']));
+            $query = sprintf('INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`DATE`,`UTILISATEUR`)'.
+                    ' VALUES (%d,\'%s\',\'%s\',now(),\'%s\')',
+                    $type, $uni, $sys, sqlesc($_SESSION['_login']));
             DataEngine::sql($query);
+            $id = mysql_insert_id();
+
+            $query = sprintf('INSERT INTO `SQL_PREFIX_Coordonnee_Joueurs` (`jID`,`USER`,`EMPIRE`,`INFOS`)'.
+                    ' VALUES (%d,\'%s\',\'%s\',\'%s\')',
+                    $id, $qnom, $qempire, $qplanete);
+            DataEngine::sql($query);
+
             return $this->AddInfo(sprintf($this->lng['class_player_msg4'],$stype,$nom,$uni,$sys));
         }
     }
@@ -288,7 +299,7 @@ class cartographie {
         $array = DataEngine::sql($query);
         $ligne = mysql_fetch_assoc($array);
         if($ligne['ID'] > 0) {
-            $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=6, `USER`=\'%s\', `INFOS`=\'%s\','.
+            $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee`, `SQL_PREFIX_Coordonnee_Joueurs` SET `TYPE`=6, `USER`=\'%s\', `INFOS`=\'%s\','.
                     '`UTILISATEUR`=\'%s\' WHERE `ID`=%s',
                     $qnom, $qfleet, sqlesc($_SESSION['_login']), $ligne['ID'] );
 
@@ -298,9 +309,14 @@ class cartographie {
             else
                 return $this->AddInfo(sprintf($this->lng['class_npc_msg2'],$nom,$uni,$sys));
         } else {
-            $query = sprintf('INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`USER`,`INFOS`,`DATE`,`UTILISATEUR`)'.
-                    ' VALUES (6,\'%s\',\'%s\',\'%s\',\'%s\',now(),\'%s\')',
-                    $uni, $sys, $qnom, $qfleet, sqlesc($_SESSION['_login']));
+            $query = sprintf('INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`DATE`,`UTILISATEUR`)'.
+                    ' VALUES (6,%d,\'%s\',now(),\'%s\')',
+                    $uni, $sys, sqlesc($_SESSION['_login']));
+            DataEngine::sql($query);
+            $id = mysql_insert_id();
+            $query = sprintf('INSERT INTO `SQL_PREFIX_Coordonnee_Joueurs` (`jID`,`USER`,`INFOS`)'.
+                    ' VALUES (%d,\'%s\',\'%s\')',
+                    $id, $qnom, $qfleet);
             DataEngine::sql($query);
             return $this->AddInfo(sprintf($this->lng['class_npc_msg3'],$nom,$uni,$sys));
         }
@@ -345,34 +361,42 @@ class cartographie {
 
         if (count($del_planet)>0) {
             $del_planet = ''.implode("','",$del_planet).'';
-            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `Type`=2, `USER`=\'\', `EMPIRE`=\'\', `INFOS`=\'\', `batiments`=NULL, `troop`=NULL where `Type` in (0,3,5) AND `POSIN`=\''.$cur_ss.'\' AND `COORDET` in (\''.$del_planet.'\')';
+            $query = <<<sql
+UPDATE `SQL_PREFIX_Coordonnee` c, `SQL_PREFIX_Coordonnee_Joueurs` j, `SQL_PREFIX_Coordonnee_Planetes` p
+SET `Type`=2, `USER`='', `EMPIRE`='', `INFOS`='', `batiments`=NULL, `troop`=NULL
+WHERE `Type` in (0,3,5) AND `POSIN`=$cur_ss AND `COORDET` in ('$del_planet')
+sql;
+
             $array = DataEngine::sql($query);
             if ( ($num = mysql_affected_rows()) > 0)
                 $this->AddInfo(sprintf($this->lng['class_solar_msg1'],$num,$cur_ss));
         }
 
-        $query = 'SELECT `USER`, `EMPIRE` FROM `SQL_PREFIX_Coordonnee` where `POSIN`=\''.$cur_ss.'\' AND `TYPE` in (0,3,5)';
-        $sql_result = DataEngine::sql($query);
-        while ($row = mysql_fetch_assoc($sql_result))
-        // par nom de joueur
-            $curss_info[$row['USER']] = $row['EMPIRE'];
-
-        foreach($SS_A as $v) {
-            $result = $this->add_player($v);
-            if ($result) { // uniquement si changement, vide autrement.
-                list($dummy, $dummy, $nom, $empire) = $v;
-                if (isset($curss_info[$nom])) {
-                    if ($curss_info[$nom] != $empire) {
-                        $qnom    = sqlesc($nom);
-                        $qempire = sqlesc($empire);
-                        $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `EMPIRE`=\''.$qempire.'\', `UTILISATEUR`=\''.$_SESSION['_login'].'\', `DATE`=now() WHERE `USER`=\''.$qnom.'\'';
-                        DataEngine::sql($query);
-                        $this->AddInfo(sprintf($this->lng['class_solar_msg2'],$nom));
-                        unset($curss_info[$nom]);
-                    }
-                }
-            }
-        }
+        foreach($SS_A as $v)
+            $this->add_player($v);
+// //-- Partie changement d'empire obsolète?...
+//        $query = 'SELECT `USER`, `EMPIRE` FROM `SQL_PREFIX_Coordonnee` where `POSIN`=\''.$cur_ss.'\' AND `TYPE` in (0,3,5)';
+//        $sql_result = DataEngine::sql($query);
+//        while ($row = mysql_fetch_assoc($sql_result))
+//        // par nom de joueur
+//            $curss_info[$row['USER']] = $row['EMPIRE'];
+//
+//        foreach($SS_A as $v) {
+//            $result = $this->add_player($v);
+//            if ($result) { // uniquement si changement, vide autrement.
+//                list($dummy, $dummy, $nom, $empire) = $v;
+//                if (isset($curss_info[$nom])) {
+//                    if ($curss_info[$nom] != $empire) {
+//                        $qnom    = sqlesc($nom);
+//                        $qempire = sqlesc($empire);
+//                        $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `EMPIRE`=\''.$qempire.'\', `UTILISATEUR`=\''.$_SESSION['_login'].'\', `DATE`=now() WHERE `USER`=\''.$qnom.'\'';
+//                        DataEngine::sql($query);
+//                        $this->AddInfo(sprintf($this->lng['class_solar_msg2'],$nom));
+//                        unset($curss_info[$nom]);
+//                    }
+//                }
+//            }
+//        }
     }
 
     /**
@@ -393,14 +417,10 @@ class cartographie {
 
         $where = implode(' AND ',$where);
 
-        $query = 'SELECT `TYPE`, `POSIN`, `COORDET`, `USER` FROM `SQL_PREFIX_Coordonnee` WHERE '.$where;
+        $query = 'SELECT `TYPE`, `POSIN`, `COORDET`, `USER` FROM `SQL_PREFIX_Coordonnee` c, `SQL_PREFIX_Coordonnee_Joueurs` j WHERE c.`id`=j.`jID` AND '.$where;
         $sql_result = DataEngine::sql($query);
-        if (mysql_num_rows($sql_result)==0) {
-            $query = sprintf('INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`DATE`,`water`,`batiments`,`UTILISATEUR`)'.
-                    ' VALUES (2,\'%s\',\'%s\',now(),\'%d\',\'%d\',\'%s\')',
-                    $sys, $det, $water, $batiments, sqlesc($_SESSION['_login']));
-            DataEngine::sql($query);
-        }
+        if (mysql_num_rows($sql_result)==0)
+            return $this->AddErreur (sprintf($this->lng['class_delete_nofound'],$ident));
 
         $item = mysql_fetch_assoc($sql_result);
 
@@ -417,7 +437,7 @@ class cartographie {
         if ($data['TROOP']<=0) $value[] = '`troop_date`=0';
 
         $value = implode(',',$value);
-        $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee` SET %s,`UTILISATEUR`=\'%s\',`DATE`=now() WHERE %s',
+        $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee`, `SQL_PREFIX_Coordonnee_Joueurs`, `SQL_PREFIX_Coordonnee_Planetes` SET %s,`UTILISATEUR`=\'%s\',`DATE`=now() WHERE id=pID AND id=jID AND %s',
                 $value, $_SESSION['_login'], $where);
         $sql_result = DataEngine::sql($query);
 
@@ -441,18 +461,19 @@ class cartographie {
 
     public function Delete_Entry($ident,$type) {
 
-        $where = '`ID`=\''.$ident.'\'';
-        $where2 = '`pID`=\''.$ident.'\'';
+        $where = '`ID`='.$ident;
+        $where2 = '`jID`='.$ident;
+        $where3 = '`pID`='.$ident;
 
         $query = 'DELETE FROM `SQL_PREFIX_Coordonnee` WHERE '.$where;
         $sql_result = DataEngine::sql($query);
         if (mysql_affected_rows()==0) return $this->AddErreur(sprintf($this->lng['class_delete_nofound'],$ident));
 
-        if (in_array($type,array(2,4))) {
-            $query = 'DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE '.$where2;
-            $sql_result = DataEngine::sql($query);
-            if (mysql_affected_rows()==0) return $this->AddErreur(sprintf($this->lng['class_delete_nofound'],$ident));
-        }
+        $query = 'DELETE FROM `SQL_PREFIX_Coordonnee_Joueurs` WHERE '.$where2;
+        $sql_result = DataEngine::sql($query);
+
+        $query = 'DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE '.$where3;
+        $sql_result = DataEngine::sql($query);
 
         $this->AddInfo(sprintf($this->lng['class_delete_msg'], $this->lngmain['types']['string'][$type],$ident));
         return true;

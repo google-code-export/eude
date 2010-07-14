@@ -132,13 +132,13 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     if ($Recherche['Troop']>0) $Recherche['Type'] = '0,3,5';
 
     $fieldtable = array();
-    $fieldtable['Status'] = '`Inactif`=%d ';
-    $fieldtable['Type']   = '`TYPE` IN (%s) ';
-    $fieldtable['User']   = '`USER` like \'%%%s%%\' ';
-    $fieldtable['Empire'] = '`EMPIRE` like \'%%%s%%\' ';
-    $fieldtable['Infos']  = '`INFOS` like \'%%%s%%\' ';
-    $fieldtable['Note']   = '`NOTE` like \'%%%s%%\' ';
-    $fieldtable['Troop']   = '`TROOP`<%d ';
+//    $fieldtable['Status'] = '`Inactif`=%d ';
+    $fieldtable['Type']   = 'c.`TYPE` IN (%s) ';
+    $fieldtable['User']   = 'j.`USER` like \'%%%s%%\' ';
+    $fieldtable['Empire'] = 'j.`EMPIRE` like \'%%%s%%\' ';
+    $fieldtable['Infos']  = 'j.`INFOS` like \'%%%s%%\' ';
+    $fieldtable['Note']   = 'c.`NOTE` like \'%%%s%%\' ';
+    $fieldtable['Troop']   = 'j.`TROOP`<%d ';
     foreach ($Recherche as $key => $value) {
         $value = sqlesc($value);
 
@@ -196,11 +196,7 @@ $tpl->PushRow();
 
 if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     $tpl->SearchForm();
-    if (!isset ($Recherche['Status'])) $Recherche['Status'] = -1;
     if (!isset ($Recherche['Type'])) $Recherche['Type'] = -1;
-    $tpl->AddToRow(($Recherche['Status']==-1 ? ' selected="true"':''), 'status-1');
-    $tpl->AddToRow(($Recherche['Status']==0 ? ' selected="true"':''), 'status0');
-    $tpl->AddToRow(($Recherche['Status']==1 ? ' selected="true"':''), 'status1');
     $tpl->AddToRow($tpl->SelectOptions2($lngmain['types']['dropdown'],$Recherche['Type']), 'Type');
     $tpl->AddToRow($Recherche['Pos'], 'Pos');
     $tpl->AddToRow($Recherche['Rayon'], 'Rayon');
@@ -218,7 +214,12 @@ $PageCurr = (isset($_GET['page'])) ? max(intval($_GET['page']),1): 1;
 $Maxline = 20;
 $limit = ' LIMIT '.(($PageCurr-1)*$Maxline).','.$Maxline;
 
-$query = 'SELECT count(`ID`) as Nb from `SQL_PREFIX_Coordonnee` '.$where;
+$query = <<<sql
+SELECT count(`ID`) as Nb from `SQL_PREFIX_Coordonnee` c
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` j on c.id=j.jid
+LEFT JOIN `SQL_PREFIX_Coordonnee_Planetes` p on c.id=p.pid $where
+sql;
+
 $mysql_result = DataEngine::sql($query);
 
 $ligne=mysql_fetch_assoc($mysql_result);
@@ -235,9 +236,9 @@ $invert_sort = array(''=>'ASC','DESC' => 'ASC', 'ASC' => 'DESC');
 $sort_key = array('type', 'user', 'empire', 'infos', 'note', 'date', 'water', 'batiments', 'troop');
 
 if ($Recherche['Troop']>0)
-    $sort='ORDER BY `Troop_date` DESC';
+    $sort='ORDER BY j.`Troop_date` DESC';
 else
-    $sort='ORDER BY `DATE` DESC';
+    $sort='ORDER BY c.`DATE` DESC';
 
 foreach($sort_key as $v) {
     if (isset($_GET['sort']) && in_array($_GET['sort'][$v],$invert_sort))
@@ -251,9 +252,13 @@ foreach($sort_key as $v) {
 
 $tpl->PushRow();
 
-$sql='SELECT UNIX_TIMESTAMP(a.`DATE`) as udate, a.`ID`, a.`TYPE`, a.`POSIN`, a.`POSOUT`, a.`COORDET`, a.`COORDETOUT`, a.`USER`, a.`EMPIRE`, a.`INFOS`, a.`NOTE`, a.`water`,
-	a.`batiments`, a.`troop`, a.`troop_date`, a.`INACTIF`, a.`UTILISATEUR`, b.`pID`, b.`Titane`, b.`Cuivre`, b.`Fer`, b.`Aluminium`, b.`Mercure`, b.`Silicium`, b.`Uranium`, b.`Krypton`, 
-	b.`Azote`, b.`Hydrogene` from `SQL_PREFIX_Coordonnee` a left outer join `SQL_PREFIX_Coordonnee_Planetes` b on (a.`ID`=b.`pID`) '.$where.$sort.$limit;
+$sql= <<<sql
+SELECT UNIX_TIMESTAMP(c.`DATE`) as udate, c.`ID`, c.`TYPE`, c.`POSIN`, c.`POSOUT`, c.`COORDET`, c.`COORDETOUT`, j.`USER`, j.`EMPIRE`, j.`INFOS`, c.`NOTE`, p.`water`,
+	j.`batiments`, j.`troop`, j.`troop_date`, c.`UTILISATEUR`, p.`pID`, p.`Titane`, p.`Cuivre`, p.`Fer`, p.`Aluminium`, p.`Mercure`, p.`Silicium`, p.`Uranium`, p.`Krypton`,
+	p.`Azote`, p.`Hydrogene` from `SQL_PREFIX_Coordonnee` c
+left outer join `SQL_PREFIX_Coordonnee_Joueurs` j on (c.`ID`=j.`jID`)
+left outer join `SQL_PREFIX_Coordonnee_Planetes` p on (c.`ID`=p.`pID`) $where$sort$limit
+sql;
 $mysql_result = DataEngine::sql($sql);
 
 $lngmain = language::getinstance()->GetLngBlock('dataengine');
@@ -304,7 +309,6 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
     $tmp = sprintf($lng['search_userdate'], $ligne['UTILISATEUR'], date($lng['search_date_long_format'],$ligne['udate']));
     $tpl->AddToRow(bulle($tmp), 'userdate');
     $tpl->AddToRow(date($lng['search_date_short_format'],$ligne['udate']), 'udate');
-//    $tpl->AddToRow($ligne['UTILISATEUR'], 'user');
 
 
     if (Members::CheckPerms('CARTOGRAPHIE_DELETE')) {
