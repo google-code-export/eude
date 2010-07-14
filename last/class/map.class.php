@@ -10,15 +10,17 @@
 class parcours {
     protected $allfoundparcours = array();
     protected $allvortex = array();
-    protected $mindist, $howmany, $distance, $maxtry, $nbvortex;
+    protected $mindist, $distance, $maxtry, $nbvortex;
     protected $initialised=false;
     protected $map;
+
+
     public function _init($IN,$OUT) {
 
         $this->map = map::getinstance();
-        //Chargement d'un liste de tous les vortex actif ou non...
+        //Chargement d'une liste de tous les vortex...
         $sql = 'SELECT `ID`, `POSIN`, `POSOUT`, `COORDET`, `COORDETOUT` from `SQL_PREFIX_Coordonnee` where `Type`=1';
-        if (!$this->map->inactif) $sql .= ' and `INACTIF`=0';
+//        if (!$this->map->inactif) $sql .= ' and `INACTIF`=0';
 
         // @since 1.4.1
         if ($this->map->method == 10) {
@@ -53,20 +55,17 @@ class parcours {
 
     public function Do_Parcours($IN,$OUT) {
         // initialisation...
-        if (!isset($initialised)) $this->_init($IN,$OUT);
+        if (!$this->initialised) $this->_init($IN,$OUT);
         $this->IN = $IN;
         $this->OUT = $OUT;
         $this->allfoundparcours = array();
         $this->distance = $this->mindist = $this->Calcul_Distance($IN,$OUT);
-        if (IN_DEV) $this->howmany  = 0;
         if (DataEngine::config_key('config', 'Parcours_Max_Time')==0)
             $this->maxtry   = (ini_get('max_execution_time')-1);
         else
             $this->maxtry   = DataEngine::config_key('config', 'Parcours_Max_Time');
 
         $this->nbvortex = min($this->map->method-1,2);
-        //        $this->nbvortex = Config::Parcours_Max_Vortex()-1;
-        FB::warn($this->nbvortex, 'nbvortex');
         if (!is_array($this->allvortex))
             return array($this->distance, array($IN, $OUT));
 
@@ -81,16 +80,12 @@ class parcours {
             }
             if (count($parcours[1])>count($v[1])) {
                 $parcours = $v;
-                if (IN_DEV) $kv = $k;
             }
         }
 
         if (IN_DEV) {
-            FB::info($this->howmany-1,'Nombre de combinaisons rejeté');
-            FB::info($kv,'ID de la combinaison retenue');
             FB::info($this->maxtry, 'Timing max');
             FB::info((microtime(true)-START), 'Timing sec');
-            //FB::info($parcours,'Parcours');
         }
         return $parcours;
     }
@@ -127,7 +122,6 @@ class parcours {
     }
 
     protected function _Parcours_found($dist,$parcours) {
-        if (IN_DEV) $this->howmany++;
 
         if ($dist > $this->mindist) return false;
 
@@ -148,7 +142,6 @@ class parcours {
      **/
     public function Calcul_Distance ($a,$b) {
         $X = abs( (floor(($a-1)/100)+1) - (floor(($b-1)/100)+1) );
-        //        $X = abs( floor(((($a-1)/100)+1) - ((($b-1)/100)+1)) );
         $Y = abs( ((($a-1)%100)+1) - ((($b-1)%100)+1) );
         return round( sqrt(pow($X,2) + pow($Y,2)));
     }
@@ -198,7 +191,7 @@ class parcours {
 
 class map /*extends parcours*/ {
     public $TabData = array();
-    public $vortex,$joueur,$planete,$asteroide,$sc,$taille,$pnj,$ennemis,$allys,$IN,$OUT,$loadfleet,$itineraire,$inactif,$parcours;
+    public $vortex,$joueur,$planete,$asteroide,$sc,$taille,$pnj,$ennemis,$allys,$IN,$OUT,$loadfleet,$itineraire,$parcours;
     public $nointrass;
     /**
      * @since 1.4.1
@@ -226,7 +219,7 @@ class map /*extends parcours*/ {
         $this->parcours		= '';
 
         if(IS_IMG) {
-            $this->inactif		= $_SESSION['inactif'];
+//            $this->inactif		= $_SESSION['inactif'];
             $this->IN			= $_SESSION['IN'];
             $this->OUT			= $_SESSION['OUT'];
             $this->loadfleet	= (isset($_SESSION['loadfleet']) ? $_SESSION['loadfleet']:'');
@@ -238,7 +231,7 @@ class map /*extends parcours*/ {
             if ($this->OUT < 1 || $this->OUT > 10000) $this->OUT = '';
             $this->loadfleet = (isset($_REQUEST['loadfleet']) and intval($_REQUEST['loadfleet']) > 0) ? intval($_REQUEST['loadfleet']): 0;
             $this->method = (isset($_REQUEST['method']) and intval($_REQUEST['method']) > 0) ? intval($_REQUEST['method']): 2;
-            $this->inactif		= ( isset($_POST['inactif']) 	&& $_POST['inactif'] > 0 ) 	? true: false;
+//            $this->inactif		= ( isset($_POST['inactif']) 	&& $_POST['inactif'] > 0 ) 	? true: false;
             $this->nointrass		= ( isset($_POST['nointrass']) 	&& $_POST['nointrass'] > 0 ) 	? true: false;
             $this->update_session();
 
@@ -304,7 +297,7 @@ class map /*extends parcours*/ {
         $_SESSION['IN'] = $this->IN;
         $_SESSION['OUT'] = $this->OUT;
         $_SESSION['parcours'] = $this->parcours;
-        $_SESSION['inactif'] = $this->inactif;
+//        $_SESSION['inactif'] = $this->inactif;
     }
 
     /**
@@ -342,7 +335,7 @@ class map /*extends parcours*/ {
 
         /// RÉCUPÉRATION DES VORTEX (POSOUT) ///
         if ($this->vortex) {
-            $where = ( ($this->inactif) ? '':' AND `INACTIF`=0 ' );
+//            $where = ( ($this->inactif) ? '':' AND `INACTIF`=0 ' );
             $sql = 'SELECT `ID`, `POSIN`, `POSOUT` from `SQL_PREFIX_Coordonnee` where `Type`=1'.$where;
             $mysql_result = DataEngine::sql($sql);
             while($line=mysql_fetch_assoc($mysql_result)) {
@@ -389,7 +382,7 @@ class map /*extends parcours*/ {
             if ($in != '')
                 $where = $in.' ) ';
         }
-        $where = 'WHERE '.$custom. ( ($this->inactif) ? '1=1 ':'`INACTIF`=0 ' ) . $where;
+        $where = 'WHERE 1 '.$custom . $where;
 
         $where = $where.' ORDER BY `POSIN` ASC';
         $sql='SELECT a.`ID`, a.`TYPE`, a.`POSIN`, a.`POSOUT`, a.`USER`, a.`INFOS`, a.`EMPIRE`, '.$if.' IFNULL(b.`Joueur`,"") as Joueur,IFNULL(c.`Grade`,"") as Grade FROM `SQL_PREFIX_Coordonnee` a left outer join `SQL_PREFIX_Membres` b on (a.`USER`=b.`Joueur`) left outer join `SQL_PREFIX_Grade` c on (b.`Grade`=c.`GradeId`) '.$where;

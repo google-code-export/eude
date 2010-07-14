@@ -105,7 +105,7 @@ sql;
         $sql = <<<sql
 SELECT `ID`, `POSIN`, `COORDET`, `DATE`
 FROM  `SQL_PREFIX_Coordonnee`
-WHERE `POSIN`='{$line['POSIN']}' AND `COORDET`='{$line['COORDET']}'
+WHERE `POSIN`={$line['POSIN']} AND `COORDET`='{$line['COORDET']}'
 ORDER BY CONCAT_WS('-', `POSIN`, `COORDET`), DATE DESC
 sql;
         $result2 = DataEngine::sql($sql);

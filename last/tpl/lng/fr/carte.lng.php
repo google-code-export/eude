@@ -45,7 +45,6 @@ $lng['parcours_msg_del']= 'Supprimer parcours';
 $lng['parcours_msg_inv']= 'Intervertir les coords';
 $lng['parcours_start_ss']= 'Système de départ';
 $lng['parcours_end_ss']= 'Système d\'arrivée';
-$lng['parcours_old_wormhole']= 'Utiliser les vortex "Inactif"';
 $lng['parcours_nointrass']= 'Pas de déplacement par impulsion';
 $lng['parcours_method_1']= '1 vortex max (calcul rapide)';
 $lng['parcours_method_2']= '2 vortex max (normal)';

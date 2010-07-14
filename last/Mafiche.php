@@ -44,12 +44,12 @@ if(isset($_POST['importation'])) {
         foreach ($info as $k => $v) $info[$k] = sqlesc($v);
 
         $query = <<<q
-            UPDATE `SQL_PREFIX_Membres` SET `POINTS`='%d',
-        `Economie`='%d', `Commerce`='%d', `Recherche`='%d', `Combat`='%d',
-        `Construction`='%s', `Navigation`='%d', `Race`='%s',
-        `Titre`='%s', `GameGrade`='%s', `pts_architecte`='%d', `pts_mineur`='%d',
-        `pts_science`='%d', `pts_commercant`='%d', `pts_amiral`='%d',
-        `pts_guerrier`='%d' WHERE `Joueur`='%s'
+            UPDATE `SQL_PREFIX_Membres` SET `POINTS`=%d,
+        `Economie`=%d, `Commerce`=%d, `Recherche`=%d, `Combat`=%d,
+        `Construction`='%s', `Navigation`=%d, `Race`='%s',
+        `Titre`='%s', `GameGrade`='%s', `pts_architecte`=%d, `pts_mineur`=%d,
+        `pts_science`=%d, `pts_commercant`=%d, `pts_amiral`=%d,
+        `pts_guerrier`=%d WHERE `Joueur`='%s'
 q;
         DataEngine::sql(sprintf($query, $info['POINTS'],
             $info['Economie'], $info['Commerce'], $info['Recherche'], $info['Combat'],
@@ -84,12 +84,12 @@ if(isset($_POST['JOUEUR'])) {
     foreach ($_POST as $k => $v) $_POST[$k] = sqlesc($v);
 
     $query = <<<q
-        UPDATE `SQL_PREFIX_Membres` SET `POINTS`='%d', `ship`='%s',
-        `Economie`='%d', `Commerce`='%d', `Recherche`='%d', `Combat`='%d',
-        `Construction`='%s', `Navigation`='%d',
-        `pts_architecte`='%d', `pts_mineur`='%d',
-        `pts_science`='%d', `pts_commercant`='%d', `pts_amiral`='%d',
-        `pts_guerrier`='%d' WHERE `Joueur`='%s'
+        UPDATE `SQL_PREFIX_Membres` SET `POINTS`=%d, `ship`='%s',
+        `Economie`=%d, `Commerce`=%d, `Recherche`=%d, `Combat`=%d,
+        `Construction`='%s', `Navigation`=%d,
+        `pts_architecte`=%d, `pts_mineur`=%d,
+        `pts_science`=%d, `pts_commercant`=%d, `pts_amiral`=%d,
+        `pts_guerrier`=%d WHERE `Joueur`='%s'
 q;
     DataEngine::sql(sprintf($query, $_POST['Points'], $_POST['ship'],
         $_POST['Economie'], $_POST['Commerce'], $_POST['Recherche'], $_POST['Combat'],

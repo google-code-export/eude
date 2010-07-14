@@ -132,7 +132,7 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     if ($Recherche['Troop']>0) $Recherche['Type'] = '0,3,5';
 
     $fieldtable = array();
-    $fieldtable['Status'] = '`Inactif`=\'%s\' ';
+    $fieldtable['Status'] = '`Inactif`=%d ';
     $fieldtable['Type']   = '`TYPE` IN (%s) ';
     $fieldtable['User']   = '`USER` like \'%%%s%%\' ';
     $fieldtable['Empire'] = '`EMPIRE` like \'%%%s%%\' ';
