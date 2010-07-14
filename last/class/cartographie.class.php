@@ -245,7 +245,7 @@ class cartographie {
         if (!$this->FormatId(trim($coords), $uni, $sys,'')) return false;
 
         if ($nom=='') {
-            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `Type`=2, `USER`=\'\', `EMPIRE`=\'\', `INFOS`=\'\', `batiments`=\'\', `troop`=\'\' where `Type` in (0,3,5) AND `POSIN`=\''.$uni.'\' AND `COORDET`=\''.$sys.'\'';
+            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `Type`=2, `USER`=\'\', `EMPIRE`=\'\', `INFOS`=\'\', `batiments`=NULL, `troop`=NULL where `Type` in (0,3,5) AND `POSIN`=\''.$uni.'\' AND `COORDET`=\''.$sys.'\'';
             $array = DataEngine::sql($query);
             if (mysql_affected_rows() > 0)
                 return $this->AddWarn(sprintf($this->lng['class_player_msg1'],$coords));
@@ -345,7 +345,7 @@ class cartographie {
 
         if (count($del_planet)>0) {
             $del_planet = ''.implode("','",$del_planet).'';
-            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `Type`=2, `USER`=\'\', `EMPIRE`=\'\', `INFOS`=\'\', `batiments`=\'\', `troop`=\'\' where `Type` in (0,3,5) AND `POSIN`=\''.$cur_ss.'\' AND `COORDET` in (\''.$del_planet.'\')';
+            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `Type`=2, `USER`=\'\', `EMPIRE`=\'\', `INFOS`=\'\', `batiments`=NULL, `troop`=NULL where `Type` in (0,3,5) AND `POSIN`=\''.$cur_ss.'\' AND `COORDET` in (\''.$del_planet.'\')';
             $array = DataEngine::sql($query);
             if ( ($num = mysql_affected_rows()) > 0)
                 $this->AddInfo(sprintf($this->lng['class_solar_msg1'],$num,$cur_ss));
@@ -397,7 +397,7 @@ class cartographie {
         $sql_result = DataEngine::sql($query);
         if (mysql_num_rows($sql_result)==0) {
             $query = sprintf('INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`DATE`,`water`,`batiments`,`UTILISATEUR`)'.
-                    ' VALUES (2,\'%s\',\'%s\',now(),\'%s\',\'%s\',\'%s\')',
+                    ' VALUES (2,\'%s\',\'%s\',now(),\'%d\',\'%d\',\'%s\')',
                     $sys, $det, $water, $batiments, sqlesc($_SESSION['_login']));
             DataEngine::sql($query);
         }
@@ -405,12 +405,16 @@ class cartographie {
         $item = mysql_fetch_assoc($sql_result);
 
         $value = array();
-        foreach($data as $k => $v) {
-            if (preg_match('/[^a-zA-Z_]+/', $k)>0) return $this->AddErreur('fatal: $key syntax invalid');
-            $value[] = sprintf('`%s`=\'%s\'', $k, sqlesc($v));
+        foreach ($data as $k => $v) {
+            if (preg_match('/[^a-zA-Z_]+/', $k) > 0)
+                return $this->AddErreur('fatal: $key syntax invalid');
+            if ($k == 'TROOP' && $v == -1)
+                $value[] = sprintf('`%s`= NULL', $k, sqlesc($v));
+            else
+                $value[] = sprintf('`%s`=\'%s\'', $k, sqlesc($v));
         }
         if ($data['TROOP']>0) $value[] = '`troop_date`=now()';
-        if ($data['TROOP']==0) $value[] = '`troop_date`=0';
+        if ($data['TROOP']<=0) $value[] = '`troop_date`=0';
 
         $value = implode(',',$value);
         $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee` SET %s,`UTILISATEUR`=\'%s\',`DATE`=now() WHERE %s',

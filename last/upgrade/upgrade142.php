@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @author Alex10336
  * Dernière modification: $Id$
@@ -14,33 +13,33 @@ include_once ('upgrade.tpl.php');
 $tpl = tpl_upgrade::getinstance();
 $tpl->Setheader();
 
-
+//------------------------------------------------------------------------------
+$inf_title = 'Mise à jour depuis 1.4.2.x';
 $file = 'upgrade142';
+//------------------------------------------------------------------------------
+
 
 $sqlfile = ROOT_PATH . 'upgrade' . DIRECTORY_SEPARATOR . $file . '.sql';
-$inffile = ROOT_PATH . 'upgrade' . DIRECTORY_SEPARATOR . $file . '.php';
 $lockfile = ROOT_PATH . 'upgrade' . DIRECTORY_SEPARATOR . $file . '.lock';
 
-if (!file_exists($inffile) || !file_exists($sqlfile))
+if (!file_exists($sqlfile))
     stop_on_error('Mise à jour corrompue !');
 
 if (file_exists($lockfile))
     $cur = (int) file_get_contents($lockfile);
 else
     $cur = 0;
-include ($inffile);
+
 $tpl->AddToRow ($inf_title, 'value');
 $tpl->PushRow();
 
 $sqls = preg_split('/;[\n\r]+/', file_get_contents($sqlfile));
 FB::log(count($sqls), 'Nb sql');
-FB::log(count($infs), 'Nb infs');
 FB::log($cur, 'cur');
-$max = count($infs) - $cur;
+$max = count($sqls) - $cur;
 if ($max == 0)
     stop_on_error('Déjà fait.');
 
-//$tpl->css_file = false;
 $out = <<<x
 <script type="text/javascript" src="./sqlbatch.js"></script>
     <div id="sqlbatchmsg"><a href="javascript:void(0);" Onclick="sql_run('{$file}', {$max});">Lancer maintenant ! </a></div>

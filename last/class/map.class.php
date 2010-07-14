@@ -319,7 +319,7 @@ class map /*extends parcours*/ {
     public function Parcours_loadfleet() {
 
         if ($this->loadfleet==0) return false;
-        $mysql_result = DataEngine::sql('SELECT `Start`, `End`, `Flotte` from `SQL_PREFIX_itineraire` where `ID`=\''.$this->loadfleet.'\' AND `Joueur`=\''.$_SESSION['_login'].'\'');
+        $mysql_result = DataEngine::sql('SELECT `Start`, `End`, `Flotte` from `SQL_PREFIX_itineraire` where `ID`='.$this->loadfleet.' AND `Joueur`=\''.$_SESSION['_login'].'\'');
         if (mysql_num_rows($mysql_result) > 0) {
             $ligne			= mysql_fetch_array($mysql_result, MYSQL_ASSOC);
             $this->IN		= $ligne['Start'];
@@ -392,7 +392,7 @@ class map /*extends parcours*/ {
         $where = 'WHERE '.$custom. ( ($this->inactif) ? '1=1 ':'`INACTIF`=0 ' ) . $where;
 
         $where = $where.' ORDER BY `POSIN` ASC';
-        $sql='SELECT a.`ID`, a.`TYPE`, a.`POSIN`, a.`POSOUT`, a.`USER`, a.`EMPIRE`, '.$if.' IFNULL(b.`Joueur`,"") as Joueur,IFNULL(c.`Grade`,"") as Grade FROM `SQL_PREFIX_Coordonnee` a left outer join `SQL_PREFIX_Membres` b on (a.`USER`=b.`Joueur`) left outer join `SQL_PREFIX_Grade` c on (b.`Grade`=c.`GradeId`) '.$where;
+        $sql='SELECT a.`ID`, a.`TYPE`, a.`POSIN`, a.`POSOUT`, a.`USER`, a.`INFOS`, a.`EMPIRE`, '.$if.' IFNULL(b.`Joueur`,"") as Joueur,IFNULL(c.`Grade`,"") as Grade FROM `SQL_PREFIX_Coordonnee` a left outer join `SQL_PREFIX_Membres` b on (a.`USER`=b.`Joueur`) left outer join `SQL_PREFIX_Grade` c on (b.`Grade`=c.`GradeId`) '.$where;
         $mysql_result = DataEngine::sql($sql);
 
         return $mysql_result;

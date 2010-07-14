@@ -96,18 +96,18 @@ if (isset($_GET['savefleet'])) { // enregistrement
     if (mysql_num_rows($mysql_result) > 0) // MAJ du parcours
     {
         $ligne=mysql_fetch_array($mysql_result, MYSQL_ASSOC);
-        $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_itineraire` SET `Flotte`=\''.sqlesc($_GET['savefleet']).'\',`Start`=\''.intval($_GET['in']).'\',`End`=\''.intval($_GET['out']).'\' where `ID`=\''.$ligne['ID'].'\' LIMIT 1');
+        $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_itineraire` SET `Flotte`=\''.sqlesc($_GET['savefleet']).'\',`Start`='.intval($_GET['in']).',`End`='.intval($_GET['out']).' where `ID`='.$ligne['ID'].' LIMIT 1');
         output::boink('Carte.php?loadfleet='.$ligne['ID']);
     } else { // Nouveau parcours
-        $sql = 'INSERT INTO `SQL_PREFIX_itineraire` (`Joueur`,`Flotte`,`Start`,`End`) VALUES (\''.$_SESSION['_login'].'\',\''.sqlesc($_GET['savefleet']).'\',\''.intval($_GET['in']).'\',\''.intval($_GET['out']).'\')';
+        $sql = 'INSERT INTO `SQL_PREFIX_itineraire` (`Joueur`,`Flotte`,`Start`,`End`) VALUES (\''.$_SESSION['_login'].'\',\''.sqlesc($_GET['savefleet']).'\','.intval($_GET['in']).','.intval($_GET['out']).')';
         $mysql_result = DataEngine::sql($sql);
         output::boink('Carte.php?loadfleet='.mysql_insert_id());
     }
 }
 if (isset($_GET["delfleet"])) { // suppression
-    $mysql_result = DataEngine::sql('SELECT `ID` from `SQL_PREFIX_itineraire` where `ID`=\''.intval($_GET['delfleet']).'\' AND `Joueur`=\''.$_SESSION['_login'].'\'');
+    $mysql_result = DataEngine::sql('SELECT `ID` from `SQL_PREFIX_itineraire` where `ID`='.intval($_GET['delfleet']).' AND `Joueur`=\''.$_SESSION['_login'].'\'');
     if (mysql_num_rows($mysql_result) > 0)
-        DataEngine::sql('DELETE FROM `SQL_PREFIX_itineraire` WHERE `ID`=\''.intval($_GET['delfleet']).'\' LIMIT 1');
+        DataEngine::sql('DELETE FROM `SQL_PREFIX_itineraire` WHERE `ID`='.intval($_GET['delfleet']).' LIMIT 1');
     output::boink("Carte.php");
 }
 

@@ -60,6 +60,7 @@ function _sql_done() {
 }
 function _sql_error() {
     clearTimeout(sql_standby);
+    $('sqlbatchmsgstep').update('');
 }
 function maj_progress() {
     sql_cur++;

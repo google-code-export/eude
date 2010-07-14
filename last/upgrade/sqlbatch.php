@@ -56,7 +56,7 @@ if ($cur >= count($sqls))
 sql($sqls[$cur]);
 file_put_contents($lockfile, $cur + 1);
 
-$xml = str_replace('%msg%', $infs[$cur], $xml);
+$xml = str_replace('%msg%', 'Mise à jour mysql ('.($cur+1).')', $xml);
 $xml = str_replace('%haserror%', '0', $xml);
 if ($cur + 1 >= count($sqls))
     $xml = str_replace('%done%', '1', $xml);
@@ -87,15 +87,4 @@ function error($msg) {
     $xml = str_replace('%haserror%', '1', $xml);
     $xml = str_replace('%done%', '0', $xml);
     die($xml);
-}
-
-if (!function_exists('gpc_esc')) {
-
-    function gpc_esc($value) {
-        if (!get_magic_quotes_gpc())
-            return $value;
-        else
-            return stripslashes($value);
-    }
-
 }

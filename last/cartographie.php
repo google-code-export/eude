@@ -27,7 +27,8 @@ if (isset($_POST['massedit'])) {
         } else
         if ($arr['edit']) {
             unset($arr['edit']);
-            if (isset($arr['TROOP'])) $arr['TROOP'] = DataEngine::strip_number($arr['TROOP']);
+            if (isset($arr['TROOP']))
+                $arr['TROOP'] = DataEngine::strip_number($arr['TROOP']);
             $carto->Edit_Entry($k,$arr);
         }
     }
@@ -137,7 +138,7 @@ if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     $fieldtable['Empire'] = '`EMPIRE` like \'%%%s%%\' ';
     $fieldtable['Infos']  = '`INFOS` like \'%%%s%%\' ';
     $fieldtable['Note']   = '`NOTE` like \'%%%s%%\' ';
-    $fieldtable['Troop']   = '`TROOP`<%d AND `TROOP`>=0 ';
+    $fieldtable['Troop']   = '`TROOP`<%d ';
     foreach ($Recherche as $key => $value) {
         $value = sqlesc($value);
 
@@ -292,6 +293,7 @@ while ($ligne=mysql_fetch_assoc($mysql_result)) {
     $tpl->AddToRow($ligne['NOTE'], 'notes');
     $tpl->AddToRow($ligne['water'], 'water');
     $tpl->AddToRow($ligne['batiments'], 'batiments');
+    if (!isset($ligne['troop'])) $ligne['troop'] = -1;
     $tpl->AddToRow(DataEngine::format_number($ligne['troop'], true), 'troop');
     if (isset ($ligne['troop_date']))
         $tpl->AddToRow(bulle(sprintf($lng['search_troopdate'], date($lng['search_date_long_format']),$ligne['troop_date'])), 'troop_date');

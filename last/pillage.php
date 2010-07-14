@@ -17,6 +17,7 @@ require_once(TEMPLATE_PATH.'troops.tpl.php');
 $tpl = tpl_troops::getinstance();
 $lng = language::getinstance()->GetLngBlock('pillage');
 
+$_GET['player']=str_replace('%', '', $_GET['player']);
 if ($_GET['player'] != '')
     $player = gpc_esc($_GET['player']);
 else

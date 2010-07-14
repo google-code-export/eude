@@ -1,24 +1,19 @@
 <?php
+
 /**
  * @author Alex10336
  * Dernière modification: $Id$
  * @license GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  *
- **/
-if (!SCRIPT_IN) die('Need by included');
+ * */
+if (!SCRIPT_IN)
+    die('Need by included');
 
 class tpl_upgrade extends output {
-    protected $BASE_FILE = '';
 
     public function __construct() {
-        $this->BASE_FILE = ROOT_URL.'upgrade/run.php';
-
         parent::__construct();
-    }
-
-    public function AddRow($ligne) {
-        $this->PushOutput($out);
     }
 
     public function Setheader() {
@@ -46,25 +41,28 @@ ROW;
      * @param boolean $include_header Inclure l'entete ?
      */
     public function DoOutput($include_menu=true, $include_header=true) {
-           $this->PushRow();
+        $this->PushRow();
         $this->PushOutput('</table>');
         parent::DoOutput($include_menu, $include_header);
     }
+
     /**
      * Next row, same tpl
      */
     public function PushRow() {
         $this->PushOutput($this->currow);
-        call_user_func(array($this,$this->curtpl), $this);
+        call_user_func(array($this, $this->curtpl), $this);
     }
+
     /**
      *
      * @return tpl_upgrade
      */
     static public function getinstance() {
-        if ( ! DataEngine::_tpl_defined(get_class()) )
-            DataEngine::_set_tpl(get_class(),new self());
+        if (!DataEngine::_tpl_defined(get_class()))
+            DataEngine::_set_tpl(get_class(), new self());
 
         return DataEngine::tpl(get_class());
     }
+
 }
