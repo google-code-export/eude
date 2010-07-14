@@ -108,7 +108,6 @@ if (!isset($_REQUEST['act']))
 if ($_REQUEST['act'] == 'testmysqlserver') {
     if ($_REQUEST['sqlserver'] == '' ||
             $_REQUEST['sqluser'] == '' ||
-            $_REQUEST['sqlpass'] == '' ||
             $_REQUEST['sqlbase'] == ''
     )
         return_data('Formulaire incomplet');
@@ -122,7 +121,6 @@ if ($_REQUEST['act'] == 'testmysqlserver') {
 if ($_REQUEST['act'] == 'startinstall') {
     if ($_REQUEST['sqlserver'] == '' ||
             $_REQUEST['sqluser'] == '' ||
-            $_REQUEST['sqlpass'] == '' ||
             $_REQUEST['sqlbase'] == '' ||
             $_REQUEST['sqlprefix'] == '' ||
             $_REQUEST['sqlbase'] == '' ||
