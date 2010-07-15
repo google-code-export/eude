@@ -335,8 +335,7 @@ class map /*extends parcours*/ {
 
         /// RÉCUPÉRATION DES VORTEX (POSOUT) ///
         if ($this->vortex) {
-//            $where = ( ($this->inactif) ? '':' AND `INACTIF`=0 ' );
-            $sql = 'SELECT `ID`, `POSIN`, `POSOUT` from `SQL_PREFIX_Coordonnee` where `Type`=1'.$where;
+            $sql = 'SELECT `ID`, `POSIN`, `POSOUT` from `SQL_PREFIX_Coordonnee` where `Type`=1';
             $mysql_result = DataEngine::sql($sql);
             while($line=mysql_fetch_assoc($mysql_result)) {
                 $vortex_a[$line['POSOUT']][$line['ID']]['POSIN'] = $line['POSOUT'];
@@ -350,9 +349,9 @@ class map /*extends parcours*/ {
 
         /// filtre spécial...
         $if = array();
-        if (!$this->ennemis && !$this->allys)   $if[] = 'IF(c.`TYPE` in (3,5), 0, c.`TYPE`) as TYPE,';
-        if (!$this->ennemis && $this->allys)    $if[] = 'IF(c.`TYPE`=5, 0, c.`TYPE`) as TYPE,';
-        if ($this->ennemis && !$this->allys)    $if[] = 'IF(c.`TYPE`=3, 0, c.`TYPE`) as TYPE,';
+        if (!$this->ennemis && !$this->allys && $this->joueur)   $if[] = 'IF(c.`TYPE` in (3,5), 0, c.`TYPE`) as TYPE';
+        if (!$this->ennemis && $this->allys)    $if[] = 'IF(c.`TYPE`=5, 0, c.`TYPE`) as TYPE';
+        if ($this->ennemis && !$this->allys)    $if[] = 'IF(c.`TYPE`=3, 0, c.`TYPE`) as TYPE';
 
         /// filtre in type:
         $in = array();
@@ -370,9 +369,13 @@ class map /*extends parcours*/ {
         /// filtre au cas par cas:
         $cas = array();
         if (!$this->joueur)		$cas[] = '(`Type`=0 AND m.`Joueur`=\''.$_SESSION['_login'].'\')';
+        if ($this->joueur) {
+            $if[] = 'IFNULL(g.`Grade`,\'\') as Grade';
+            $if[] = 'IFNULL(m.`Joueur`,\'\') as Joueur';
+        }
 
         // compilation des filtres
-        $if = ' '.trim(implode(' ', $if));
+        if (count($if) >0) $if = ', '.trim(implode(', ', $if)); else $if = '';
         if (count($cas) >0) {
             if ($in != '')
                 $where = $in.' OR '.implode(' OR ', $cas).' ) ';
@@ -386,11 +389,11 @@ class map /*extends parcours*/ {
 
         $where = $where.' ORDER BY `POSIN` ASC';
         $sql= <<<sql
-SELECT c.`ID`, c.`TYPE`, c.`POSIN`, c.`POSOUT`, j.`USER`, j.`INFOS`, j.`EMPIRE`,
-    $if IFNULL(m.`Joueur`,"") as Joueur,IFNULL(g.`Grade`,'') as Grade FROM `SQL_PREFIX_Coordonnee` c
+SELECT c.`ID`, c.`TYPE`, c.`POSIN`, c.`POSOUT`, j.`USER`, j.`INFOS`, j.`EMPIRE`
+    $if FROM `SQL_PREFIX_Coordonnee` c
 left outer join `SQL_PREFIX_Coordonnee_Joueurs` j on (c.id=j.jid)
 left outer join `SQL_PREFIX_Membres` m on (j.`USER`=m.`Joueur`)
-left outer join `SQL_PREFIX_Grade` g on (m.`Grade`=g.`GradeId`) 
+left outer join `SQL_PREFIX_Grade` g on (m.`Grade`=g.`GradeId`)
     $where
 sql;
         $mysql_result = DataEngine::sql($sql);
