@@ -255,14 +255,9 @@ class cartographie {
             if (!$updatetype) $type = $ligne['TYPE'];
             if (!$updatetype && $ligne['TYPE'] == 2) $type = 0;
             
-            $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=%d, `POSOUT`=\'\', `COORDETOUT`=\'\', `USER`=\'%s\', `EMPIRE`=\'%s\','.
-                    '`INFOS`=\'%s\', `UTILISATEUR`=\'%s\', `DATE`=NOW() WHERE `ID`=%s',
+            $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee`, `SQL_PREFIX_Coordonnee_Joueurs` SET `TYPE`=%d, `POSOUT`=\'\', `COORDETOUT`=\'\', `USER`=\'%s\', `EMPIRE`=\'%s\','.
+                    '`INFOS`=\'%s\', `UTILISATEUR`=\'%s\', `DATE`=NOW() WHERE `ID`=%s AND `jID`=%6$s',
                     $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']), $ligne['ID'] );
-            DataEngine::sql($query);
-
-            $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee_Joueurs` SET `USER`=\'%s\', `EMPIRE`=\'%s\','.
-                    '`INFOS`=\'%s\', WHERE `jID`=%s',
-                    $qnom, $qempire, $qplanete, $ligne['ID'] );
             DataEngine::sql($query);
 
             if (mysql_affected_rows() > 0)

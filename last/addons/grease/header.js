@@ -24,6 +24,7 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.tld/empire/empire_info.php?area=member&empire_id=*
 // @include      http://*eu2.looki.tld/empire/empire_info.php?empire_id=*
 // @include      http://*eu2.looki.tld/empire/empire_info.php?area=info&empire_id=*
+// @include      http://*eu2.looki.tld/empire/empire_info.php?user_id=*&empire_id=*
 // @exclude      http://vs.eu2.looki.tld/*
 // ==/UserScript==
 ]]></>.toString();

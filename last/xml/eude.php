@@ -261,12 +261,12 @@ sql;
         $empire_name = gpc_esc(html_entity_decode($_POST['empire']));
         $membres = unserialize(gpc_esc($_POST['data']));
         $listemembres = '"' . implode('","', $membres) . '"';
-        $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET
+        $query = 'UPDATE `SQL_PREFIX_Coordonnee_Joueurs` SET
 			`EMPIRE` = \'' . sqlesc($empire_name) . '\'
 			WHERE `USER` in (' . $listemembres . ')';
 
         $ok = DataEngine::sql($query) ? ' a été mis à jour' : ' n\'a pas été mis à jour';
-        $query2 = 'UPDATE `SQL_PREFIX_Coordonnee` SET
+        $query2 = 'UPDATE `SQL_PREFIX_Coordonnee_Joueurs` SET
 			`EMPIRE` = "" 
 			WHERE `USER` not in (' . $listemembres . ')
 			AND `EMPIRE` LIKE "' . sqlesc($empire_name) . '"';

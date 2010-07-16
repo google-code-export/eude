@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Alex10336
  * Dernière modification: $Id$
@@ -9,8 +10,8 @@
  */
 abstract class output {
 
-    protected $debug='';
-    protected $output='';
+    protected $debug = '';
+    protected $output = '';
     /**
      * version du DataEngine
      * @access public
@@ -28,7 +29,6 @@ abstract class output {
      * @var string
      */
     public $css_file;
-
     /**
      * Generic template routines
      * @since 1.4.2
@@ -38,33 +38,41 @@ abstract class output {
 
     public function __construct() {
         $this->version = DataEngine::Get_Version();
-        $this->page_title = 'EU2: Data Engine ('.$this->version.')';
+        $this->page_title = 'EU2: Data Engine (' . $this->version . ')';
         $this->css_file = 'css.php';
     }
 
     static public function Messager($msg) {
-        if (preg_replace('/<[^>]*>/', '', $msg) == '') return false;
-        if (!is_array($_SESSION['messager'])) $_SESSION['messager'] = array();
+        if (preg_replace('/<[^>]*>/', '', $msg) == '')
+            return false;
+        if (!is_array($_SESSION['messager']))
+            $_SESSION['messager'] = array();
         array_push($_SESSION['messager'], $msg);
         return true;
     }
+
     /**
      * Redirige vers une autre page
      * @param string $url
      */
-    static public function Boink($data='./', $messager='') {
-        if ($messager!='') self::Messager($messager);
-        
+    static public function Boink($url='./', $messager='') {
+        if ($messager != '')
+            self::Messager($messager);
+
         DataEngine::sql_log();
         // Remplacement de variable...
-        $data = str_replace('%ROOT_URL%', ROOT_URL, $data);
-        $data = str_replace('%INCLUDE_URL%', INCLUDE_URL, $data);
-        $data = str_replace('%IMAGES_URL%', IMAGES_URL, $data);
-        $data = str_replace('%TEMPLATE_URL%', TEMPLATE_URL, $data);
-        $data = str_replace('%ADDONS_URL%', ADDONS_URL, $data);
-        header('location: '.$data);
+        $url = str_replace('%ROOT_URL%', ROOT_URL, $url);
+        $url = str_replace('%INCLUDE_URL%', INCLUDE_URL, $url);
+        $url = str_replace('%IMAGES_URL%', IMAGES_URL, $url);
+        $url = str_replace('%TEMPLATE_URL%', TEMPLATE_URL, $url);
+        $url = str_replace('%ADDONS_URL%', ADDONS_URL, $url);
+        if (IN_DEV)
+            echo '<a href="'.$url.'">Boink !</a>';
+        else
+            header('location: ' . $url);
         exit(0);
     }
+
     /**
      * Génère une liste déroulante générique
      * @param array $array Tableau de donnée ($k=>$v)
@@ -72,11 +80,12 @@ abstract class output {
      * @param string $key clé pour les formulaires ($key$k)
      * @param boolean $flip inverser les clé/valeurs ($v=>$k $id=$v)
      */
-    public function SelectOptions($array,$id,$key='',$flip=false) {
-        if ($flip) $array = array_flip($array);
-        foreach($array as $k => $v) {
-            $selected = ($flip) ? (($v==$id) ? ' selected':'') : (($k==$id) ? ' selected':'');
-            if ($key!='')
+    public function SelectOptions($array, $id, $key='', $flip=false) {
+        if ($flip)
+            $array = array_flip($array);
+        foreach ($array as $k => $v) {
+            $selected = ($flip) ? (($v == $id) ? ' selected' : '') : (($k == $id) ? ' selected' : '');
+            if ($key != '')
                 $this->PushOutput("\t\t<option value='$k' name='$key$k'$selected>$v</option>\n");
             else
                 $this->PushOutput("\t\t<option value='$k'$selected>$v</option>\n");
@@ -89,11 +98,12 @@ abstract class output {
      * @param integer $key id selectionné ($selected=$k)
      * @param boolean $flip inverser les clé/valeurs ($v=>$k $id=$v)
      */
-    public function SelectOptions2($array,$key,$flip=false) {
-        $result='';
-        if ($flip) $array = array_flip($array);
-        foreach($array as $k => $v) {
-            $selected = ($flip) ? (($v==$key) ? ' selected':'') : (($k==$key) ? ' selected':'');
+    public function SelectOptions2($array, $key, $flip=false) {
+        $result = '';
+        if ($flip)
+            $array = array_flip($array);
+        foreach ($array as $k => $v) {
+            $selected = ($flip) ? (($v == $key) ? ' selected' : '') : (($k == $key) ? ' selected' : '');
             $result .= "\t\t<option value='$k'$selected>$v</option>\n";
         }
         return $result;
@@ -102,10 +112,12 @@ abstract class output {
     public function AddToRow($value, $key) {
         $this->currow = str_replace("%%$key%%", $value, $this->currow);
     }
+
 //    public function PushRow() {
 //        $this->PushOutput($this->currow);
 //        call_user_func(array($this,$this->curtpl), $this);
 //    }
+
     /**
      * Ajout de donnée au début de document
      * @param mixed $value
@@ -113,9 +125,10 @@ abstract class output {
      *
      */
     public function ShiftOutput($value) {
-        $this->output = $value.$this->output;
+        $this->output = $value . $this->output;
         return $this;
     }
+
     /**
      * Ajout de donnée en fin de document
      * @param mixed $value
@@ -125,41 +138,49 @@ abstract class output {
         $this->output .= $value;
         return $this;
     }
+
     /**
      * Ajout de donnée au 'debug'
      * @param mixed $value
      * @return output
      */
     public function ShiftDebug($value) {
-        if (is_array($value)) $value = print_r($value,true);
-        $this->debug = $value.$this->debug;
+        if (is_array($value))
+            $value = print_r($value, true);
+        $this->debug = $value . $this->debug;
         return $this;
     }
+
     /**
      * Ajout de donnée 'debug'
      * @param mixed $value
      * @return output
      */
     public function PushDebug($value) {
-        if (is_array($value)) $value = print_r($value,true);
+        if (is_array($value))
+            $value = print_r($value, true);
         $this->debug .= $value;
         return $this;
     }
+
     /**
      * @return output
      */
     public function FlushDebug() {
-        if (!IN_DEV) return $this;
-        $this->PushOutput('<pre><font color=white>'.$this->debug.'</pre>');
-        $this->debug ='';
+        if (!IN_DEV)
+            return $this;
+        $this->PushOutput('<pre><font color=white>' . $this->debug . '</pre>');
+        $this->debug = '';
         return $this;
     }
+
     /**
      * @return mixed Données du buffer
      */
     public function GetOutput() {
         return $this->output;
     }
+
     /**
      * Génère la page
      * @param boolean,array $include_menu Inclure le menu ?
@@ -168,7 +189,7 @@ abstract class output {
     public function DoOutput($include_menu=true, $include_header=true) {
         if (!USE_AJAX) {
             if ($include_menu) {
-                include_once(TEMPLATE_PATH.'menu.tpl.php');
+                include_once(TEMPLATE_PATH . 'menu.tpl.php');
                 if (is_array($include_menu))
                     $menu = addons::getinstance()->Parse_Menu($include_menu);
                 else
@@ -177,7 +198,7 @@ abstract class output {
             }
 
             if ($include_header) {
-                include_once(TEMPLATE_PATH.'header.tpl.php');
+                include_once(TEMPLATE_PATH . 'header.tpl.php');
                 $this->ShiftOutput(tpl_header::Get_Header());
                 tpl_header::messager($this->output, $_SESSION['messager']);
             }
@@ -194,9 +215,9 @@ abstract class output {
         $data = str_replace('%IMAGES_URL%', IMAGES_URL, $data);
         $data = str_replace('%TEMPLATE_URL%', TEMPLATE_URL, $data);
         $data = str_replace('%ADDONS_URL%', ADDONS_URL, $data);
-        $data = str_replace('%LNG_URL%', TEMPLATE_URL.'lng/'.LNG_CODE.'/', $data);
-        $data = str_replace('%BTN_URL%', TEMPLATE_URL.'lng/'.LNG_CODE.'/btn/', $data);
-        
+        $data = str_replace('%LNG_URL%', TEMPLATE_URL . 'lng/' . LNG_CODE . '/', $data);
+        $data = str_replace('%BTN_URL%', TEMPLATE_URL . 'lng/' . LNG_CODE . '/btn/', $data);
+
         header('Cache-Control: no-cache, must-revalidate'); // HTTP/1.1
         header('Expires: Mon, 16 Jul 2008 04:21:44 GMT'); // HTTP/1.0 Date dans le passé
 
@@ -204,21 +225,21 @@ abstract class output {
             header('Content-Type: text/plain;charset=utf-8');
             echo $data;
         } else if (USE_AJAX) {
-                header('Content-Type: text/xml;charset=utf-8');
+            header('Content-Type: text/xml;charset=utf-8');
+            echo $data;
+        } else if (IS_IMG) {
+            if (DEBUG_IMG) {
+                header('Content-Type: text/plain;charset=utf-8');
                 echo $data;
-            } else if (IS_IMG) {
-                    if (DEBUG_IMG) {
-                        header('Content-Type: text/plain;charset=utf-8');
-                        echo $data;
-                    } else {
-                        header('Content-Type: image/png');
-                        imagepng($GLOBALS['image']);
-                    }
-                    imagedestroy($GLOBALS['image']);
-                } else {
-                    header('Content-Type: text/html;charset=utf-8');
-                    echo $data;
-                }
+            } else {
+                header('Content-Type: image/png');
+                imagepng($GLOBALS['image']);
+            }
+            imagedestroy($GLOBALS['image']);
+        } else {
+            header('Content-Type: text/html;charset=utf-8');
+            echo $data;
+        }
         exit(0);
     }
 
