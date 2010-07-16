@@ -89,7 +89,7 @@ c;
         }
 
         $this->lng['vortex_whathappen']     = sprintf($this->lng['vortex_whathappen'], $dates[1], $dates[2]);
-        $this->lng['vortex_result']         = sprintf($this->lng['vortex_result'], $cleanvortex[0], $cleanvortex[1]);
+        $this->lng['vortex_result']         = sprintf($this->lng['vortex_result'], $cleanvortex);
 
         $out =<<<col2_vortex
             <table class="table_center table_nospacing base_row1">

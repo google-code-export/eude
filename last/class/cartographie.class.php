@@ -278,6 +278,10 @@ class cartographie {
                     $id, $qnom, $qempire, $qplanete);
             DataEngine::sql($query);
 
+            $query = sprintf('INSERT INTO `SQL_PREFIX_Coordonnee_Planetes` (`pID`)'.
+                    ' VALUES (%d)', $id);
+            DataEngine::sql($query);
+
             return $this->AddInfo(sprintf($this->lng['class_player_msg4'],$stype,$nom,$uni,$sys));
         }
     }
@@ -410,14 +414,13 @@ sql;
             $where[] = '`POSIN`=\''.$sys.'\'';
             $where[] = '`COORDET`=\''.$det.'\'';
         } else
-            $where[] = '`ID`=\''.$ident.'\'';
+            $where[] = '`ID`='.$ident;
 
         $where = implode(' AND ',$where);
 
         $query = <<<sql
 SELECT `TYPE`, `POSIN`, `COORDET`, `USER` FROM `SQL_PREFIX_Coordonnee` c
- LEFT JOIN`SQL_PREFIX_Coordonnee_Joueurs` on id=jID
- LEFT JOIN `SQL_PREFIX_Coordonnee_Planetes`  on id=pID
+ LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jID
 WHERE $where
 sql;
         $sql_result = DataEngine::sql($query);
@@ -441,9 +444,10 @@ sql;
         $value = implode(',',$value);
         $query = <<<sql
 UPDATE `SQL_PREFIX_Coordonnee`
- LEFT JOIN`SQL_PREFIX_Coordonnee_Joueurs` on id=jID
- LEFT JOIN `SQL_PREFIX_Coordonnee_Planetes`  on id=pID
-SET %s,`UTILISATEUR`='%s',`udate`=%d WHERE %s
+ LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jID
+ LEFT JOIN `SQL_PREFIX_Coordonnee_Planetes` on id=pID
+SET %s,`UTILISATEUR`='%s',`udate`=%d
+WHERE %s
 sql;
         $query = sprintf($query, $value, $_SESSION['_login'], time(), $where);
         $sql_result = DataEngine::sql($query);

@@ -47,7 +47,7 @@ $lng['vortex_title']          = 'Nettoyage des vortex:';
 $lng['vortex_do_now']         = "Nettoyer\nmaintenant";
 $lng['vortex_servertime']     = 'Temps serveur:';
 $lng['vortex_whathappen']     = 'Les Vortex plus anciens que "%s" seront désactivé.<br/>Les Vortex inactifs (depuis %s) seront supprimés.';
-$lng['vortex_result']         = '%d vortex supprimé(s), et %d désactivé(s).';
+$lng['vortex_result']         = '%d vortex supprimé(s)';
 
 
 $lng['empire_switch']         = 'Changement des nom d\'empire: (Noms simplifiés)';
