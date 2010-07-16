@@ -116,24 +116,29 @@ class DataEngine extends Members {
      * lance le spool de requète sql
      */
     static public function sql_do_spool() {
-        if (count(self::$conf_save)>0) {
-            foreach(self::$conf_save as $key => $value) {
-                self::sql_spool('UPDATE `SQL_PREFIX_Config` SET `value` =\''.sqlesc(serialize($value)).'\' WHERE `key`=\''.$key.'\' LIMIT 1');
+        if (IN_DEV)
+            self::$sqls[] = array(0, 'Spooler...');
+        if (count(self::$conf_save) > 0) {
+            foreach (self::$conf_save as $key => $value) {
+                self::sql_spool('UPDATE `SQL_PREFIX_Config` SET `value` =\'' . sqlesc(serialize($value)) . '\' WHERE `key`=\'' . $key . '\' LIMIT 1');
             }
             self::$conf_save = array();
         }
-        if (count(self::$sql_spool)>0) {
-            if (IN_DEV) self::$sqls[] = array(0,'Spooler...');
+        if (count(self::$sql_spool) > 0) {
             foreach (self::$sql_spool as $sql) {
                 $time = microtime(true);
-                $sql = str_replace( 'SQL_PREFIX_', SQL_PREFIX_, $sql );
+                $sql = str_replace('SQL_PREFIX_', SQL_PREFIX_, $sql);
                 mysql_unbuffered_query($sql);
-                $time = round((microtime(true)-$time)*1000,3);
-                if (IN_DEV) self::$sqls[] = array($time,$sql);
+                $time = round((microtime(true) - $time) * 1000, 3);
+                if (IN_DEV)
+                    self::$sqls[] = array($time, $sql);
             }
-            if (IN_DEV) self::$sqls[] = array(0,'...Spooler');
             self::$sql_spool = array();
         }
+        if (class_exists('cartographie'))
+            cartographie::getinstance()->do_spooler();
+        if (IN_DEV)
+            self::$sqls[] = array(0, '...Spooler');
     }
 
     static public function sql_log() {

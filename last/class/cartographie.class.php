@@ -23,6 +23,8 @@ class cartographie {
     protected $allys;
     protected $wars;
 
+    protected $detelespooler;
+
     /**
      * Ajoute/réactive un vortex dans la base
      * @param string $coordsin
@@ -38,8 +40,8 @@ class cartographie {
         if (mysql_num_rows($mysql_result) > 0) {
             return $this->AddWarn(sprintf($this->lng['class_vortex_msg2'],$coordsin,$coordsout));
         } else {
-            $query1 = 'INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`POSOUT`,`COORDETOUT`,`DATE`,`UTILISATEUR`) ';
-            $query1 .= 'VALUES (1,\''.$INidfixe.'\',\''.$INiddet.'\',\''.$OUTidfixe.'\',\''.$OUTiddet.'\',now(),\''.$_SESSION['_login'].'\')';
+            $query1 = 'INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`POSOUT`,`COORDETOUT`,`udate`,`UTILISATEUR`) ';
+            $query1 .= 'VALUES (1,\''.$INidfixe.'\',\''.$INiddet.'\',\''.$OUTidfixe.'\',\''.$OUTiddet.'\','. time() .',\''.$_SESSION['_login'].'\')';
             DataEngine::sql($query1);
             return $this->AddInfo(sprintf($this->lng['class_vortex_msg3'],$coordsin,$coordsout));
         }
@@ -97,7 +99,7 @@ class cartographie {
 
         if ($do_update) {
             $updated = 0;
-            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `DATE`=NOW(), `UTILISATEUR`=\''.$_SESSION['_login'].'\' WHERE `ID`='.$do_update;
+            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `udate`='. time() .', `UTILISATEUR`=\''.$_SESSION['_login'].'\' WHERE `ID`='.$do_update;
             DataEngine::sql($query);
             $query = 'SELECT COUNT(`pID`) AS NOMBRE FROM `SQL_PREFIX_Coordonnee_Planetes` where `pID`='.$do_update;
             $mysql_result = DataEngine::sql($query);
@@ -121,8 +123,8 @@ class cartographie {
                 }
             }
         } else {
-            $query    = 'INSERT INTO SQL_PREFIX_Coordonnee (`TYPE`,`POSIN`,`COORDET`,`NOTE`,`DATE`,`UTILISATEUR`) ';
-            $query   .= 'VALUES (2,\''.$uni.'\',\''.$sys.'\',\''.$qnote.'\',now(),\''.$_SESSION['_login'].'\')';
+            $query    = 'INSERT INTO SQL_PREFIX_Coordonnee (`TYPE`,`POSIN`,`COORDET`,`NOTE`,`udate`,`UTILISATEUR`) ';
+            $query   .= 'VALUES (2,\''.$uni.'\',\''.$sys.'\',\''.$qnote.'\','. time() .',\''.$_SESSION['_login'].'\')';
             DataEngine::sql($query);
             $pID = mysql_insert_id();
 
@@ -188,15 +190,15 @@ class cartographie {
 
         if ($do_update) {
             $updated = 0;
-            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `DATE`=NOW(), `UTILISATEUR`=\''.$_SESSION['_login'].'\' WHERE `ID`='.$do_update;
+            $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `udate`='. time() .', `UTILISATEUR`=\''.$_SESSION['_login'].'\' WHERE `ID`='.$do_update;
             DataEngine::sql($query);
             $query = 'UPDATE `SQL_PREFIX_Coordonnee_Planetes` SET '.$sql.' WHERE `pID`='.$do_update;
             DataEngine::sql($query);
             return $this->AddInfo(sprintf($this->lng['class_asteroid_msg1'],$uni,$sys));
 
         } else {
-            $query    = 'INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`NOTE`,`DATE`,`UTILISATEUR`) ';
-            $query   .= 'VALUES (4,'.$uni.',\''.$sys.'\',\''.$qnote.'\',now(),\''.$_SESSION['_login'].'\')';
+            $query    = 'INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`NOTE`,`udate`,`UTILISATEUR`) ';
+            $query   .= 'VALUES (4,'.$uni.',\''.$sys.'\',\''.$qnote.'\','. time() .',\''.$_SESSION['_login'].'\')';
             DataEngine::sql($query);
             $pID = mysql_insert_id();
 
@@ -256,7 +258,7 @@ class cartographie {
             if (!$updatetype && $ligne['TYPE'] == 2) $type = 0;
             
             $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee`, `SQL_PREFIX_Coordonnee_Joueurs` SET `TYPE`=%d, `POSOUT`=\'\', `COORDETOUT`=\'\', `USER`=\'%s\', `EMPIRE`=\'%s\','.
-                    '`INFOS`=\'%s\', `UTILISATEUR`=\'%s\', `DATE`=NOW() WHERE `ID`=%s AND `jID`=%6$s',
+                    '`INFOS`=\'%s\', `UTILISATEUR`=\'%s\', `udate`='. time() .' WHERE `ID`=%s AND `jID`=%6$s',
                     $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']), $ligne['ID'] );
             DataEngine::sql($query);
 
@@ -265,9 +267,9 @@ class cartographie {
             else
                 return $this->AddInfo(sprintf($this->lng['class_player_msg3'],$stype,$nom,$uni,$sys));
         } else {
-            $query = sprintf('INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`DATE`,`UTILISATEUR`)'.
-                    ' VALUES (%d,\'%s\',\'%s\',now(),\'%s\')',
-                    $type, $uni, $sys, sqlesc($_SESSION['_login']));
+            $query = sprintf('INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`udate`,`UTILISATEUR`)'.
+                    ' VALUES (%d,\'%s\',\'%s\',%d,\'%s\')',
+                    $type, $uni, $sys, time(), sqlesc($_SESSION['_login']));
             DataEngine::sql($query);
             $id = mysql_insert_id();
 
@@ -304,9 +306,9 @@ class cartographie {
             else
                 return $this->AddInfo(sprintf($this->lng['class_npc_msg2'],$nom,$uni,$sys));
         } else {
-            $query = sprintf('INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`DATE`,`UTILISATEUR`)'.
-                    ' VALUES (6,%d,\'%s\',now(),\'%s\')',
-                    $uni, $sys, sqlesc($_SESSION['_login']));
+            $query = sprintf('INSERT INTO `SQL_PREFIX_Coordonnee` (`TYPE`,`POSIN`,`COORDET`,`udate`,`UTILISATEUR`)'.
+                    ' VALUES (6,%d,\'%s\',%d,\'%s\')',
+                    $uni, $sys, time(), sqlesc($_SESSION['_login']));
             DataEngine::sql($query);
             $id = mysql_insert_id();
             $query = sprintf('INSERT INTO `SQL_PREFIX_Coordonnee_Joueurs` (`jID`,`USER`,`INFOS`)'.
@@ -384,7 +386,7 @@ sql;
 //                    if ($curss_info[$nom] != $empire) {
 //                        $qnom    = sqlesc($nom);
 //                        $qempire = sqlesc($empire);
-//                        $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `EMPIRE`=\''.$qempire.'\', `UTILISATEUR`=\''.$_SESSION['_login'].'\', `DATE`=now() WHERE `USER`=\''.$qnom.'\'';
+//                        $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `EMPIRE`=\''.$qempire.'\', `UTILISATEUR`=\''.$_SESSION['_login'].'\', `DATE`='. time() .' WHERE `USER`=\''.$qnom.'\'';
 //                        DataEngine::sql($query);
 //                        $this->AddInfo(sprintf($this->lng['class_solar_msg2'],$nom));
 //                        unset($curss_info[$nom]);
@@ -412,7 +414,12 @@ sql;
 
         $where = implode(' AND ',$where);
 
-        $query = 'SELECT `TYPE`, `POSIN`, `COORDET`, `USER` FROM `SQL_PREFIX_Coordonnee` c, `SQL_PREFIX_Coordonnee_Joueurs` j WHERE c.`id`=j.`jID` AND '.$where;
+        $query = <<<sql
+SELECT `TYPE`, `POSIN`, `COORDET`, `USER` FROM `SQL_PREFIX_Coordonnee` c
+ LEFT JOIN`SQL_PREFIX_Coordonnee_Joueurs` on id=jID
+ LEFT JOIN `SQL_PREFIX_Coordonnee_Planetes`  on id=pID
+WHERE $where
+sql;
         $sql_result = DataEngine::sql($query);
         if (mysql_num_rows($sql_result)==0)
             return $this->AddErreur (sprintf($this->lng['class_delete_nofound'],$ident));
@@ -428,12 +435,17 @@ sql;
             else
                 $value[] = sprintf('`%s`=\'%s\'', $k, sqlesc($v));
         }
-        if ($data['TROOP']>0) $value[] = '`troop_date`=now()';
-        if ($data['TROOP']<=0) $value[] = '`troop_date`=0';
+        if ($data['troop']>0) $value[] = '`troop_date`='. time();
+        if ($data['troop']<=0) $value[] = '`troop_date`=0';
 
         $value = implode(',',$value);
-        $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee`, `SQL_PREFIX_Coordonnee_Joueurs`, `SQL_PREFIX_Coordonnee_Planetes` SET %s,`UTILISATEUR`=\'%s\',`DATE`=now() WHERE id=pID AND id=jID AND %s',
-                $value, $_SESSION['_login'], $where);
+        $query = <<<sql
+UPDATE `SQL_PREFIX_Coordonnee`
+ LEFT JOIN`SQL_PREFIX_Coordonnee_Joueurs` on id=jID
+ LEFT JOIN `SQL_PREFIX_Coordonnee_Planetes`  on id=pID
+SET %s,`UTILISATEUR`='%s',`udate`=%d WHERE %s
+sql;
+        $query = sprintf($query, $value, $_SESSION['_login'], time(), $where);
         $sql_result = DataEngine::sql($query);
 
         $msg = $this->lng['class_edit_defmsg'];
@@ -456,19 +468,7 @@ sql;
 
     public function Delete_Entry($ident,$type) {
 
-        $where = '`ID`='.$ident;
-        $where2 = '`jID`='.$ident;
-        $where3 = '`pID`='.$ident;
-
-        $query = 'DELETE FROM `SQL_PREFIX_Coordonnee` WHERE '.$where;
-        $sql_result = DataEngine::sql($query);
-        if (mysql_affected_rows()==0) return $this->AddErreur(sprintf($this->lng['class_delete_nofound'],$ident));
-
-        $query = 'DELETE FROM `SQL_PREFIX_Coordonnee_Joueurs` WHERE '.$where2;
-        $sql_result = DataEngine::sql($query);
-
-        $query = 'DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE '.$where3;
-        $sql_result = DataEngine::sql($query);
+        $this->detelespooler[] = $ident;
 
         $this->AddInfo(sprintf($this->lng['class_delete_msg'], $this->lngmain['types']['string'][$type],$ident));
         return true;
@@ -583,6 +583,23 @@ sql;
         $this->pinfos   = array();
         $this->pwarns   = array();
     }
+    public function do_spooler() {
+        if (count($this->detelespooler) > 0) {
+            $in = implode(',', $this->detelespooler);
+            $query = 'DELETE FROM `SQL_PREFIX_Coordonnee` WHERE id IN ('.$in.')';
+            $sql_result = DataEngine::sql($query);
+            if (mysql_affected_rows() == 0)
+                return $this->AddErreur(sprintf($this->lng['class_delete_nofound'], $ident));
+
+            $query = 'DELETE FROM `SQL_PREFIX_Coordonnee_Joueurs` WHERE jid IN (' . $in . ')';
+            $sql_result = DataEngine::sql($query);
+
+            $query = 'DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE pid IN (' . $in . ')';
+            $sql_result = DataEngine::sql($query);
+            
+            $this->detelespooler = array();
+        }
+    }
     public function __construct() {
         $this->reset();
         $this->lng = language::getinstance()->GetLngBlock('cartographie');
@@ -596,6 +613,8 @@ sql;
         if (!is_array($this->wars)  && $this->wars  =='') $this->wars = array();
         if (is_array($this->allys)) $this->allys = parser::getinstance()->cleaning_array($this->allys);
         if (is_array($this->wars )) $this->wars  = parser::getinstance()->cleaning_array($this->wars);
+
+        $this->detelespooler = array();
     }
     /**
      * @return cartographie

@@ -233,12 +233,12 @@ else if ($PageCurr < 1)
 $tpl->AddToRow($tpl->GetPagination($PageCurr, $MaxPage+1), 'pagination');
 
 $invert_sort = array(''=>'ASC','DESC' => 'ASC', 'ASC' => 'DESC');
-$sort_key = array('type', 'user', 'empire', 'infos', 'note', 'date', 'water', 'batiments', 'troop');
+$sort_key = array('type', 'user', 'empire', 'infos', 'note', 'udate', 'water', 'batiments', 'troop');
 
 if ($Recherche['Troop']>0)
     $sort='ORDER BY j.`Troop_date` DESC';
 else
-    $sort='ORDER BY c.`DATE` DESC';
+    $sort='ORDER BY c.`udate` DESC';
 
 foreach($sort_key as $v) {
     if (isset($_GET['sort']) && in_array($_GET['sort'][$v],$invert_sort))
@@ -253,7 +253,7 @@ foreach($sort_key as $v) {
 $tpl->PushRow();
 
 $sql= <<<sql
-SELECT UNIX_TIMESTAMP(c.`DATE`) as udate, c.`ID`, c.`TYPE`, c.`POSIN`, c.`POSOUT`, c.`COORDET`, c.`COORDETOUT`, j.`USER`, j.`EMPIRE`, j.`INFOS`, c.`NOTE`, p.`water`,
+SELECT udate, c.`ID`, c.`TYPE`, c.`POSIN`, c.`POSOUT`, c.`COORDET`, c.`COORDETOUT`, j.`USER`, j.`EMPIRE`, j.`INFOS`, c.`NOTE`, p.`water`,
 	j.`batiments`, j.`troop`, j.`troop_date`, c.`UTILISATEUR`, p.`pID`, p.`Titane`, p.`Cuivre`, p.`Fer`, p.`Aluminium`, p.`Mercure`, p.`Silicium`, p.`Uranium`, p.`Krypton`,
 	p.`Azote`, p.`Hydrogene` from `SQL_PREFIX_Coordonnee` c
 left outer join `SQL_PREFIX_Coordonnee_Joueurs` j on (c.`ID`=j.`jID`)
