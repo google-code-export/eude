@@ -258,7 +258,7 @@ sql;
             $carto->AddErreur('Permissions manquante');
             break;
         }
-        $empire_name = gpc_esc($_POST['empire']);
+        $empire_name = gpc_esc(html_entity_decode($_POST['empire']));
         $membres = unserialize(gpc_esc($_POST['data']));
         $listemembres = '"' . implode('","', $membres) . '"';
         $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET
