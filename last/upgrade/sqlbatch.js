@@ -8,6 +8,7 @@ var sql_standby=0;
 var sql_file;
 var sql_cur;
 var sql_max;
+var skipone=0;
 
 function sql_run(file, max) {
     $('sqlbatchmsg').update(i18n.Ajax.onCreate);
@@ -21,10 +22,11 @@ function _sql_run() {
     new Ajax.Request('./sqlbatch.php',{
         method:'post',
         parameters:{
-            file:sql_file
+            file:sql_file,
+            skipone:skipone
         },
         onSuccess:function(t){
-            var xml = '';
+            var xml = ''; skipone = 0;
             if (Prototype.Browser.Gecko) xml = t.responseXML; else xml = t.responseText.ToXML();
             if (xml==null) {
                 $('sqlbatchmsg').update(i18n.Ajax.XML_Error);
@@ -45,6 +47,11 @@ function _sql_run() {
     }
     );
 }
+function _sql_skip_next() {
+    clearTimeout(sql_standby);
+    skipone = 1;
+    _sql_run();
+}
 function sql_done() {
     maj_progress();
     sql_standby = setTimeout('_sql_done()', 700);
@@ -55,6 +62,7 @@ function _sql_done() {
 }
 function _sql_error() {
     clearTimeout(sql_standby);
+    $('sqlbatchmsg').innerHTML += ' <a href="javascript:void(0);" Onclick="_sql_skip_next()">Ignorer ?</a>';
 }
 function maj_progress() {
     sql_cur++;

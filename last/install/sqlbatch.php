@@ -47,11 +47,10 @@ if (INSTALLED) {
 
 $file = gpc_esc($_POST['file']);
 $sqlfile = ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . $file . '.sql';
-//$inffile = ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . $file . '.php';
 $lockfile = ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . $file . '.lock';
 
 
-if (preg_match('/[^a-zA-Z_\.0-9]+/', $file) > 0)
+if (preg_match('/[^a-zA-Z_0-9]+/', $file) > 0)
     error('Tentative d\'injection détecté.');
 if (!file_exists($sqlfile))
     error('Mise à jour corrompue !');

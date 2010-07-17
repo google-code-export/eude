@@ -228,19 +228,6 @@ class DataEngine extends Members {
                     }
                 }
             }
-            if (self::$conf_load['config'] && !is_array(self::$settings['config'])) {
-                $conf = array();
-                $conf['ForumLink'] = '';
-                $conf['DefaultGrade'] = 3;
-                $conf['CanRegister'] = 0;
-                $conf['MyEmpire'] = '';
-                $conf['Parcours_Max_Time'] = 0;
-                $conf['Parcours_Nearest'] = 5;
-                $conf['eude_srv'] = '';
-                $conf['version'] = self::Get_Version();
-                $conf['closed'] = 0;
-                self::conf_add('config', $conf);
-            }
 
             if (CHECK_LOGIN && $GLOBALS['validsession']) {
                 if (self::$settings['config']['closed'] && !Members::CheckPerms(AXX_ROOTADMIN)) {
@@ -249,6 +236,15 @@ class DataEngine extends Members {
                 }
             }
 
+            if (is_array(self::$settings['config'])) {
+                if (isset(self::$settings['config']['version'])) {
+                    if (preg_match('/(\d+\.\d+\.\d+)\.?(\d+)?/', self::Get_Version(), $version) > 0) {
+                        if (version_compare(self::$settings['config']['version'], $version[1], '<')) {
+                            output::Boink('%ROOT_URL%upgrade/run'.self::$settings['config']['version'].'.php');
+                        }
+                    }
+                }
+            }
             self::$conf_load = array();
         }
         return self::$conf_loaded;

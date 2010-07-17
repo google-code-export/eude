@@ -30,7 +30,6 @@ if (INSTALLED) {
 
 $file = gpc_esc($_POST['file']);
 $sqlfile = ROOT_PATH . 'upgrade' . DIRECTORY_SEPARATOR . $file . '.sql';
-$inffile = ROOT_PATH . 'upgrade' . DIRECTORY_SEPARATOR . $file . '.php';
 $lockfile = ROOT_PATH . 'upgrade' . DIRECTORY_SEPARATOR . $file . '.lock';
 
 if (preg_match('/[^a-zA-Z_0-9]+/', $file) > 0)
@@ -46,17 +45,19 @@ if (DEBUG_PLAIN)
     FB::log($cur, '$cur');
 
 $sqls = preg_split('/;[\n\r]+/', file_get_contents($sqlfile));
-include($inffile);
 
 if (count($sqls) != count($infs))
     error('Incorrect data');
 if ($cur >= count($sqls))
     error('Incorrect $cur');
 
-sql($sqls[$cur]);
+if ($_POST['skipone'] == '1')
+    $xml = str_replace('%msg%', 'Étape ' . ($cur + 1) . ' ignoré', $xml);
+else
+    sql($sqls[$cur]);
 file_put_contents($lockfile, $cur + 1);
 
-$xml = str_replace('%msg%', 'Mise à jour mysql ('.($cur+1).')', $xml);
+$xml = str_replace('%msg%', 'Mise à jour mysql (' . ($cur + 1) . ')', $xml);
 $xml = str_replace('%haserror%', '0', $xml);
 if ($cur + 1 >= count($sqls))
     $xml = str_replace('%done%', '1', $xml);
