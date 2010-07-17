@@ -96,10 +96,12 @@ ROW;
  <tr><td colspan="7">
      <table class="table_nospacing" width="100%">
 ROW;
+        $this->curtpl='SetlogRow';
+        $this->PushRow();
     }
     
     public function SetlogRow() {
-        $this->currow .= <<<ROW
+        $this->currow = <<<ROW
     <tr class="color_row%%class%%">
         <td class="spacing_row%%class%%">%%player%%</td>
         <td class="spacing_row%%class%%">%%date%%</td>

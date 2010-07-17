@@ -71,9 +71,9 @@ while ($row = mysql_fetch_assoc($result)) {
         if (!$closepillagelog) {
             $tpl->SetlogRow_header();
             $closepillagelog = true;
-        }
-
-        $tpl->SetlogRow();
+        } else
+            $tpl->SetlogRow();
+        
         $tpl->AddToRow($i%2, 'class');
         $tpl->AddToRow(strftime($lng['listing_dateformat'], $row['date']), 'date');
         $tpl->AddToRow($row['Player'], 'player');
