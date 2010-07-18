@@ -84,3 +84,7 @@ if (!function_exists('mb_strripos')) {
       return mb_strrpos(mb_strtolower($str, 'utf8'),mb_strtolower($needle, 'utf8'),$offset, 'utf8');
   }
 }
+
+function array_fullsqlesc(&$item1, $key) {
+    $item1 = '\'' . mysql_escape_string($item1) . '\'';
+}

@@ -363,7 +363,9 @@ class cartographie {
         if (count($del_planet)>0) {
             $del_planet = ''.implode("','",$del_planet).'';
             $query = <<<sql
-UPDATE `SQL_PREFIX_Coordonnee` c, `SQL_PREFIX_Coordonnee_Joueurs` j, `SQL_PREFIX_Coordonnee_Planetes` p
+UPDATE `SQL_PREFIX_Coordonnee`
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
+LEFT JOIN `SQL_PREFIX_Coordonnee_Planetes` on id=pid
 SET `Type`=2, `USER`='', `EMPIRE`='', `INFOS`='', `batiments`=NULL, `troop`=NULL
 WHERE `Type` in (0,3,5) AND `POSIN`=$cur_ss AND `COORDET` in ('$del_planet')
 sql;

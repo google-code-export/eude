@@ -385,7 +385,8 @@ class map /*extends parcours*/ {
             if ($in != '')
                 $where = $in.' ) ';
         }
-        $where = 'WHERE 1 '.$custom . $where;
+        if ($custom=='') $custom = '1 ';
+        $where = 'WHERE '.$custom . $where;
 
         $where = $where.' ORDER BY `POSIN` ASC';
         $sql= <<<sql

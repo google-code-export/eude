@@ -290,10 +290,10 @@ col1_r;
             $this->lng['empire_allyswars_result0'] = sprintf($this->lng['empire_allyswars_result0'], $allysnb);
             $this->lng['empire_allyswars_result1'] = sprintf($this->lng['empire_allyswars_result1'], $warsnb);
             $out .=<<<upd
-	<TR class="color_row0">
+	<TR class="color_row1">
 		<TD colspan=4>{$this->lng['empire_allyswars_result0']}</TD>
 	</TR>
-	<TR class="color_row0">
+	<TR class="color_row1">
 		<TD colspan=4>{$this->lng['empire_allyswars_result1']}</TD>
 	</TR>
 upd;

@@ -32,16 +32,16 @@ $_SESSION['jou']	= ( ($_POST['s']!='')	&& $_POST['type'] == 'jou') ? stripslashe
 $_SESSION['inf']	= ( ($_POST['s']!='')	&& $_POST['type'] == 'inf') ? stripslashes($_POST['s']): '';
 
 $search = '';
-if ($_SESSION['emp'] != "") $search = "`EMPIRE`='".sqlesc($_SESSION['emp'])."' ";
-if ($_SESSION['jou'] != "") $search = "`USER`='".sqlesc($_SESSION['jou'])."' ";
-if ($_SESSION['inf'] != "") $search = "`INFOS`='".sqlesc($_SESSION['inf'])."' ";
+if ($_SESSION['emp'] != "") $search = "j.`EMPIRE`='".sqlesc($_SESSION['emp'])."' ";
+if ($_SESSION['jou'] != "") $search = "j.`USER`='".sqlesc($_SESSION['jou'])."' ";
+if ($_SESSION['inf'] != "") $search = "j.`INFOS`='".sqlesc($_SESSION['inf'])."' ";
 
 if ( isset($_POST['ss']) && $_POST['ss'] != "") {
     if ($search != '') $search = "($search OR ";
     $search .= "POSIN in (".sqlesc($_POST['ss']).")) ";
 }
 
-if ($search != '') $search .= "AND ";
+//if ($search != '') $search .= "AND ";
 
 // Init donnée avec sql spécifique...
 $map=map::getinstance();

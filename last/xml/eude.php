@@ -177,7 +177,9 @@ q;
         if (count($del_planet) > 0) {
             $del_planet = '' . implode("','", $del_planet) . '';
             $query = <<<sql
-UPDATE `SQL_PREFIX_Coordonnee` c, `SQL_PREFIX_Coordonnee_Joueurs` j, `SQL_PREFIX_Coordonnee_Planetes` p
+UPDATE `SQL_PREFIX_Coordonnee`
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
+LEFT JOIN `SQL_PREFIX_Coordonnee_Planetes` on id=pid
 SET `Type`=2, `USER`='', `EMPIRE`='', `INFOS`='', `batiments`=NULL, `troop`=NULL
 WHERE `Type` in (0,3,5) AND `POSIN`=$cur_ss AND `COORDET` in ('$del_planet')
 sql;
@@ -260,22 +262,23 @@ sql;
         }
         $empire_name = gpc_esc(html_entity_decode($_POST['empire']));
         $membres = unserialize(gpc_esc($_POST['data']));
-        $listemembres = '"' . implode('","', $membres) . '"';
+        $query = 'UPDATE `SQL_PREFIX_Coordonnee_Joueurs` SET
+			`EMPIRE` = \'\'
+			WHERE `EMPIRE` LIKE \'' . sqlesc($empire_name) . '\'';
+        DataEngine::sql($query);      
+//        $carto->AddInfo($query);
+
+        array_walk($membres, 'array_fullsqlesc');
+        $listemembres = implode(',', $membres);
         $query = 'UPDATE `SQL_PREFIX_Coordonnee_Joueurs` SET
 			`EMPIRE` = \'' . sqlesc($empire_name) . '\'
 			WHERE `USER` in (' . $listemembres . ')';
 
-        $ok = DataEngine::sql($query) ? ' a été mis à jour' : ' n\'a pas été mis à jour';
-        $query2 = 'UPDATE `SQL_PREFIX_Coordonnee_Joueurs` SET
-			`EMPIRE` = "" 
-			WHERE `USER` not in (' . $listemembres . ')
-			AND `EMPIRE` LIKE "' . sqlesc($empire_name) . '"';
+        DataEngine::sql($query);
+//        $carto->AddInfo($query);
 
-        if ($ok) {
-            $ok = DataEngine::sql($query2) ? ' a été mis à jour' : ' n\'a pas été mis à jour';
-        }
-        $carto->AddInfo('L\'empire ' . $empire_name . $ok);
-        $xml['log'] = 'L\'empire ' . $empire_name . $ok;
+        $carto->AddInfo('L\'empire ' . $empire_name . ' a été mis à jour');
+        $xml['log'] = 'L\'empire ' . $empire_name . ' a été mis à jour';
 
         break;
 

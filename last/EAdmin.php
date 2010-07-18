@@ -193,10 +193,6 @@ if (isset($_POST['emp_upd']) && $_POST['emp_upd'] != '') {
 
 $allysnb = $warsnb = -1;
 
-function array_fullsqlesc(&$item1, $key) {
-    $item1 = '\'' . mysql_escape_string($item1) . '\'';
-}
-
 if (isset($_POST['emp_allywars']) && $_POST['emp_allywars'] != '') {
     $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=0 WHERE `TYPE` in (3,5)');
 
@@ -205,7 +201,12 @@ if (isset($_POST['emp_allywars']) && $_POST['emp_allywars'] != '') {
         array_walk($tmp, 'array_fullsqlesc');
         $tmp = implode(',', $tmp);
         if ($tmp != '') {
-            $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=3 WHERE `TYPE` in (0,5) AND `EMPIRE` in (' . $tmp . ')');
+            $sql = <<<sql
+UPDATE `SQL_PREFIX_Coordonnee`
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
+SET `TYPE`=3 WHERE `TYPE` in (0,5) AND `EMPIRE` in ($tmp)
+sql;
+            $mysql_result = DataEngine::sql($sql);
             $allysnb = mysql_affected_rows();
         } else
             $allysnb = 0;
@@ -216,7 +217,12 @@ if (isset($_POST['emp_allywars']) && $_POST['emp_allywars'] != '') {
         array_walk($tmp, 'array_fullsqlesc');
         $tmp = implode(',', $tmp);
         if ($tmp != '') {
-            $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=5 WHERE `TYPE` in (0,3) AND `EMPIRE` in (' . $tmp . ')');
+            $sql = <<<sql
+UPDATE `SQL_PREFIX_Coordonnee`
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
+SET `TYPE`=5 WHERE `TYPE` in (0,5) AND `EMPIRE` in ($tmp)
+sql;
+            $mysql_result = DataEngine::sql($sql);
             $warsnb = mysql_affected_rows();
         } else
             $warsnb = 0;
@@ -227,7 +233,12 @@ if (isset($_POST['emp_war_add']) && $_POST['emp_war_add'] != '') {
     if ($emp != '') {
         $wars = DataEngine::config('EmpireEnnemy');
         if (!in_array(gpc_esc($_POST['emp']), $wars)) {
-            $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=5 WHERE `TYPE` in (0,3,5) AND `EMPIRE` LIKE \'' . $emp . '\'');
+            $sql = <<<sql
+UPDATE `SQL_PREFIX_Coordonnee`
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
+SET `TYPE`=5 WHERE `TYPE` in (0,3,5) AND `EMPIRE` LIKE '{$emp}'
+sql;
+            $mysql_result = DataEngine::sql($sql);
             $wars[] = gpc_esc($_POST['emp']);
             DataEngine::conf_update('EmpireEnnemy', $wars);
         }
@@ -237,7 +248,12 @@ if (isset($_GET['emp_war_rm']) && $_GET['emp_war_rm'] != '') {
     $wars = DataEngine::config('EmpireEnnemy');
     $emp = sqlesc($wars[$_GET['emp_war_rm']], false);
     if ($emp != "") {
-        $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=0 WHERE `TYPE` in (0,3,5) AND `EMPIRE` LIKE \'' . $emp . '\'');
+        $sql = <<<sql
+UPDATE `SQL_PREFIX_Coordonnee`
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
+SET `TYPE`=0 WHERE `TYPE` in (0,3,5) AND `EMPIRE` LIKE '{$emp}'
+sql;
+        $mysql_result = DataEngine::sql($sql);
         unset($wars[$_GET['emp_war_rm']]);
         DataEngine::conf_update('EmpireEnnemy', $wars);
     }
@@ -247,7 +263,12 @@ if (isset($_POST['emp_allys_add']) && $_POST['emp_allys_add'] != '') {
     if ($emp != '') {
         $allys = DataEngine::config('EmpireAllys');
         if (!in_array(gpc_esc($_POST['emp']), $allys)) {
-            $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=3 WHERE `TYPE` in (0,3,5) AND `EMPIRE` LIKE \'' . $emp . '\'');
+            $sql = <<<sql
+UPDATE `SQL_PREFIX_Coordonnee`
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
+SET `TYPE`=3 WHERE `TYPE` in (0,3,5) AND `EMPIRE` LIKE '{$emp}'
+sql;
+            $mysql_result = DataEngine::sql($sql);
             $allys[] = gpc_esc($_POST['emp']);
             DataEngine::conf_update('EmpireAllys', $allys);
         }
@@ -257,7 +278,13 @@ if (isset($_GET['emp_allys_rm']) && $_GET['emp_allys_rm'] != '') {
     $allys = DataEngine::config('EmpireAllys');
     $emp = sqlesc($allys[$_GET['emp_allys_rm']], false);
     if ($emp != '') {
-        $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee` SET `TYPE`=0 WHERE `TYPE` in (0,3,5) AND `EMPIRE` LIKE \'' . $emp . '\'');
+        $sql = <<<sql
+UPDATE `SQL_PREFIX_Coordonnee`
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
+SET `TYPE`=0 WHERE `TYPE` in (0,3,5) AND `EMPIRE` LIKE '{$emp}'
+sql;
+        $mysql_result = DataEngine::sql($sql);
+
         unset($allys[$_GET['emp_allys_rm']]);
         DataEngine::conf_update('EmpireAllys', $allys);
     }
