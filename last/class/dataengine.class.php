@@ -79,7 +79,7 @@ class DataEngine extends Members {
 
     static public function jump_install() {
         if (file_exists(ROOT_PATH . 'install/'))
-            output::Boink('./install/install.php');
+            output::Boink(ROOT_PATH . 'install/install.php');
         else
             self::ErrorAndDie('Installation non effectué', false);
     }
@@ -215,12 +215,13 @@ class DataEngine extends Members {
                         while ($row = mysql_fetch_assoc($mysql_result))
                             $tmp[] = $row['ID'];
 
-                        $tmp = implode(',', $tmp);
-                        DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID` in (' . $tmp . ')');
-                        DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Joueurs` WHERE `jID` in (' . $tmp . ')');
-                        DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` in (' . $tmp . ')');
-
-                        self::sql('INSERT `INTO SQL_PREFIX_Log` (DATE,LOGIN,IP) VALUES(NOW(),\'vortex_reset_by:' . $_SESSION['_login'] . '\' ,\'' . Get_IP() . '\')');
+                        if (is_array($tmp) && count($tmp) > 0) {
+                            $tmp = implode(',', $tmp);
+                            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID` in (' . $tmp . ')');
+                            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Joueurs` WHERE `jID` in (' . $tmp . ')');
+                            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` in (' . $tmp . ')');
+                        }
+                        self::sql('INSERT INTO `SQL_PREFIX_Log` (DATE,LOGIN,IP) VALUES(NOW(),\'vortex_reset_by:' . $_SESSION['_login'] . '\' ,\'' . Get_IP() . '\')');
                         $wormhole_cleaning['lastrun'] = $now;
                         self::conf_update('wormhole_cleaning', $wormhole_cleaning);
                         self::sql_do_spool(); // Mettre à jour maintenant, pas que deux membres le fasse a 1/2sec d'intervalle.
@@ -240,7 +241,7 @@ class DataEngine extends Members {
                 if (isset(self::$settings['config']['version'])) {
                     if (preg_match('/(\d+\.\d+\.\d+)\.?(\d+)?/', self::Get_Version(), $version) > 0) {
                         if (version_compare(self::$settings['config']['version'], $version[1], '<')) {
-                            output::Boink('%ROOT_URL%upgrade/run'.self::$settings['config']['version'].'.php');
+                            output::Boink('%ROOT_URL%upgrade/run' . self::$settings['config']['version'] . '.php');
                         }
                     }
                 }

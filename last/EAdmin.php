@@ -26,15 +26,17 @@ $lng = language::getinstance()->GetLngBlock('admin');
 if (isset($_POST['cleanvortex'])) {
 
     $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=1 AND `udate`<' . intval($_POST['cleanvortex']));
-    $cleanvortex_delete = mysql_num_rows();
+    $cleanvortex_delete = mysql_num_rows($mysql_result);
     if ($cleanvortex_delete > 0) {
         while ($row = mysql_fetch_assoc($mysql_result))
             $tmp[] = $row['ID'];
 
-        $tmp = implode(',', $tmp);
-        DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID` in (' . $tmp . ')');
-        DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Joueurs` WHERE `jID` in (' . $tmp . ')');
-        DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` in (' . $tmp . ')');
+        if (is_array($tmp) && count($tmp) > 0) {
+            $tmp = implode(',', $tmp);
+            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID` in (' . $tmp . ')');
+            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Joueurs` WHERE `jID` in (' . $tmp . ')');
+            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` in (' . $tmp . ')');
+        }
     }
     $tmp = DataEngine::config('wormhole_cleaning');
     $tmp['lastrun'] = time();
