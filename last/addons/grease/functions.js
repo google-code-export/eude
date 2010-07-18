@@ -584,7 +584,7 @@ function Options() {
 		area.rows[i].appendChild(options_spacer());
 		area.rows[i].appendChild(options_cell(i18n[c_game_lang]['active_empire'], true));
 		area.rows[i].appendChild(options_spacer());
-		area.rows[i].appendChild(options_cell(options_checkbox_s('eude_active_empire','10', GM_getValue(c_prefix+'active_empire',false))));
+		area.rows[i].appendChild(options_cell(options_checkbox_s('eude_active_empire', GM_getValue(c_prefix+'active_empire',false))));
 		i++;
 	}
     area.rows[i].innerHTML='';

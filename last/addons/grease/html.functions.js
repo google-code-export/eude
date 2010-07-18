@@ -43,15 +43,10 @@ function options_button_save(id) {
     ' src="http://static.empireuniverse2.de/default/'+c_game_lang+'/default/button/button_1/save/button_default.gif" class="button"/>';
 }
 
-function options_checkbox_s(name, width, active) {
+function options_checkbox_s(name, active) {
 	var status;
 	if (!active) status = ''; else status = 'checked';
-    result = "<table cellspacing='0' cellpadding='0'><tr>"+
-    "<td><img src='http://static.empireuniverse2.de/default/fr/empty.gif' width='20' height='1'></td>"+
-    "<td class='font_white'>"+
-    "<input type='checkbox' class='input' maxlength='' name='"+name+"' id='"+name+"' value='on' "+status+"></td>"+
-    "<td><img src='http://static.empireuniverse2.de/default/fr/empty.gif' width='20' height='1'></td>"+
-    "</tr>    </table>";
+    result = "<input type='checkbox' class='input' maxlength='' name='"+name+"' id='"+name+"' value='on' "+status+">";
 
     return result;
 }
