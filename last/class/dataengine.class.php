@@ -79,7 +79,7 @@ class DataEngine extends Members {
 
     static public function jump_install() {
         if (file_exists(ROOT_PATH . 'install/'))
-            output::Boink(ROOT_PATH . 'install/install.php');
+            output::Boink('./install/install.php');
         else
             self::ErrorAndDie('Installation non effectué', false);
     }

@@ -36,6 +36,7 @@ $tpl->PushRow();
 $sqls = preg_split('/;[\n\r]+/', file_get_contents($sqlfile));
 FB::log(count($sqls), 'Nb sql');
 FB::log($cur, 'cur');
+FB::log($sqls);
 $max = count($sqls) - $cur;
 if ($max == 0)
     stop_on_error('Déjà fait.');

@@ -7,7 +7,7 @@
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  */
 define('USE_AJAX', true);
-define('DEBUG_PLAIN', true); // true => pas de sql de fait !
+define('DEBUG_PLAIN', false); // true => pas de sql de fait !
 require ('../init.php');
 define('INSTALLED', file_exists(INCLUDE_PATH . 'Entete.php'));
 header('Content-Type: text/xml;charset=utf-8');
@@ -34,7 +34,7 @@ $lockfile = ROOT_PATH . 'upgrade' . DIRECTORY_SEPARATOR . $file . '.lock';
 
 if (preg_match('/[^a-zA-Z_0-9]+/', $file) > 0)
     error('Tentative d\'injection détecté.');
-if (!file_exists($inffile) || !file_exists($sqlfile))
+if (!file_exists($sqlfile))
     error('Mise à jour corrompue !');
 
 if (file_exists($lockfile))
@@ -46,14 +46,12 @@ if (DEBUG_PLAIN)
 
 $sqls = preg_split('/;[\n\r]+/', file_get_contents($sqlfile));
 
-if (count($sqls) != count($infs))
-    error('Incorrect data');
 if ($cur >= count($sqls))
     error('Incorrect $cur');
 
 if ($_POST['skipone'] == '1')
     $xml = str_replace('%msg%', 'Étape ' . ($cur + 1) . ' ignoré', $xml);
-else
+elseif (trim($sqls[$cur]) != '')
     sql($sqls[$cur]);
 file_put_contents($lockfile, $cur + 1);
 
