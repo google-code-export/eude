@@ -2,17 +2,13 @@
                      Empire Universe 2: Data Engine
 
 Basé sur le prototype de Ellesar81
-MAJ & modification par Alex10336
+MAJ & modification par Alex10336, XCharismatic & sam.renfou
 --------------------------------------------------------------------------------
 
 Ce script n'est aucunement affilié à 'looki'.
-Il a été développé, et amélioré par les joueurs alias:
-- Alex10336
-- Docl88 alias Xcharismatic
-- Vous ?
 
 Certaines images utilisées sont la propriété de looki.fr.
-Tout le reste est sous license disponible ci-dessous
+Tout le reste est sous license disponible ci-dessous hormis ci license incluse
 - GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
 -Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
 
@@ -44,17 +40,27 @@ Serveur de démo: http://app216.free.fr/eu2/test/
 --------------------------------------------------------------------------------
 --- Mise à jour: http://code.google.com/p/eude/wiki/maj142
 --------------------------------------------------------------------------------
- # Supprimez tout les fichiers hormis '_/Script/Entete.php_' & vos addons (si compatible)
- # Dans [phpMyAdmin] importer le fichier UPGRADE.sql.
+ # Supprimez tout les fichiers hormis '/Script/Entete.php' & vos addons (si compatible)
  # Uploader tout les fichiers par ceux de l'archive
- # Mettez à jour le fichier '_/Script/Entete.php_'
---------------------------------------------------------------------------------
+ # Mettez à jour le fichier '/Script/Entete.php'
+ # Allez a l'adresse '/upgrade/upgrade142.php' pour lancer la mise à jour de votre base de donnée
+ # Vérifier les paramètres d'accès utilisateurs et de configuration serveur sur la page Admin.
 
 = Infos sur cette version =
 
 == Nouveauté:==
  * issue 33: Ajout du support ownuniverse/mafiche à GreaseMonkey
  * issue 49: Calcul de parcours sans déplacement par impulsion
+ * issue 38: Prise en charge des pillages (GreaseMonkey uniquement)
+ * issue 91: MAJ des points en cliquant sur sa planète en bas à droite (GreaseMonkey)
+ * issue 91: MAJ du pourcentage d'eau en cliquant sur les planètes habité (GreaseMonkey)
+ * issue 91: Ajout du nombre de troupes présente sur une planète a partir d'une flotte (GreaseMonkey uniquement)
+ * Toute les modifications de configuration possible à la volée (calcul,serveur,grade,fermeture pour maintenance,...)
+ * issue 65: Traduction complète de 'eude' possible par le biais de pack (avis au traducteurs)
+ * issue 200: Ajout d'une favicone (celle affiché dans les marque pages)
+ * issue 71: Nombre de batiment sur une planète
+ * Installation & mise à jour simplifié
+ * issue 118: Mise à jour des membres des empires (GreaseMonkey uniquement)
 
 ==Modification:==
  * issue 72: log dernière modif membre passé a dernière connexion
@@ -64,8 +70,22 @@ Serveur de démo: http://app216.free.fr/eu2/test/
  * issue 97: Tri par date de nouveau possible sur la page cartographie
  * issue 98: Détailler l'alerte de suppression sur la page editmembre
  * issue 140: Modification des planètes inoccupé en planète colonisable
+ * issue 99: Modification du fonctionnement interne
 
 ==Correctifs:==
  * issue 96: Flotte pnj
+ * issue 167: GreaseMonkey & MAJ looki
+ * issue 177: GreaseMonkey & Caractères accentué
+ * issue 170: GreaseMonkey & Fausse erreur affiché
+ * issue 186: Traitement info mafiche en automatique
+ * issue 145: Pagination page cartographie
+ * issue 221: Fonction recherche dans un rayon autour d'un SS
 
-==Bugs connus:==
+= Remerciements =
+
+ Merci à tous les testeurs & développeurs 
+ * Notamment XCharismatic alias docl88 pour ces modifications directe dans les sources et son coté forcing quand je suis pas du même avis =)
+ * XCharismatic & sam.renfou pour le maintiens de l'addons commerce entre autre...
+ * Wilfried.Winner pour l'addon de triangulation
+
+
