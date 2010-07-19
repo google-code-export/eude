@@ -1,1 +1,0 @@
-RENAME TABLE SQL_PREFIX_Users_Config TO SQL_PREFIX_Modules_Users_Config
