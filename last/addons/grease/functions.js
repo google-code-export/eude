@@ -55,8 +55,7 @@ function Index() {
     }
 
     get_xml('init');
-    if (debug) return AddGameLog('<span class="gamelog_raid">Debug mode, script update disabled</span>');
-    if (mversion=='svn') return AddGameLog('<span class="gamelog_raid">Dev release, no update check</span>');
+    if (debug || mversion=='svn' || revision == '') return AddGameLog('<span class="gamelog_raid">Dev release, no update check</span>');
 
     GM_xmlhttpRequest({
         method: 'GET',
@@ -81,13 +80,13 @@ function Index() {
             if (revision<rversion) {
                 AddToMotd('<b>Log:</b><br/>'+majlog, '<hr/>');
                 if (mversion==eudeversion)
-                    AddToMotd('<a href="'+majurl+'" class="gamelog_raid">=> MAJ Greasemonkey</a>');
+                    AddToMotd('<a href="'+majurl+'" class="gamelog_raid">=> MAJ Greasemonkey disponible</a>');
                 AddToMotd('<hr/>Mise à jour disponible de '+mversion+'r'+revision+' vers '+eudeversion+'r'+rversion);
 
                 if (mversion==eudeversion)
                     AddGameLog('<a href="'+majurl+'" class="gamelog_raid">=> MAJ Greasemonkey</a>');
                 else
-                    AddGameLog('<span class="gamelog_raid">Mise à jour manuelle a faire !</span>');
+                    AddGameLog('<a href="'+majurl+'" class="gamelog_raid">Une mise à jour est disponible</a>');
             }
         },
         onerror: c_onerror

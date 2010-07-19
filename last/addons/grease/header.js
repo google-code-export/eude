@@ -3,7 +3,7 @@ var metadata = <><![CDATA[
 // @author       Alex10336
 // @name         Data Engine
 // @namespace    http://eude.googlecode.com/
-// @version      svn
+// @version      1.4.5
 // @lastmod      $Id$
 // @license      GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
 // @license      Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
@@ -42,16 +42,16 @@ var mversion=RegExp.$1.replace(/\.*/g, '');
 metadata.search(/Id\:\ eude\.user\.js\ (\d+)\ \d+\-\d+\-\d+\ .+\$/);
 var revision=RegExp.$1;
 var version=mversion+'r'+revision;
-const debug=true;
-const UseTamper = function_exists('TM_log');
-
-if (UseTamper) {
-    TM_log('Version '+version);
-    TM_log('Page Check '+c_page);
-}
+const debug=false;
+//const UseTamper = function_exists('TM_log');
+//
+//if (UseTamper) {
+//    TM_log('Version '+version);
+//    TM_log('Page Check '+c_page);
+//}
 
 try {
 var c_game_lang = (typeof unsafeWindow.top.window.fv['lang'] != 'undefined') ? unsafeWindow.top.window.fv['lang']: c_lang;
 } catch(e) {c_game_lang = c_lang;}
 
-if (UseTamper) TM_log('Check Point, should no work after yet !');
+//if (UseTamper) TM_log('Check Point, should no work after yet !');

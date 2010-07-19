@@ -549,6 +549,7 @@ out;
         $closed[$bollstrinv[$config['closed']]] = '';
         $out =<<<out
 <input type="hidden" name="configuration" value="true"/>
+<input type="hidden" name="data[version]" value="{$config['version']}"/>
 <TR class="color_row0">
     <TD>{$this->lng['config_forumlink']}</TD>
     <TD><input class="color_row0 size250" name="data[ForumLink]" value="{$config['ForumLink']}" type="text"/></TD>
