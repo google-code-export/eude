@@ -253,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `SQL_PREFIX_Users` (
 -- ------------------------
 -- Valeurs par défaut ---
 -- ------------------------
-INSERT INTO `SQL_PREFIX_Config` (`key`, `value`) VALUES('config', 'a:9:{s:7:"version";s:5:"1.4.3";s:9:"ForumLink";s:%%boardnamelen%%:"%%boardname%%";s:11:"CanRegister";s:1:"1";s:12:"DefaultGrade";s:1:"3";s:8:"MyEmpire";s:%%empirenamelen%%:"%%empirename%%";s:17:"Parcours_Max_Time";i:0;s:16:"Parcours_Nearest";i:5;s:8:"eude_srv";s:12:"australis.fr";s:6:"closed";s:1:"0";}');
+INSERT INTO `SQL_PREFIX_Config` (`key`, `value`) VALUES('config', 'a:9:{s:7:"version";s:5:"1.4.5";s:9:"ForumLink";s:%%boardnamelen%%:"%%boardname%%";s:11:"CanRegister";s:1:"1";s:12:"DefaultGrade";s:1:"3";s:8:"MyEmpire";s:%%empirenamelen%%:"%%empirename%%";s:17:"Parcours_Max_Time";i:0;s:16:"Parcours_Nearest";i:5;s:8:"eude_srv";s:12:"australis.fr";s:6:"closed";s:1:"0";}');
 INSERT INTO `SQL_PREFIX_Config` (`key`, `value`) VALUES('MapColors', 'a:3:{i:0;a:8:{i:0;s:7:"#232323";i:1;s:7:"#444444";i:2;s:7:"#3333FF";i:20;s:7:"#FF0080";i:21;s:7:"#00DD00";i:22;s:7:"#FF9933";i:24;s:7:"#FF9933";i:25;s:7:"#787878";}i:1;a:12:{i:0;s:7:"#232323";i:1;s:7:"#FF8000";i:2;s:7:"#008800";i:3;s:7:"#444444";i:4;s:7:"#3333FF";i:5;s:7:"#787878";i:6;s:7:"#00DD00";i:7;s:7:"#FF8000";i:11;s:7:"#00DD00";i:8;s:7:"#DD0000";i:9;s:7:"#FFFF00";i:10;s:7:"#FF00FF";}i:2;a:12:{i:0;s:7:"#232323";i:1;s:7:"#FF8000";i:2;s:7:"#008800";i:3;s:7:"#444444";i:4;s:7:"#444444";i:5;s:7:"#444444";i:6;s:7:"#444444";i:7;s:7:"#FF8000";i:11;s:7:"#444444";i:8;s:7:"#444444";i:9;s:7:"#444444";i:10;s:7:"#FF00FF";}}');
 INSERT INTO `SQL_PREFIX_Config` (`key`, `value`) VALUES('EmpireAllys', 'a:0:{}');
 INSERT INTO `SQL_PREFIX_Config` (`key`, `value`) VALUES('EmpireEnnemy', 'a:0:{}');

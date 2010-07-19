@@ -232,20 +232,25 @@ class DataEngine extends Members {
 
             if (CHECK_LOGIN && $GLOBALS['validsession']) {
                 if (self::$settings['config']['closed'] && !Members::CheckPerms(AXX_ROOTADMIN)) {
-                    session_destroy();
-                    output::Boink(ROOT_URL);
-                }
-            }
-
-            if (is_array(self::$settings['config'])) {
-                if (isset(self::$settings['config']['version'])) {
-                    if (preg_match('/(\d+\.\d+\.\d+)\.?(\d+)?/', self::Get_Version(), $version) > 0) {
-                        if (version_compare(self::$settings['config']['version'], $version[1], '<')) {
-                            output::Boink('%ROOT_URL%upgrade/run' . self::$settings['config']['version'] . '.php');
-                        }
+                    if (NO_SESSIONS) {
+                        $lng = language::getinstance()->GetLngBlock('login');
+                        output::_DoOutput('<eude><alert>' . $lng['currently_closed_nohtml'] . '</alert><GM_active>0</GM_active></eude>');
+                    } else {
+                        session_destroy();
+                        output::Boink(ROOT_URL);
                     }
                 }
             }
+
+//            if (is_array(self::$settings['config'])) {
+//                if (isset(self::$settings['config']['version'])) {
+//                    if (preg_match('/(\d+\.\d+\.\d+)\.?(\d+)?/', self::Get_Version(), $version) > 0) {
+//                        if (version_compare(self::$settings['config']['version'], $version[1], '<')) {
+//                            output::Boink('%ROOT_URL%upgrade/run' . self::$settings['config']['version'] . '.php');
+//                        }
+//                    }
+//                }
+//            }
             self::$conf_load = array();
         }
         return self::$conf_loaded;
@@ -480,11 +485,11 @@ ead;
      */
     static public function Get_Version() {
         if (DE_DEMO)
-            return 'r441 démo';
+            return '1.4.5 démo';
         elseif (IN_DEV)
             return 'svn-' . time();
         else
-            return '1.4.x';
+            return '1.4.5';
     }
 
 }

@@ -59,7 +59,7 @@ ALTER TABLE  `SQL_PREFIX_Coordonnee` DROP `troop_date`;
 ALTER TABLE  `SQL_PREFIX_Coordonnee` CHANGE `troop_udate` `troop_date` INT( 10 ) UNSIGNED NULL;
 
 
-INSERT INTO `SQL_PREFIX_Config` (`key`, `value`) VALUES('config', 'a:9:{s:7:"version";s:5:"1.4.3";s:9:"ForumLink";s:31:"https://code.google.com/p/eude/";s:11:"CanRegister";s:1:"1";s:12:"DefaultGrade";s:1:"3";s:8:"MyEmpire";s:0:"";s:17:"Parcours_Max_Time";i:0;s:16:"Parcours_Nearest";i:5;s:8:"eude_srv";s:12:"australis.fr";s:6:"closed";s:1:"0";}');
+INSERT INTO `SQL_PREFIX_Config` (`key`, `value`) VALUES('config', 'a:9:{s:7:"version";s:5:"1.4.5";s:9:"ForumLink";s:31:"https://code.google.com/p/eude/";s:11:"CanRegister";s:1:"1";s:12:"DefaultGrade";s:1:"3";s:8:"MyEmpire";s:0:"";s:17:"Parcours_Max_Time";i:0;s:16:"Parcours_Nearest";i:5;s:8:"eude_srv";s:12:"australis.fr";s:6:"closed";s:1:"0";}');
 
 CREATE TABLE `SQL_PREFIX_troops_attack` (
   `ID` int(11) NOT NULL auto_increment,
