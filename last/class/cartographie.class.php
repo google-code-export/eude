@@ -245,7 +245,11 @@ class cartographie {
         if (!$this->FormatId(trim($coords), $uni, $sys,'')) return false;
 
         if ($nom=='') {
-            $query = 'UPDATE `SQL_PREFIX_Coordonnee`, `SQL_PREFIX_Coordonnee_Joueurs` SET `Type`=2, `USER`=\'\', `EMPIRE`=\'\', `INFOS`=\'\', `batiments`=NULL, `troop`=NULL where `Type` in (0,3,5) AND `POSIN`='.$uni.' AND `COORDET`=\''.$sys.'\'';
+            $query = <<<sql
+UPDATE `SQL_PREFIX_Coordonnee`
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
+SET `Type`=2, `USER`='', `EMPIRE`='', `INFOS`='', `batiments`=NULL, `troop`=NULL WHERE `Type` in (0,3,5) AND `POSIN`=$uni AND `COORDET`='$sys'
+sql;
             $array = DataEngine::sql($query);
             if (mysql_affected_rows() > 0)
                 return $this->AddWarn(sprintf($this->lng['class_player_msg1'],$coords));
@@ -258,7 +262,7 @@ class cartographie {
             if (!$updatetype && $ligne['TYPE'] == 2) $type = 0;
             
             $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee`, `SQL_PREFIX_Coordonnee_Joueurs` SET `TYPE`=%d, `POSOUT`=\'\', `COORDETOUT`=\'\', `USER`=\'%s\', `EMPIRE`=\'%s\','.
-                    '`INFOS`=\'%s\', `UTILISATEUR`=\'%s\', `udate`='. time() .' WHERE `ID`=%s AND `jID`=%6$s',
+                    '`INFOS`=\'%s\', `UTILISATEUR`=\'%s\', `udate`='. time() .' WHERE `ID`=%s AND `id`=`jID`',
                     $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']), $ligne['ID'] );
             DataEngine::sql($query);
 

@@ -39,7 +39,7 @@ $listing['eadmin'] = array($defaultsetting, 'ADMIN');
 
 $listing['forum'] = array($defaultsetting, 'FORUM');
 
-$listing['logout'] = array($defaultsetting, 'DECONNECTION');
+$listing['logout'] = array($defaultsetting, 'DECONNEXION');
 
 $listing['do_parcours'] = array($defaultsetting, 'ITINERAIRE');
 $setting = $defaultsetting;

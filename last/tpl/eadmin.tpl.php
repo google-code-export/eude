@@ -88,7 +88,7 @@ c;
 c;
         }
 
-        $this->lng['vortex_whathappen']     = sprintf($this->lng['vortex_whathappen'], $dates[1], $dates[2]);
+        $this->lng['vortex_whathappen']     = sprintf($this->lng['vortex_whathappen'], date('Y-m-d H:i:s',$dates[1]));
         $this->lng['vortex_result']         = sprintf($this->lng['vortex_result'], $cleanvortex);
 
         $out =<<<col2_vortex
@@ -98,7 +98,6 @@ c;
 			<TD colspan=3>{$this->lng['vortex_title']}</TD>
 			<TD rowspan=4 class="text_center">
 				<input type="hidden" name="cleanvortex" value="{$dates[1]}">
-                                <input type="hidden" name="cleanvortex_inactif" value="{$dates[2]}">
                                 <input class="color_header" type="submit" value="{$this->lng['vortex_do_now']}">
 			</TD>
 		</TR>

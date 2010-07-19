@@ -316,6 +316,7 @@ if (isset($_POST['configuration']) && $_POST['configuration']) {
     $data['Parcours_Nearest'] = DataEngine::strip_number($data['Parcours_Nearest']);
 
     DataEngine::conf_update('config', $data);
+    output::Messager($lng['config_done']);
 }
 // -- Changement dans la configuration -----------------------------------------
 // -----------------------------------------------------------------------------
@@ -338,7 +339,7 @@ if (!isset($_REQUEST['act'])) {
 
     $dates[0] = date('Y-m-d H:i:s');
     $dates[1] = mktime(3, 01, 0, date('m'), date('d') - date('w'));
-    $dates[2] = mktime(3, 01, 0, date('m'), date('d') - date('w') - 7);
+//    $dates[2] = mktime(3, 01, 0, date('m'), date('d') - date('w') - 7);
 
     $tpl->admin_vortex($dates, $cleanvortex_delete, DataEngine::config('wormhole_cleaning'));
 //---

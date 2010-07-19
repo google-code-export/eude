@@ -47,8 +47,8 @@ $lng['vortex_cron_disable']   = 'Mode auto actif (<a href="%ROOT_URL%EAdmin.php?
 $lng['vortex_title']          = 'Nettoyage des vortex:';
 $lng['vortex_do_now']         = "Nettoyer\nmaintenant";
 $lng['vortex_servertime']     = 'Temps serveur:';
-$lng['vortex_whathappen']     = 'Les Vortex plus anciens que "%s" seront désactivé.<br/>Les Vortex inactifs (depuis %s) seront supprimés.';
-$lng['vortex_result']         = '%d vortex supprimé(s), et %d désactivé(s).';
+$lng['vortex_whathappen']     = 'Les Vortex plus anciens que "%s" seront supprimés.';
+$lng['vortex_result']         = '%d vortex supprimé(s).';
 
 
 $lng['empire_switch']         = 'Changement des nom d\'empire: (Noms simplifiés)';
@@ -195,6 +195,7 @@ $lng['config_closed_no']    = 'Ouvert';
 $lng['config_closed_yes']    = 'Fermé (Hors Super-administrateur)';
 
 $lng['config_apply']         = 'Enregistrer';
+$lng['config_done']          = 'Mise à jour de la configuration effectué';
 
 //------------------------------------------------------------------------------
 $lng['logs_title']          = 'EU2: Administration, logs';

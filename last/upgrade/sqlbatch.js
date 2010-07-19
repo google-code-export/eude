@@ -62,7 +62,7 @@ function _sql_done() {
 }
 function _sql_error() {
     clearTimeout(sql_standby);
-    $('sqlbatchmsg').innerHTML += ' <a href="javascript:void(0);" Onclick="_sql_skip_next()">Ignorer ?</a>';
+    //$('sqlbatchmsg').innerHTML += ' <a href="javascript:void(0);" Onclick="_sql_skip_next()">Ignorer ?</a>';
 }
 function maj_progress() {
     sql_cur++;

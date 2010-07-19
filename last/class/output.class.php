@@ -66,9 +66,9 @@ abstract class output {
         $url = str_replace('%IMAGES_URL%', IMAGES_URL, $url);
         $url = str_replace('%TEMPLATE_URL%', TEMPLATE_URL, $url);
         $url = str_replace('%ADDONS_URL%', ADDONS_URL, $url);
-        if (IN_DEV)
-            echo '<a href="'.$url.'">Boink !</a>';
-        else
+//        if (IN_DEV)
+//            echo '<a href="'.$url.'">Boink !</a>';
+//        else
             header('location: ' . $url);
         exit(0);
     }
