@@ -650,7 +650,7 @@ PERM;
     static public function NewUser($user, $md5pass, $axx=AXX_VALIDATING, $points=0, $grade=3) {
         DataEngine::sql('INSERT INTO `SQL_PREFIX_Users` VALUES(\'' . $user . '\',\'' . $md5pass . '\',' . $axx . ')');
         DataEngine::sql('INSERT INTO `SQL_PREFIX_Membres` (`Joueur`,`Points`,`Date`,`Grade`) '
-                        . 'VALUES(\'' . $user . '\',\'' . $points . '\',now(),' . $grade . ')');
+                        . 'VALUES(\'' . sqlesc($user) . '\',\'' . $points . '\',now(),' . $grade . ')');
         addons::getinstance()->NewUser($user);
     }
 
