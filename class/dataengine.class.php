@@ -200,7 +200,7 @@ class DataEngine extends Members {
             while ($ligne = mysql_fetch_assoc($mysql_result)) {
                 if (trim($ligne['key']) == '')
                     continue;
-                self::$settings[$ligne['key']] = unserialize(stripslashes($ligne['value']));
+                self::$settings[$ligne['key']] = unserialize($ligne['value']);
             }
 
 
