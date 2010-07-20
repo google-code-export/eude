@@ -20,10 +20,11 @@ $lng = language::getinstance()->GetLngBlock('login');
 
 $erreur = '';
 if (isset($_POST['login']) && $_POST['login'] != '' && $_POST['mdp'] != '') {
-    $login = sqlesc($_POST['login'], false);
+    $login = gpc_esc($_POST['login']);
+    $qlogin = sqlesc($_POST['login']);
     $pass = md5($_POST['mdp']);
 
-    $query = 'SELECT LOWER(`Login`) as `Login` from `SQL_PREFIX_Users` WHERE LOWER(`Login`)=LOWER(\'' . $login . '\')';
+    $query = 'SELECT LOWER(`Login`) as `Login` from `SQL_PREFIX_Users` WHERE LOWER(`Login`)=LOWER(\'' . $qlogin . '\')';
     $mysql_result = DataEngine::sql($query);
     $ligne = mysql_fetch_array($mysql_result);
 
@@ -39,7 +40,7 @@ if (isset($_POST['login']) && $_POST['login'] != '' && $_POST['mdp'] != '') {
         $_SESSION['_pass'] = $pass;
         $_SESSION['_Perm'] = $axx;
         $_SESSION['_IP'] = Get_IP();
-        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),\'' . $login . '\',\'' . $_SESSION['_IP'] . '\')';
+        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),\'' . $qlogin . '\',\'' . $_SESSION['_IP'] . '\')';
         DataEngine::sql($query);
         output::boink('./');
     }

@@ -98,6 +98,7 @@ $cxx['CARTOGRAPHIE_SEARCH'] = 'Fonction recherche';
 $cxx['CARTOGRAPHIE_DELETE'] = 'Accès de suppression';
 $cxx['CARTOGRAPHIE_EDIT']   = 'Accès de modification';
 $cxx['CARTOGRAPHIE_GREASE'] = 'Utilisation "GreaseMonkey"';
+$cxx['EMPIRE_GREASE'] = 'Maj Empire GreaseMonkey';
 $cxx[] = 'Addons:';
 $lng['cxx'] = $cxx;
 

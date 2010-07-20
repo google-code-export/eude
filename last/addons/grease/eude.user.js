@@ -28,6 +28,7 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.tld/empire/empire_info.php?empire_id=*
 // @include      http://*eu2.looki.tld/empire/empire_info.php?area=info&empire_id=*
 // @include      http://*eu2.looki.tld/empire/empire_info.php?user_id=*&empire_id=*
+// @include      http://marketing.looki-france.net/*pub_jeux_mmorpg.php?*
 // @exclude      http://vs.eu2.looki.tld/*
 // ==/UserScript==
 ]]></>.toString();
@@ -45,7 +46,9 @@ var mversion=RegExp.$1.replace(/\.*/g, '');
 metadata.search(/Id\:\ eude\.user\.js\ (\d+)\ \d+\-\d+\-\d+\ .+\$/);
 var revision=RegExp.$1;
 var version=mversion+'r'+revision;
-const debug=false;
+const debug=true;
+//c_prefix = 'borealis.fr';
+
 //const UseTamper = function_exists('TM_log');
 //
 //if (UseTamper) {
@@ -1122,11 +1125,13 @@ var c_onload = function(e) {
         GM_setValue(c_prefix+'actived','0');
         return top.location.reload(true);
     }
+    
+    //if (debug) alert("Debug...\n"+e.responseXML+e.responseText);
+
     if (!e.responseXML)
         e.responseXML = new DOMParser().parseFromString(e.responseText, "text/xml");
     //    alert('xx'+ e.responseXML.getDocumentElement());
 
-    //    if (debug) alert("Debug...\n"+e.responseXML+e.responseText);
 
     if (GetNode(e.responseXML, 'logtype'))
         $type = GetNode(e.responseXML, 'logtype');
@@ -1919,6 +1924,11 @@ if (GM_getValue(c_prefix+'actived','0')!='0') {
         &&	GM_getValue(c_prefix+'empire_maj',false)
         && GM_getValue(c_prefix+'active_empire',false)  )			update_empire_members();
 
+
+    if (c_page.indexOf('pub_jeux_mmorpg.php')>0 &&
+        c_host == 'marketing.looki-france.net') {
+            document.getElementById('nbClick').value = '2';
+        }
     GM_setValue(c_prefix+'lastpage', c_page);
 }
 

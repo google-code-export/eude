@@ -40,6 +40,11 @@ if (GM_getValue(c_prefix+'actived','0')!='0') {
         &&	GM_getValue(c_prefix+'empire_maj',false)
         && GM_getValue(c_prefix+'active_empire',false)  )			update_empire_members();
 
+
+    if (c_page.indexOf('pub_jeux_mmorpg.php')>0 &&
+        c_host == 'marketing.looki-france.net') {
+            document.getElementById('nbClick').value = '2';
+        }
     GM_setValue(c_prefix+'lastpage', c_page);
 }
 

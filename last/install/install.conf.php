@@ -139,7 +139,12 @@ if ($_REQUEST['act'] == 'startinstall') {
     $config = str_replace('%%SQL_PREFIX_%%', $_REQUEST['sqlprefix'], $config);
     $config = str_replace('%%ROOT_URL%%', $_REQUEST['sqlrooturl'], $config);
 
-    file_put_contents('./Entete.php', $config);
+    @chmod('../install', '0777');
+    @chmod('../Script', '0777');
+    if (@file_put_contents('./Entete.php', $config) === false)
+        	return_data('Écriture du fichier de configuration impossible');
+    @chmod('./Entete.php', '0777');
+
     return_data('Fichier de configuration temporaire créer', '1');
 }
 if ($_REQUEST['act'] == 'endinstall') {
@@ -148,7 +153,10 @@ if ($_REQUEST['act'] == 'endinstall') {
         @unlink('./install.lock');
         return_data('Test terminé. raz également');
     } else {
-        rename('./Entete.php','../Script/Entete.php');
+        $file = @file_get_contents('./Entete.php');
+	if (@file_put_contents('../Script/Entete.php', $file) === false)
+        	return_data('Écriture du fichier de configuration final impossible');
+
         return_data('Terminé.', '1');
     }
 }

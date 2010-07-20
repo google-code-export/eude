@@ -22,7 +22,7 @@ $lng['Azote'] = 'Azote';
 $lng['Hydrogene'] = 'Hydrogène';
 
 $lng['races']['Human']       = 'Humain';
-$lng['races']['Ozoid']       = 'Ozoidien';
+$lng['races']['Ozoid']       = 'Ozoïdien';
 $lng['races']['Mosorian']    = 'Mozoran';
 $lng['races']['Zuup']        = 'Zuup';
 $lng['races']['Plentropian'] = 'Plentropien';

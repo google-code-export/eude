@@ -25,6 +25,7 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.tld/empire/empire_info.php?empire_id=*
 // @include      http://*eu2.looki.tld/empire/empire_info.php?area=info&empire_id=*
 // @include      http://*eu2.looki.tld/empire/empire_info.php?user_id=*&empire_id=*
+// @include      http://marketing.looki-france.net/*pub_jeux_mmorpg.php?*
 // @exclude      http://vs.eu2.looki.tld/*
 // ==/UserScript==
 ]]></>.toString();
@@ -42,7 +43,9 @@ var mversion=RegExp.$1.replace(/\.*/g, '');
 metadata.search(/Id\:\ eude\.user\.js\ (\d+)\ \d+\-\d+\-\d+\ .+\$/);
 var revision=RegExp.$1;
 var version=mversion+'r'+revision;
-const debug=false;
+const debug=true;
+//c_prefix = 'borealis.fr';
+
 //const UseTamper = function_exists('TM_log');
 //
 //if (UseTamper) {

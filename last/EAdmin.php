@@ -186,7 +186,7 @@ if (isset($_POST['emp_upd']) && $_POST['emp_upd'] != '') {
     $old_emp = sqlesc($_POST['emp_orig'], false);
     $new_emp = sqlesc($_POST['emp_new'], false);
     if ($old_emp != $new_emp && $old_emp != '') {
-        $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee_Joueurs` SET `EMPIRE`=\'' . $new_emp . '\' WHERE `TYPE` in (0,3,5) AND `EMPIRE` LIKE \'' . $old_emp . '\'');
+        $mysql_result = DataEngine::sql('UPDATE `SQL_PREFIX_Coordonnee_Joueurs` SET `EMPIRE`=\'' . $new_emp . '\' WHERE `EMPIRE` LIKE \'' . $old_emp . '\'');
         $emp_upd = mysql_affected_rows();
     }
 }
@@ -312,6 +312,7 @@ if (isset($_POST['cxx'])) {
 if (isset($_POST['configuration']) && $_POST['configuration']) {
 
     $data = array_map('gpc_esc', $_POST['data']);
+    $data['DefaultGrade'] = DataEngine::strip_number($data['DefaultGrade']);
     $data['Parcours_Max_Time'] = DataEngine::strip_number($data['Parcours_Max_Time']);
     $data['Parcours_Nearest'] = DataEngine::strip_number($data['Parcours_Nearest']);
 
@@ -459,7 +460,7 @@ if ($_REQUEST['act'] == 'perms' && Members::CheckPerms(AXX_ROOTADMIN)) {
 
 if ($_REQUEST['act'] == 'config' && Members::CheckPerms(AXX_ROOTADMIN)) {
 
-    $mysql_result = DataEngine::sql('SELECT `Grade` ,`Niveau`, `Rattachement` from `SQL_PREFIX_Grade` ORDER BY `Rattachement`, `Niveau`');
+    $mysql_result = DataEngine::sql('SELECT * from `SQL_PREFIX_Grade` ORDER BY `Rattachement`, `Niveau`');
     while ($ligne = mysql_fetch_assoc($mysql_result))
         $Grades[] = $ligne;
 
