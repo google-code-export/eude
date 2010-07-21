@@ -90,9 +90,12 @@ class troops {
             preg_match('/Nos troupes ont quitté la planète (.*) de (.*), l\'occupation est terminée\./', $msg, $info);
             $ident = 'Nous avons pillé les ressources suivantes :';
 
-            $sql = sprintf('SELECT `POSIN`, `COORDET` FROM `SQL_PREFIX_Coordonnee` WHERE `type` in (0,3,5) AND '.
-                    '`USER`=\'%s\' AND `INFOS`=\'%s\'',
-                    $info[2], $info[1]);
+            $sql = <<<sql
+SELECT `POSIN`, `COORDET` FROM `SQL_PREFIX_Coordonnee` 
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on `ID`=`jID` 
+WHERE `TYPE` in (0,3,5) AND `USER`='%s' AND `INFOS`='%s'
+sql;
+            sprintf($sql, $info[2], $info[1]);
             $result = DataEngine::sql($sql);
             if (mysql_numrows($result)<1) return 'Coordonnée du pillage introuvable ? (flutte)';
             if (mysql_numrows($result)>1) return 'Plusieurs coordonnée pour ce pillage ? (omg)';
@@ -139,10 +142,6 @@ class troops {
 
         $sql = 'INSERT INTO `SQL_PREFIX_troops_pillage` ('.$fields.') VALUES ('.$sets.')';
         $result = DataEngine::sql($sql);
-//        $pid = mysql_insert_id();
-//        array_push($pids, $pid);
-//        $pids = sqlesc(serialize($pids));
-//        DataEngine::sql('UPDATE SQL_PREFIX_troops_attack SET `pids`=\''.$pids.'\' WHERE ID='.$mid);
 
         return 'Pillage ajouté.';
     }
