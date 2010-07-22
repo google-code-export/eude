@@ -17,15 +17,44 @@ define('ACT_JOIN', 3);
 define('ACT_RETREAT', 4);
 define('ACT_DAMAGE', 5);
 
-$listacts = Array(
-  ACT_DESTROY => "a été détruit",
-  ACT_MISS => "n'a pas touché",
-  ACT_HIT => "a touché",
-  ACT_JOIN => "a rejoint le combat",
-  ACT_RETREAT => "se retire du combat",
-  ACT_DAMAGE => "et a causé"
-  );
-
+switch (LNG_CODE) {
+            case 'pl':
+				$listacts = Array(
+					ACT_DESTROY => "a été détruit",
+					ACT_MISS => "n'a pas touché",
+					ACT_HIT => "a touché",
+					ACT_JOIN => "a rejoint le combat",
+					ACT_RETREAT => "se retire du combat",
+					ACT_DAMAGE => "et a causé",
+					ACT_DOMAGE => "dégâts",
+					ACT_SHILD => "bouclier",
+					ACT_STRUCT => "coque"
+					);
+            case 'en':
+				$listacts = Array(
+					ACT_DESTROY => "a été détruit",
+					ACT_MISS => "n'a pas touché",
+					ACT_HIT => "a touché",
+					ACT_JOIN => "a rejoint le combat",
+					ACT_RETREAT => "se retire du combat",
+					ACT_DAMAGE => "et a causé",
+					ACT_DOMAGE => "dégâts",
+					ACT_SHILD => "bouclier",
+					ACT_STRUCT => "coque"
+					);
+			default:
+				$listacts = Array(
+					ACT_DESTROY => "a été détruit",
+					ACT_MISS => "n'a pas touché",
+					ACT_HIT => "a touché",
+					ACT_JOIN => "a rejoint le combat",
+					ACT_RETREAT => "se retire du combat",
+					ACT_DAMAGE => "et a causé",
+					ACT_DOMAGE => "dégâts",
+					ACT_SHILD => "bouclier",
+					ACT_STRUCT => "coque"
+					);
+ };
 /************************************************************
                      Fonctions fightstats
 ************************************************************/
@@ -152,11 +181,11 @@ function ExtractLog($log) {
             }
             
             for($i = 0; $i < $ndam; $i++) {
-              $deg = (int)trim(substr($dam[$i], 0, strpos($dam[$i], "dégâts")));
+              $deg = (int)trim(substr($dam[$i], 0, strpos($dam[$i], $listacts[ACT_DOMAGE])));
               
-              if(strpos($dam[$i], "coque") !== false)
+              if(strpos($dam[$i], $listacts[ACT_STRUCT]) !== false)
                 $actions[$nactions]['Coque'] = $deg;
-              elseif(strpos($dam[$i], "bouclier") !== false)  
+              elseif(strpos($dam[$i], $listacts[ACT_SHILD]) !== false)  
                 $actions[$nactions]['Bouclier'] = $deg;
               else  
                 $actions[$nactions]['Ion'] = $deg;
