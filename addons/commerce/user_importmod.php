@@ -91,7 +91,8 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
             $t = mb_substr(strstr($t, "["), 1);
             $i = strpos($t, "]");
             $tDesc = trim(mb_substr($t, 0, $i - 1));
-            $t = trim(mb_substr($t, $i + 1));
+            $tDesc = addslashes($tDesc);
+			$t = trim(mb_substr($t, $i + 1));
           }
           
           $i = 1000;
@@ -103,6 +104,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
           }
             
           $tName = trim(mb_substr($t, 0, $i - 1));
+		  $tName = addslashes($tName);
     
           $mysql_result = DataEngine::sql('
           SELECT ID, Description, SQL_PREFIX_Modules_Own.Modifier
@@ -169,7 +171,8 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
         $i = strpos($t, "Nom");
         $j = strpos($t, "\n", $i);
         $datas["Nom"] = trim(mb_substr($t, $i + 3, $j - $i - 2));
-        $t = mb_substr($t, $j + 1);
+		$datas["Nom"] = addslashes($datas["Nom"]);
+		$t = mb_substr($t, $j + 1);
         
         $i = strpos($t, "Grosseur");
         $j = strpos($t, "\n", $i);
@@ -331,7 +334,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_IMPORT'))
 
         // Divers
         $datas['Taille'] = $datas['PAGVG'] * 1000;
-        
+
 
 
 	$query = 'SELECT ID FROM SQL_PREFIX_Modules_Template WHERE Nom LIKE \''.$datas['Nom'].'\'';
