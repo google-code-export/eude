@@ -32,15 +32,15 @@ switch (LNG_CODE) {
 					);
             case 'en':
 				$listacts = Array(
-					ACT_DESTROY => "a été détruit",
-					ACT_MISS => "n'a pas touché",
-					ACT_HIT => "a touché",
-					ACT_JOIN => "a rejoint le combat",
-					ACT_RETREAT => "se retire du combat",
-					ACT_DAMAGE => "et a causé",
-					ACT_DOMAGE => "dégâts",
-					ACT_SHILD => "bouclier",
-					ACT_STRUCT => "coque"
+					ACT_DESTROY => "has been destroyed",
+					ACT_MISS => "n'a pas touché", //Change to English Serveur Log
+					ACT_HIT => "a touché", //Change to English Serveur Log
+					ACT_JOIN => "a rejoint le combat", //Change to English Serveur Log
+					ACT_RETREAT => "se retire du combat", //Change to English Serveur Log
+					ACT_DAMAGE => "and caused",
+					ACT_DOMAGE => "Damage",
+					ACT_SHILD => "aiming unit",
+					ACT_STRUCT => "hull"
 					);
 			default:
 				$listacts = Array(
