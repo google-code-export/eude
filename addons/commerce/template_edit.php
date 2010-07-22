@@ -161,7 +161,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT'))
   </tr>
   <tr class="color_row0">
     <td>Nom long du module</td>
-    <td><input class="color_row0" type="text" name="Nom" id="Nom" size=60 maxlength=125 value="<?php echo $datas['Nom']; ?>"></td>
+    <td><input class="color_row0" type="text" name="Nom" id="Nom" size=60 maxlength=125 value="<?php echo stripslashes($datas['Nom']); ?>"></td>
   </tr>
   <tr class="color_row0">
     <td>Abréviation (ou nom alternatif) du module</td>

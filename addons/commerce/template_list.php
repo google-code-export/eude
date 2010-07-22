@@ -180,6 +180,10 @@ Notez que dans ce mode "<i>commande</i>",<br />vous ne voyez que les modules, qu
 		else
       $bgcol=' class="color_row0"';
 
+	// Correction Affichage Slashes
+		$ligne['Abreviation']=stripslashes($ligne['Abreviation']);
+		$ligne['Nom']=stripslashes($ligne['Nom']);
+	  
     // Début de ligne      
     echo('<tr '.$bgcol.'>');
 

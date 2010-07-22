@@ -155,7 +155,7 @@ switch($_SESSION['cnhAffichageMe']) {
     echo('<td>'.$ligne['DateCreated'].'</td>');
     // Colonne 2 - Fournisseur
     echo('<td>'.$ligne['LoginV'].'</td>');
-    // Colonne 3 - Commande
+   	// Colonne 3 - Commande
     echo('<td>'.$ligne['Items'].'</td>');
     // Colonne 4 - Paiement
     echo('<td>');
@@ -244,7 +244,7 @@ switch($_SESSION['cnhAffichageHim']) {
     echo('<td>'.$ligne['DateCreated'].'</td>');
     // Colonne 2 - Fournisseur
     echo('<td>'.$ligne['Login'].'</td>');
-    // Colonne 3 - Commande
+	// Colonne 3 - Commande
     echo('<td>'.$ligne['Items'].'</td>');
     // Colonne 4 - Paiement
     echo('<td>');

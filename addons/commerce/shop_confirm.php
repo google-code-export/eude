@@ -121,7 +121,7 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
 		$typepaiement = htmlentities($typepaiement, ENT_QUOTES);
 		// $paiementitem = "RessourcesNBTotal:".$RessourcesNBTotal.";ressourcesitems:".$ressourcesitems;
         $query    = 'INSERT INTO SQL_PREFIX_modules_commandes (Login,LoginV,Items,TypePaiement,Paiement,DateCreated,CoordLivraison) ';
-        $query   .= 'VALUES (\''.$acheteur.'\',\''.$vendeur.'\',\''.$commande.'\',\''.$typepaiement.'\',\''.$paiementitem.'\',now(),\''.$coordplanete.'\')';
+        $query   .= 'VALUES (\''.$acheteur.'\',\''.$vendeur.'\',\''.addslashes($commande).'\',\''.$typepaiement.'\',\''.$paiementitem.'\',now(),\''.$coordplanete.'\')';
 		// echo("<center><font color=blue>DEBUG commande :<br>");
 		// echo(nl2br(print_r($_POST, true)));
 		// echo("paiementme:".$paiementme."<br>");
