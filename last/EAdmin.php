@@ -58,28 +58,28 @@ $cleaning = false;
 $cleaningids = array();
 if (isset($_POST['joueurs']) && $_POST['joueurs'] != '-1') {
     $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE` IN (0,3,5) AND `udate`<' . intval($_POST['joueurs']));
-    $cleaning['cleaning_joueurs_result'] = mysql_num_rows();
+    $cleaning['cleaning_joueurs_result'] = mysql_num_rows($mysql_result);
     if ($cleaning['cleaning_joueurs_result'] > 0)
         while ($row = mysql_fetch_assoc($mysql_result))
             $cleaningids[] = $row['ID'];
 }
 if (isset($_POST['pnj']) && $_POST['pnj'] != '-1') {
     $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=6 AND `udate`<' . intval($_POST['pnj']));
-    $cleaning['cleaning_pnj_result'] = mysql_num_rows();
+    $cleaning['cleaning_pnj_result'] = mysql_num_rows($mysql_result);
     if ($cleaning['cleaning_pnj_result'] > 0)
         while ($row = mysql_fetch_assoc($mysql_result))
             $cleaningids[] = $row['ID'];
 }
 if (isset($_POST['wormshole']) && $_POST['wormshole'] != '-1') {
     $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=1 AND `udate`<' . intval($_POST['wormshole']));
-    $cleaning['cleaning_wormshole_result'] = mysql_num_rows();
+    $cleaning['cleaning_wormshole_result'] = mysql_num_rows($mysql_result);
     if ($cleaning['cleaning_wormshole_result'] > 0)
         while ($row = mysql_fetch_assoc($mysql_result))
             $cleaningids[] = $row['ID'];
 }
 if (isset($_POST['planetes']) && $_POST['planetes'] != '-1') {
     $tmp = array();
-    $mysql_result = DataEngine::sql('SELECT `ID` FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=2 AND `DATE`<\'' . $_POST['planetes'] . '\'');
+    $mysql_result = DataEngine::sql('SELECT `ID` FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=2 AND `udate`<\'' . $_POST['planetes'] . '\'');
     $cleaning['cleaning_planetes_result'] = mysql_num_rows($mysql_result);
     if ($cleaning['cleaning_planetes_result'] > 0)
         while ($row = mysql_fetch_assoc($mysql_result))
@@ -87,7 +87,7 @@ if (isset($_POST['planetes']) && $_POST['planetes'] != '-1') {
 }
 if (isset($_POST['asteroides']) && $_POST['asteroides'] != '-1') {
     $tmp = array();
-    $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=4 AND `DATE`<\'' . $_POST['asteroides'] . '\'');
+    $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=4 AND `udate`<\'' . $_POST['asteroides'] . '\'');
     $cleaning['cleaning_asteroides_result'] = mysql_num_rows($mysql_result);
     if ($cleaning['cleaning_asteroides_result'] > 0)
         while ($row = mysql_fetch_assoc($mysql_result))
