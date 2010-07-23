@@ -27,6 +27,8 @@ if (file_put_contents($path.'test.lock', $cur + 1) === false) {
     stop_on_error('I/O Error test.lock chmod "/upgrade" directory to 777');
 }
 
+file_put_contents($path.'upgrade1450.lock', 999999);
+
 if (!file_exists($sqlfile))
     stop_on_error('Mise à jour corrompue !');
 
