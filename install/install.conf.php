@@ -139,8 +139,6 @@ if ($_REQUEST['act'] == 'startinstall') {
     $config = str_replace('%%SQL_PREFIX_%%', $_REQUEST['sqlprefix'], $config);
     $config = str_replace('%%ROOT_URL%%', $_REQUEST['sqlrooturl'], $config);
 
-    @chmod('../install', '0777');
-    @chmod('../Script', '0777');
     if (@file_put_contents('./Entete.php', $config) === false)
         	return_data('Écriture du fichier de configuration impossible');
     @chmod('./Entete.php', '0777');

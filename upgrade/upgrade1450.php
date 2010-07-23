@@ -14,13 +14,18 @@ $tpl = tpl_upgrade::getinstance();
 $tpl->Setheader();
 
 //------------------------------------------------------------------------------
-$inf_title = 'Mise à jour depuis 1.4.5(.0)';
+$inf_title = 'Mise à jour depuis 1.4.5(.0) vers 1.4.5.1';
 $file = 'upgrade1450';
 //------------------------------------------------------------------------------
 
-
-$sqlfile = ROOT_PATH . 'upgrade' . DIRECTORY_SEPARATOR . $file . '.sql';
-$lockfile = ROOT_PATH . 'upgrade' . DIRECTORY_SEPARATOR . $file . '.lock';
+$path = ROOT_PATH . 'upgrade' . DIRECTORY_SEPARATOR;
+$sqlfile = $path . $file . '.sql';
+$lockfile = $path . $file . '.lock';
+if (file_put_contents($path.'test.lock', $cur + 1) === false) {
+    @unlink($path.'test.lock');
+    @chmod('../upgrade/', '0777');
+    stop_on_error('I/O Error test.lock chmod "/upgrade" directory to 777');
+}
 
 if (!file_exists($sqlfile))
     stop_on_error('Mise à jour corrompue !');

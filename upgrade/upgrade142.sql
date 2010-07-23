@@ -117,3 +117,16 @@ ALTER TABLE `SQL_PREFIX_Coordonnee_Planetes` ADD PRIMARY KEY ( `pID` );
 --
 
 ALTER TABLE `SQL_PREFIX_Coordonnee` DROP `USER`,DROP `EMPIRE`,DROP `INFOS`,DROP `water`,DROP `batiments`,DROP `troop`,DROP `troop_date`;
+
+-- Version 1.4.5.1
+ALTER TABLE `SQL_PREFIX_Coordonnee` ADD INDEX ( `udate` );
+ALTER TABLE `SQL_PREFIX_Coordonnee` CHANGE `TYPE` `TYPE` INT( 2 ) NOT NULL DEFAULT '3';
+ALTER TABLE `SQL_PREFIX_Coordonnee` ADD INDEX ( `TYPE` );
+
+ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD INDEX ( `USER` );
+ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD INDEX ( `EMPIRE` );
+ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD INDEX ( `INFOS` );
+ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD INDEX ( `batiments` ) ;
+ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD INDEX ( `troop` ) ;
+
+ALTER TABLE `SQL_PREFIX_Coordonnee_Planetes` ADD INDEX ( `water` ) ;

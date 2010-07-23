@@ -16,6 +16,15 @@ $file = 'install';
 $sqlfile = ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . $file . '.sql';
 $lockfile = ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . $file . '.lock';
 
+if (file_put_contents(ROOT_PATH . 'install' . DIRECTORY_SEPARATOR .'test.lock', 'test') === false ||
+    file_put_contents(ROOT_PATH . 'Script' . DIRECTORY_SEPARATOR .'test.lock', 'test') === false) {
+    @chmod('./', '0777');
+    @chmod('../Script/', '0777');
+    @unlink(ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . 'test.lock');
+    @unlink(ROOT_PATH . 'Script' . DIRECTORY_SEPARATOR . 'test.lock');
+    trigger_error('I/O Error test.lock chmod "/install" and "/Script" directory to 777', E_USER_ERROR);
+}
+
 if (file_exists($lockfile))
     trigger_error('Fichier de vérouillage trouvé, installation partielle/en cours ? (' . $lockfile . ')', E_USER_WARNING);
 

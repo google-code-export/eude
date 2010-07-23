@@ -53,7 +53,7 @@ if ($_POST['skipone'] == '1')
     $xml = str_replace('%msg%', 'Étape ' . ($cur + 1) . ' ignoré', $xml);
 elseif (trim($sqls[$cur]) != '')
     sql($sqls[$cur]);
-file_put_contents($lockfile, $cur + 1);
+if (file_put_contents($lockfile, $cur + 1) === false) error('I/O Error .lock '.$cur);
 
 $xml = str_replace('%msg%', 'Mise à jour mysql (' . ($cur + 1) . ')', $xml);
 $xml = str_replace('%haserror%', '0', $xml);
