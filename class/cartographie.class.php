@@ -313,7 +313,7 @@ UPDATE `SQL_PREFIX_Coordonnee`
 LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
 SET `TYPE`=6, `USER`='%s', `INFOS`='%s', `UTILISATEUR`='%s' WHERE `ID`=%d
 sql;
-            sprintf($query, $qnom, $qfleet, sqlesc($_SESSION['_login']), $ligne['ID'] );
+            $query = sprintf($query, $qnom, $qfleet, sqlesc($_SESSION['_login']), $ligne['ID'] );
 
             DataEngine::sql($query);
             if (mysql_affected_rows() > 0)
