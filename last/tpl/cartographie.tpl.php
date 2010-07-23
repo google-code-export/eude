@@ -182,7 +182,7 @@ ROW;
             </tr>
             <tr class="text_center color_header">
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_type%%">{$this->lng['search_col_type']}</a><br/>
-                                         <a href="{$this->BASE_FILE}?%%sort_date%%">{$this->lng['search_col_date']}</a></TD>
+                                         <a href="{$this->BASE_FILE}?%%sort_udate%%">{$this->lng['search_col_date']}</a></TD>
                 <TD class="spacing_row0">{$this->lng['add_items_col_corrds']}</TD>
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_user%%">{$this->lng['search_col_player']}</a>/<a href="{$this->BASE_FILE}?%%sort_empire%%">{$this->lng['search_col_empire']}</a></TD>
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_infos%%">{$this->lng['search_col_fleet']}</a><br/>

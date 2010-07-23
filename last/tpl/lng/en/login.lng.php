@@ -12,24 +12,24 @@ $lng = array();
 // Script/login.php
 $lng['wronglogin'] = 'Mot de passe ou nom d\'utilisateur incorrect';
 $lng['wronglogin_log'] = 'Identification au Data Engine échoué.';
-$lng['session_lost'] = 'Session invalide !';
+$lng['session_lost'] = 'Invalid session !';
 $lng['no_axx'] = 'Vous n\'avez pas la permission d\'utilisation, Demander les acc&egrave;s a votre alliance';
-$lng['login_page_title'] = 'EU2: DataEngine, Identification';
+$lng['login_page_title'] = 'EU2: DataEngine, login';
 
 // tpl/login.tpl.php
 
 $lng['register'] = 'Enregistrer';
-$lng['signin'] = 'Connexion';
-$lng['player'] = 'Joueur';
-$lng['password'] = 'Mot de passe';
+$lng['signin'] = 'Login';
+$lng['player'] = 'Player';
+$lng['password'] = 'Password';
 
-$lng['newaccount'] = 'Créer un compte';
+$lng['newaccount'] = 'New account';
 $lng['newaccount_warn'] = 'La création d\'un compte est soumis a la validation de votre empereur';
-$lng['allreadyhaveone'] = 'Déjà un compte ?';
+$lng['allreadyhaveone'] = 'Allready has account ?';
 
 // register.php
-$lng['signin_page_title'] = 'EU2: DataEngine, Inscription';
-$lng['user_exists']       = 'Joueur existe déjà...';
+$lng['signin_page_title'] = 'EU2: DataEngine, sign in';
+$lng['user_exists']       = 'Player exist...';
 
-$lng['currently_closed'] = '<u>/<small>!</small>\</u> Le serveur est temporairement fermé <u>/<small>!</small>\</u>';
-$lng['currently_closed_nohtml'] = 'Le serveur est temporairement fermé.';
+$lng['currently_closed'] = '<u>/<small>!</small>\</u> This server closed for now <u>/<small>!</small>\</u>';
+$lng['currently_closed_nohtml'] = 'This server closed for now.';

@@ -485,11 +485,11 @@ ead;
      */
     static public function Get_Version() {
         if (DE_DEMO)
-            return '1.4.5 démo';
+            return '1.4.5.1 démo';
         elseif (IN_DEV)
             return 'svn-' . time();
         else
-            return '1.4.5';
+            return '1.4.5.1';
     }
 
 }

@@ -44,10 +44,9 @@ st;
 $doctype= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
 $doctype= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
 $doctype= '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">';
-$doctype='';
+$doctype='<html xmlns="http://www.w3.org/1999/html" lang="'.LNG_CODE.'" xml:lang="'.LNG_CODE.'">';
 		return<<<EOF
 {$doctype}
-<html xmlns="http://www.w3.org/1999/html" lang="fr" xml:lang="fr">
 <head>
 <title>{$title}</title>
 {$css}

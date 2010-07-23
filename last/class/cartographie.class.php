@@ -261,9 +261,13 @@ sql;
             if (!$updatetype) $type = $ligne['TYPE'];
             if (!$updatetype && $ligne['TYPE'] == 2) $type = 0;
             
-            $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee`, `SQL_PREFIX_Coordonnee_Joueurs` SET `TYPE`=%d, `POSOUT`=\'\', `COORDETOUT`=\'\', `USER`=\'%s\', `EMPIRE`=\'%s\','.
-                    '`INFOS`=\'%s\', `UTILISATEUR`=\'%s\', `udate`='. time() .' WHERE `ID`=%s AND `id`=`jID`',
-                    $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']), $ligne['ID'] );
+            $query = <<<sql
+UPDATE `SQL_PREFIX_Coordonnee`
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
+SET `TYPE`=%d, `POSOUT`='', `COORDETOUT`='', `USER`='%s', `EMPIRE`='%s',
+    `INFOS`='%s', `UTILISATEUR`='%s', `udate`=%d WHERE `ID`=%s AND `id`=`jID`
+sql;
+            $query = sprintf($query, $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']),time(), $ligne['ID'] );
             DataEngine::sql($query);
 
             if (mysql_affected_rows() > 0)
@@ -304,9 +308,12 @@ sql;
         $array = DataEngine::sql($query);
         $ligne = mysql_fetch_assoc($array);
         if($ligne['ID'] > 0) {
-            $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee`, `SQL_PREFIX_Coordonnee_Joueurs` SET `TYPE`=6, `USER`=\'%s\', `INFOS`=\'%s\','.
-                    '`UTILISATEUR`=\'%s\' WHERE `ID`=%s',
-                    $qnom, $qfleet, sqlesc($_SESSION['_login']), $ligne['ID'] );
+            $query = <<<sql
+UPDATE `SQL_PREFIX_Coordonnee`
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
+SET `TYPE`=6, `USER`='%s', `INFOS`='%s', `UTILISATEUR`='%s' WHERE `ID`=%d
+sql;
+            $query = sprintf($query, $qnom, $qfleet, sqlesc($_SESSION['_login']), $ligne['ID'] );
 
             DataEngine::sql($query);
             if (mysql_affected_rows() > 0)

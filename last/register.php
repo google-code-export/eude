@@ -36,6 +36,7 @@ if (isset($_POST['login']) && $_POST['login'] != '' && $_POST['mdp'] != '') {
         else
             $axx = AXX_VALIDATING;
         DataEngine::NewUser($login, $pass, $axx, 0, DataEngine::config_key('config', 'DefaultGrade'));
+        // TODO: Redir, no sign in.
         $_SESSION['_login'] = $login;
         $_SESSION['_pass'] = $pass;
         $_SESSION['_Perm'] = $axx;

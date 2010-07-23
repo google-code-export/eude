@@ -229,7 +229,7 @@ sql;
             break;
         }
         $_POST['fleetname'] = gpc_esc($_POST['fleetname']);
-        $ok = $carto->add_PNJ($_POST['coords'], gpc_esc($_POST['owner']), $_POST['fleetname']) ? $lng['asteroid_msg1'] : $lng['asteroid_msg2'];
+        $ok = $carto->add_PNJ($_POST['coords'], gpc_esc($_POST['owner']), $_POST['fleetname']) ? $lng['npc_msg1'] : $lng['npc_msg2'];
         $xml['log'] = sprintf($ok, $_POST['fleetname']);
         break;
 

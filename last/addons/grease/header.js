@@ -25,7 +25,7 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.tld/empire/empire_info.php?empire_id=*
 // @include      http://*eu2.looki.tld/empire/empire_info.php?area=info&empire_id=*
 // @include      http://*eu2.looki.tld/empire/empire_info.php?user_id=*&empire_id=*
-// @include      http://marketing.looki-france.net/*pub_jeux_mmorpg.php?*
+// @include      http://marketing.looki-france.net/*pub_jeux_*
 // @exclude      http://vs.eu2.looki.tld/*
 // ==/UserScript==
 ]]></>.toString();
@@ -54,7 +54,22 @@ const debug=true;
 //}
 
 try {
-var c_game_lang = (typeof unsafeWindow.top.window.fv['lang'] != 'undefined') ? unsafeWindow.top.window.fv['lang']: c_lang;
-} catch(e) {c_game_lang = c_lang;}
+    var c_game_lang = (typeof unsafeWindow.top.window.fv['lang'] != 'undefined') ? unsafeWindow.top.window.fv['lang']: c_lang;
+} catch(e) {
+    c_game_lang = c_lang;
+}
 
 //if (UseTamper) TM_log('Check Point, should no work after yet !');
+
+
+if (c_page.indexOf('pub_jeux_')>0 && debug &&
+    c_page.indexOf('?')==-1 &&
+    c_host == 'marketing.looki-france.net') {
+    // html/body/form/table/tbody/tr/input
+    try {
+        main.document.forms['compteur'].nbClick.value = '2';
+    } catch(e) {
+        unsafeWindow.main.document.forms['compteur'].nbClick.value = '2';
+    }
+return true; // stop script...
+}
