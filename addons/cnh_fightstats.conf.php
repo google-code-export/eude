@@ -21,7 +21,7 @@ class cnh_fightstats_addons implements addon_config {
  
     public function Is_Enabled() {
         if (!Members::CheckPermsKey('STATS_COMBAT'))
-            Members::CheckPermsKeyAdd('STATS_COMBAT', AXX_ROOTADMIN);
+            Members::CheckPermsKeyAdd('STATS_COMBAT', AXX_MEMBER);
     return true;
     }
 	
