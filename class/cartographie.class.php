@@ -304,9 +304,12 @@ sql;
         $array = DataEngine::sql($query);
         $ligne = mysql_fetch_assoc($array);
         if($ligne['ID'] > 0) {
-            $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee`, `SQL_PREFIX_Coordonnee_Joueurs` SET `TYPE`=6, `USER`=\'%s\', `INFOS`=\'%s\','.
-                    '`UTILISATEUR`=\'%s\' WHERE `ID`=%s',
-                    $qnom, $qfleet, sqlesc($_SESSION['_login']), $ligne['ID'] );
+            $query = <<<sql
+'UPDATE `SQL_PREFIX_Coordonnee`
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
+SET `TYPE`=6, `USER`='%s', `INFOS`='%s', `UTILISATEUR`='%s' WHERE `ID`=%d
+sql;
+            sprintf($query, $qnom, $qfleet, sqlesc($_SESSION['_login']), $ligne['ID'] );
 
             DataEngine::sql($query);
             if (mysql_affected_rows() > 0)
