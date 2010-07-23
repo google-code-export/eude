@@ -267,7 +267,7 @@ LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
 SET `TYPE`=%d, `POSOUT`='', `COORDETOUT`='', `USER`='%s', `EMPIRE`='%s',
     `INFOS`='%s', `UTILISATEUR`='%s', `udate`=%d WHERE `ID`=%s AND `id`=`jID`
 sql;
-            sprintf($query, $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']),time(), $ligne['ID'] );
+            $query = sprintf($query, $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']),time(), $ligne['ID'] );
             DataEngine::sql($query);
 
             if (mysql_affected_rows() > 0)
