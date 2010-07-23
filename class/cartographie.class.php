@@ -261,9 +261,13 @@ sql;
             if (!$updatetype) $type = $ligne['TYPE'];
             if (!$updatetype && $ligne['TYPE'] == 2) $type = 0;
             
-            $query = sprintf('UPDATE `SQL_PREFIX_Coordonnee`, `SQL_PREFIX_Coordonnee_Joueurs` SET `TYPE`=%d, `POSOUT`=\'\', `COORDETOUT`=\'\', `USER`=\'%s\', `EMPIRE`=\'%s\','.
-                    '`INFOS`=\'%s\', `UTILISATEUR`=\'%s\', `udate`='. time() .' WHERE `ID`=%s AND `id`=`jID`',
-                    $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']), $ligne['ID'] );
+            $query = <<<sql
+UPDATE `SQL_PREFIX_Coordonnee`
+LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
+SET `TYPE`=%d, `POSOUT`='', `COORDETOUT`='', `USER`='%s', `EMPIRE`='%s',
+    `INFOS`='%s', `UTILISATEUR`='%s', `udate`=%d WHERE `ID`=%s AND `id`=`jID`
+sql;
+            sprintf($query, $type, $qnom, $qempire, $qplanete, sqlesc($_SESSION['_login']),time(), $ligne['ID'] );
             DataEngine::sql($query);
 
             if (mysql_affected_rows() > 0)
@@ -305,7 +309,7 @@ sql;
         $ligne = mysql_fetch_assoc($array);
         if($ligne['ID'] > 0) {
             $query = <<<sql
-'UPDATE `SQL_PREFIX_Coordonnee`
+UPDATE `SQL_PREFIX_Coordonnee`
 LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on id=jid
 SET `TYPE`=6, `USER`='%s', `INFOS`='%s', `UTILISATEUR`='%s' WHERE `ID`=%d
 sql;
@@ -384,29 +388,6 @@ sql;
 
         foreach($SS_A as $v)
             $this->add_player($v);
-// //-- Partie changement d'empire obsolète?...
-//        $query = 'SELECT `USER`, `EMPIRE` FROM `SQL_PREFIX_Coordonnee` where `POSIN`=\''.$cur_ss.'\' AND `TYPE` in (0,3,5)';
-//        $sql_result = DataEngine::sql($query);
-//        while ($row = mysql_fetch_assoc($sql_result))
-//        // par nom de joueur
-//            $curss_info[$row['USER']] = $row['EMPIRE'];
-//
-//        foreach($SS_A as $v) {
-//            $result = $this->add_player($v);
-//            if ($result) { // uniquement si changement, vide autrement.
-//                list($dummy, $dummy, $nom, $empire) = $v;
-//                if (isset($curss_info[$nom])) {
-//                    if ($curss_info[$nom] != $empire) {
-//                        $qnom    = sqlesc($nom);
-//                        $qempire = sqlesc($empire);
-//                        $query = 'UPDATE `SQL_PREFIX_Coordonnee` SET `EMPIRE`=\''.$qempire.'\', `UTILISATEUR`=\''.$_SESSION['_login'].'\', `DATE`='. time() .' WHERE `USER`=\''.$qnom.'\'';
-//                        DataEngine::sql($query);
-//                        $this->AddInfo(sprintf($this->lng['class_solar_msg2'],$nom));
-//                        unset($curss_info[$nom]);
-//                    }
-//                }
-//            }
-//        }
     }
 
     /**
