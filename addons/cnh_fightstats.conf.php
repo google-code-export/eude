@@ -6,17 +6,9 @@
 
 class cnh_fightstats_addons implements addon_config {
 
-    public function Is_Enabled () { return true && $this->CheckPerms(); }
-
     public function Get_Menu () {
-
     $submenu = array(
-                array(
-                  '%ADDONS_URL%cnh_fightstats/index.php',
-                  '%BTN_URL%btn-stats.png',
-                  'DataEngine::CheckPerms(AXX_GUEST)')
-        );
-
+                array('%ADDONS_URL%cnh_fightstats/index.php','%BTN_URL%btn-stats.png', 'DataEngine::CheckPerms("STATS_COMBAT")'));
       
     return array(
       'insertafter' => 'addon', // empty for first.(ceux déjà inclus: carto,perso,admin,forum, et logout)
@@ -25,14 +17,17 @@ class cnh_fightstats_addons implements addon_config {
       'menu' => $submenu); // 					"onlysub" => "key", // hmm...
     }
 
-    /**
-     * Si actif, le paramètre du menu 'insertafter' doit être 'addon'
-     * ainsi que le paramètre 'onlysub' a true
-     * @return boolean
-     */
     public function InSubAddonMenu () { return false; }
-    
-    public function CheckPerms () { return DataEngine::CheckPerms(AXX_MEMBER); }
+ 
+    public function Is_Enabled() {
+        if (!Members::CheckPermsKey('STATS_COMBAT'))
+            Members::CheckPermsKeyAdd('STATS_COMBAT', AXX_ROOTADMIN);
+    return true;
+    }
+	
+    public function CheckPerms () 
+	{ return DataEngine::CheckPerms('STATS_COMBAT'); 
+	}
 
     public function OnDeleteUser($user) {
         FB::info($user,'addons::OnDeleteUser');
@@ -49,6 +44,15 @@ class cnh_fightstats_addons implements addon_config {
         }
         return true;
     }	
+
+    public function GetCustomPerms() {
+        switch (LNG_CODE) {
+            case 'en':
+                return array('STATS_COMBAT' => 'Battle Stats Fights');
+            default:
+                return array('STATS_COMBAT' => 'Statistique de Combats');
+        }
+    }
 	
     public function OnNewUser($user) {
         FB::info($user,'addons::OnNewUser');
