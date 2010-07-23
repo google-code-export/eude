@@ -20,15 +20,16 @@ define('ACT_DAMAGE', 5);
 switch (LNG_CODE) {
             case 'pl':
 				$listacts = Array(
-					ACT_DESTROY => "a été détruit",
-					ACT_MISS => "n'a pas touché",
-					ACT_HIT => "a touché",
-					ACT_JOIN => "a rejoint le combat",
-					ACT_RETREAT => "se retire du combat",
-					ACT_DAMAGE => "et a causé",
-					ACT_DOMAGE => "dégâts",
-					ACT_SHILD => "bouclier",
-					ACT_STRUCT => "coque"
+					ACT_DESTROY => "został zlikwidowany",
+					ACT_MISS => "nie trafił",
+					ACT_HIT => "zaatakował",
+					ACT_JOIN => "a rejoint le combat", //Change to Polish Serveur Log
+					ACT_RETREAT => "se retire du combat", //Change to Polish Serveur Log
+					ACT_DAMAGE => "zadając",
+					ACT_DOMAGE => "uszkodzeń",
+					ACT_SHILD => "tarczy",
+					ACT_STRUCT => "kadłubowi",
+					ACT_TYPE => "Statki wrogów"	
 					);
             case 'en':
 				$listacts = Array(
@@ -40,7 +41,8 @@ switch (LNG_CODE) {
 					ACT_DAMAGE => "and caused",
 					ACT_DOMAGE => "Damage",
 					ACT_SHILD => "aiming unit",
-					ACT_STRUCT => "hull"
+					ACT_STRUCT => "hull",
+					ACT_TYPE => "Enemy ships"						
 					);
 			default:
 				$listacts = Array(
@@ -52,7 +54,8 @@ switch (LNG_CODE) {
 					ACT_DAMAGE => "et a causé",
 					ACT_DOMAGE => "dégâts",
 					ACT_SHILD => "bouclier",
-					ACT_STRUCT => "coque"
+					ACT_STRUCT => "coque",
+					ACT_TYPE => "Vaisseaux ennemis"					
 					);
  };
 /************************************************************
@@ -223,7 +226,7 @@ function ExtractVessels($sit, &$vallie, &$vennemi) {
   $allie = true;
   while(strlen($sit) > 0 && $nboucle < 10000) {
     // Passage aux vaisseaux ennemis
-    if($allie && substr($sit, 0, 17) == 'Vaisseaux ennemis') {
+    if($allie && substr($sit, 0, 17) == $listacts[ACT_TYPE]) {
       $allie = false;
       $i = strpos($sit, 'Bouclier');
       if($i > 0) $sit =  trim(substr($sit, $i + 8));
