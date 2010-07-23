@@ -97,6 +97,7 @@ LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on `ID`=`jID`
 WHERE `TYPE` in (0,3,5) AND `USER`='%s' AND `INFOS`='%s'
 sql;
             sprintf($sql, $info[2], $info[1]);
+            $result = DataEngine::sql($sql);
             if (mysql_numrows($result)<1) return $this->lng['log_coordsnotfound'];
             if (mysql_numrows($result)>1) return $this->lng['log_multiplecoords'];
             $line = mysql_fetch_assoc($result);
