@@ -99,7 +99,9 @@ CREATE TABLE `SQL_PREFIX_troops_pillage` (
 -- -- -- -- -- -- -- --  Partie split =)  -- -- -- -- -- -- -- -- -- -- -- -- --
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-CREATE TABLE `SQL_PREFIX_Coordonnee_Joueurs` as SELECT `id` `jID`,`USER`,`EMPIRE`,`INFOS`,`batiments`,`troop`,`troop_date` FROM `SQL_PREFIX_Coordonnee`;
+CREATE TABLE `SQL_PREFIX_Coordonnee_Joueurs` as
+ SELECT `id` `jID`,`USER`,`EMPIRE`,`INFOS`,`batiments`,`troop`,`troop_date`
+  FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE` IN (0,2,3,5,6);
 ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD PRIMARY KEY ( `jID` );
 ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD INDEX ( `batiments` );
 ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD INDEX ( `troop` );
