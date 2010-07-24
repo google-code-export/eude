@@ -51,6 +51,7 @@ class DataEngine extends Members {
         Config::init();
         Config::DB_Connect();
 
+        DataEngine::conf_cache('wormhole_cleaning');
         return self::minimalinit();
     }
 
@@ -206,9 +207,10 @@ class DataEngine extends Members {
 
             // Initialisations particulières {
             if (self::$conf_load['wormhole_cleaning']) {
+                $lng = language::getinstance()->GetLngBlock('dataengine');
                 $wormhole_cleaning = self::$settings['wormhole_cleaning'];
-                if (date('w') == 0 && $wormhole_cleaning['enabled']) {
-                    $runat = mktime(3, 01, 0, date("m"), date("d"), date("Y"));
+                if (date('w') == $lng['wormholes_day'] && $wormhole_cleaning['enabled']) {
+                    $runat = mktime($lng['wormholes_hour'], $lng['wormholes_minute'], 0, date('m'), date('d'), date('Y'));
                     $now = time();
                     if ($now > $runat && $runat > $wormhole_cleaning['lastrun']) {
                         $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=1');

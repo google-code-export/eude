@@ -20,6 +20,7 @@ if (!Members::CheckPerms(AXX_ROOTADMIN) && !Members::CheckPerms('MEMBRES_ADMIN')
     Members::NoPermsAndDie();
 
 $lng = language::getinstance()->GetLngBlock('admin');
+$lngmain = language::getinstance()->GetLngBlock('dataengine');
 
 // -----------------------------------------------------------------------------
 // -- Nettoyage vortex périmé --------------------------------------------------
@@ -337,9 +338,8 @@ $tpl->admin_header($version);
 
 if (!isset($_REQUEST['act'])) {
 ///---
-
     $dates[0] = date('Y-m-d H:i:s');
-    $dates[1] = mktime(3, 01, 0, date('m'), date('d') - date('w'));
+    $dates[1] = mktime($lngmain['wormholes_hour'], $lngmain['wormholes_minute'], 0, date('m'), date('d') - date('w')+$lngmain['wormholes_day']);
 //    $dates[2] = mktime(3, 01, 0, date('m'), date('d') - date('w') - 7);
 
     $tpl->admin_vortex($dates, $cleanvortex_delete, DataEngine::config('wormhole_cleaning'));
