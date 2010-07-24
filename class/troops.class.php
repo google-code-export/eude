@@ -72,6 +72,7 @@ class troops {
 
             $planets = ownuniverse::getinstance()->get_coordswithname();
 
+            if (!is_array($planets)) return 'Needed personal data not found.';
             foreach ($planets as $v)
                 if ($v['Name'] == $info[$this->lng[$mode.'_regex_userid']]) {
                     cartographie::getinstance()->FormatId($v['Coord'], $idsys, $iddet, 'troops::AddPillage_log(def,1)');
