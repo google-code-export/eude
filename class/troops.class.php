@@ -70,9 +70,9 @@ class troops {
             preg_match($this->lng['defender_regex'], $msg, $info);
             $ident = $this->lng['defender_ident'];
 
-            $planets = ownuniverse::getinstance()->get_coordswithname();
+            if (!$planets = ownuniverse::getinstance()->get_coordswithname())
+                    return $this->lng['battle_error_ownuniverse'];
 
-            if (!is_array($planets)) return 'Needed personal data not found.';
             foreach ($planets as $v)
                 if ($v['Name'] == $info[$this->lng[$mode.'_regex_userid']]) {
                     cartographie::getinstance()->FormatId($v['Coord'], $idsys, $iddet, 'troops::AddPillage_log(def,1)');
