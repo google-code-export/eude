@@ -74,7 +74,7 @@ class troops {
                     return $this->lng['battle_error_ownuniverse'];
 
             foreach ($planets as $v)
-                if ($v['Name'] == $info[$this->lng[$mode.'_regex_userid']]) {
+                if ($v['Name'] == $info[$this->lng[$mode.'_regex_planetid']]) {
                     cartographie::getinstance()->FormatId($v['Coord'], $idsys, $iddet, 'troops::AddPillage_log(def,1)');
                     break;
                 }
