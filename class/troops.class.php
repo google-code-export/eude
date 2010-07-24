@@ -73,7 +73,7 @@ class troops {
             $planets = ownuniverse::getinstance()->get_coordswithname();
 
             foreach ($planets as $v)
-                if ($v['Name'] == $info[1]) {
+                if ($v['Name'] == $info[$this->lng[$mode.'_regex_userid']]) {
                     cartographie::getinstance()->FormatId($v['Coord'], $idsys, $iddet, 'troops::AddPillage_log(def,1)');
                     break;
                 }
@@ -81,7 +81,7 @@ class troops {
             $sql = sprintf('SELECT `ID` FROM `SQL_PREFIX_troops_attack` WHERE `type`=\'%s\' AND '.
                     '`coords_ss`=\'%s\' AND `coords_3p`=\'%s\' AND `when`<=%d AND `when`>=%d'.
                     ' AND `players_defender` LIKE \'%%"%s"%%\' AND `players_attack` LIKE \'%%"%s"%%\'',
-                    sqlesc($mode), $idsys, $iddet, $idate, $idate-604800, sqlesc($_SESSION['_login']), sqlesc($info[2]));
+                    sqlesc($mode), $idsys, $iddet, $idate, $idate-604800, sqlesc($_SESSION['_login']), sqlesc($info[$this->lng[$mode.'_regex_userid']]));
             $result = DataEngine::sql($sql);
             if (mysql_numrows($result)<1) return $this->lng['log_battlenofound'];
             if (mysql_numrows($result)>1) return 'Error battle result > 1 (omg)';
@@ -96,7 +96,7 @@ SELECT `POSIN`, `COORDET` FROM `SQL_PREFIX_Coordonnee`
 LEFT JOIN `SQL_PREFIX_Coordonnee_Joueurs` on `ID`=`jID`
 WHERE `TYPE` in (0,3,5) AND `USER`='%s' AND `INFOS`='%s'
 sql;
-            sprintf($sql, $info[2], $info[1]);
+            $sql = sprintf($sql, $info[$this->lng[$mode.'_regex_userid']], $info[$this->lng[$mode.'_regex_planetid']]);
             $result = DataEngine::sql($sql);
             if (mysql_numrows($result)<1) return $this->lng['log_coordsnotfound'];
             if (mysql_numrows($result)>1) return $this->lng['log_multiplecoords'];
@@ -107,7 +107,7 @@ sql;
             $sql = sprintf('SELECT `ID` FROM `SQL_PREFIX_troops_attack` WHERE `type`=\'%s\' AND '.
                     '`coords_ss`=\'%s\' AND `coords_3p`=\'%s\' AND `when`<%d AND `when`>%d AND '.
                     '`players_attack` LIKE \'%%"%s"%%\' AND `players_defender` LIKE \'%%"%s"%%\'',
-                    sqlesc($mode), $idsys, $iddet, $idate, $idate-604800, sqlesc($_SESSION['_login']), sqlesc($info[2]));
+                    sqlesc($mode), $idsys, $iddet, $idate, $idate-604800, sqlesc($_SESSION['_login']), sqlesc($info[$this->lng[$mode.'_regex_userid']]));
             $result = DataEngine::sql($sql);
             if (mysql_numrows($result)<1) return $this->lng['log_battlenofound'];
             if (mysql_numrows($result)>1) return 'Error battle result > 1 (omfg)';
