@@ -25,18 +25,18 @@ $lng['legend_player']            = 'Player';
 
 $lng['listing_header']           = 'List Of Lootings';
 $lng['listing_btnfilter']        = 'Search';
-$lng['listing_dateformat']       = '%a %d %B Ã  %R';
+$lng['listing_dateformat']       = '%a %d %B at %R';
 $lng['listing_playerrow']        = '<a href="?player=%s">%1$s</a>: %2$s';
 $lng['listing_type']             = array();
 $lng['listing_type']['defender'] = 'Defender';
 $lng['listing_type']['attacker'] = 'Attacker';
 
 // class (detections)
-$lng['defender_regex'] = 'has left our planet (.*) The occupation has ended (.*)\./';
-$lng['defender_regex_planetid'] = 1;
-$lng['defender_regex_userid'] = 2;
+$lng['defender_regex'] = '/(.*) has left our planet (.*)\. The occupation has ended\./';
+$lng['defender_regex_planetid'] = 2;
+$lng['defender_regex_userid'] = 1;
 $lng['defender_ident'] = 'He scavenged the following resources:';
-$lng['attacker_regex'] = 'our troops have left the planet (.*) of (.*). The occupation has ended.\./';
+$lng['attacker_regex'] = '/Our troops have left the planet (.*) of (.*)\. The occupation has ended\./';
 $lng['attacker_regex_planetid'] = 1;
 $lng['attacker_regex_userid'] = 2;
 $lng['attacker_ident'] = 'We have taken the following commodities:';
@@ -48,7 +48,7 @@ $lng['battle_updated'] = 'Battle Updated';
 $lng['battle_added'] = 'Battle Added';
 
 $lng['log_allreadyexists'] = 'Log Already Added';
-$lng['log_battlenofound'] = 'Battle Not Found ? (';
-$lng['log_coordsnotfound'] = 'Coordinates Not Found ? ()';
+$lng['log_battlenofound'] = 'Battle Not Found ?';
+$lng['log_coordsnotfound'] = 'Coordinates Not Found ?';
 $lng['log_multiplecoords'] = 'Multiple Logs Added';
 $lng['log_added'] = 'Looting Added.';

@@ -53,6 +53,7 @@ $lng['search_col_empire'] = 'Empire';
 $lng['search_col_fleet'] = 'Planète/Flotte';
 $lng['search_col_note'] = 'Note';
 $lng['search_col_water'] = '% d\'eau';
+$lng['search_col_buildings'] = 'Bâtiments';
 $lng['search_col_maxtroops'] = 'Troupes Max';
 $lng['search_col_troops'] = 'Troupes';
 $lng['search_col_self'] = 'Moi';

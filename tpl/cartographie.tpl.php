@@ -187,7 +187,7 @@ ROW;
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_user%%">{$this->lng['search_col_player']}</a>/<a href="{$this->BASE_FILE}?%%sort_empire%%">{$this->lng['search_col_empire']}</a></TD>
                 <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_infos%%">{$this->lng['search_col_fleet']}</a><br/>
                                          <a href="{$this->BASE_FILE}?%%sort_note%%">{$this->lng['search_col_note']}</a></TD>
-                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_water%%">{$this->lng['search_col_water']}</a> / <a href="{$this->BASE_FILE}?%%sort_batiments%%">Bâtiments</a><br/>
+                <TD class="spacing_row0"><a href="{$this->BASE_FILE}?%%sort_water%%">{$this->lng['search_col_water']}</a> / <a href="{$this->BASE_FILE}?%%sort_batiments%%">{$this->lng['search_col_buildings']}</a><br/>
                                          <a href="{$this->BASE_FILE}?%%sort_troop%%">{$this->lng['search_col_troops']}</a></TD>
                 <TD class="text_right">&nbsp;</td>
             </tr>

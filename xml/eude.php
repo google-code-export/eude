@@ -302,6 +302,7 @@ $out = "<eude>\n";
 foreach ($xml as $key => $v)
     if ($v != '')
         $out .= '<' . $key . '>' . $v . '</' . $key . ">\n";
+$out .= getxml_errors();
 $out .= '</eude>';
 
 output::_DoOutput($out);
