@@ -7,10 +7,6 @@
 --
 -- Fichier de MAJ SQL
 -- depuis 1.4.2
-
---
--- NE PAS MODIFIER SUR LE SVN !
--- http://code.google.com/p/eude/issues/detail?id=134
 --
 
 DROP TABLE `SQL_PREFIX_Membres_log`;
@@ -103,7 +99,9 @@ CREATE TABLE `SQL_PREFIX_troops_pillage` (
 -- -- -- -- -- -- -- --  Partie split =)  -- -- -- -- -- -- -- -- -- -- -- -- --
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-CREATE TABLE `SQL_PREFIX_Coordonnee_Joueurs` as SELECT `id` `jID`,`USER`,`EMPIRE`,`INFOS`,`batiments`,`troop`,`troop_date` FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE` IN (0,3,5,6);
+CREATE TABLE `SQL_PREFIX_Coordonnee_Joueurs` as
+ SELECT `id` `jID`,`USER`,`EMPIRE`,`INFOS`,`batiments`,`troop`,`troop_date`
+  FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE` IN (0,2,3,5,6);
 ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD PRIMARY KEY ( `jID` );
 ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD INDEX ( `batiments` );
 ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD INDEX ( `troop` );
@@ -121,3 +119,16 @@ ALTER TABLE `SQL_PREFIX_Coordonnee_Planetes` ADD PRIMARY KEY ( `pID` );
 --
 
 ALTER TABLE `SQL_PREFIX_Coordonnee` DROP `USER`,DROP `EMPIRE`,DROP `INFOS`,DROP `water`,DROP `batiments`,DROP `troop`,DROP `troop_date`;
+
+-- Version 1.4.5.1
+ALTER TABLE `SQL_PREFIX_Coordonnee` ADD INDEX ( `udate` );
+ALTER TABLE `SQL_PREFIX_Coordonnee` CHANGE `TYPE` `TYPE` TINYINT( 2 ) NOT NULL DEFAULT '3';
+ALTER TABLE `SQL_PREFIX_Coordonnee` ADD INDEX ( `TYPE` );
+
+ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD INDEX ( `USER` );
+ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD INDEX ( `EMPIRE` );
+ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD INDEX ( `INFOS` );
+ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD INDEX ( `batiments` ) ;
+ALTER TABLE `SQL_PREFIX_Coordonnee_Joueurs` ADD INDEX ( `troop` ) ;
+
+ALTER TABLE `SQL_PREFIX_Coordonnee_Planetes` ADD INDEX ( `water` ) ;

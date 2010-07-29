@@ -67,7 +67,7 @@ if ($cur >= count($sqls))
     error('Incorrect $cur');
 
 sql($sqls[$cur]);
-file_put_contents($lockfile, $cur + 1);
+if (file_put_contents($lockfile, $cur + 1) === false) error('I/O Error .lock '.$cur);
 
 $xml = str_replace('%msg%', 'Installation de la base de donnée en cours', $xml);
 $xml = str_replace('%haserror%', '0', $xml);

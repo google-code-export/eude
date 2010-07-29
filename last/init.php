@@ -113,7 +113,46 @@ function my_error_handler( $errno, $errstr, $errfile, $errline ) {
     }
 }
 
-set_error_handler('my_error_handler');
+$_my_xml_error_handler = '';
+function my_xml_error_handler( $errno, $errstr, $errfile, $errline ) {
+    global $_my_xml_error_handler;
+    $errfile = str_replace( ROOT_PATH, '', $errfile );
+    $errstr = str_replace( ROOT_PATH, '', $errstr );
+
+    switch ($errno) {
+        case E_USER_WARNING:
+        case E_WARNING:
+            xdebug_break();
+            $_my_xml_error_handler .= "ALERTE [$errno] $errstr (Fichier $errfile:$errline)\n";
+            break;
+        case E_ERROR:
+        case E_PARSE:
+        case E_USER_ERROR:
+            xdebug_break();
+            $_my_xml_error_handler .= "ERREUR [$errno] $errstr\n"
+                    ."  Erreur fatale sur la ligne $errline dans le fichier $errfile"
+                    .", PHP " . PHP_VERSION . " (" . PHP_OS . ")\n"
+                    .'Arr&ecirc;t...';
+            output::_DoOutput('<php><phperror><![CDATA[' . DataEngine::xml_fix51($_my_xml_error_handler) . ']]></phperror></php>');
+            break;
+        default:
+        //Do nothing?
+            if (!stristr($errstr,'Undefined')) {
+                xdebug_break();
+                $_my_xml_error_handler .= "NOTICE [$errno] $errstr (Fichier $errfile:$errline)\n";
+            }
+            break;
+    }
+}
+function getxml_errors() {
+    global $_my_xml_error_handler;
+    return '<phperror><![CDATA[' . DataEngine::xml_fix51($_my_xml_error_handler) . ']]></phperror>';
+}
+
+if (USE_AJAX || DEBUG_PLAIN)
+    set_error_handler('my_xml_error_handler');
+else
+    set_error_handler('my_error_handler');
 
 // find ./ -name "*.php" | xargs -t svn ps "svn:keywords" "Id"
 // find ./ -name "*.js" | xargs -t svn ps "svn:keywords" "Id"

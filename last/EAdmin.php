@@ -20,6 +20,7 @@ if (!Members::CheckPerms(AXX_ROOTADMIN) && !Members::CheckPerms('MEMBRES_ADMIN')
     Members::NoPermsAndDie();
 
 $lng = language::getinstance()->GetLngBlock('admin');
+$lngmain = language::getinstance()->GetLngBlock('dataengine');
 
 // -----------------------------------------------------------------------------
 // -- Nettoyage vortex périmé --------------------------------------------------
@@ -79,7 +80,7 @@ if (isset($_POST['wormshole']) && $_POST['wormshole'] != '-1') {
 }
 if (isset($_POST['planetes']) && $_POST['planetes'] != '-1') {
     $tmp = array();
-    $mysql_result = DataEngine::sql('SELECT `ID` FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=2 AND `udate`<\'' . $_POST['planetes'] . '\'');
+    $mysql_result = DataEngine::sql('SELECT `ID` FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=2 AND `udate`<' . intval($_POST['planetes']));
     $cleaning['cleaning_planetes_result'] = mysql_num_rows($mysql_result);
     if ($cleaning['cleaning_planetes_result'] > 0)
         while ($row = mysql_fetch_assoc($mysql_result))
@@ -87,7 +88,7 @@ if (isset($_POST['planetes']) && $_POST['planetes'] != '-1') {
 }
 if (isset($_POST['asteroides']) && $_POST['asteroides'] != '-1') {
     $tmp = array();
-    $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=4 AND `udate`<\'' . $_POST['asteroides'] . '\'');
+    $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=4 AND `udate`<' . intval($_POST['asteroides']));
     $cleaning['cleaning_asteroides_result'] = mysql_num_rows($mysql_result);
     if ($cleaning['cleaning_asteroides_result'] > 0)
         while ($row = mysql_fetch_assoc($mysql_result))
@@ -339,7 +340,7 @@ if (!isset($_REQUEST['act'])) {
 ///---
 
     $dates[0] = date('Y-m-d H:i:s');
-    $dates[1] = mktime(3, 01, 0, date('m'), date('d') - date('w'));
+    $dates[1] = mktime($lngmain['wormholes_hour'], $lngmain['wormholes_minute'], 0, date('m'), date('d') - date('w')+$lngmain['wormholes_day']);
 //    $dates[2] = mktime(3, 01, 0, date('m'), date('d') - date('w') - 7);
 
     $tpl->admin_vortex($dates, $cleanvortex_delete, DataEngine::config('wormhole_cleaning'));

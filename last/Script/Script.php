@@ -20,9 +20,6 @@ DataEngine::init();
 
 if (CHECK_LOGIN)  require_once(INCLUDE_PATH.'/login.php');
 
-
-if (date('w')==0) DataEngine::conf_cache('wormhole_cleaning');
-
 /// ### Mode debug, root admin & dev ONLY ###
 FB::setEnabled( !IS_IMG && IN_DEV && DataEngine::CheckPerms(AXX_ROOTADMIN));
 FB::info(DataEngine::$browser->getBrowser(),'Browser');

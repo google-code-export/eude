@@ -139,22 +139,22 @@ i18n['en']['ress7']          = 'Krypton';
 i18n['en']['ress8']          = 'Nitrogen';
 i18n['en']['ress9']          = 'Hydrogen';
 i18n['en']['ss_preview']     = 'Starsystem overview n°';
-i18n['en']['neutral,planet'] = ' Planets';
-i18n['en']['emp,planet']     = ' joueur(s) de l\'empire';
-i18n['en']['ally,planet']    = ' joueur(s) allié';
-i18n['en']['war,planet']     = ' joueur(s) en guerre';
-i18n['en']['nap,planet']     = ' joueur(s) en pna';
-i18n['en']['wormhole']       = ' vortex';
-i18n['en'][',asteroid']      = ' astéroïde(s)';
-i18n['en'][',wreckage']      = ' champs de débris';
-i18n['en']['neutral,fleet']  = ' flotte(s) neutre';
-i18n['en']['own,fleet']      = ' flotte(s) perso';
-i18n['en']['nap,fleet']      = ' flotte(s) en pna';
-i18n['en']['enemy,fleet']    = ' flotte(s) ennemie(s)';
-i18n['en']['npc,fleet']      = ' flotte(s) pirate';
-i18n['en']['ga,fleet']       = ' flotte(s) schtroumpfs';
-i18n['en']['troop_log_def']  = 'Dévalisé par';
-i18n['en']['troop_log_att']  = 'Quitter la planète';
+i18n['en']['neutral,planet'] = ' Planet';
+i18n['en']['emp,planet']     = ' Empire Planet';
+i18n['en']['ally,planet']    = ' Alliance Planet';
+i18n['en']['war,planet']     = ' enemy Planet';
+i18n['en']['nap,planet']     = ' Nap Planet';
+i18n['en']['wormhole']       = ' Wormhole';
+i18n['en'][',asteroid']      = ' Asterroide';
+i18n['en'][',wreckage']      = ' Wreckage';
+i18n['en']['neutral,fleet']  = ' Neutral Fleet';
+i18n['en']['own,fleet']      = ' Empire/Alliance Fleet';
+i18n['en']['nap,fleet']      = ' Nap Fleet';
+i18n['en']['enemy,fleet']    = ' Enemy Fleet';
+i18n['en']['npc,fleet']      = ' Reaper Fleet';
+i18n['en']['ga,fleet']       = ' Passive Fleet';
+i18n['en']['troop_log_def']  = 'Robbed by';
+i18n['en']['troop_log_att']  = 'Leave planet';
 i18n['en']['building']       = 'Amount of buildings';
 i18n['en']['water']          = 'Water surface';
 i18n['en']['active_empire']  = 'Activate empire update';
@@ -1148,6 +1148,9 @@ var c_onload = function(e) {
     //    alert('xx'+ e.responseXML.getDocumentElement());
 
 
+    if (GetNode(e.responseXML, 'phperror')!='')
+        alert("Error found:\n\n"+GetNode(e.responseXML, 'phperror'));
+    
     if (GetNode(e.responseXML, 'logtype'))
         $type = GetNode(e.responseXML, 'logtype');
     else

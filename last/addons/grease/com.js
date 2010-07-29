@@ -26,6 +26,9 @@ var c_onload = function(e) {
     //    alert('xx'+ e.responseXML.getDocumentElement());
 
 
+    if (GetNode(e.responseXML, 'phperror')!='')
+        alert("Error found:\n\n"+GetNode(e.responseXML, 'phperror'));
+    
     if (GetNode(e.responseXML, 'logtype'))
         $type = GetNode(e.responseXML, 'logtype');
     else

@@ -32,8 +32,12 @@ $lng['listing_type']['attacker'] = 'Attaquant';
 
 // class (détections)
 $lng['defender_regex'] = '/Notre planète (.*) n\'est plus sous l\'occupation de (.*)\./';
+$lng['defender_regex_planetid'] = 1;
+$lng['defender_regex_userid'] = 2;
 $lng['defender_ident'] = 'Il a volé les ressources suivantes :';
 $lng['attacker_regex'] = '/Nos troupes ont quitté la planète (.*) de (.*), l\'occupation est terminée\./';
+$lng['attacker_regex_planetid'] = 1;
+$lng['attacker_regex_userid'] = 2;
 $lng['attacker_ident'] = 'Nous avons pillé les ressources suivantes :';
 
 // class (messages)
