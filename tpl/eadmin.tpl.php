@@ -539,9 +539,9 @@ out;
         $bollstr = array (1=>1, 0=>0);
         $bollstrinv = array (0=>1, 1=>0);
         foreach($Grades as $v) {
-            $combograde.="<option value='".$v["GradeId"]."' "
-                    .($v["GradeId"]==$config['DefaultGrade'] ? "selected" : "").">"
-                    .$v["Grade"]."</option>";
+            $combograde.='<option value="'.$v['GradeId'].'" '
+                    .($v['GradeId']==$config['DefaultGrade'] ? 'selected' : '').'>'
+                    .$v['Grade'].'</option>';
         }
         $CanRegister[$bollstr[$config['CanRegister']]] = ' selected';
         $CanRegister[$bollstrinv[$config['CanRegister']]] = '';

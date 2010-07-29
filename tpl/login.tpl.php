@@ -52,28 +52,8 @@ ch;
 		<td><input class="color_row0" tabindex=2 type="password" value="" name="mdp" /></td>
 	</tr>
 BASE;
-        if (DE_DEMO) {
-            $demo = bulle('L\'insertion automatique des points');
-            $demo2 = bulle('L\'archivage des batailles et de leurs log de pillage associé');
-            $out .= <<<LOGIN
-	<tr class="color_row1">
-		<td colspan=3><pre>
-
-Ce serveur est là pour tracker les bug, tester, ainsi que voir les fonctionnalité fournie dans une version ultérieure.
-Il peut être remit à "zéro" à tout moment (avec la base de vortex, et autres éléments d'exemple)
-            
-    <b>Joueur</b>: test
-    <b>Pass</b>: test
-    Vous pouvez également créer votre propre compte (validé automatiquement)
-
-- Dernière remise a zéro (membres inclus): Mardi 23 février 2010
-- Dernière remise a zéro vortex: Dimanche 4 Juillet 2010
-- <span {$demo}>Une fonction</span> a besoin d'un compte du même nom que dans le jeu.
-- <span {$demo2}>D'autre fonctions</span> ne fonctionneront qu'avec le script GreaseMonkey.</pre></td>
-<iframe width="0px" height="0" frameborder="0" src="http://australis.eu2.looki.fr/spiel.php?u=935907"></iframe>
-	</tr>
-LOGIN;
-        }
+        if (DE_DEMO)
+            $out .= addons::getinstance()->Get_Addons('demo')->lng('login');
         if (!$register && DataEngine::config_key('config', 'CanRegister') && !DataEngine::config_key('config', 'closed'))
             $out .= <<<LOGIN
 	<tr class="color_row0 text_center">

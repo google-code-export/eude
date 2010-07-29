@@ -18,15 +18,17 @@ var c_onload = function(e) {
         GM_setValue(c_prefix+'actived','0');
         return top.location.reload(true);
     }
+    
+    //if (debug) alert("Debug...\n"+e.responseXML+e.responseText);
+
     if (!e.responseXML)
         e.responseXML = new DOMParser().parseFromString(e.responseText, "text/xml");
     //    alert('xx'+ e.responseXML.getDocumentElement());
 
-    //    if (debug) alert("Debug...\n"+e.responseXML+e.responseText);
 
     if (GetNode(e.responseXML, 'phperror')!='')
         alert("Error found:\n\n"+GetNode(e.responseXML, 'phperror'));
-
+    
     if (GetNode(e.responseXML, 'logtype'))
         $type = GetNode(e.responseXML, 'logtype');
     else

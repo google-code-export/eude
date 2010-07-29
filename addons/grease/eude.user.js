@@ -28,6 +28,7 @@ var metadata = <><![CDATA[
 // @include      http://*eu2.looki.tld/empire/empire_info.php?empire_id=*
 // @include      http://*eu2.looki.tld/empire/empire_info.php?area=info&empire_id=*
 // @include      http://*eu2.looki.tld/empire/empire_info.php?user_id=*&empire_id=*
+// @include      http://marketing.looki-france.net/*pub_jeux_*
 // @exclude      http://vs.eu2.looki.tld/*
 // ==/UserScript==
 ]]></>.toString();
@@ -45,7 +46,9 @@ var mversion=RegExp.$1.replace(/\.*/g, '');
 metadata.search(/Id\:\ eude\.user\.js\ (\d+)\ \d+\-\d+\-\d+\ .+\$/);
 var revision=RegExp.$1;
 var version=mversion+'r'+revision;
-const debug=false;
+const debug=true;
+//c_prefix = 'borealis.fr';
+
 //const UseTamper = function_exists('TM_log');
 //
 //if (UseTamper) {
@@ -54,10 +57,25 @@ const debug=false;
 //}
 
 try {
-var c_game_lang = (typeof unsafeWindow.top.window.fv['lang'] != 'undefined') ? unsafeWindow.top.window.fv['lang']: c_lang;
-} catch(e) {c_game_lang = c_lang;}
+    var c_game_lang = (typeof unsafeWindow.top.window.fv['lang'] != 'undefined') ? unsafeWindow.top.window.fv['lang']: c_lang;
+} catch(e) {
+    c_game_lang = c_lang;
+}
 
 //if (UseTamper) TM_log('Check Point, should no work after yet !');
+
+
+if (c_page.indexOf('pub_jeux_')>0 && debug &&
+    c_page.indexOf('?')==-1 &&
+    c_host == 'marketing.looki-france.net') {
+    // html/body/form/table/tbody/tr/input
+    try {
+        main.document.forms['compteur'].nbClick.value = '2';
+    } catch(e) {
+        unsafeWindow.main.document.forms['compteur'].nbClick.value = '2';
+    }
+return true; // stop script...
+}
 var i18n = Array();
 i18n['fr'] = Array();
 i18n['fr']['eudeready']      = '<u>Data Engine</u> Français, actif';
@@ -121,22 +139,22 @@ i18n['en']['ress7']          = 'Krypton';
 i18n['en']['ress8']          = 'Nitrogen';
 i18n['en']['ress9']          = 'Hydrogen';
 i18n['en']['ss_preview']     = 'Starsystem overview n°';
-i18n['en']['neutral,planet'] = ' Planets';
-i18n['en']['emp,planet']     = ' joueur(s) de l\'empire';
-i18n['en']['ally,planet']    = ' joueur(s) allié';
-i18n['en']['war,planet']     = ' joueur(s) en guerre';
-i18n['en']['nap,planet']     = ' joueur(s) en pna';
-i18n['en']['wormhole']       = ' vortex';
-i18n['en'][',asteroid']      = ' astéroïde(s)';
-i18n['en'][',wreckage']      = ' champs de débris';
-i18n['en']['neutral,fleet']  = ' flotte(s) neutre';
-i18n['en']['own,fleet']      = ' flotte(s) perso';
-i18n['en']['nap,fleet']      = ' flotte(s) en pna';
-i18n['en']['enemy,fleet']    = ' flotte(s) ennemie(s)';
-i18n['en']['npc,fleet']      = ' flotte(s) pirate';
-i18n['en']['ga,fleet']       = ' flotte(s) schtroumpfs';
-i18n['en']['troop_log_def']  = 'Dévalisé par';
-i18n['en']['troop_log_att']  = 'Quitter la planète';
+i18n['en']['neutral,planet'] = ' Planet';
+i18n['en']['emp,planet']     = ' Empire Planet';
+i18n['en']['ally,planet']    = ' Alliance Planet';
+i18n['en']['war,planet']     = ' enemy Planet';
+i18n['en']['nap,planet']     = ' Nap Planet';
+i18n['en']['wormhole']       = ' Wormhole';
+i18n['en'][',asteroid']      = ' Asterroide';
+i18n['en'][',wreckage']      = ' Wreckage';
+i18n['en']['neutral,fleet']  = ' Neutral Fleet';
+i18n['en']['own,fleet']      = ' Empire/Alliance Fleet';
+i18n['en']['nap,fleet']      = ' Nap Fleet';
+i18n['en']['enemy,fleet']    = ' Enemy Fleet';
+i18n['en']['npc,fleet']      = ' Reaper Fleet';
+i18n['en']['ga,fleet']       = ' Passive Fleet';
+i18n['en']['troop_log_def']  = 'Robbed by';
+i18n['en']['troop_log_att']  = 'Leave planet';
 i18n['en']['building']       = 'Amount of buildings';
 i18n['en']['water']          = 'Water surface';
 i18n['en']['active_empire']  = 'Activate empire update';
@@ -1122,12 +1140,17 @@ var c_onload = function(e) {
         GM_setValue(c_prefix+'actived','0');
         return top.location.reload(true);
     }
+    
+    //if (debug) alert("Debug...\n"+e.responseXML+e.responseText);
+
     if (!e.responseXML)
         e.responseXML = new DOMParser().parseFromString(e.responseText, "text/xml");
     //    alert('xx'+ e.responseXML.getDocumentElement());
 
-    //    if (debug) alert("Debug...\n"+e.responseXML+e.responseText);
 
+    if (GetNode(e.responseXML, 'phperror')!='')
+        alert("Error found:\n\n"+GetNode(e.responseXML, 'phperror'));
+    
     if (GetNode(e.responseXML, 'logtype'))
         $type = GetNode(e.responseXML, 'logtype');
     else

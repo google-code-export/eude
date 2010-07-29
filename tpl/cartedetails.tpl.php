@@ -63,7 +63,7 @@ EOF;
         $ligne["NOTE"] = htmlspecialchars($ligne["NOTE"], ENT_QUOTES, 'utf-8');
 
         $Image = $this->lngtype[$ligne["TYPE"]];
-        $posout = ($ligne["POSOUT"] != "") ? "<br>" . $ligne["POSOUT"] . "-" . $ligne["COORDET"] : "";
+        $posout = ($ligne["TYPE"] == "1") ? "<br>" . $ligne["POSOUT"] . "-" . $ligne["COORDETOUT"] : "";
         $user = ($ligne["USER"] == "" ? "-" : $ligne["USER"]);
         $info = ($ligne["INFOS"] == "" ? "-" : $ligne["INFOS"]);
         $note = ($ligne["NOTE"] == "" ? "-" : $ligne["NOTE"]);

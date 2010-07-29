@@ -9,7 +9,7 @@
 
 $lng = array();
 
-// Planets ressources text
+// Planets ressources text (en minuscule)
 $lng['ress10%'] = 'très peu';
 $lng['ress20%'] = 'peu';
 $lng['ress40%'] = 'normal';

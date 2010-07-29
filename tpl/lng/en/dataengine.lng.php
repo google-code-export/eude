@@ -8,7 +8,7 @@
  *
 */
 
-setlocale(LC_ALL, 'en_EN.utf8', 'en_EN', 'en');
+setlocale(LC_ALL, 'en_GB.utf8', 'en_GB', 'en_US.utf8', 'en_US', 'en');
 
 $lng = array();
 $lng['Titane'] = 'Titanium';
@@ -16,33 +16,33 @@ $lng['Cuivre'] = 'Copper';
 $lng['Fer'] = 'Iron';
 $lng['Aluminium'] = 'Aluminium';
 $lng['Mercure'] = 'Mercury';
-$lng['Silicium'] = 'Silicone';
+$lng['Silicium'] = 'Silicon';
 $lng['Uranium'] = 'Uranium';
 $lng['Krypton'] = 'Krypton';
 $lng['Azote'] = 'Nitrogen';
 $lng['Hydrogene'] = 'Hydrogen';
 
-$lng['races']['Human']       = 'Human';
-$lng['races']['Ozoid']       = 'Ozoid';
-$lng['races']['Mosorian']    = 'Mosorian';
-$lng['races']['Zuup']        = 'Zuup';
+$lng['races']['Human']       = 'Humans';
+$lng['races']['Ozoid']       = 'Ozoids';
+$lng['races']['Mosorian']    = 'Mosorians';
+$lng['races']['Zuup']        = 'Zuups';
 $lng['races']['Plentropian'] = 'Plentropian';
-$lng['races']['Magumian']    = 'Magumian';
-$lng['races']['Weganian']    = 'Weganian';
+$lng['races']['Magumian']    = 'Magumians';
+$lng['races']['Weganian']    = 'Weganians';
 $lng['races']['Cyborg']      = 'Cyborg';
-$lng['races']['Jamozoid']    = 'Jamozoid';
+$lng['races']['Jamozoid']    = 'Jamozoids';
 
 $lng['batiments']['control']       = 'Control Center';
 $lng['batiments']['communication'] = 'Communication Center';
 $lng['batiments']['university']    = 'University';
-$lng['batiments']['technology']    = 'Reserch Center';
-$lng['batiments']['gouv']          = 'Goverment Building';
+$lng['batiments']['technology']    = 'Research Facility';
+$lng['batiments']['gouv']          = 'Government Building';
 $lng['batiments']['defense']       = 'Barracks';
 $lng['batiments']['shipyard']      = 'Shipyard';
-$lng['batiments']['spacedock']     = 'Space dock';
+$lng['batiments']['spacedock']     = 'Dock';
 $lng['batiments']['bunker']        = 'Bunker';
 $lng['batiments']['tradepost']     = 'Trading Post';
-$lng['batiments']['ressource']     = 'Resource Mine';
+$lng['batiments']['ressource']     = 'Resource Facilities';
 
 $lng['shiplist'][]='Probe';
 $lng['shiplist'][]='Lancer';
