@@ -109,7 +109,8 @@ function run_install() {
             sqlpass:$('sqlpass').value,
             sqlbase:$('sqlbase').value,
             sqlprefix:$('sqlprefix').value,
-            sqlrooturl:$('sqlrooturl').value
+            sqlrooturl:$('sqlrooturl').value,
+            language:$('language').value
         },
         onSuccess:function(t){
             var xml = '';

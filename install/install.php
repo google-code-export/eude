@@ -16,8 +16,8 @@ $file = 'install';
 $sqlfile = ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . $file . '.sql';
 $lockfile = ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . $file . '.lock';
 
-if (file_put_contents(ROOT_PATH . 'install' . DIRECTORY_SEPARATOR .'test.lock', 'test') === false ||
-    file_put_contents(ROOT_PATH . 'Script' . DIRECTORY_SEPARATOR .'test.lock', 'test') === false) {
+if (file_put_contents(ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . 'test.lock', 'test') === false ||
+        file_put_contents(ROOT_PATH . 'Script' . DIRECTORY_SEPARATOR . 'test.lock', 'test') === false) {
     @chmod('./', '0777');
     @chmod('../Script/', '0777');
     @unlink(ROOT_PATH . 'install' . DIRECTORY_SEPARATOR . 'test.lock');
@@ -36,14 +36,41 @@ else
     $cur = 0;
 $max = $max - $cur;
 
-//-- repiquage script/script.php
-function bulle ($texte,$addover='',$addout='') {
-    if(is_array($addover))
-        $addover=implode($addover,'');
-    if(is_array($addout)) $addout=implode($addout,'');
-    $texte=htmlspecialchars(str_replace("\n", '', $texte),ENT_QUOTES,'UTF-8');
-    return ("onmouseover='montre(\"".$texte."\");$addover' onmouseout='cache();$addout'");
+$lngs = array();
+$dir = TEMPLATE_PATH . 'lng'.DIRECTORY_SEPARATOR;
+$deflng = preg_split('/[,;]/', $_SERVER["HTTP_ACCEPT_LANGUAGE"], 2, PREG_SPLIT_DELIM_CAPTURE);
+$deflng = $deflng[0];
+if ($dh = opendir($dir)) {
+    while (($file = readdir($dh)) !== false) {
+        if ($file == '.' || $file == '..')
+            continue;
+        if (is_dir($dir.$file))
+            $lngs[] = $file;
+    }
+    closedir($dh);
+} else
+    $lngs[] = 'fr';
+
+array_walk($lngs, 'genoption');
+$lngs = implode("\n", $lngs);
+function genoption(&$value, $key) {
+    global $deflng;
+    if ($deflng == $value)
+        $value = '<option value="'.$value.'" selected>'.$value.'</option>';
+    else
+        $value = '<option value="'.$value.'">'.$value.'</option>';
+    return true;
 }
+//-- repiquage script/script.php
+function bulle($texte, $addover='', $addout='') {
+    if (is_array($addover))
+        $addover = implode($addover, '');
+    if (is_array($addout))
+        $addout = implode($addout, '');
+    $texte = htmlspecialchars(str_replace("\n", '', $texte), ENT_QUOTES, 'UTF-8');
+    return ("onmouseover='montre(\"" . $texte . "\");$addover' onmouseout='cache();$addout'");
+}
+
 //-- fin repiquage
 
 $bulle_sqlrooturl = bulle('<u>Exemple:</u><br/>Site: http://app216.free.fr<b>/eu2/test/</b><br/>Emplacement sur le serveur: <b>/eu2/test/</b><br/>Commence et finit par <b>/</b>');
@@ -113,6 +140,10 @@ $bulle_sqlrooturl = bulle('<u>Exemple:</u><br/>Site: http://app216.free.fr<b>/eu
             </tr>
             <tr class="color_header">
                 <td colspan="2"><b>Informations complémentaire</b></td>
+            </tr>
+            <tr>
+                <td><b>Langue d'installation</b></td>
+                <td><select class="color_row0" id="language"><?php echo $lngs; ?></select></td>
             </tr>
             <tr <?php echo $bulle_sqlrooturl; ?>>
                 <td><b>Emplacement sur le serveur</b></td>

@@ -78,7 +78,7 @@ final class Config implements iDataEngine_Config {
         /**
          * Quel pack de langue utiliser ?
          */
-        define('LNG_CODE','fr');
+        define('LNG_CODE','%%language%%');
     }
     /**
      * Connexion a la base de donnée.
@@ -102,42 +102,44 @@ $xml = <<<xml
 </config>
 xml;
 
-if (!isset($_REQUEST['act']))
+if (!isset($_POST['act']))
     return_data('Unknown action');
 
-if ($_REQUEST['act'] == 'testmysqlserver') {
-    if ($_REQUEST['sqlserver'] == '' ||
-            $_REQUEST['sqluser'] == '' ||
-            $_REQUEST['sqlbase'] == ''
+if ($_POST['act'] == 'testmysqlserver') {
+    if ($_POST['sqlserver'] == '' ||
+            $_POST['sqluser'] == '' ||
+            $_POST['sqlbase'] == ''
     )
         return_data('Formulaire incomplet');
 
-    $connexion = @mysql_connect($_REQUEST['sqlserver'], $_REQUEST['sqluser'], $_REQUEST['sqlpass'])
+    $connexion = @mysql_connect($_POST['sqlserver'], $_POST['sqluser'], $_POST['sqlpass'])
             or return_data(mysql_error());
-    mysql_select_db($_REQUEST['sqlbase']) or return_data(mysql_error());
+    mysql_select_db($_POST['sqlbase']) or return_data(mysql_error());
     return_data('Connexion effectué avec succès', '1');
 }
 
-if ($_REQUEST['act'] == 'startinstall') {
-    if ($_REQUEST['sqlserver'] == '' ||
-            $_REQUEST['sqluser'] == '' ||
-            $_REQUEST['sqlbase'] == '' ||
-            $_REQUEST['sqlprefix'] == '' ||
-            $_REQUEST['sqlbase'] == '' ||
-            $_REQUEST['sqlrooturl'] == ''
+if ($_POST['act'] == 'startinstall') {
+    if ($_POST['sqlserver'] == '' ||
+            $_POST['sqluser'] == '' ||
+            $_POST['sqlbase'] == '' ||
+            $_POST['sqlprefix'] == '' ||
+            $_POST['sqlbase'] == '' ||
+            $_POST['sqlrooturl'] == '' ||
+            $_POST['language'] == ''
     )
         return_data('Formulaire incomplet');
 
-    $connexion = @mysql_connect($_REQUEST['sqlserver'], $_REQUEST['sqluser'], $_REQUEST['sqlpass'])
+    $connexion = @mysql_connect($_POST['sqlserver'], $_POST['sqluser'], $_POST['sqlpass'])
             or return_data(mysql_error());
-    mysql_select_db($_REQUEST['sqlbase']) or return_data(mysql_error());
+    mysql_select_db($_POST['sqlbase']) or return_data(mysql_error());
 
-    $config = str_replace('%%localhost%%', $_REQUEST['sqlserver'], $config);
-    $config = str_replace('%%user%%', $_REQUEST['sqluser'], $config);
-    $config = str_replace('%%pass%%', $_REQUEST['sqlpass'], $config);
-    $config = str_replace('%%database%%', $_REQUEST['sqlbase'], $config);
-    $config = str_replace('%%SQL_PREFIX_%%', $_REQUEST['sqlprefix'], $config);
-    $config = str_replace('%%ROOT_URL%%', $_REQUEST['sqlrooturl'], $config);
+    $config = str_replace('%%localhost%%', $_POST['sqlserver'], $config);
+    $config = str_replace('%%user%%', $_POST['sqluser'], $config);
+    $config = str_replace('%%pass%%', $_POST['sqlpass'], $config);
+    $config = str_replace('%%database%%', $_POST['sqlbase'], $config);
+    $config = str_replace('%%SQL_PREFIX_%%', $_POST['sqlprefix'], $config);
+    $config = str_replace('%%ROOT_URL%%', $_POST['sqlrooturl'], $config);
+    $config = str_replace('%%language%%', $_POST['language'], $config);
 
     if (@file_put_contents('./Entete.php', $config) === false)
         	return_data('Écriture du fichier de configuration impossible');
@@ -145,7 +147,7 @@ if ($_REQUEST['act'] == 'startinstall') {
 
     return_data('Fichier de configuration temporaire créer', '1');
 }
-if ($_REQUEST['act'] == 'endinstall') {
+if ($_POST['act'] == 'endinstall') {
     if (DEBUG_PLAIN) {
         @unlink('./Entete.php');
         @unlink('./install.lock');
