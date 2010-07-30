@@ -40,7 +40,7 @@ $lng['add_items_col_empire'] = 'Empire';
 $lng['add_items_col_infos'] = 'Planet/Fleet';
 $lng['add_items_planet_header'] = 'Information Of The Planet Or Asteroide';
 
-$lng['search_header'] = 'Search DataCore';
+$lng['search_header'] = 'Search';
 $lng['search_col_date'] = 'Date';
 $lng['search_col_status'] = 'Status';
 $lng['search_col_status_on'] = 'Active';
@@ -85,12 +85,12 @@ $lng['class_err_coords']        = 'Error Coordinate Format (%s) Must Be In This 
 
 $lng['class_vortex_msg1']       = 'Wormhole %s <> %s Updated';
 $lng['class_vortex_msg2']       = 'Wormhole %s <> %s Already Stored';
-$lng['class_vortex_msg3']       = 'Wormhole %s <> %s Added To The DataCore';
+$lng['class_vortex_msg3']       = 'Wormhole %s <> %s Added To The Data Engine';
 $lng['class_planet_msg1']       = 'Planet Data Is Already Upto Date : %s-%s';
 $lng['class_planet_msg2']       = 'Planet Coordinate Updated : %s-%s';
-$lng['class_planet_msg3']       = 'Planet Added To the DataCore : %s-%s';
+$lng['class_planet_msg3']       = 'Planet Added To the Data Engine : %s-%s';
 $lng['class_asteroid_msg1']     = 'Asteroide Info updated : %s-%s';
-$lng['class_asteroid_msg2']     = 'Asteroide Added To the DataCore : %s-%s';
+$lng['class_asteroid_msg2']     = 'Asteroide Added To the Data Engine : %s-%s';
 $lng['class_player_type0']      = 'Player';
 $lng['class_player_type3']      = 'Ally';
 $lng['class_player_type5']      = 'Enemy';
@@ -102,7 +102,7 @@ if (NO_SESSIONS && USE_AJAX) { // Alias GreaseMonkey
 } else {
     $lng['class_player_msg2']   = '%s %s Updated : %s-%s'; // $stype,$nom,$uni,$sys
     $lng['class_player_msg3']   = '%s %s Already stored : %s-%s (Ignored)'; // $stype,$nom,$uni,$sys
-    $lng['class_player_msg4']   = '%s %s Added To the DataCore : %s-%s'; // $stype,$nom,$uni,$sys
+    $lng['class_player_msg4']   = '%s %s Added To the Data Engine : %s-%s'; // $stype,$nom,$uni,$sys
 }
 
 if (NO_SESSIONS && USE_AJAX) { // Alias GreaseMonkey
@@ -112,7 +112,7 @@ if (NO_SESSIONS && USE_AJAX) { // Alias GreaseMonkey
 } else {
     $lng['class_npc_msg1']      = 'Reaper Fleet Updated : %s-%s'; // $nom,$uni,$sys
     $lng['class_npc_msg2']      = 'Reaper Already Stored : %s-%s (Ignored)'; // $nom,$uni,$sys
-    $lng['class_npc_msg3']      = 'Reaper Added To The DataCore : %s-%s'; // $nom,$uni,$sys
+    $lng['class_npc_msg3']      = 'Reaper Added To The Data Engine : %s-%s'; // $nom,$uni,$sys
 }
 
 

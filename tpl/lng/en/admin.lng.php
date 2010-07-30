@@ -190,7 +190,7 @@ $lng['config_Parcours_Nearest']    = 'Number of pc For The Calculation Of The Ro
 $lng['config_Parcours_Nearest_tip']= bulle('Quick Route Finder');
 $lng['config_greasemonkey']    = 'Game Server For GreaseMonkey:';
 $lng['config_greasemonkey_tip']= bulle('<b>Format</b>:<br/>[Préfixe].looki.[domaine]<br/><b>Exemples</b>:<br/>australis.fr<br/>polaris.fr<br/>eu2.com</br/>beta.de');
-$lng['config_closed']    = 'Deactivate The DataCore ?';
+$lng['config_closed']    = 'Deactivate The Data Engine ?';
 $lng['config_closed_no']    = 'Open';
 $lng['config_closed_yes']    = 'Close';
 

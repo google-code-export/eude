@@ -147,6 +147,6 @@ $lng['types']['string'][2] = 'Planète';
 $lng['types']['string'][4] = 'Astéroïde';
 
 // Nettoyage votex...
-$lng['wormholes_day'] = 6; // php.net/date => date ('w');
-$lng['wormholes_hour'] = 7;
+$lng['wormholes_day'] = 0; // php.net/date => date ('w');
+$lng['wormholes_hour'] = 3;
 $lng['wormholes_minute'] = 1;

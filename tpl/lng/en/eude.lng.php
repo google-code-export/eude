@@ -15,7 +15,7 @@ $lng['err_wrongserver']     = "Access Denied.\Wrong Game Sever";
 $lng['err_noaxx']           = 'You Do Not Have Permission';
 $lng['err_unknown']         = 'Unknown Error!';
 
-$lng['config_helloworld']   = 'Initialisation of the DataCore OK.';
+$lng['config_helloworld']   = 'Initialisation of the Data Engine OK.';
 $lng['mafiche_maj']         = 'Player Information Updated';
 
 $lng['wormhole']            = 'Wormhole %s <--> %s';
