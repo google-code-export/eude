@@ -12,13 +12,7 @@ $listing = array();
 // http://www.w3schools.com/tags/ref_colorpicker.asp
 // http://css4design.com/choisir-sa-palette-de-couleur
 // $defaultsetting = array(fontfile, fontsize, alphacolor, textcolor);
-$defaultsetting = array('./hachicro.ttf', 10, '202c32', '666666');
-//$defaultsetting = array('./Impact Label Reversed.ttf', 10, '202c32', '666666');
-//$defaultsetting = array('./Impact Label.ttf', 10, '202c32', '666666');
-//$defaultsetting = array('./Burris.ttf', 15, '202c32', '666666');
-//$defaultsetting = array('./BurrisGhostTown.ttf', 15, '202c32', '666666');
-//$defaultsetting = array('./BurrisShootOut.ttf', 15, '202c32', '666666');
-$defaultsetting = array('./CGF Locust Resistance.ttf', 10, '202c32', '666666');
+$defaultsetting = array('../../CGF Locust Resistance.ttf', 10, '202c32', '666666');
 
 $listing['cartographie'] = array($defaultsetting, 'CARTOGRAPHIE');
 $listing['tableau'] = array($defaultsetting, 'TABLEAU');
