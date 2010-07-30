@@ -138,10 +138,9 @@ sql;
         foreach ($ares as $k => $v) {
             foreach ($amsg as $line) {
                 list($key, $value) = explode(':', $line);
-                if ($v['Nom'] == $key) {
+                if ($v['Nom'] == trim($key)) {
                     $fields[] = 'ress' . $k;
                     $sets[] = DataEngine::strip_number($value);
-                    ;
                     break;
                 }
             }
