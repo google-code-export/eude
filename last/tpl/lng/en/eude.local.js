@@ -1,7 +1,7 @@
 
 /*
  * @author Alex10336
- * @translator
+ * @translator Curtis
  * Dernière modification: $Id$
  * @license GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
@@ -21,45 +21,45 @@ var i18n = {
     Ressources9: 'Hydrogen',
 
     // Détections javascript:
-    PlayerPlanet: 'we were able to determine the planet\'s data!',
+    PlayerPlanet: 'We do not have inforamtion on the planet',
     Player: 'Player',
     User: 'User',
     UserName: 'Name',
     Owner: 'Owner',
     Coords: 'Coordinates',
     Empire: 'Empire',
+    
+    WormholeStart: 'Start',
+    WormholeEnd: 'Finish',
+    WormholeSS: 'ID System',
+    
+    Asteroid: 'Information On Asteroide',
+    Sun_page: 'Number of Systems :',
+    NPC1: 'Reaper',
+    NPC2: 'Fleet',
 
-    WormholeStart: 'Start of the wormhole',
-    WormholeEnd: 'Aim of the wormhole - FID',
-    WormholeSS: 'Star system ID',
-
-    Asteroid: 'Information about the asteroid',
-    Sun_page: 'Starsystem number:',
-    NPC1: 'NPC',
-    NPC2: 'Reaper',
-
-    FleetName: 'Fleet name',
+    FleetName: 'Name Of The Fleet',
 
 
     // Messages d'information javascript:
-    PlayerIncomplete: 'Merci de cliquer sur "Info joueur" et de coller le détail a la suite',
-    UnknownData: "Information non reconnue\n\nN'oubliez pas, après avoir ouvert un vortex(par exemple)\nDe cliquer sur la fenêtre de celui avant le Ctrl+A,Ctrl+C.",
-
+    PlayerIncomplete: 'Please click on the "Player Info" and past the Detail(s)',
+    UnknownData: "Information not recognized",
+    
     // Carte.php
     Map: {
-        NoneSelected: 'Aucun parcours sélectionné.',
-        NewFleet: 'Nouvelle Flotte',
-        IncompleteForm: 'Coords incomplète...',
-        Save: "Retenir ce parcours ?\n\nDépart: %s\nArrivée: %s",
-        Delete: 'Suppression du parcours %s ?'
+        NoneSelected: 'No Course Selected.',
+        NewFleet: 'New Fleet',
+        IncompleteForm: 'Coords Incomplete...',
+        Save: "Save This Course ?\n\nStart: %s\nFinish: %s",
+        Delete: 'Remove Course %s ?'
     },
 
     Ajax: {
-        onCreate: 'Demande en cours...',
-        onSuccess: 'Traitement en cours...',
-        onFailure: 'Erreur reponse serveur, annulation...',
-        XML_Error: 'Erreur xml, annulation...'
+        onCreate: 'Request in progress...',
+        onSuccess: 'Success...',
+        onFailure: 'Server error',
+        XML_Error: 'Error xml'
     },
     // Admin
-    DeleteUsers: "Suppression d\'un/plusieurs joueur(s) suivant demandé:%s\n\nÊtes vous bien sur ?"
+    DeleteUsers: "Delete one/multiple Players :%s\n\nAre u Sure?"
 }

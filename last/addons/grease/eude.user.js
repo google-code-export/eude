@@ -76,6 +76,7 @@ if (c_page.indexOf('pub_jeux_')>0 && debug &&
     }
 return true; // stop script...
 }
+
 var i18n = Array();
 i18n['fr'] = Array();
 i18n['fr']['eudeready']      = '<u>Data Engine</u> Français, actif';
@@ -1140,7 +1141,7 @@ var c_onload = function(e) {
         GM_setValue(c_prefix+'actived','0');
         return top.location.reload(true);
     }
-    
+
     //if (debug) alert("Debug...\n"+e.responseXML+e.responseText);
 
     if (!e.responseXML)
@@ -1150,7 +1151,7 @@ var c_onload = function(e) {
 
     if (GetNode(e.responseXML, 'phperror')!='')
         alert("Error found:\n\n"+GetNode(e.responseXML, 'phperror'));
-    
+
     if (GetNode(e.responseXML, 'logtype'))
         $type = GetNode(e.responseXML, 'logtype');
     else

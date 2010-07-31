@@ -18,7 +18,7 @@ var c_onload = function(e) {
         GM_setValue(c_prefix+'actived','0');
         return top.location.reload(true);
     }
-    
+
     //if (debug) alert("Debug...\n"+e.responseXML+e.responseText);
 
     if (!e.responseXML)
@@ -28,7 +28,7 @@ var c_onload = function(e) {
 
     if (GetNode(e.responseXML, 'phperror')!='')
         alert("Error found:\n\n"+GetNode(e.responseXML, 'phperror'));
-    
+
     if (GetNode(e.responseXML, 'logtype'))
         $type = GetNode(e.responseXML, 'logtype');
     else
