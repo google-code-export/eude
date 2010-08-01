@@ -40,8 +40,8 @@ switch (LNG_CODE) {
                                         ACT_RETREAT => "retreated from battle",
                                         ACT_DAMAGE => "and caused",
 					ACT_DOMAGE => "Damage",
-					ACT_SHILD => "aiming unit",
-					ACT_STRUCT => "hull",
+					ACT_SHILD => "to Shield",
+					ACT_STRUCT => "to the Hull",
 					ACT_TYPE => "Enemy ships"						
 					);
 			default:
