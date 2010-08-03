@@ -19,7 +19,7 @@ if (function_exists('date_default_timezone_set')) date_default_timezone_set('Eur
  *      et est affiché uniquement au Sup-Admin. (voir Script.php)
  * @var boolean
  */
-define('IN_DEV', true);
+define('IN_DEV', false);
 
 /// ### ### ### ### ### ### ### ### ### ///
 /// ### NE RIEN CHANGER CI DESSOUS  ### ///

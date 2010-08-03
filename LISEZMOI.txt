@@ -81,11 +81,24 @@ Serveur de démo: http://app216.free.fr/eu2/test/
  * issue 145: Pagination page cartographie
  * issue 221: Fonction recherche dans un rayon autour d'un SS
 
+==Bugs connus:==
+ * issue 255: Permissions d'accès insuffisants à l'installation
+ * issue 256 et issue 258: Sauvegarde de config érronée
+ * issue 259: Correctif sur install.sql
+ * issue 262: Modif sur la gestion des pillages + i18n
+ * issue 274: Problème avec les flottes PNJ (version 1.4.5.1 disponible)
+ * issue 283: Modif sur la gestion des pillages pour l'i18n (r563)
+ * issue 292: English server cleaning wormhole on saturday...
+ * issue 295: English pack translation done by Curtis
+ * issue 297: Outils de nettoyage manuel cassé
+ * issue 298: GreaseMonkey for English server now supported.  (version 1.4.5.2 disponible)
+
 = Remerciements =
 
  Merci à tous les testeurs & développeurs 
  * Notamment XCharismatic alias docl88 pour ces modifications directe dans les sources et son coté forcing quand je suis pas du même avis =)
  * XCharismatic & sam.renfou pour le maintiens de l'addons commerce entre autre...
  * Wilfried.Winner pour l'addon de triangulation
+ * Curtis pour la traduction en Anglais
 
 
