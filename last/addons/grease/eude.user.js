@@ -1247,19 +1247,35 @@ function Index() {
     AddGameLog('<span class="gamelog_event">'+i18n[c_game_lang]['eudeready']+'</span>');
     var script = document.createElement('script');
     script.type = 'text/javascript';
-    script.text = '\x6f\x6c\x64\x53\x65\x74\x54\x69\x6d\x65\x6f\x75\x74'+
-    '\x20\x3d\x20\x77\x69\x6e\x64\x6f\x77\x2e\x73\x65\x74\x54\x69\x6d'+
-    '\x65\x6f\x75\x74\x3b\x0d\x0a\x77\x69\x6e\x64\x6f\x77\x2e\x73\x65'+
-    '\x74\x54\x69\x6d\x65\x6f\x75\x74\x20\x3d\x20\x66\x75\x6e\x63\x74'+
-    '\x69\x6f\x6e\x28\x63\x6f\x64\x65\x2c\x20\x69\x6e\x74\x65\x72\x76'+
-    '\x61\x6c\x29\x20\x7b\x0d\x0a\x69\x66\x20\x28\x63\x6f\x64\x65\x3d'+
-    '\x3d\x27\x63\x68\x61\x74\x4f\x70\x65\x6e\x28\x29\x27\x29\x20\x7b'+
-    '\x0d\x0a\x77\x69\x6e\x64\x6f\x77\x2e\x73\x65\x74\x54\x69\x6d\x65'+
-    '\x6f\x75\x74\x3d\x6f\x6c\x64\x53\x65\x74\x54\x69\x6d\x65\x6f\x75'+
-    '\x74\x3b\x0d\x0a\x72\x65\x74\x75\x72\x6e\x20\x66\x61\x6c\x73\x65'+
-    '\x3b\x0d\x0a\x7d\x0d\x0a\x6f\x6c\x64\x53\x65\x74\x54\x69\x6d\x65'+
-    '\x6f\x75\x74\x28\x63\x6f\x64\x65\x2c\x20\x69\x6e\x74\x65\x72\x76'+
-    '\x61\x6c\x29\x3b\x0d\x0a\x7d';
+    var tmp = <><![CDATA[
+oldSetTimeout = window.setTimeout;
+window.setTimeout = function(code, interval) {
+    if (code=='chatOpen()') {
+        window.setTimeout=oldSetTimeout;
+        return false;
+    }
+    oldSetTimeout(code, interval);
+}
+function eude_ShowChat() {
+    var chattonmotd = top.window.document.getElementById('chat_motd');
+    var chattonswf = top.window.document.getElementById('myContent');
+    var chattondiv = top.window.document.getElementById('chat');
+
+    chattonmotd.style.visibility = 'hidden';
+    chattonswf.style.visibility = 'visible';
+    chattondiv.style.display = '';
+}
+function eude_HideChat() {
+    var chattonmotd = top.window.document.getElementById('chat_motd');
+    var chattonswf = top.window.document.getElementById('myContent');
+
+    chattonmotd.style.visibility = 'visible';
+    chattonswf.style.visibility = 'hidden';
+}
+window.chatOpen = eude_ShowChat;
+]]></>.toString();
+
+    script.text = tmp;
     $x('/html/body')[0].appendChild(script);
 
     var aserver = document.createElement('a');
@@ -1271,28 +1287,32 @@ function Index() {
     block = x[x.length-1];
     block.innerHTML = block.innerHTML + ' | ';
     block.appendChild(aserver);
-    var chatton = unsafeWindow.top.window.document.getElementById('chat_motd');
+    var chatton = unsafeWindow.document.getElementById('chat_motd');
     chatton.style.height = 500;
 
     if (debug) {
         chatton.removeAttribute('OnClick');
         var js_OnClick = document.createAttribute('Ondblclick');
-        js_OnClick.value = "chatOpen();";
+        js_OnClick.value = "eude_ShowChat();";
         chatton.setAttributeNode(js_OnClick);
         var adebug = document.createElement('a');
         adebug.href='javascript:;';
         adebug.innerHTML = 'Reset';
         js_OnClick = document.createAttribute('OnClick');
-        js_OnClick.value = "top.window.document.getElementById('chat_motd').style.display='';top.window.document.getElementById('chat').style.display='none';top.window.document.getElementById('chat_motd').innerHTML='';";
+        js_OnClick.value = "eude_HideChat();top.window.document.getElementById('chat_motd').innerHTML='';";
         adebug.setAttributeNode(js_OnClick);
         block.innerHTML = block.innerHTML + ', ';
         block.appendChild(adebug);
     } else {
+        chatton.removeAttribute('OnClick');
+        var js_OnClick = document.createAttribute('OnClick');
+        js_OnClick.value = "eude_ShowChat();";
+        chatton.setAttributeNode(js_OnClick);
         var alog = document.createElement('a');
         alog.href='javascript:;';
         alog.innerHTML = 'Log';
         var js_OnClick = document.createAttribute('OnClick');
-        js_OnClick.value = "top.window.document.getElementById('chat_motd').style.display='';top.window.document.getElementById('chat').style.display='none';";
+        js_OnClick.value = "eude_HideChat();";
         alog.setAttributeNode(js_OnClick);
         block.innerHTML = block.innerHTML + ', ';
         block.appendChild(alog);
