@@ -49,7 +49,7 @@ if (isset($_POST['importation'])) {
 
         // Partie affichage planète
     } elseif ( $data != '' and strpos($data,$lng['planet_ident']) !== false ) {
-        $cleandata = $ownuniverse->get_universe(false);
+//        $cleandata = $ownuniverse->get_universe(false);
         if ($cleandata && is_array($cleandata[0])) {
             $result = $ownuniverse->parse_planet($data);
             $warn = $lng['planet_error'];
