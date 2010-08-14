@@ -72,13 +72,13 @@ function gpc_esc($value) {
 if (!function_exists('mb_stripos')) {
   function mb_stripos($str,$needle,$offset=0)
   {
-      return mb_strpos(mb_strtolower($str, 'utf8'),mb_strtolower($needle, 'utf8'),$offset, 'utf8');
+      return stripos($str,$needle,$offset=0);
   }
 }
 if (!function_exists('mb_strripos')) {
   function mb_strripos($str,$needle,$offset=0)
   {
-      return mb_strrpos(mb_strtolower($str, 'utf8'),mb_strtolower($needle, 'utf8'),$offset, 'utf8');
+      return strripos($str,$needle,$offset=0);
   }
 }
 
