@@ -11,7 +11,7 @@
   Init_Addon();
   
 // DEBUT CODE LIBRE
-if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
+if (!DataEngine::CheckPerms('ZZZ_COMMERCE_VENTES'))
     output::Boink('./index.php');
 
   if(isset($_GET['Activate']))
@@ -29,15 +29,17 @@ if (!DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES'))
     $t = $_SESSION['commandmode']; 
 
   if(!is_null($t)) {
-    if($t == 'true') {
-      $modecommande = true;
-      $_SESSION['commandmode'] = 'true';
+    if($t == 'false' && DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES')) {
+		$modecommande = false;
+		$alldisplay = false;
+		$_SESSION['commandmode'] = 'false';
     }
     elseif($t == 'full') {
-      $alldisplay = true;
-      $modecommande = true;
-      $_SESSION['commandmode'] = 'full';
+		$alldisplay = true;
+		$modecommande = true;
+		$_SESSION['commandmode'] = 'full';
     }
+	else output::boink('./index.php');
   }
 
   if(isset($_POST['submit'])) {

@@ -7,6 +7,8 @@ class commerce_addons implements addon_config {
             DataEngine::CheckPermsKeyAdd('ZZZ_COMMERCE_INDEX', AXX_MEMBER);
         if (!DataEngine::CheckPermsKey('ZZZ_COMMERCE_MODULES'))
             DataEngine::CheckPermsKeyAdd('ZZZ_COMMERCE_MODULES', AXX_MEMBER);
+        if (!DataEngine::CheckPermsKey('ZZZ_COMMERCE_VENTES'))
+            DataEngine::CheckPermsKeyAdd('ZZZ_COMMERCE_VENTES', AXX_MEMBER);
 		if (!DataEngine::CheckPermsKey('ZZZ_COMMERCE_TPL_INSERT'))
             DataEngine::CheckPermsKeyAdd('ZZZ_COMMERCE_TPL_INSERT', AXX_MEMBER);
 		if (!DataEngine::CheckPermsKey('ZZZ_COMMERCE_TPL_EDIT'))
@@ -26,6 +28,7 @@ class commerce_addons implements addon_config {
     public function CheckPerms () {
         return DataEngine::CheckPerms('ZZZ_COMMERCE_INDEX');
         return DataEngine::CheckPerms('ZZZ_COMMERCE_MODULES');
+        return DataEngine::CheckPerms('ZZZ_COMMERCE_VENTES');
         return DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_INSERT');
         return DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_EDIT');
         return DataEngine::CheckPerms('ZZZ_COMMERCE_TPL_DELETE');
@@ -39,7 +42,8 @@ public function GetCustomPerms() {
         srand();
         return array(rand()+666=>'Addon commerce',
                      'ZZZ_COMMERCE_INDEX'=>'Page accueil',
-					 'ZZZ_COMMERCE_MODULES'=>'Pages module et commerce',
+					 'ZZZ_COMMERCE_MODULES'=>'Page module',
+					 'ZZZ_COMMERCE_VENTES'=>'Page commerce',
 					 'ZZZ_COMMERCE_GESTION'=>'Page gestion des commandes',
 					 'ZZZ_COMMERCE_STATS'=>'Pages statistique',
 					 'ZZZ_COMMERCE_PREF'=>'Pages préférences',

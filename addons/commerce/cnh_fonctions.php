@@ -19,7 +19,7 @@ $cnhMenus = Array(
             Array("Accueil", "index.php", "home", 48, "Retour à la page d'accueil.", ZZZ_COMMERCE_INDEX),
             Array("Modules", "template_list.php?commande=false", "listmodules", 48, "Liste de tous les modules disponibles dans la Galaxie ainsi que leur disponibilité au sein de la Confédération.", ZZZ_COMMERCE_MODULES),
 //            Array("Rercherches", "", "recherches", 48, "Permet d'avoir accès à l'ensemble de l'arbre de recherche, de voir où vous en êtes et quels sont les modules qui vous manquent pour débloquer les suivants."),
-            Array("Commerce", "template_list.php?commande=full", "commandes", 48, "Effectuer vos achats.", ZZZ_COMMERCE_MODULES),
+            Array("Commerce", "template_list.php?commande=full", "commandes", 48, "Effectuer vos achats.", ZZZ_COMMERCE_VENTES),
             Array("Gestion", "commandes_list.php", "commandes", 48, "Gérer vos achats et vos ventes.", ZZZ_COMMERCE_GESTION),
             Array("Stats", "addon_stats.php", "top", 48, "Statistiques et chiffres en tout genre.", ZZZ_COMMERCE_STATS),
 //            Array("Stats", "addon_stats.php", "top", 48, "Statistiques et chiffres en tout genre."),
@@ -98,13 +98,11 @@ function Load_Prefs() {
   $_SESSION['up_Modifier'] = 0;
   $_SESSION['up_ListSort'] = 0;
   $_SESSION['up_ActivatedSort'] = false;
-  $_SESSION['up_DateCreated'] = date(DATE_SQL_FORMAT);
-  $_SESSION['up_DateLast'] = $_SESSION['up_DateCreated'];
   $_SESSION['up_Paiement'] = 0x000000000000000;
   $_SESSION['up_Planetes'] = 0x00000;
 
   if(!empty($_SESSION['_login'])) {
-    $mysql_result = DataEngine::sql('SELECT `DateCreated`, `DateLast`, `Modifier`, `ListSort`, `ActivatedSort`, `CommerceType`, `ChassisSecret`, `Paiement`, `Planetes` FROM `SQL_PREFIX_Modules_Users_Config` WHERE `Login`=\''.$_SESSION['_login'].'\'') or die(sql_error());
+    $mysql_result = DataEngine::sql('SELECT `Modifier`, `ListSort`, `ActivatedSort`, `CommerceType`, `ChassisSecret`, `Paiement`, `Planetes` FROM `SQL_PREFIX_Modules_Users_Config` WHERE `Login`=\''.$_SESSION['_login'].'\'') or die(sql_error());
   
     if($datas = mysql_fetch_array($mysql_result)) {
       $_SESSION['up_CommerceType'] = $datas['CommerceType'];
