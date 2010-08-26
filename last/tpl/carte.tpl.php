@@ -242,7 +242,7 @@ iti_h;
 				<TR>
 					<TD class="spacing_row0">{$this->lng['parcours_start']}</TD>
 					<TD class="spacing_row0" align=center colspan=2>{$ss}</TD>
-					<TD align=center>0 pc</TD>
+					<TD align=center>---</TD>
 				</TR>
 ps;
         $this->PushOutput($out);

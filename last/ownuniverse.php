@@ -152,7 +152,7 @@ if ($cleandata && is_array($cleandata[0])) {
         $tpl->AddToRow($id, 'class');
         $tpl->AddToRow($planet['Name'], 'Name');
         foreach ($BatimentsName as $k => $name)
-            $tpl->AddToRow($planet[$k], $k);
+            $tpl->AddToRow(DataEngine::format_number($planet[$k]), $k);
         $tpl->PushRow();
     }
     
