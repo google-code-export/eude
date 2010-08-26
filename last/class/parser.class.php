@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Alex10336
  * Dernière modification: $Id$
@@ -8,8 +9,10 @@
  * @since 1.4.1
  */
 class parser {
+
     static protected $instance;
     private $data_sep;
+    private $strlen, $stripos, $strripos, $substr;
 
     /**
      *
@@ -18,25 +21,25 @@ class parser {
      * @return string valeur trouvé
      */
     public function GetValueByLabel($data, $label) {
-        $result='';
-        $length= mb_strlen($label, 'utf8');
-        $start = mb_stripos($data, $label, 0, 'utf8');
-        $end   = mb_stripos($data, "\n", $start+$length, 'utf8');
+        $result = '';
+        $length = call_user_func($this->strlen, $label);
+        $start = call_user_func($this->stripos, $data, $label, 0);
+        $end = call_user_func($this->stripos, $data, "\n", $start + $length);
 
         if ($start !== false && $end !== false)
-            $result = trim(mb_substr($data, $start+$length,$end-$start-$length, 'utf8'));
+            $result = trim(call_user_func($this->substr, $data, $start + $length, $end - $start - $length));
 
         return $result;
     }
 
     public function GetValueByLabelInverted($data, $label) {
-        $result='';
-        $end   = mb_stripos($data, $label, 0, 'utf8');
-        $part1 = mb_substr($data, 0, $end, 'utf8');
-        $start = mb_strripos($part1, "\n", 0, 'utf8');
+        $result = '';
+        $end = call_user_func($this->stripos, $data, $label, 0);
+        $part1 = call_user_func($this->substr, $data, 0, $end);
+        $start = call_user_func($this->strripos, $part1, "\n", 0);
 
         if ($start !== false && $end !== false)
-            $result = trim(mb_substr($data, $start,$end-$start, 'utf8'));
+            $result = trim(call_user_func($this->substr, $data, $start, $end - $start));
 
         return $result;
     }
@@ -49,11 +52,12 @@ class parser {
      */
     public function LabelExist($data, $label) {
 
-        if (mb_stripos($data, $label, 0, 'utf8') !== false)
+        if (call_user_func($this->stripos, $data, $label, 0) !== false)
             return true;
 
         return false;
     }
+
     /**
      * Récupération d'une partie d'un tableau sur demande.
      * @param array $data
@@ -62,28 +66,28 @@ class parser {
      * @return array
      */
     public function Slice($data, $from, $to=null) {
-        $from_pos		= array_search($from, $data);
-        $to_pos			= array_search($to, $data);
+        $from_pos = array_search($from, $data);
+        $to_pos = array_search($to, $data);
         if ($from_pos === false)
-            $slice		= $data;
+            $slice = $data;
         elseif ($to_pos === false)
-            $slice		= array_slice($data,$from_pos+1);
+            $slice = array_slice($data, $from_pos + 1);
         else
-            $slice		= array_slice($data,$from_pos+1, $to_pos-$from_pos-1);
+            $slice = array_slice($data, $from_pos + 1, $to_pos - $from_pos - 1);
         return $slice;
     }
 
-    function GetInner($data,$from,$to='') {
-        $l = mb_strlen($from, 'utf8');
-        $f = mb_stripos($data, $from, 0, 'utf8');
-        $t = mb_stripos($data, $to, $l+$f, 'utf8');
+    function GetInner($data, $from, $to='') {
+        $l = call_user_func($this->strlen, $from);
+        $f = call_user_func($this->stripos, $data, $from, 0);
+        $t = call_user_func($this->stripos, $data, $to, $l + $f);
 
         if ($f === false)
-            $inner		= $data;
+            $inner = $data;
         elseif ($t === false)
-            $inner		= mb_substr($data,$f+$l, -1, 'utf8');
+            $inner = call_user_func($this->substr, $data, $f + $l, -1);
         else
-            $inner		= mb_substr($data, $f+$l, $t-$f-$l, 'utf8');
+            $inner = call_user_func($this->substr, $data, $f + $l, $t - $f - $l);
 
         return trim($inner);
     }
@@ -93,7 +97,7 @@ class parser {
      * @param array $array
      */
     public function cleaning_array($array) {
-        foreach($array as $k => $v) {
+        foreach ($array as $k => $v) {
             $v = trim($v);
             if ($v == '')
                 unset($array[$k]);
@@ -103,19 +107,35 @@ class parser {
         return $array;
     }
 
-    public function __constructor() {
+    public function __construct() {
         if (DataEngine::$browser->getBrowser() == Browser::BROWSER_IE)
             $this->data_sep = '  '; // IE
         else
             $this->data_sep = "\t\t"; // gecko, 'Webkit'
+            // Rétrocompatibilité avec php < 5.2.0
+            // Risque de bugger quand même...
+        if (version_compare(PHP_VERSION, '5.2.0', '<')) {
+            $this->strlen = 'strlen';
+            $this->stripos = 'stripos';
+            $this->strripos = 'stripos';
+            $this->substr = 'substr';
+        } else {
+            mb_internal_encoding('utf-8');
+            $this->strlen = 'mb_strlen';
+            $this->stripos = 'mb_stripos';
+            $this->strripos = 'mb_strripos';
+            $this->substr = 'mb_substr';
+        }
     }
+
     /**
      * @return parser
      */
     static public function getinstance() {
-        if ( ! self::$instance )
+        if (!self::$instance)
             self::$instance = new self();
 
         return self::$instance;
     }
+
 }
