@@ -112,7 +112,7 @@ class ownuniverse {
         $nbplanets = count($tmp);
         $cleandata = array_fill(0,$nbplanets,array());
         foreach($tmp as $k => $v) $cleandata[$k]['Name'] = $v;
-
+        
         // leurs coordonnées...
         $tmp = $this->parser->GetInner($data, $this->lng['block_coords_0'], $this->lng['block_coords_1']);
         $tmp = $this->parser->cleaning_array(explode(DATA_SEP, $tmp));

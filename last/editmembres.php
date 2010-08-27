@@ -129,7 +129,7 @@ $mysql_result = DataEngine::sql('SELECT m.`Joueur`, m.`Points`, m.`Date`, m.`Eco
 if (mysql_num_rows($mysql_result) == 0)
     output::Boink('Membres.php');
 
-$tpl->header($myget, $TriMembre, $triPermission, $TriPoints,
+$tpl->header(Get_string(), $TriMembre, $triPermission, $TriPoints,
     $TriRace, $TriShip, $TriModif);
 
 $i=0;

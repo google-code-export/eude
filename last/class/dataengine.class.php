@@ -487,11 +487,11 @@ ead;
      */
     static public function Get_Version() {
         if (DE_DEMO)
-            return 'r601 demo';
+            return 'r607 demo';
         elseif (IN_DEV)
             return 'svn-' . time();
         else
-            return '1.4.5.3';
+            return '1.4.x';
     }
 
 }

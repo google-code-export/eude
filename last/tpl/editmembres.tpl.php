@@ -34,7 +34,7 @@ class tpl_editmembres extends output {
 </TR><TR>
 <TD>
 <TABLE bgcolor="#d6d6d6" style="font-size:11;">
-<form autocomplete="off" name="ModifJoueur" method="post" action="editmembres.php{$myget}" onSubmit="return validateform(this);">
+<form autocomplete="off" name="ModifJoueur" method="post" action="editmembres.php?{$myget}" onSubmit="return validateform(this);">
 <TR valign="top" bgcolor="{$this->cols_cls[2]}">
 <TD onclick="location.href='./editmembres.php?TriMembre={$TriMembre}';">{$this->lng['table_members']}</TD>
 <TD onclick="location.href='./editmembres.php?TriGrade={$TriGrade}';">{$this->lng['table_grades']}</TD>
