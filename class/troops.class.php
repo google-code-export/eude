@@ -121,7 +121,6 @@ sql;
                 return 'Error battle result > 1 (omfg)';
             $line = mysql_fetch_assoc($result);
             $mid = $line['ID'];
-            $pids = unserialize($line['pids']);
         }
 
         // Info à ajouter
