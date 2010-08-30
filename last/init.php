@@ -32,6 +32,7 @@ define('INCLUDE_PATH', ROOT_PATH .'Script'.DIRECTORY_SEPARATOR );
 define('ADDONS_PATH', ROOT_PATH .'addons'.DIRECTORY_SEPARATOR );
 define('TEMPLATE_PATH', ROOT_PATH .'tpl'.DIRECTORY_SEPARATOR );
 define('CLASS_PATH', ROOT_PATH .'class'.DIRECTORY_SEPARATOR );
+define('CACHE_PATH', ROOT_PATH .'cache'.DIRECTORY_SEPARATOR );
 
 // constantes pouvant être définies avant "init.php".
 if (!defined('IS_IMG'))			define('IS_IMG',false);

@@ -150,3 +150,4 @@ $lng['types']['string'][4] = 'Astéroïde';
 $lng['wormholes_day'] = 0; // php.net/date => date ('w');
 $lng['wormholes_hour'] = 3;
 $lng['wormholes_minute'] = 1;
+$lng['wormholes_cron'] = '1 3 * * 7';

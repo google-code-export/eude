@@ -149,9 +149,9 @@ class img {
     }
 
     /**
-     * @param integer $r
-     * @param integer $g
-     * @param integer $b
+     *
+     * @param integer $x
+     * @param integer $y
      * @return img
      */
     public function Fill($x=0, $y=0) {

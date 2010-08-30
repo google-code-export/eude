@@ -21,9 +21,10 @@ class tpl_header {
 		else
 			$title = $obj->page_title;
 
-		if ($obj->css_file!="") {
+		if ($obj->css_file!='') {
+                        $nocache = filemtime(ROOT_PATH.$obj->css_file);
 			$css = <<<EOF
-		<link rel="stylesheet" type="text/css" href="%LNG_URL%{$obj->css_file}?{$obj->version}" media="screen" />
+		<link rel="stylesheet" type="text/css" href="%ROOT_URL%{$obj->css_file}?{$nocache}" media="screen" />
 EOF;
 		} else {
 			$css = '';
@@ -47,8 +48,9 @@ $doctype='<html xmlns="http://www.w3.org/1999/html" lang="'.LNG_CODE.'" xml:lang
 <script type="text/javascript" src="%INCLUDE_URL%prototype.js?1.6.1"></script>
 <script type="text/javascript" src="%LNG_URL%eude.local.js?{$obj->version}"></script>
 <script type="text/javascript" src="%INCLUDE_URL%Script.js?{$obj->version}"></script>
+<img src="%ROOT_URL%cron.php" />
 <div id="curseur" class="infobulle"></div>
-<div id="debug" style="z-index:8; position:fixed; visibility:visible; background-color: #C0C0C0;white-space:nowrap; top:50px; left:5px"></div>
+<!--<div id="debug" style="z-index:8; position:fixed; visibility:visible; background-color: #C0C0C0;white-space:nowrap; top:50px; left:5px"></div>-->
 %NEW_MESSAGE_ENTRY%
 EOF;
 

@@ -25,24 +25,26 @@ $lngmain = language::getinstance()->GetLngBlock('dataengine');
 // -----------------------------------------------------------------------------
 // -- Nettoyage vortex périmé --------------------------------------------------
 if (isset($_POST['cleanvortex'])) {
-
-    $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=1 AND `udate`<' . intval($_POST['cleanvortex']));
-    $cleanvortex_delete = mysql_num_rows($mysql_result);
-    if ($cleanvortex_delete > 0) {
-        while ($row = mysql_fetch_assoc($mysql_result))
-            $tmp[] = $row['ID'];
-
-        if (is_array($tmp) && count($tmp) > 0) {
-            $tmp = implode(',', $tmp);
-            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID` in (' . $tmp . ')');
-            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Joueurs` WHERE `jID` in (' . $tmp . ')');
-            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` in (' . $tmp . ')');
-        }
-    }
-    $tmp = DataEngine::config('wormhole_cleaning');
-    $tmp['lastrun'] = time();
-    DataEngine::conf_update('wormhole_cleaning', $tmp);
-    addons::getinstance()->VortexCleaned();
+    define('CRON_LOADONLY', true);
+    include(INCLUDE_PATH.'cron_jobs.php');
+    phpcron_list::getinstance()->GetJob('job_vortex')->RunJob();
+//    $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=1 AND `udate`<' . intval($_POST['cleanvortex']));
+//    $cleanvortex_delete = mysql_num_rows($mysql_result);
+//    if ($cleanvortex_delete > 0) {
+//        while ($row = mysql_fetch_assoc($mysql_result))
+//            $tmp[] = $row['ID'];
+//
+//        if (is_array($tmp) && count($tmp) > 0) {
+//            $tmp = implode(',', $tmp);
+//            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID` in (' . $tmp . ')');
+//            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Joueurs` WHERE `jID` in (' . $tmp . ')');
+//            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` in (' . $tmp . ')');
+//        }
+//    }
+//    $tmp = DataEngine::config('wormhole_cleaning');
+//    $tmp['lastrun'] = time();
+//    DataEngine::conf_update('wormhole_cleaning', $tmp);
+//    addons::getinstance()->VortexCleaned();
 }
 
 if (isset($_GET['switch']) && $_GET['switch'] == 'vortex_cron') {

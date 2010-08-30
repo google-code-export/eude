@@ -52,6 +52,8 @@ class DataEngine extends Members {
         Config::DB_Connect();
 
         DataEngine::conf_cache('wormhole_cleaning');
+
+        define('LNG_PATH', TEMPLATE_PATH . 'lng' . DIRECTORY_SEPARATOR . LNG_CODE . DIRECTORY_SEPARATOR);
         return self::minimalinit();
     }
 
@@ -66,6 +68,7 @@ class DataEngine extends Members {
         define('IMAGES_URL', ROOT_URL . 'Images/');
         define('ADDONS_URL', ROOT_URL . 'addons/');
         define('TEMPLATE_URL', ROOT_URL . 'tpl/');
+        define('CACHE_URL', ROOT_URL .'cache/');
 
         DataEngine::conf_cache('perms');
         DataEngine::conf_cache('config');
@@ -206,31 +209,31 @@ class DataEngine extends Members {
 
 
             // Initialisations particulières {
-            if (self::$conf_load['wormhole_cleaning']) {
-                $lng = language::getinstance()->GetLngBlock('dataengine');
-                $wormhole_cleaning = self::$settings['wormhole_cleaning'];
-                if (date('w') == $lng['wormholes_day'] && $wormhole_cleaning['enabled']) {
-                    $runat = mktime($lng['wormholes_hour'], $lng['wormholes_minute'], 0, date('m'), date('d'), date('Y'));
-                    $now = time();
-                    if ($now > $runat && $runat > $wormhole_cleaning['lastrun']) {
-                        $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=1');
-                        while ($row = mysql_fetch_assoc($mysql_result))
-                            $tmp[] = $row['ID'];
-
-                        if (is_array($tmp) && count($tmp) > 0) {
-                            $tmp = implode(',', $tmp);
-                            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID` in (' . $tmp . ')');
-                            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Joueurs` WHERE `jID` in (' . $tmp . ')');
-                            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` in (' . $tmp . ')');
-                        }
-                        self::sql('INSERT INTO `SQL_PREFIX_Log` (DATE,LOGIN,IP) VALUES(NOW(),\'vortex_reset_by:' . $_SESSION['_login'] . '\' ,\'' . Get_IP() . '\')');
-                        $wormhole_cleaning['lastrun'] = $now;
-                        self::conf_update('wormhole_cleaning', $wormhole_cleaning);
-                        self::sql_do_spool(); // Mettre à jour maintenant, pas que deux membres le fasse a 1/2sec d'intervalle.
-                        addons::getinstance()->VortexCleaned();
-                    }
-                }
-            }
+//            if (self::$conf_load['wormhole_cleaning']) {
+//                $lng = language::getinstance()->GetLngBlock('dataengine');
+//                $wormhole_cleaning = self::$settings['wormhole_cleaning'];
+//                if (date('w') == $lng['wormholes_day'] && $wormhole_cleaning['enabled']) {
+//                    $runat = mktime($lng['wormholes_hour'], $lng['wormholes_minute'], 0, date('m'), date('d'), date('Y'));
+//                    $now = time();
+//                    if ($now > $runat && $runat > $wormhole_cleaning['lastrun']) {
+//                        $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=1');
+//                        while ($row = mysql_fetch_assoc($mysql_result))
+//                            $tmp[] = $row['ID'];
+//
+//                        if (is_array($tmp) && count($tmp) > 0) {
+//                            $tmp = implode(',', $tmp);
+//                            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID` in (' . $tmp . ')');
+//                            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Joueurs` WHERE `jID` in (' . $tmp . ')');
+//                            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` in (' . $tmp . ')');
+//                        }
+//                        self::sql('INSERT INTO `SQL_PREFIX_Log` (DATE,LOGIN,IP) VALUES(NOW(),\'vortex_reset_by:' . $_SESSION['_login'] . '\' ,\'' . Get_IP() . '\')');
+//                        $wormhole_cleaning['lastrun'] = $now;
+//                        self::conf_update('wormhole_cleaning', $wormhole_cleaning);
+//                        self::sql_do_spool(); // Mettre à jour maintenant, pas que deux membres le fasse a 1/2sec d'intervalle.
+//                        addons::getinstance()->VortexCleaned();
+//                    }
+//                }
+//            }
 
             if (CHECK_LOGIN && $GLOBALS['validsession']) {
                 if (self::$settings['config']['closed'] && !Members::CheckPerms(AXX_ROOTADMIN)) {

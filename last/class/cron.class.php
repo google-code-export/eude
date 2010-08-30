@@ -313,13 +313,19 @@ class phpcron_list {
     private $SerialisedCronJobs;
 
     /**
-     *
      * @param phpcron_job $Job
      * @return phpcron
      */
     public function AddJob($Job) {
         $this->CronJobs[get_class($Job)] = $Job;
         return $this;
+    }
+    /**
+     * @param string $Job
+     * @return phpcron_job
+     */
+    public function GetJob($Job) {
+        return $this->CronJobs[$Job];
     }
 
     /**
@@ -331,9 +337,9 @@ class phpcron_list {
             if ($obj->NextRunTime() === false)
                 continue;
 
-            if ($job === false)
+            if ($job === false && time() > $obj->LastRan)
                 $job = $obj;
-            elseif ($job->LastRan > $obj->LastRan)
+            elseif (time() > $obj->LastRan)
                 $job = $obj;
         }
 
@@ -375,28 +381,27 @@ class phpcron_list {
 
 abstract class phpcron_job extends phpcron_runtime {
 
-    protected $phpcron;
+//    protected $phpcron;
     public $CronPattern;
     public $lastrun;
 
+    abstract public function Actived();
     abstract public function RunJob();
 
     public function NextRunTime() {
+        if (!$this->Actived()) return false;
         $this->evaluate_job();
-        return ($this->lastrun >= $this->lastRan) ? false : $this->lastRan;
+
+        return ($this->lastrun > $this->lastRan) ? false : $this->lastRan;
     }
 
     public function __sleep() {
         return array('CronPattern', 'lastrun');
     }
 
-    public function __wakeup() {
-
-    }
-
     public function __construct() {
-        $this->phpcron = phpcron_list::getinstance();
-        ;
+        $this->lastrun = 0;
+        $this->CronPattern = '';
     }
 
 }
