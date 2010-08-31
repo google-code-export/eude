@@ -12,7 +12,8 @@ include('init.php');
 require_once(INCLUDE_PATH . 'Script.php');
 require_once(CLASS_PATH . 'img.class.php');
 
-include_once(INCLUDE_PATH . 'cron_jobs.php');
+include_once(INCLUDE_PATH . 'crontab.php');
+$cron->Run();
 
 if (IS_IMG)
     img::Create(1, 1)->SetColorHexa('000000')->Fill()->Render();

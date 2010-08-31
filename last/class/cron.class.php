@@ -121,6 +121,43 @@ abstract class phpcron_runtime {
         return date('t', mktime(0, 0, 0, $month, 1, $year));
     }
 
+    private function _prevHour($arHours, $arDays, $arMonths) {
+        $this->hour = array_pop($arHours);
+        if ($this->hour === NULL) {
+            $this->_prevDay($arDays, $arMonths);
+        } else {
+            $this->minute = $this->_getLastMinute();
+        }
+    }
+
+    private function _prevDay($arDays, $arMonths) {
+        $this->day = array_pop($arDays);
+        if ($this->day === NULL) {
+            $this->_prevMonth($arMonths);
+        } else {
+            $this->hour = $this->_getLastHour();
+            $this->minute = $this->_getLastMinute();
+        }
+    }
+
+    private function _prevMonth($arMonths) {
+        $this->month = array_pop($arMonths);
+        if ($this->month === NULL) {
+            $this->year = $this->year - 1;
+            $arMonths = $this->_getMonthsArray();
+            $this->_prevMonth($arMonths);
+        } else {
+            $this->day = $this->_getLastDay($this->month, $this->year);
+
+            if ($this->day === NULL) {
+                $this->_prevMonth($arMonths);
+            } else {
+                $this->hour = $this->_getLastHour();
+                $this->minute = $this->_getLastMinute();
+            }
+        }
+    }
+
     private function _getLastMinute() {
         $minutes = $this->_getMinutesArray();
         $minute = array_pop($minutes);
@@ -320,6 +357,7 @@ class phpcron_list {
         $this->CronJobs[get_class($Job)] = $Job;
         return $this;
     }
+
     /**
      * @param string $Job
      * @return phpcron_job
@@ -346,6 +384,28 @@ class phpcron_list {
         return $job;
     }
 
+    public function Run() {
+        if (($job = $this->GetAJob()) !== false) {
+            $job->RunJob();
+            $this->Save();
+        }
+    }
+
+    public function Log($value) {
+        $value = sqlesc($value);
+        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"cron: ' . $value . '",\'' . Get_IP() . '\')';
+        DataEngine::sql_spool($query);
+    }
+
+    public function Save() {
+        if (!is_object(DataEngine::config('cron')))
+            DataEngine::conf_add('cron', $this);
+        else
+            DataEngine::conf_update('cron', $this);
+
+        DataEngine::sql_do_spool();
+    }
+
     public function __sleep() {
         $this->SerialisedCronJobs = array();
 
@@ -361,6 +421,7 @@ class phpcron_list {
         foreach ($this->SerialisedCronJobs as $k => $obj)
             $this->CronJobs[$k] = unserialize($obj);
         $this->SerialisedCronJobs = '';
+        self::$instance = $this;
     }
 
     public function __construct() {
@@ -381,15 +442,19 @@ class phpcron_list {
 
 abstract class phpcron_job extends phpcron_runtime {
 
-//    protected $phpcron;
     public $CronPattern;
     public $lastrun;
 
     abstract public function Actived();
-    abstract public function RunJob();
+
+    public function RunJob() {
+        $this->lastrun = time();
+        phpcron_list::getinstance()->Log(get_class($this));
+    }
 
     public function NextRunTime() {
-        if (!$this->Actived()) return false;
+        if (!$this->Actived())
+            return false;
         $this->evaluate_job();
 
         return ($this->lastrun > $this->lastRan) ? false : $this->lastRan;

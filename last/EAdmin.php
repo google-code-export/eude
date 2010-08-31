@@ -26,8 +26,9 @@ $lngmain = language::getinstance()->GetLngBlock('dataengine');
 // -- Nettoyage vortex périmé --------------------------------------------------
 if (isset($_POST['cleanvortex'])) {
     define('CRON_LOADONLY', true);
-    include(INCLUDE_PATH.'cron_jobs.php');
-    phpcron_list::getinstance()->GetJob('job_vortex')->RunJob();
+    include(INCLUDE_PATH.'crontab.php');
+    $cron->GetJob('job_vortex')->RunJob();
+    $cron->Save();
 //    $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=1 AND `udate`<' . intval($_POST['cleanvortex']));
 //    $cleanvortex_delete = mysql_num_rows($mysql_result);
 //    if ($cleanvortex_delete > 0) {
