@@ -25,6 +25,7 @@ class job_vortex extends phpcron_job {
     }
 
     public function RunJob() {
+        $this->_lock();
         $now = time();
         $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=1');
         while ($row = mysql_fetch_assoc($mysql_result))
@@ -65,8 +66,10 @@ class job_css extends phpcron_job {
     }
 
     public function RunJob() {
+        $this->_lock();
         include(LNG_PATH . 'css.php');
         file_put_contents(CACHE_PATH . 'eude.css', $css);
+sleep(6000);
         parent::RunJob();
     }
 

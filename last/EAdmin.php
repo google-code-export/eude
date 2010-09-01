@@ -426,7 +426,7 @@ if ($_REQUEST['act'] == 'mapcolor' && Members::CheckPerms('MEMBRES_ADMIN_MAP_COL
 if ($_REQUEST['act'] == 'logs' && Members::CheckPerms('MEMBRES_ADMIN_LOG')) {
     $tpl->page_title = $lng['logs_title'];
     $tpl->log_header();
-    $mysql_result = DataEngine::sql('SELECT `DATE`, `LOGIN`, `IP` from `SQL_PREFIX_Log` ORDER BY `ID` DESC LIMIT 40');
+    $mysql_result = DataEngine::sql('SELECT `DATE`, `log`, `IP` from `SQL_PREFIX_Log` ORDER BY `ID` DESC LIMIT 40');
     while ($ligne = mysql_fetch_array($mysql_result))
         $tpl->log_row($ligne);
     $tpl->log_footer();

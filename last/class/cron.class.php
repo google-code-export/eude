@@ -393,7 +393,7 @@ class phpcron_list {
 
     public function Log($value) {
         $value = sqlesc($value);
-        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"cron: ' . $value . '",\'' . Get_IP() . '\')';
+        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`log`,`IP`) VALUES(NOW(),"cron: ' . $value . '",\'' . Get_IP() . '\')';
         DataEngine::sql_spool($query);
     }
 
@@ -422,11 +422,15 @@ class phpcron_list {
             $this->CronJobs[$k] = unserialize($obj);
         $this->SerialisedCronJobs = '';
         self::$instance = $this;
+        if (file_put_contents(CACHE_PATH . 'test.cron', 'test') === false)
+            trigger_error('Chmod +w needed on ' . CACHE_PATH);
     }
 
     public function __construct() {
         $this->CronJobs = array();
         $this->SerialisedCronJobs = '';
+        if (file_put_contents(CACHE_PATH . 'test.cron', 'test') === false)
+            trigger_error('Chmod +w needed on ' . CACHE_PATH);
     }
 
     /**
@@ -450,14 +454,32 @@ abstract class phpcron_job extends phpcron_runtime {
     public function RunJob() {
         $this->lastrun = time();
         phpcron_list::getinstance()->Log(get_class($this));
+        $this->_unlock();
     }
 
-    public function NextRunTime() {
+    final public function NextRunTime() {
         if (!$this->Actived())
+            return false;
+        if ($this->_islock())
             return false;
         $this->evaluate_job();
 
         return ($this->lastrun > $this->lastRan) ? false : $this->lastRan;
+    }
+
+    final public function _islock() {
+        if (file_exists(get_class($this) . '.cron'))
+            return file_get_contents(get_class($this) . '.cron') == '1';
+        else
+            return false;
+    }
+
+    final public function _lock() {
+        file_put_contents(CACHE_PATH . get_class($this) . '.cron', '1');
+    }
+
+    final public function _unlock() {
+        file_put_contents(CACHE_PATH . get_class($this) . '.cron', '0');
     }
 
     public function __sleep() {

@@ -37,7 +37,7 @@ if (NO_SESSIONS) {
         $_SESSION['_permkey']  = sha1($mdp.$_SESSION['_IP']);
         return true;
     } else { // login/pass pas bon...
-        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"err.gm:'.$login.'",\''.Get_IP().'\')';
+        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`log`,`IP`) VALUES(NOW(),"login,gm,err:'.$login.'",\''.Get_IP().'\')';
         DataEngine::sql($query);
         header('HTTP/1.1 403 Forbidden');
         $out = <<<o
@@ -72,12 +72,12 @@ if($_POST && !empty($_POST['login']) && !empty($_POST['mdp'])) {
         $_SESSION['carte_prefs']  = $ligne['carte_prefs'];
         $_SESSION['_IP']  	= Get_IP();
         $_SESSION['_permkey']  = sha1($mdp.$_SESSION['_IP']);
-        DataEngine::sql_spool('INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),\''.$login.'\',\''.$_SESSION['_IP'].'\')');
+        DataEngine::sql_spool('INSERT INTO `SQL_PREFIX_Log` (`DATE`,`log`,`IP`) VALUES(NOW(),\'login:'.$login.'\',\''.$_SESSION['_IP'].'\')');
         DataEngine::sql_spool('UPDATE `SQL_PREFIX_Membres` SET `Date`=now() WHERE `Joueur`=\''.$login.'\'');
     } else { // login/pass pas bon...
         $validsession=-1;
         $login_msg = $lng['wronglogin'];
-        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"Err:'.$login.'",\''.Get_IP().'\')';
+        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`log`,`IP`) VALUES(NOW(),"login,err:'.$login.'",\''.Get_IP().'\')';
         DataEngine::sql($query);
     }
 }
@@ -96,7 +96,7 @@ if( ($validsession===false) && isset($_SESSION['_login']) && $_SESSION['_login']
         $_SESSION['carte_prefs']  = $ligne['carte_prefs'];
     } else {
         $validsession=-1;
-        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"invalid:'.$login.'/'.$_SESSION['_Perm'].'/'.$_SESSION['_IP'].'",\''.Get_IP().'\')';
+        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`log`,`IP`) VALUES(NOW(),"login,inv:'.$login.'/'.$_SESSION['_Perm'].'/'.$_SESSION['_IP'].'",\''.Get_IP().'\')';
         $_SESSION['_login'] = $_SESSION['_pass'] = $_SESSION['_Perm'] = $_SESSION['_IP'] = ''; // déconnexion...
         DataEngine::sql($query);
     }
@@ -137,7 +137,7 @@ if ( $validsession !== true && IS_IMG ) {
 // $validsession
 
 if ($validsession === true && $_SESSION['_Perm'] < AXX_VALIDATING) {
-    $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),"AXX_VALIDATING:'.$_SESSION['_login'].'",\''.$_SESSION['_IP'].'\')';
+    $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`log`,`IP`) VALUES(NOW(),"login,needvalidation:'.$_SESSION['_login'].'",\''.$_SESSION['_IP'].'\')';
     $_SESSION['_login'] = '';
     DataEngine::sql($query);
     output::_DoOutput('<a href="'.DataEngine::config_key('config', 'ForumLink').'"><p style="color:red">'.$lng['no_axx'].'</p></a>');

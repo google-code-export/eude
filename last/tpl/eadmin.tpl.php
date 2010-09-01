@@ -624,7 +624,7 @@ col1_h;
         $out =<<<col1_r
 	<TR class="base_row{$cls}">
 		<TD>{$ligne['DATE']}</TD>
-		<TD>{$ligne['LOGIN']}</TD>
+		<TD>{$ligne['log']}</TD>
 		<TD>{$ligne['IP']}</TD>
 	</TR>
 
