@@ -69,6 +69,7 @@ class DataEngine extends Members {
         define('ADDONS_URL', ROOT_URL . 'addons/');
         define('TEMPLATE_URL', ROOT_URL . 'tpl/');
         define('CACHE_URL', ROOT_URL .'cache/');
+        define('BTN_URL', CACHE_URL .'btn-');
 
         DataEngine::conf_cache('perms');
         DataEngine::conf_cache('config');

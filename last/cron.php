@@ -15,13 +15,15 @@ require_once(CLASS_PATH . 'img.class.php');
 include_once(INCLUDE_PATH . 'crontab.php');
 
 if (IS_IMG) {
-    $cron->Run();
-    img::Create(1, 1)->SetColorHexa('000000')->Fill()->Render();
+    if ($cron->Run())
+        img::Create(3, 3)->SetColorHexa('00FF00')->Fill()->Render();
+    else
+        img::Create(1, 1)->FillAlphaHexa('000000')->Render();
 } else {
-
     if (($job = $cron->GetAJob()) !== false) {
         $job->RunJob();
         $cron->Save();
+        DataEngine::sql_log();
         echo get_class($job);
     }
 }

@@ -408,28 +408,22 @@ out;
         $this->PushOutput($out);
     }
 
-    public function RegenButtons() {
-        if (isset ($_POST['RegenButtons'])) {
-            $frame =<<<frame
-   <iframe src="%BTN_URL%gen.php" width="0px" height="0px"/>
-frame;
-            output::Messager($this->lng['regen_buttons_inwork']);
-        }
+    public function ResetCron() {
         $out =<<<out
 <form method="post" action="{$this->BASE_FILE}">
-    <input type="hidden" name="RegenButtons" value="true"/>
+    <input type="hidden" name="ResetCron" value="true"/>
 	<TR class="color_header">
-		<TD colspan=3>{$this->lng['regen_buttons']}</TD>
-		<TD class="text_center"><input class="color_header" value="{$this->lng['regen_buttons_btn']}" type=submit></TD>
+		<TD colspan=3>{$this->lng['reset_cron']}</TD>
+		<TD class="text_center"><input class="color_header" value="{$this->lng['reset_cron_btn']}" type=submit></TD>
 	</TR>
 </form>
-                {$frame}
 <tr class="color_row1">
 <td colspan=4 height="1px"></td>
 </tr>
 out;
 
         $this->PushOutput($out);
+
     }
 
     public function admin_footer() {

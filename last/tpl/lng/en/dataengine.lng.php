@@ -147,6 +147,4 @@ $lng['types']['string'][2] = 'Planet';
 $lng['types']['string'][4] = 'Asteroid';
 
 // Nettoyage votex...
-$lng['wormholes_day'] = 6; // php.net/date => date ('w');
-$lng['wormholes_hour'] = 7;
-$lng['wormholes_minute'] = 1;
+$lng['wormholes_cron'] = '01 07 * * 6'; // google "man crontab"

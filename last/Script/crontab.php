@@ -17,7 +17,7 @@ class job_vortex extends phpcron_job {
         $this->CronPattern = $lng['wormholes_cron'];
         // Vérouiller sur sa première initialisation ou reset cron...
         $this->evaluate_job();
-        $this->lastrun = $this->lastRan+1;
+        $this->lastrun = $this->lastRan + 1;
     }
 
     public function Actived() {
@@ -55,9 +55,9 @@ class job_css extends phpcron_job {
 
     public function __construct() {
         parent::__construct();
-        
-        if (file_exists(CACHE_PATH.'eude.css'))
-            $this->lastrun = filemtime(CACHE_PATH.'eude.css');
+
+        if (file_exists(CACHE_PATH . 'eude.css'))
+            $this->lastrun = filemtime(CACHE_PATH . 'eude.css');
         $this->__wakeup();
     }
 
@@ -69,7 +69,6 @@ class job_css extends phpcron_job {
         $this->_lock();
         include(LNG_PATH . 'css.php');
         file_put_contents(CACHE_PATH . 'eude.css', $css);
-sleep(6000);
         parent::RunJob();
     }
 
@@ -77,8 +76,44 @@ sleep(6000);
         $time = max(filemtime(LNG_PATH . 'css.php'), filemtime(LNG_PATH . 'template.css'));
         $this->CronPattern = strftime("%M %H %d %m %w", $time);
     }
+
 }
 
+class job_buttons extends phpcron_job {
+
+    public function __construct() {
+        parent::__construct();
+        $files = scandir(CACHE_PATH);
+        foreach ($files as $file)
+            if (substr($file, -4) == '.png' && substr($file, 0, 3) == 'btn-') {
+                $this->lastrun = filemtime($file);
+                break;
+            }
+        $this->__wakeup();
+    }
+
+    public function Actived() {
+        return true;
+    }
+
+    public function RunJob() {
+        $this->_lock();
+        include(LNG_PATH . 'btn.php');
+//        file_put_contents(CACHE_PATH . 'eude.css', $css);
+        $files = scandir(CACHE_PATH);
+        foreach ($files as $file)
+            if (substr($file, -4) == '.png' && substr($file, 0, 3) == 'btn-')
+                unlink(CACHE_PATH.$file);
+        foreach ($listing as $key => $dummy)
+            do_btn($key, $listing);
+        parent::RunJob();
+    }
+
+    public function __wakeup() {
+        $this->CronPattern = strftime("%M %H %d %m %w", filemtime(LNG_PATH . 'btn.php'));
+    }
+
+}
 
 // -----------------------------------------------------------------------------
 
@@ -92,7 +127,8 @@ if (is_object($cron_conf))
 else {
     $cron = phpcron_list::getinstance();
     $cron->AddJob(new job_vortex());
-    $cron->AddJob(new job_css());
+    $cron->AddJob(new job_buttons());
+    $cron->AddJob(new job_css()); // garder en dernier?
 }
 
 //DataEngine::Grab_Custom_Jobs();

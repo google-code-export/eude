@@ -26,26 +26,9 @@ $lngmain = language::getinstance()->GetLngBlock('dataengine');
 // -- Nettoyage vortex périmé --------------------------------------------------
 if (isset($_POST['cleanvortex'])) {
     define('CRON_LOADONLY', true);
-    include(INCLUDE_PATH.'crontab.php');
+    include(INCLUDE_PATH . 'crontab.php');
     $cron->GetJob('job_vortex')->RunJob();
     $cron->Save();
-//    $mysql_result = DataEngine::sql('SELECT ID FROM `SQL_PREFIX_Coordonnee` WHERE `TYPE`=1 AND `udate`<' . intval($_POST['cleanvortex']));
-//    $cleanvortex_delete = mysql_num_rows($mysql_result);
-//    if ($cleanvortex_delete > 0) {
-//        while ($row = mysql_fetch_assoc($mysql_result))
-//            $tmp[] = $row['ID'];
-//
-//        if (is_array($tmp) && count($tmp) > 0) {
-//            $tmp = implode(',', $tmp);
-//            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID` in (' . $tmp . ')');
-//            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Joueurs` WHERE `jID` in (' . $tmp . ')');
-//            DataEngine::sql('DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` in (' . $tmp . ')');
-//        }
-//    }
-//    $tmp = DataEngine::config('wormhole_cleaning');
-//    $tmp['lastrun'] = time();
-//    DataEngine::conf_update('wormhole_cleaning', $tmp);
-//    addons::getinstance()->VortexCleaned();
 }
 
 if (isset($_GET['switch']) && $_GET['switch'] == 'vortex_cron') {
@@ -106,59 +89,58 @@ if (count($cleaningids) > 0) {
 // -- Partie Nettoyage ---------------------------------------------------------
 // -----------------------------------------------------------------------------
 // -- Partie maintenance -------------------------------------------------------
-
-if (isset($_POST['add_coords_unique_index']) && $_POST['add_coords_unique_index'] != '') {
-
-    $sql = <<<sql
-SELECT COUNT(`POSIN`) as nb, `POSIN`, `COORDET`
-FROM  `SQL_PREFIX_Coordonnee`
-GROUP BY CONCAT_WS('-', `POSIN`, `COORDET`)
-ORDER BY nb DESC
-sql;
-
-    $result = DataEngine::sql($sql);
-    $delid = Array();
-    while ($line = mysql_fetch_assoc($result)) {
-        if ($line['nb'] < 2)
-            break;
-        $i = 0;
-        $sql = <<<sql
-SELECT `ID`, `POSIN`, `COORDET`
-FROM  `SQL_PREFIX_Coordonnee`
-WHERE `POSIN`={$line['POSIN']} AND `COORDET`='{$line['COORDET']}'
-ORDER BY CONCAT_WS('-', `POSIN`, `COORDET`), udate DESC
-sql;
-        $result2 = DataEngine::sql($sql);
-        while ($line2 = mysql_fetch_assoc($result2)) {
-            $i++;
-            if ($i == 1)
-                continue;
-            $delid[] = $line2['ID'];
-        }
-    }
-
-    $delid = implode(',', $delid);
-    if ($delid != '') {
-        $sql = 'DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID` IN (' . $delid . ')';
-        $result = DataEngine::sql($sql);
-        $cleaning['num deleted'] = mysql_affected_rows();
-        $sql = 'DELETE FROM `SQL_PREFIX_Coordonnee_Joueurs` WHERE `jID` IN (' . $delid . ')';
-        $result = DataEngine::sql($sql);
-        $sql = 'DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` IN (' . $delid . ')';
-        $result = DataEngine::sql($sql);
-    }
-
-    // Ajout de l'index 'unique' s'il n'y est pas déjà...
-    $result = DataEngine::sql('SHOW INDEXES FROM `SQL_PREFIX_Coordonnee` WHERE `key_name`=\'coords\'');
-    $cleaning['index_add'] = mysql_num_rows($result) < 1;
-    if ($cleaning['index_add'])
-        $result = DataEngine::sql('ALTER TABLE `SQL_PREFIX_Coordonnee` ADD UNIQUE `coords` (`POSIN`, `COORDET`)');
-
-    if ($cleaning['num deleted'] > 0)
-        output::Messager(sprintf('%d doublon(s) trouvé', $cleaning['num deleted']));
-    if ($cleaning['num index_add'])
-        output::Messager('Index ajouté (accélère les requêtes)');
-}
+//if (isset($_POST['add_coords_unique_index']) && $_POST['add_coords_unique_index'] != '') {
+//
+//    $sql = <<<sql
+//SELECT COUNT(`POSIN`) as nb, `POSIN`, `COORDET`
+//FROM  `SQL_PREFIX_Coordonnee`
+//GROUP BY CONCAT_WS('-', `POSIN`, `COORDET`)
+//ORDER BY nb DESC
+//sql;
+//
+//    $result = DataEngine::sql($sql);
+//    $delid = Array();
+//    while ($line = mysql_fetch_assoc($result)) {
+//        if ($line['nb'] < 2)
+//            break;
+//        $i = 0;
+//        $sql = <<<sql
+//SELECT `ID`, `POSIN`, `COORDET`
+//FROM  `SQL_PREFIX_Coordonnee`
+//WHERE `POSIN`={$line['POSIN']} AND `COORDET`='{$line['COORDET']}'
+//ORDER BY CONCAT_WS('-', `POSIN`, `COORDET`), udate DESC
+//sql;
+//        $result2 = DataEngine::sql($sql);
+//        while ($line2 = mysql_fetch_assoc($result2)) {
+//            $i++;
+//            if ($i == 1)
+//                continue;
+//            $delid[] = $line2['ID'];
+//        }
+//    }
+//
+//    $delid = implode(',', $delid);
+//    if ($delid != '') {
+//        $sql = 'DELETE FROM `SQL_PREFIX_Coordonnee` WHERE `ID` IN (' . $delid . ')';
+//        $result = DataEngine::sql($sql);
+//        $cleaning['num deleted'] = mysql_affected_rows();
+//        $sql = 'DELETE FROM `SQL_PREFIX_Coordonnee_Joueurs` WHERE `jID` IN (' . $delid . ')';
+//        $result = DataEngine::sql($sql);
+//        $sql = 'DELETE FROM `SQL_PREFIX_Coordonnee_Planetes` WHERE `pID` IN (' . $delid . ')';
+//        $result = DataEngine::sql($sql);
+//    }
+//
+//    // Ajout de l'index 'unique' s'il n'y est pas déjà...
+//    $result = DataEngine::sql('SHOW INDEXES FROM `SQL_PREFIX_Coordonnee` WHERE `key_name`=\'coords\'');
+//    $cleaning['index_add'] = mysql_num_rows($result) < 1;
+//    if ($cleaning['index_add'])
+//        $result = DataEngine::sql('ALTER TABLE `SQL_PREFIX_Coordonnee` ADD UNIQUE `coords` (`POSIN`, `COORDET`)');
+//
+//    if ($cleaning['num deleted'] > 0)
+//        output::Messager(sprintf('%d doublon(s) trouvé', $cleaning['num deleted']));
+//    if ($cleaning['num index_add'])
+//        output::Messager('Index ajouté (accélère les requêtes)');
+//}
 
 if (isset($_POST['clean_orphan_planets']) && $_POST['clean_orphan_planets'] != '') {
 
@@ -181,6 +163,22 @@ sql;
             output::Messager(sprintf('%d orphelin(s) trouvé', $cleaning['num deleted']));
     }
 }
+
+if (isset($_POST['ResetCron']) && $_POST['ResetCron'] != '') {
+
+    $sql = <<<sql
+DELETE FROM `SQL_PREFIX_Config` WHERE `key` = 'cron'
+sql;
+
+    $result = DataEngine::sql($sql);
+    $files = scandir(CACHE_PATH);
+    foreach ($files as $file) {
+        if (preg_match('/.*\.(css|png|cron)$/', $file))
+            @unlink(CACHE_PATH . $file);
+    }
+    output::Messager($lng['reset_cron_done']);
+}
+
 // -- Partie maintenance -------------------------------------------------------
 // -----------------------------------------------------------------------------
 // -- Gestion des empires ------------------------------------------------------
@@ -341,9 +339,9 @@ $tpl->admin_header($version);
 
 if (!isset($_REQUEST['act'])) {
 ///---
-
+    // TODO: Revoir l'affichage du cron vortex...
     $dates[0] = date('Y-m-d H:i:s');
-    $dates[1] = mktime($lngmain['wormholes_hour'], $lngmain['wormholes_minute'], 0, date('m'), date('d') - date('w')+$lngmain['wormholes_day']);
+    $dates[1] = mktime($lngmain['wormholes_hour'], $lngmain['wormholes_minute'], 0, date('m'), date('d') - date('w') + $lngmain['wormholes_day']);
 //    $dates[2] = mktime(3, 01, 0, date('m'), date('d') - date('w') - 7);
 
     $tpl->admin_vortex($dates, $cleanvortex_delete, DataEngine::config('wormhole_cleaning'));
@@ -403,7 +401,7 @@ if (!isset($_REQUEST['act'])) {
 
     $tpl->add_coords_unique_index();
     $tpl->clean_orphan_planets();
-    $tpl->RegenButtons();
+    $tpl->ResetCron();
 
     $tpl->admin_footer();
 }

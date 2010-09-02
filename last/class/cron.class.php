@@ -388,12 +388,15 @@ class phpcron_list {
         if (($job = $this->GetAJob()) !== false) {
             $job->RunJob();
             $this->Save();
+            return true;
         }
+        return false;
     }
 
     public function Log($value) {
         $value = sqlesc($value);
-        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`log`,`IP`) VALUES(NOW(),"cron: ' . $value . '",\'' . Get_IP() . '\')';
+        $query = sprintf('INSERT INTO `SQL_PREFIX_Log` (`DATE`,`log`,`IP`) VALUES(NOW(),\'cron: %s (%1.4fsec.)\',\'%s\')',
+                        $value, microtime(true) - START, Get_IP());
         DataEngine::sql_spool($query);
     }
 
@@ -488,7 +491,8 @@ abstract class phpcron_job extends phpcron_runtime {
 
     public function __construct() {
         $this->lastrun = 0;
-        $this->CronPattern = '';
+        // Tout les Mercredi 1er avril entre 12h et 14h par intervalle de 10min.
+        $this->CronPattern = '0,10,20,30,40,50 12-14 1 4 3'; // ie. en 2009, 2015, ...
     }
 
 }

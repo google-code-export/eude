@@ -94,8 +94,11 @@ $lng['cleaning_inactif_result'] = '%d éléments inactifs supprimé';
 $lng['cleaning_add_coords_unique_index'] = 'Rechercher des doublons dans la base de donnée (cartographie)';
 $lng['cleaning_orphan_planets'] = 'Rechercher des éléments orphelin dans la base de donnée (cartographie)';
 $lng['regen_buttons']     = 'Regénérer les boutons (en cas de modification ou Mise à jour)';
-$lng['regen_buttons_inwork'] = 'Régénération des bouton en cours...<br/>Pensez a vider votre cache après.';
-$lng['regen_buttons_btn'] = 'Regénérer';
+//$lng['regen_buttons_inwork'] = 'Régénération des bouton en cours...<br/>Pensez a vider votre cache après.';
+//$lng['regen_buttons_btn'] = 'Regénérer';
+$lng['reset_cron'] = 'Purge du cache (la remise en état peut demander l\'affichage de plusieurs pages)';
+$lng['reset_cron_btn'] = 'Purger';
+$lng['reset_cron_done'] = '<font color="red">Purge effectué.<br/>L\'affichage va être temporairement incomplet.</font>';
 
 //------------------------------------------------------------------------------
 $lng['perms_title']         = 'EU2: Administration, permissions';
