@@ -134,52 +134,52 @@ $map->update_session();
 
 /// PARTIE NON EXPORTÉ ///
 
-$mysql_result = $map->init_map();
-$map->TabData = '';
-
-function map_additem($ss, $data) {
-    global $map;
-    if ($map->itineraire) {
-        if ($ss == $map->parcours[1][0]) $map->parcours[2][0] = true;
-        if ($ss == $map->parcours[1][count($map->parcours[1])-1]) $map->parcours[2][1] = true;
-    }
-//  $map->TabData.='TabData['.$ss.'] =\''.$map->ss_info($ss,$data).'\';'."\n"; à voir
-    $map->TabData.="TabData[\"$ss\"] =\"".$map->ss_info($ss,$data)."\";\n";
-}
-
-while ($line=mysql_fetch_assoc($mysql_result)) {
-    if ($CurrSS == 0) $CurrSS = $line['POSIN'];
-
-    if ($line['POSIN'] != $CurrSS) {
-        $map->add_ss(false,'map_additem');
-        $CurrSS   = $line['POSIN'];
-    }
-
-    $ID   = $line['ID'];
-    $ss   = $line['POSIN'];
-
-    $CurrSS_a[$ID] = $line;
-    $CurrSS_a[$ID]['type'] = $map->ss_type($line);
-    if (isset ($CurrSS_a[$CurrSS_a[$ID]['type']]))
-        $CurrSS_a[$CurrSS_a[$ID]['type']]++;
-        else
-        $CurrSS_a[$CurrSS_a[$ID]['type']]=1;
-}
-mysql_free_result($mysql_result);
-
-$map->add_ss(false,'map_additem'); // last one
-
-// Vortex restants...
-if ($map->vortex && count($vortex_a) >0)
-    foreach($vortex_a as $k => $v) {
-        $map->add_ss($k,'map_additem');
-    }
-
-if ($map->itineraire) { // forçage si le parcours est en zone "désertique"..
-    if (!$map->parcours[2][0]) $map->add_ss($map->parcours[1][0],'map_additem'); // départ
-    if (!$map->parcours[2][1]) $map->add_ss($map->parcours[1][count($map->parcours[1])-1],'map_additem'); // arrivée
-}
-unset($vortex_a);
+//$mysql_result = $map->init_map();
+//$map->TabData = '';
+//
+//function map_additem($ss, $data) {
+//    global $map;
+//    if ($map->itineraire) {
+//        if ($ss == $map->parcours[1][0]) $map->parcours[2][0] = true;
+//        if ($ss == $map->parcours[1][count($map->parcours[1])-1]) $map->parcours[2][1] = true;
+//    }
+////  $map->TabData.='TabData['.$ss.'] =\''.$map->ss_info($ss,$data).'\';'."\n"; à voir
+//    $map->TabData.="TabData[\"$ss\"] =\"".$map->ss_info($ss,$data)."\";\n";
+//}
+//
+//while ($line=mysql_fetch_assoc($mysql_result)) {
+//    if ($CurrSS == 0) $CurrSS = $line['POSIN'];
+//
+//    if ($line['POSIN'] != $CurrSS) {
+//        $map->add_ss(false,'map_additem');
+//        $CurrSS   = $line['POSIN'];
+//    }
+//
+//    $ID   = $line['ID'];
+//    $ss   = $line['POSIN'];
+//
+//    $CurrSS_a[$ID] = $line;
+//    $CurrSS_a[$ID]['type'] = $map->ss_type($line);
+//    if (isset ($CurrSS_a[$CurrSS_a[$ID]['type']]))
+//        $CurrSS_a[$CurrSS_a[$ID]['type']]++;
+//        else
+//        $CurrSS_a[$CurrSS_a[$ID]['type']]=1;
+//}
+//mysql_free_result($mysql_result);
+//
+//$map->add_ss(false,'map_additem'); // last one
+//
+//// Vortex restants...
+//if ($map->vortex && count($vortex_a) >0)
+//    foreach($vortex_a as $k => $v) {
+//        $map->add_ss($k,'map_additem');
+//    }
+//
+//if ($map->itineraire) { // forçage si le parcours est en zone "désertique"..
+//    if (!$map->parcours[2][0]) $map->add_ss($map->parcours[1][0],'map_additem'); // départ
+//    if (!$map->parcours[2][1]) $map->add_ss($map->parcours[1][count($map->parcours[1])-1],'map_additem'); // arrivée
+//}
+//unset($vortex_a);
 /// PARTIE NON EXPORTÉ ///
 
 //************

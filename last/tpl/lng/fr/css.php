@@ -64,8 +64,6 @@ $cls['color_infobulle'] = $color_infobulle;
 $css = file_get_contents(LNG_PATH . 'template.css');
 
 $mtime = max(filemtime(__FILE__), filemtime(LNG_PATH . 'template.css'));
-header('Content-type: text/css');
-header("Last-Modified: " . gmdate("D, d M Y H:i:s", $mtime) . " GMT");
 
 foreach ($cls as $key => $color)
     $css = str_replace("%$key%", $color, $css);

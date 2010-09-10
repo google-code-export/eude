@@ -363,7 +363,10 @@ class phpcron_list {
      * @return phpcron_job
      */
     public function GetJob($Job) {
-        return $this->CronJobs[$Job];
+        if (isset($this->CronJobs[$Job]))
+            return $this->CronJobs[$Job];
+        else
+            return false;
     }
 
     /**
@@ -493,6 +496,33 @@ abstract class phpcron_job extends phpcron_runtime {
         $this->lastrun = 0;
         // Tout les Mercredi 1er avril entre 12h et 14h par intervalle de 10min.
         $this->CronPattern = '0,10,20,30,40,50 12-14 1 4 3'; // ie. en 2009, 2015, ...
+    }
+
+}
+
+class job_sample extends phpcron_job {
+
+    public function __construct() {
+        parent::__construct();
+//        if (file_exists(CACHE_PATH . 'xxx'))
+//            $this->lastrun = filemtime(CACHE_PATH . 'xx');
+//        $this->__wakeup();
+    }
+
+    public function Actived() {
+        return true;
+    }
+
+    public function RunJob() {
+        $this->_lock();
+        // Do something
+        parent::RunJob();
+    }
+
+    public function __wakeup() {
+//        $time = filemtime(CACHE_PATH .'xxx');
+//        $this->CronPattern = strftime("%M %H %d %m %w", $time);
+//        $this->lastrun = DataEngine::config_key('key', 'subkey');
     }
 
 }

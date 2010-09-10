@@ -176,6 +176,9 @@ sql;
         if (preg_match('/.*\.(css|png|cron)$/', $file))
             @unlink(CACHE_PATH . $file);
     }
+    include_once(INCLUDE_PATH . 'crontab.php');
+    $cron->GetJob('job_css')->RunJob();
+    $cron->Save();
     output::Messager($lng['reset_cron_done']);
 }
 

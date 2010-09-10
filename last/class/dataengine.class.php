@@ -163,6 +163,7 @@ class DataEngine extends Members {
                     $time += $v[0];
                 FB::table((count(self::$sqls) - 1) . ' SQL ' . $time . 'msec', self::$sqls);
             }
+            FB::info(sprintf('%01.3f',microtime(true)-START), 'Temps php (sec)');
         }
     }
 

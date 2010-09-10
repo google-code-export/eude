@@ -7,10 +7,6 @@
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  *
  */
-define('CHECK_LOGIN', false);
-include '../../../init.php';
-include ROOT_PATH . 'Script/Script.php';
-
 // http://www.w3schools.com/tags/ref_colorpicker.asp
 // http://css4design.com/choisir-sa-palette-de-couleur
 $color_txt = 'white';
@@ -65,11 +61,9 @@ $cls['color_infobulle'] = $color_infobulle;
   messager & co       |           |330033 & 800040 |
 
  */
-$css = file_get_contents('./template.css');
+$css = file_get_contents(LNG_PATH . 'template.css');
 
-$mtime = max(filemtime(__FILE__), filemtime('./template.css'));
-header('Content-type: text/css');
-header("Last-Modified: " . gmdate("D, d M Y H:i:s", $mtime) . " GMT");
+$mtime = max(filemtime(__FILE__), filemtime(LNG_PATH . 'template.css'));
 
 foreach ($cls as $key => $color)
     $css = str_replace("%$key%", $color, $css);
@@ -80,4 +74,3 @@ $css = str_replace('%IMAGES_URL%', IMAGES_URL, $css);
 $css = str_replace('%TEMPLATE_URL%', TEMPLATE_URL, $css);
 $css = str_replace('%ADDONS_URL%', ADDONS_URL, $css);
 $css = str_replace('%LNG_URL%', TEMPLATE_URL . 'lng/' . LNG_CODE . '/', $css);
-echo $css;

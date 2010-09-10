@@ -6,7 +6,7 @@
  * @license GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  */
-require_once(CLASS_PATH . 'cron.class.php');
+require(CLASS_PATH . 'cron.class.php');
 
 class job_vortex extends phpcron_job {
 
@@ -15,7 +15,7 @@ class job_vortex extends phpcron_job {
 
         $lng = language::getinstance()->GetLngBlock('dataengine');
         $this->CronPattern = $lng['wormholes_cron'];
-        // Vérouiller sur sa première initialisation ou reset cron...
+// Vérouiller sur sa première initialisation ou reset cron...
         $this->evaluate_job();
         $this->lastrun = $this->lastRan + 1;
     }
@@ -103,7 +103,7 @@ class job_buttons extends phpcron_job {
         $files = scandir(CACHE_PATH);
         foreach ($files as $file)
             if (substr($file, -4) == '.png' && substr($file, 0, 3) == 'btn-')
-                unlink(CACHE_PATH.$file);
+                unlink(CACHE_PATH . $file);
         foreach ($listing as $key => $dummy)
             do_btn($key, $listing);
         parent::RunJob();
@@ -111,6 +111,259 @@ class job_buttons extends phpcron_job {
 
     public function __wakeup() {
         $this->CronPattern = strftime("%M %H %d %m %w", filemtime(LNG_PATH . 'btn.php'));
+    }
+
+}
+
+function array_js(&$item1, $key) {
+    if (!is_numeric($item1))
+        $item1 = '"' . $item1 . '"';
+}
+
+class job_map_tooltips extends phpcron_job {
+
+    private $out = false;
+    private $filename = false;
+
+    public function __construct() {
+        parent::__construct();
+        $this->__wakeup();
+    }
+
+    public function Actived() {
+        return isset($_SESSION['_login']) && $_SESSION['_login'] != '';
+    }
+
+    private function add_ss($ss, $data) {
+        $line = array();
+        $tmp = '';
+        // map::ss_info
+        foreach ($data as $k => $v) { /// $k = ID mysql/nb type @@ $v = array...
+            if (isset($v['EMPIRE']))
+                $v['EMPIRE'] = htmlspecialchars(addcslashes($v['EMPIRE'], '"'));
+
+            switch ($v['type']) {
+                case 'moi':
+                    $line['ownplanet'][] = $v['INFOS'];
+                    break;
+                case 'Vortex':
+                    if (!isset($line['wormholes']))
+                        $line['wormholes'] = array();
+                    $line['wormholes'][] = $v['POSOUT'];
+                    break;
+                case 'Joueur':
+                    if (!isset($line['players']))
+                        $line['players'] = array();
+
+                    if ($v['EMPIRE'] != '')
+                        $line['players'][] = $v['USER'] . ' [' . $v['EMPIRE'] . ']';
+                    else
+                        $line['players'][] = $v['USER'];
+                    break;
+                case 'alliance':
+                    if (!isset($line['alliance']))
+                        $line['alliance'] = array();
+
+//                    if ($v['Joueur'] != '')
+//                        $line['alliance'][] = $v['Joueur'] . ' (' . $v['Grade'] . ')';
+//                    else
+                    $line['alliance'][] = $v['USER'] . ' [' . $v['EMPIRE'] . ']';
+                    break;
+                case 'Ennemi':
+                    if (!isset($line['ennemys']))
+                        $line['ennemys'] = array();
+
+                    if ($v['EMPIRE'] != '')
+                        $line['ennemys'][] = $v['USER'] . ' [' . $v['EMPIRE'] . ']';
+                    else
+                        $line['ennemys'][] = $v['USER'];
+                    break;
+                case 'pnj':
+                    if (!isset($line['reaperfleet']))
+                        $line['reaperfleet'] = array();
+
+                    $line['reaperfleet'][] = $v['INFOS'];
+                    break;
+                case 'Planète':
+                    if (!isset($line['planets']))
+                        $line['planets'] = 1;
+                    else
+                        $line['planets']++;
+                    break;
+                case 'Astéroïde':
+                    if (!isset($line['asteroids']))
+                        $line['asteroids'] = 1;
+                    else
+                        $line['asteroids']++;
+                    break;
+                case 'cdr':
+                    if (!isset($line['cdr']))
+                        $line['cdr'] = 1;
+                    else
+                        $line['cdr']++;
+                    break;
+            }
+        }
+
+        $tmp = '
+ss_info[' . $ss . '] = {';
+
+        foreach ($line as $k => $v) {
+            if (is_array($v) && count($v) > 0) {
+                array_walk($v, 'array_js');
+                $tmp .= $k . ': [' . implode(',', $v) . '],';
+            } elseif (!is_array($v))
+                $tmp .= $k . ':' . (is_numeric($v) ? $v : '"' . $v . '"') . ',';
+        }
+        $this->out .= substr($tmp, 0, strlen($tmp) - 1) . ' };';
+
+        /*
+          bubulle[$ss] = { // ss
+          ownplanet: {$line['ownplanet']},
+          planets: 4, // Numbers
+          asteroids: 2, // number
+          //    cdr: 2, // number
+          wormholes: [4433, 5050], // Out SS ^ x
+          alliance: ['alliance'], // alliance members ^ x
+          players: ['Name (Alliance)'], // Players ^ x
+          ennemys: ['Name (Alliance)'], // Players ^ x
+          allys: ['Name (Alliance)'], // Players ^ x
+          reaperfleet: ['Fleet name'], // Fleets name ^ x
+          playerfleet: ['Fleet name'], // Fleets owner/name ^ x
+          searchresult: ['searchresult'] // Players ^ x
+          };
+          EOF; */
+    }
+
+    public function RunJob() {
+        $this->_lock();
+
+        $vortex_a = array();
+        $CurrSS_a = array();
+        $empire = trim(DataEngine::config_key('config', 'MyEmpire'));
+        $cxx_empires = DataEngine::CheckPerms('CARTE_SHOWEMPIRE');
+
+        $this->out = 'var ss_info = Array();';
+
+        /* Récupérations des vortex */ {
+            $sql = 'SELECT `ID`, `POSIN`, `POSOUT` from `SQL_PREFIX_Coordonnee` where `Type`=1';
+            $mysql_result = DataEngine::sql($sql);
+            while ($line = mysql_fetch_assoc($mysql_result)) {
+                $vortex_a[$line['POSOUT']][$line['ID']]['POSIN'] = $line['POSOUT'];
+                $vortex_a[$line['POSOUT']][$line['ID']]['POSOUT'] = $line['POSIN'];
+                $vortex_a[$line['POSOUT']][$line['ID']]['TYPE'] = 1;
+            }
+            mysql_free_result($mysql_result);
+        }
+
+        $sql = <<<sql
+SELECT c.`ID`, c.`TYPE`, c.`POSIN`, c.`POSOUT`, j.`USER`, j.`INFOS`, j.`EMPIRE` FROM SQL_PREFIX_Coordonnee as c
+LEFT JOIN SQL_PREFIX_Coordonnee_Joueurs as j on id=jid
+ORDER BY c.`POSIN` ASC
+sql;
+
+        $mysql_result = DataEngine::sql($sql);
+        $CurrSS = 0;
+        while ($line = mysql_fetch_assoc($mysql_result)) {
+            if ($CurrSS == 0)
+                $CurrSS = $line['POSIN'];
+
+            if ($line['POSIN'] != $CurrSS) {
+                if (isset($vortex_a[$CurrSS]) && is_array($vortex_a[$CurrSS])) {
+                    foreach ($vortex_a[$CurrSS] as $k => $v) {
+                        $CurrSS_a[$k] = $v;
+                        $CurrSS_a[$k]['type'] = 'Vortex';
+                        $CurrSS_a['Vortex'] = isset($CurrSS_a['Vortex']) ? $CurrSS_a['Vortex']++ : 1;
+                    }
+                    unset($vortex_a[$CurrSS]); // destruction du vortex...
+                }
+                $this->add_ss($CurrSS, $CurrSS_a);
+                $CurrSS = $line['POSIN'];
+                $CurrSS_a = array();
+//                if ($CurrSS == 1240)
+//                    break;
+//                if ($CurrSS == 4890)
+//                    xdebug_break();
+            }
+
+            $ID = $line['ID'];
+            $ss = $line['POSIN'];
+
+            $CurrSS_a[$ID] = $line;
+            /* map::ss_type */ {
+
+                switch ($line['TYPE']) {
+                    case 0: $type = 'Joueur';
+                        break;
+                    case 1: $type = 'Vortex';
+                        break;
+                    case 2: $type = 'Planète';
+                        break;
+                    case 3: $type = 'alliance';
+                        break;
+                    case 4: $type = 'Astéroïde';
+                        break;
+                    case 5: $type = 'Ennemi';
+                        break;
+                    case 6: $type = 'pnj';
+                        break;
+                    default: $type = 'na';
+                }
+                if ($empire != '' && $line['EMPIRE'] == $empire && $cxx_empires)
+                    $type = 'empire';
+                if (stristr($line['USER'], $_SESSION['_login']) !== FALSE)
+                    $type = 'moi';
+                $CurrSS_a[$ID]['type'] = $type;
+            }
+
+            if (isset($CurrSS_a[$CurrSS_a[$ID]['type']]))
+                $CurrSS_a[$CurrSS_a[$ID]['type']]++;
+            else
+                $CurrSS_a[$CurrSS_a[$ID]['type']] = 1;
+        }
+        mysql_free_result($mysql_result);
+
+        if (isset($vortex_a[$CurrSS]) && is_array($vortex_a[$CurrSS])) {
+            foreach ($vortex_a[$CurrSS] as $k => $v) {
+                $CurrSS_a[$k] = $v;
+                $CurrSS_a[$k]['type'] = 'Vortex';
+                $CurrSS_a['Vortex'] = isset($CurrSS_a['Vortex']) ? $CurrSS_a['Vortex']++ : 1;
+            }
+            unset($vortex_a[$CurrSS]); // destruction du vortex...
+        }
+        $this->add_ss($CurrSS, $CurrSS_a);
+
+// TODO: move js i18n.map to lng pack.
+        $this->out .= <<<EOF
+
+i18n.map = {
+    ownplanet: new Template('<b>Votre Planète: #{planetname}</b>'),
+    empire_header: new Template('<b>#{num} Membre(s) #{empirename}</b>'),
+    alliance_header: new Template('<b>#{num} Membre(s) d\'une alliance/pna</b>'),
+    search_header: new Template('<b>Recherche: #{num} résultat(s):</b>'),
+    player_header: new Template('<b> #{num} Joueur(s)</b>'),
+    ennemy_header: new Template('<b> #{num} Ennemi(s)</b>'),
+    pnj_header: new Template('<b> #{num} Flotte(s) pirate</b>'),
+    wormhole_header: new Template('<b> #{num} Vortex</b>'),
+    planet_header: new Template('<b> #{num} Planète(s)</b>'),
+    asteroid_header: new Template('<b> #{num} Astéroïde(s)</b>')
+}
+
+EOF;
+        file_put_contents($this->filename, $this->out);
+        parent::RunJob();
+    }
+
+    public function __wakeup() {
+        $this->filename = CACHE_PATH . 'map.' . md5($_SESSION['_login'] . $_SESSION['_pass']) . '.js';
+        if (file_exists($this->filename))
+            $this->lastrun = filemtime($this->filename);
+        else
+            $this->lastrun = 0;
+
+        $sqlr = DataEngine::sql('SELECT udate FROM SQL_PREFIX_Coordonnee ORDER BY udate DESC LIMIT 1');
+        $sqla = mysql_fetch_array($sqlr);
+        $this->CronPattern = strftime("%M %H %d %m %w", $sqla['udate']);
     }
 
 }

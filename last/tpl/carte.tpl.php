@@ -1,73 +1,76 @@
 <?php
+
 /**
  * @author Alex10336
  * Dernière modification: $Id$
  * @license GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  *
- **/
-if (!SCRIPT_IN) die('Need by included');
+ * */
+if (!SCRIPT_IN)
+    die('Need by included');
 
 class tpl_carte extends output {
+
     protected $BASE_FILE = '';
     private $map;
     private $lng;
 
     public function __construct() {
-        $this->BASE_FILE = ROOT_URL."Carte.php";
+        $this->BASE_FILE = ROOT_URL . "Carte.php";
         $this->map = map::getinstance();
         $this->lng = language::getinstance()->GetLngBlock('carte');
         parent::__construct();
     }
 
     public function navigation() {
-        $ennemis_bool		= array('1' => 'enemy', '0' => 'ga');
-        $allys_bool		= array('1' => 'own', '0' => 'neutral');
-        $pnj_bool		= array('1' => 'npc', '0' => 'neutral');
-        $onoff_bool		= array('0' => 'Off', '1' => 'On');
-        $invert_bool		= array('0' => '1', '1' => '0');
+        $ennemis_bool = array('1' => 'enemy', '0' => 'ga');
+        $allys_bool = array('1' => 'own', '0' => 'neutral');
+        $pnj_bool = array('1' => 'npc', '0' => 'neutral');
+        $onoff_bool = array('0' => 'Off', '1' => 'On');
+        $invert_bool = array('0' => '1', '1' => '0');
 
-        $onoff_sc		= $onoff_bool[(($this->map->sc+1)%2)];
-        $onoff_vortex           = $onoff_bool[$this->map->vortex];
-        $onoff_joueur		= $onoff_bool[$this->map->joueur];
-        $onoff_planete		= $onoff_bool[$this->map->planete];
-        $onoff_asteroide	= $onoff_bool[$this->map->asteroide];
-        $onoff_ennemis		= $onoff_bool[$this->map->ennemis];
-        $onoff_allys		= $onoff_bool[$this->map->allys];
-        $onoff_pnj		= $onoff_bool[$this->map->pnj];
-        $img_ennemis		= $ennemis_bool[$this->map->ennemis];
-        $img_allys		= $allys_bool[$this->map->allys];
-        $img_pnj		= $pnj_bool[$this->map->pnj];
+        $onoff_sc = $onoff_bool[(($this->map->sc + 1) % 2)];
+        $onoff_vortex = $onoff_bool[$this->map->vortex];
+        $onoff_joueur = $onoff_bool[$this->map->joueur];
+        $onoff_planete = $onoff_bool[$this->map->planete];
+        $onoff_asteroide = $onoff_bool[$this->map->asteroide];
+        $onoff_ennemis = $onoff_bool[$this->map->ennemis];
+        $onoff_allys = $onoff_bool[$this->map->allys];
+        $onoff_pnj = $onoff_bool[$this->map->pnj];
+        $img_ennemis = $ennemis_bool[$this->map->ennemis];
+        $img_allys = $allys_bool[$this->map->allys];
+        $img_pnj = $pnj_bool[$this->map->pnj];
 
-        $get_sc			= $invert_bool[$this->map->sc];
-        $get_vortex		= $invert_bool[$this->map->vortex];
-        $get_joueur		= $invert_bool[$this->map->joueur];
-        $get_planete		= $invert_bool[$this->map->planete];
-        $get_asteroide          = $invert_bool[$this->map->asteroide];
-        $get_ennemis		= $invert_bool[$this->map->ennemis];
-        $get_allys		= $invert_bool[$this->map->allys];
-        $get_pnj		= $invert_bool[$this->map->pnj];
-        $helpmsg 	= bulle($this->lng['helpmsg']);
-        $msg_taill_inc	= bulle($this->lng['msg_taill_inc']);
-        $msg_taill_dec	= bulle($this->lng['msg_taill_dec']);
-        $msg_cls	= bulle($this->lng['msg_cls']);
-        $msg_all_on	= bulle($this->lng['msg_all_on']);
-        $msg_all_off	= bulle($this->lng['msg_all_off']);
-        $msg_vortex	= bulle(sprintf($this->lng['msg_vortex'], $onoff_vortex));
-        $msg_joueur	= bulle(sprintf($this->lng['msg_joueur'], $onoff_joueur));
-        $msg_planete	= bulle(sprintf($this->lng['msg_planete'], $onoff_planete));
-        $msg_asteroide	= bulle(sprintf($this->lng['msg_asteroide'], $onoff_asteroide));
-        $msg_ennemis	= bulle(sprintf($this->lng['msg_ennemis'], $onoff_ennemis));
-        $msg_allys	= bulle(sprintf($this->lng['msg_allys'], $onoff_allys));
-        $msg_pirate	= bulle(sprintf($this->lng['msg_pirate'], $onoff_pnj));
-        $msg_search1	= bulle($this->lng['msg_search1']);
-        $msg_search2	= bulle($this->lng['msg_search2']);
-        $taille_inc	= ($this->map->taille+100);
-        $taille_dec	= ($this->map->taille-100);
-        $search         = ( isset ($_SESSION['search']) ? $_SESSION['search']: '');
+        $get_sc = $invert_bool[$this->map->sc];
+        $get_vortex = $invert_bool[$this->map->vortex];
+        $get_joueur = $invert_bool[$this->map->joueur];
+        $get_planete = $invert_bool[$this->map->planete];
+        $get_asteroide = $invert_bool[$this->map->asteroide];
+        $get_ennemis = $invert_bool[$this->map->ennemis];
+        $get_allys = $invert_bool[$this->map->allys];
+        $get_pnj = $invert_bool[$this->map->pnj];
+        $helpmsg = bulle($this->lng['helpmsg']);
+        $msg_taill_inc = bulle($this->lng['msg_taill_inc']);
+        $msg_taill_dec = bulle($this->lng['msg_taill_dec']);
+        $msg_cls = bulle($this->lng['msg_cls']);
+        $msg_all_on = bulle($this->lng['msg_all_on']);
+        $msg_all_off = bulle($this->lng['msg_all_off']);
+        $msg_vortex = bulle(sprintf($this->lng['msg_vortex'], $onoff_vortex));
+        $msg_joueur = bulle(sprintf($this->lng['msg_joueur'], $onoff_joueur));
+        $msg_planete = bulle(sprintf($this->lng['msg_planete'], $onoff_planete));
+        $msg_asteroide = bulle(sprintf($this->lng['msg_asteroide'], $onoff_asteroide));
+        $msg_ennemis = bulle(sprintf($this->lng['msg_ennemis'], $onoff_ennemis));
+        $msg_allys = bulle(sprintf($this->lng['msg_allys'], $onoff_allys));
+        $msg_pirate = bulle(sprintf($this->lng['msg_pirate'], $onoff_pnj));
+        $msg_search1 = bulle($this->lng['msg_search1']);
+        $msg_search2 = bulle($this->lng['msg_search2']);
+        $taille_inc = ($this->map->taille + 100);
+        $taille_dec = ($this->map->taille - 100);
+        $search = ( isset($_SESSION['search']) ? $_SESSION['search'] : '');
 
-        $can_search     = (DataEngine::CheckPerms('CARTE_SEARCH'));
-        $nav_size       = $can_search ? 1000:540;
+        $can_search = (DataEngine::CheckPerms('CARTE_SEARCH'));
+        $nav_size = $can_search ? 1000 : 540;
         $out = <<<NAV
 <div  class="color_header" style="width:100%; height:30px; top:50px; position:absolute;">
 	<TABLE class="color_header" width={$nav_size}px>
@@ -140,7 +143,7 @@ f;
     public function maparea() {
         $img = 'img.php';
 //        $img = '%IMAGES_URL%Btn-Joueur-Off.png';
-        $rnd	= time();
+        $rnd = time();
         $out = <<<MAP
 
 	<!--// Tracé du fond //-->
@@ -177,13 +180,12 @@ iti_h;
         $this->PushOutput($out);
     }
 
-
     public function itineraire_form() {
-        $checked = $this->map->nointrass ? " checked": "";
-        $msg_load=bulle($this->lng['parcours_msg_load']);
-        $msg_save=bulle($this->lng['parcours_msg_save']);
-        $msg_del =bulle($this->lng['parcours_msg_del']);
-        $msg_inv =bulle($this->lng['parcours_msg_inv']);
+        $checked = $this->map->nointrass ? " checked" : "";
+        $msg_load = bulle($this->lng['parcours_msg_load']);
+        $msg_save = bulle($this->lng['parcours_msg_save']);
+        $msg_del = bulle($this->lng['parcours_msg_del']);
+        $msg_inv = bulle($this->lng['parcours_msg_inv']);
         $out = <<<iti_h
 					</select>
 					</td>
@@ -248,7 +250,7 @@ ps;
         $this->PushOutput($out);
     }
 
-    public function Parcours_Row($vortex,$IN,$OUT,$dist) {
+    public function Parcours_Row($vortex, $IN, $OUT, $dist) {
         $vortex = sprintf($this->lng['parcours_bywormhole'], $vortex);
         $out = <<<pr
 				<TR>
@@ -260,7 +262,7 @@ pr;
         $this->PushOutput($out);
     }
 
-    public function Parcours_End($d,$db,$dt,$dd,$p) {
+    public function Parcours_End($d, $db, $dt, $dd, $p) {
         $out = <<<pe
 				<TR>
 					<TD class="spacing_row0">{$this->lng['parcours_end']}</TD>
@@ -278,7 +280,7 @@ pe;
 
     public function Legend() {
         $cls = DataEngine::config('MapColors');
-        $id  = $this->map->itineraire ? 0: $this->map->sc+1;
+        $id = $this->map->itineraire ? 0 : $this->map->sc + 1;
         $out = <<<h
             </Table>
 		</form>
@@ -287,17 +289,17 @@ pe;
 			<td class="color_header text_center" colspan=2>{$this->lng['legend']}</td>
 		</tr>
 h;
-        $legend  = $this->lng['maplegend'][$id];
-        $i=0;
-        foreach($legend as $k => $v) {
-            $Ð = $i%2;
+        $legend = $this->lng['maplegend'][$id];
+        $i = 0;
+        foreach ($legend as $k => $v) {
+            $Ð = $i % 2;
             $out .= <<<l
 		<tr class="color_row{$Ð}">
 			<td class="size20" style="background-color: {$cls[$id][$k]};">&nbsp;</td>
 			<td>&nbsp;{$v}&nbsp;</td>
 		</tr>
 l;
-           $i++;
+            $i++;
         }
         $out .=<<<f
             </Table>
@@ -307,13 +309,15 @@ f;
     }
 
     public function javascript($TabData) {
-        $TailleCase = floor($this->map->taille/100);
+        $TailleCase = floor($this->map->taille / 100);
+        $cachejs = 'map.' . md5($_SESSION['_login'] . $_SESSION['_pass']) . '.js';
+        $cachejs = CACHE_URL . $cachejs . '?' . filemtime(CACHE_PATH . $cachejs);
         $out = <<<JS
 
 <script type="text/javascript" src="./Script/carte.js?{$this->version}"></script>
+<script type="text/javascript" src="$cachejs"></script>
 <script type='text/javascript'>
-                {$TabData}
-	var Carte = new CCarte({$TailleCase},100,TabData);
+	var Carte = new CCarte({$TailleCase},100,ss_info);
 	Carte.init();
 	delete TabData;
 </script>
@@ -329,9 +333,10 @@ JS;
      * @return tpl_carte
      */
     static public function getinstance() {
-        if ( ! DataEngine::_tpl_defined(get_class()) )
-            DataEngine::_set_tpl(get_class(),new self());
+        if (!DataEngine::_tpl_defined(get_class()))
+            DataEngine::_set_tpl(get_class(), new self());
 
         return DataEngine::tpl(get_class());
     }
+
 }
