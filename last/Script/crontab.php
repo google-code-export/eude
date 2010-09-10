@@ -122,7 +122,7 @@ function array_js(&$item1, $key) {
 
 class job_map_tooltips extends phpcron_job {
 
-    private $out = false;
+    private $fp = false;
     private $filename = false;
 
     public function __construct() {
@@ -205,17 +205,16 @@ class job_map_tooltips extends phpcron_job {
             }
         }
 
-        $tmp = '
-ss_info[' . $ss . '] = {';
+        $tmp = 'ss_info[' . $ss . ']={';
 
         foreach ($line as $k => $v) {
             if (is_array($v) && count($v) > 0) {
                 array_walk($v, 'array_js');
-                $tmp .= $k . ': [' . implode(',', $v) . '],';
+                $tmp .= $k . ':[' . implode(',', $v) . '],';
             } elseif (!is_array($v))
                 $tmp .= $k . ':' . (is_numeric($v) ? $v : '"' . $v . '"') . ',';
         }
-        $this->out .= substr($tmp, 0, strlen($tmp) - 1) . ' };';
+        fwrite($this->fp, substr($tmp, 0, strlen($tmp) - 1) . ' };');
 
         /*
           bubulle[$ss] = { // ss
@@ -243,7 +242,9 @@ ss_info[' . $ss . '] = {';
         $empire = trim(DataEngine::config_key('config', 'MyEmpire'));
         $cxx_empires = DataEngine::CheckPerms('CARTE_SHOWEMPIRE');
 
-        $this->out = 'var ss_info = Array();';
+        $this->fp = fopen($this->filename, 'w');
+        stream_set_write_buffer($this->fp, 0);
+        fwrite($this->fp, 'var ss_info=Array();');
 
         /* Récupérations des vortex */ {
             $sql = 'SELECT `ID`, `POSIN`, `POSOUT` from `SQL_PREFIX_Coordonnee` where `Type`=1';
@@ -282,7 +283,7 @@ sql;
                 $CurrSS_a = array();
 //                if ($CurrSS == 1240)
 //                    break;
-//                if ($CurrSS == 4890)
+//                if ($CurrSS == 1240)
 //                    xdebug_break();
             }
 
@@ -334,8 +335,7 @@ sql;
         $this->add_ss($CurrSS, $CurrSS_a);
 
 // TODO: move js i18n.map to lng pack.
-        $this->out .= <<<EOF
-
+        $tmp = <<<EOF
 i18n.map = {
     ownplanet: new Template('<b>Votre Planète: #{planetname}</b>'),
     empire_header: new Template('<b>#{num} Membre(s) #{empirename}</b>'),
@@ -348,9 +348,10 @@ i18n.map = {
     planet_header: new Template('<b> #{num} Planète(s)</b>'),
     asteroid_header: new Template('<b> #{num} Astéroïde(s)</b>')
 }
-
 EOF;
-        file_put_contents($this->filename, $this->out);
+        fwrite($this->fp, $tmp);
+        fclose($this->fp);
+        
         parent::RunJob();
     }
 
