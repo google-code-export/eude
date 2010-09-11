@@ -49,8 +49,22 @@ var i18n = {
         NoneSelected: 'Aucun parcours sélectionné.',
         NewFleet: 'Nouvelle Flotte',
         IncompleteForm: 'Coords incomplète...',
-        Save: "Retenir ce parcours ?\n\nDépart: %s\nArrivée: %s",
-        Delete: 'Suppression du parcours %s ?'
+        Save: new Template("Retenir ce parcours ?\n\nDépart: #{start}\nArrivée: #{end}"),
+        Delete: new Template('Suppression du parcours "#{name}" ?'),
+        // bulles
+        ownplanet: new Template('<b>Votre Planète: #{planetname}</b>'),
+        empire_header: new Template('<b>#{num} Membre(s) #{empirename}</b>'),
+        alliance_header: new Template('<b>#{num} Membre(s) d\'une alliance/pna</b>'),
+        search_header: new Template('<b>Recherche: #{num} résultat(s):</b>'),
+        player_header: new Template('<b> #{num} Joueur(s)</b>'),
+        ennemy_header: new Template('<b> #{num} Ennemi(s)</b>'),
+        pnj_header: new Template('<b> #{num} Flotte(s) pirate</b>'),
+        wormhole_header: new Template('<b> #{num} Vortex</b>'),
+        planet_header: new Template('<b> #{num} Planète(s)</b>'),
+        asteroid_header: new Template('<b> #{num} Astéroïde(s)</b>'),
+        parcours_start: '<b>Départ imminent</b>',
+        parcours_wormhole: '<b>Étape (vortex)</b>',
+        parcours_end: '<b>Vous êtes arrivé</b>'
     },
 
     Ajax: {
@@ -60,5 +74,5 @@ var i18n = {
         XML_Error: 'Erreur xml, annulation...'
     },
     // Admin
-    DeleteUsers: "Suppression d\'un/plusieurs joueur(s) suivant demandé:%s\n\nÊtes vous bien sur ?"
+    DeleteUsers: new Template("Suppression d\'un/plusieurs joueur(s) suivant demandé:#{list}\n\nÊtes vous bien sur ?")
 }
