@@ -334,22 +334,6 @@ sql;
         }
         $this->add_ss($CurrSS, $CurrSS_a);
 
-// TODO: move js i18n.map to lng pack.
-        $tmp = <<<EOF
-i18n.map = {
-    ownplanet: new Template('<b>Votre Planète: #{planetname}</b>'),
-    empire_header: new Template('<b>#{num} Membre(s) #{empirename}</b>'),
-    alliance_header: new Template('<b>#{num} Membre(s) d\'une alliance/pna</b>'),
-    search_header: new Template('<b>Recherche: #{num} résultat(s):</b>'),
-    player_header: new Template('<b> #{num} Joueur(s)</b>'),
-    ennemy_header: new Template('<b> #{num} Ennemi(s)</b>'),
-    pnj_header: new Template('<b> #{num} Flotte(s) pirate</b>'),
-    wormhole_header: new Template('<b> #{num} Vortex</b>'),
-    planet_header: new Template('<b> #{num} Planète(s)</b>'),
-    asteroid_header: new Template('<b> #{num} Astéroïde(s)</b>')
-}
-EOF;
-        fwrite($this->fp, $tmp);
         fclose($this->fp);
         
         parent::RunJob();
@@ -382,7 +366,8 @@ else {
     $cron = phpcron_list::getinstance();
     $cron->AddJob(new job_vortex());
     $cron->AddJob(new job_buttons());
-    $cron->AddJob(new job_css()); // garder en dernier?
+    $cron->AddJob(new job_css());
+    $cron->AddJob(new job_map_tooltips());
 }
 
 //DataEngine::Grab_Custom_Jobs();
