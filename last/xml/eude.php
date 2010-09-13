@@ -162,6 +162,7 @@ q;
                 preg_match_all('#<b>(.+)</b><br>(.*)#', $galaxy_info[$i][3], $player, PREG_SET_ORDER);
                 $joueur = html_entity_decode(utf8_decode(trim($player[0][1])), ENT_QUOTES, 'utf-8');
                 $empire = html_entity_decode(utf8_decode(trim($player[0][2])), ENT_QUOTES, 'utf-8');
+				$planete = html_entity_decode(utf8_decode(trim($galaxy_info[$i][2])), ENT_QUOTES, 'utf-8');
             } else {
                 $joueur = '';
                 $empire = '';
@@ -170,7 +171,7 @@ q;
             if (trim($galaxy_info[$i][3]) == '' && $carto->FormatId($galaxy_info[$i][1], $dummy, $sys, '')) // Planète inoccupée
                 $del_planet[] = $sys;
             else
-                $SS_A[] = array($galaxy_info[$i][1], $galaxy_info[$i][2], $joueur, $empire);
+                $SS_A[] = array($galaxy_info[$i][1], $planete, $joueur, $empire);
         }
 
         // repiquage cartographie->add_solar_ss
