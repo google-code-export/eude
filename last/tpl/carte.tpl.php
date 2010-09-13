@@ -308,18 +308,19 @@ f;
         $this->PushOutput($out);
     }
 
-    public function javascript($TabData) {
+    public function javascript($javascript) {
         $TailleCase = floor($this->map->taille / 100);
         $cachejs = 'map.' . md5($_SESSION['_login'] . $_SESSION['_pass']) . '.js';
         $cachejs = CACHE_URL . $cachejs . '?' . filemtime(CACHE_PATH . $cachejs);
         $out = <<<JS
 
-<script type="text/javascript" src="./Script/carte.js?{$this->version}"></script>
+<script type="text/javascript" src="%INCLUDE_URL%carte.js?{$this->version}"></script>
 <script type="text/javascript" src="$cachejs"></script>
 <script type='text/javascript'>
-	var Carte = new CCarte({$TailleCase},100,ss_info);
-	Carte.init();
-	delete TabData;
+var Carte = new CCarte({$TailleCase},100,ss_info);
+Carte.init();
+delete ss_info;
+{$javascript}
 </script>
 JS;
         $this->PushOutput($out);

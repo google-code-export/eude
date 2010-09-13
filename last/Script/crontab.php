@@ -15,9 +15,7 @@ class job_vortex extends phpcron_job {
 
         $lng = language::getinstance()->GetLngBlock('dataengine');
         $this->CronPattern = $lng['wormholes_cron'];
-// Vérouiller sur sa première initialisation ou reset cron...
-        $this->evaluate_job();
-        $this->lastrun = $this->lastRan + 1;
+        $this->lastrun = DataEngine::config_key('wormhole_cleaning', 'lastrun');
     }
 
     public function Actived() {
@@ -341,14 +339,16 @@ sql;
 
     public function __wakeup() {
         $this->filename = CACHE_PATH . 'map.' . md5($_SESSION['_login'] . $_SESSION['_pass']) . '.js';
-        if (file_exists($this->filename))
+        if (file_exists($this->filename)) {
             $this->lastrun = filemtime($this->filename);
-        else
+            $sqlr = DataEngine::sql('SELECT udate FROM SQL_PREFIX_Coordonnee ORDER BY udate DESC LIMIT 1');
+            $sqla = mysql_fetch_array($sqlr);
+            $time = $this->lastrun > $sqla['udate'] ? time()+3600: $this->lastrun+1;
+            $this->CronPattern = strftime("%M %H %d %m %w", $time);
+        } else {
             $this->lastrun = 0;
-
-        $sqlr = DataEngine::sql('SELECT udate FROM SQL_PREFIX_Coordonnee ORDER BY udate DESC LIMIT 1');
-        $sqla = mysql_fetch_array($sqlr);
-        $this->CronPattern = strftime("%M %H %d %m %w", $sqla['udate']);
+            $this->CronPattern = '* * * * *';
+        }
     }
 
 }

@@ -190,7 +190,6 @@ class parcours {
 //-----------------------------------------------------------------------------------------------
 
 class map /*extends parcours*/ {
-    public $TabData = array();
     public $vortex,$joueur,$planete,$asteroide,$sc,$taille,$pnj,$ennemis,$allys,$IN,$OUT,$loadfleet,$itineraire,$parcours;
     public $nointrass;
     /**

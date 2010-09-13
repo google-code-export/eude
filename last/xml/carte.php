@@ -43,6 +43,8 @@ if ( isset($_POST['ss']) && $_POST['ss'] != "") {
 
 //if ($search != '') $search .= "AND ";
 
+// TODO: REWRITE js through xml
+
 // Init donnée avec sql spécifique...
 $map=map::getinstance();
 $mysql_result=$map->init_map($search);
@@ -83,5 +85,5 @@ function xml_add($ss, $data) {
     global $output,$tabdata, $currentsearch, $map;
 
     if ($data['search']>0) $currentsearch[] = $ss;//"// $ss n'est pas dans la recherche \r\n";
-    $tabdata .= "Carte.updatedata($ss,\"".DataEngine::xml_fix51($map->ss_info($ss,$data))."\");\r\n";
+    $tabdata .= "Carte.Set_SS($ss,\"".DataEngine::xml_fix51($map->ss_info($ss,$data))."\");\r\n";
 }

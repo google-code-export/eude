@@ -26,7 +26,7 @@ var Navigateur = {
             fleetname = i18n.Map.NewFleet;
 
         if (vout == "" || vin =="") return alert(i18n.Map.IncompleteForm);
-        if ( (val = prompt(sprintf(i18n.Map.Save,vin,vout),fleetname)) )
+        if ( (val = prompt(i18n.Map.Save.evaluate({start:vin,end:vout}),fleetname)) )
             location.href = "?savefleet="+val+"&in="+vin+"&out="+vout;
         return true;
     },
@@ -36,7 +36,7 @@ var Navigateur = {
         fleetname = dd[dd.selectedIndex].text;
         fleet = dd.value;
         if (fleet == 0)	return alert(i18n.Map.NoneSelected);
-        if (fleet >0 && confirm(sprintf(i18n.Map.Delete,fleetname))) location.href = "?delfleet="+fleet;
+        if (fleet >0 && confirm(i18n.Map.Delete.evaluate({name:fleetname}))) location.href = "?delfleet="+fleet;
         return true;
     },
     invertcoords: function()
@@ -198,6 +198,15 @@ function CCarte(tc,nbc, ss_info){
         return false;
     }
 
+    this.Get_SS = function (number) {
+        if (typeof ss_info[number] == 'undefined')
+            return false;
+        else
+            return ss_info[number];
+    }
+    this.Set_SS = function (number, data) {
+        ss_info[number] = data;
+    }
     this.build_bubulle = function (ss, data) {
         if (typeof data == 'undefined') return false;
         var bubulle = Array();
@@ -212,62 +221,65 @@ function CCarte(tc,nbc, ss_info){
             };
         }
         bubulle.push(new Template('#{x}:#{y} (#{ss})').evaluate(ss2xy(ss)));
-        if (data.ownplanet) bubulle.push(i18n.map.ownplanet.evaluate({
+        if (data.ownplanet) bubulle.push(i18n.Map.ownplanet.evaluate({
             planetname: data.ownplanet
-            }));
-        if (data.planets) bubulle.push(i18n.map.planet_header.evaluate({
+        }));
+        if (data.parcours == 1) bubulle.push(i18n.Map.parcours_start);
+        if (data.parcours == 2) bubulle.push(i18n.Map.parcours_wormhole);
+        if (data.parcours == 3) bubulle.push(i18n.Map.parcours_end);
+        if (data.planets) bubulle.push(i18n.Map.planet_header.evaluate({
             num: data.planets
-            }));
-        if (data.asteroids) bubulle.push(i18n.map.asteroid_header.evaluate({
+        }));
+        if (data.asteroids) bubulle.push(i18n.Map.asteroid_header.evaluate({
             num: data.asteroids
-            }));
+        }));
         if (data.wormholes) {
-            bubulle.push(i18n.map.wormhole_header.evaluate({
+            bubulle.push(i18n.Map.wormhole_header.evaluate({
                 num: data.wormholes.length
-                }));
+            }));
             data.wormholes.each(function(value,ind){
                 bubulle.push('=> '+value)
-                });
-        }
+            });
+        }        
         if (data.alliance) {
-            bubulle.push(i18n.map.empire_header.evaluate({
+            bubulle.push(i18n.Map.empire_header.evaluate({
                 num: data.alliance.length
-                }));
+            }));
             data.alliance.each(function(value,ind){
                 bubulle.push(value)
-                });
+            });
         }
         if (data.players) {
-            bubulle.push(i18n.map.player_header.evaluate({
+            bubulle.push(i18n.Map.player_header.evaluate({
                 num: data.players.length
-                }));
+            }));
             data.players.each(function(value,ind){
                 bubulle.push(value)
-                });
+            });
         }
         if (data.ennemys) {
-            bubulle.push(i18n.map.ennemy_header.evaluate({
+            bubulle.push(i18n.Map.ennemy_header.evaluate({
                 num: data.ennemys.length
-                }));
+            }));
             data.ennemys.each(function(value,ind){
                 bubulle.push(value)
-                });
+            });
         }
         if (data.reaperfleet) {
-            bubulle.push(i18n.map.pnj_header.evaluate({
+            bubulle.push(i18n.Map.pnj_header.evaluate({
                 num: data.reaperfleet.length
-                }));
+            }));
             data.reaperfleet.each(function(value,ind){
                 bubulle.push(value)
-                });
+            });
         }
         if (data.searchresult) {
-            bubulle.push(i18n.map.search_header.evaluate({
+            bubulle.push(i18n.Map.search_header.evaluate({
                 num: data.searchresult.length
-                }));
+            }));
             data.searchresult.each(function(value,ind){
                 bubulle.push(value)
-                });
+            });
         }
         return bubulle.join('<br/>');
     }
@@ -281,11 +293,6 @@ function CCarte(tc,nbc, ss_info){
 
     this.ImgOnLoad = function() {
         if ($('carteunivers').src.indexOf('loading')==0) $('ajaxstatus').update('ImgOnLoad');
-    }
-
-    this.updatedata = function (id,value) {
-        $('ajaxstatus').update('');
-        TabData[id] = value;
     }
     this.GetLastSearch = function () {
         return lastsearch;

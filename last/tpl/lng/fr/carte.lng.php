@@ -57,26 +57,26 @@ $lng['parcours_diff']= 'Différence';
 
 // Bulles sur la carte...
 // Ne pas utiliser de guillemets
-$lng['map_ownplanet']= '<b>Votre planète: %s</b>'; // planet name
-$lng['map_empire_header']= '<b>%d Membre(s) %s</b>'; // number / empire
-$lng['map_alliance_header']= '<b>%d Membre(s) d\'une alliance/pna</b>'; // number
-$lng['map_search_header']= '<b>Recherche: %d résultat(s):</b>'; // number
-$lng['map_player_header']= '<b> %d Joueur(s)</b>'; // number
-$lng['map_ennemy_header']= '<b> %d Ennemi(s)</b>'; // number
-$lng['map_pnj_header']= '<b> %d Flotte(s) pirate</b>'; // number
-$lng['map_wormhole_header']= '<b> %d Vortex</b>'; // number
-$lng['map_planet_header']= '<b> %d Planète(s)</b>'; // number
-$lng['map_asteroid_header']= '<b> %d Astéroïde(s)</b>'; // number
-
-$lng['map_row_player1']= '%s (%s)'; // player / eude grade
-$lng['map_row_player2']= '%s <i>(non inscrit)</i>'; // player
-$lng['map_row_player3']= '%s (%s)'; // player / empire
-$lng['map_row_player4']= '<font color=red>%s</font> (%s)'; // player(ennemy) / empire
-
-$lng['map_parcours_start']= 'Départ imminent';
-$lng['map_parcours_end']= 'Vous êtes arrivé';
-$lng['map_parcours_wormhole']= 'Itinéraire (vortex)';
-$lng['map_parcours']= '<font color=\'darkgreen\'><b>%s</b></font>';
+//$lng['map_ownplanet']= '<b>Votre planète: %s</b>'; // planet name
+//$lng['map_empire_header']= '<b>%d Membre(s) %s</b>'; // number / empire
+//$lng['map_alliance_header']= '<b>%d Membre(s) d\'une alliance/pna</b>'; // number
+//$lng['map_search_header']= '<b>Recherche: %d résultat(s):</b>'; // number
+//$lng['map_player_header']= '<b> %d Joueur(s)</b>'; // number
+//$lng['map_ennemy_header']= '<b> %d Ennemi(s)</b>'; // number
+//$lng['map_pnj_header']= '<b> %d Flotte(s) pirate</b>'; // number
+//$lng['map_wormhole_header']= '<b> %d Vortex</b>'; // number
+//$lng['map_planet_header']= '<b> %d Planète(s)</b>'; // number
+//$lng['map_asteroid_header']= '<b> %d Astéroïde(s)</b>'; // number
+//
+//$lng['map_row_player1']= '%s (%s)'; // player / eude grade
+//$lng['map_row_player2']= '%s <i>(non inscrit)</i>'; // player
+//$lng['map_row_player3']= '%s (%s)'; // player / empire
+//$lng['map_row_player4']= '<font color=red>%s</font> (%s)'; // player(ennemy) / empire
+//
+//$lng['map_parcours_start']= 'Départ imminent';
+//$lng['map_parcours_end']= 'Vous êtes arrivé';
+//$lng['map_parcours_wormhole']= 'Itinéraire (vortex)';
+//$lng['map_parcours']= '<font color=\'darkgreen\'><b>%s</b></font>';
 
 
 // Légende affiché sur la page 'Carte.php'
