@@ -82,13 +82,12 @@ class troops {
 
             $sql = sprintf('SELECT `ID` FROM `SQL_PREFIX_troops_attack` WHERE `type`=\'%s\' AND ' .
                             '`coords_ss`=\'%s\' AND `coords_3p`=\'%s\' AND `when`<=%d AND `when`>=%d' .
-                            ' AND `players_defender` LIKE \'%%"%s"%%\' AND `players_attack` LIKE \'%%"%s"%%\'',
+                            ' AND `players_defender` LIKE \'%%"%s"%%\' AND `players_attack` LIKE \'%%"%s"%%\''.
+                            'ORDER BY `when` DESC LIMIT 1',
                             sqlesc($mode), $idsys, $iddet, $idate, $idate - 604800, sqlesc($_SESSION['_login']), sqlesc($info[$this->lng[$mode . '_regex_userid']]));
             $result = DataEngine::sql($sql);
             if (mysql_numrows($result) < 1)
                 return $this->lng['log_battlenofound'];
-            if (mysql_numrows($result) > 1)
-                return 'Error battle result > 1 (omg)';
             $line = mysql_fetch_assoc($result);
             $mid = $line['ID'];
         } else {
