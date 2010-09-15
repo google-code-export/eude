@@ -41,7 +41,7 @@ if (isset($_POST['login']) && $_POST['login'] != '' && $_POST['mdp'] != '') {
         $_SESSION['_pass'] = $pass;
         $_SESSION['_Perm'] = $axx;
         $_SESSION['_IP'] = Get_IP();
-        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),\'' . $qlogin . '\',\'' . $_SESSION['_IP'] . '\')';
+        $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`log`,`IP`) VALUES(NOW(),\'login,new:' . $qlogin . '\',\'' . $_SESSION['_IP'] . '\')';
         DataEngine::sql($query);
         output::boink('./');
     }
