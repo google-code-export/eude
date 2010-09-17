@@ -14,6 +14,8 @@ require_once(CLASS_PATH . 'img.class.php');
 
 include_once(INCLUDE_PATH . 'crontab.php');
 
+ignore_user_abort(true);
+
 if (IS_IMG) {
     if ($cron->Run())
         img::Create(3, 3)->SetColorHexa('00FF00')->Fill()->Render();

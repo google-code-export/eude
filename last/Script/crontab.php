@@ -144,6 +144,15 @@ class job_map_tooltips extends phpcron_job {
                 case 'moi':
                     $line['ownplanet'][] = $v['INFOS'];
                     break;
+                case 'empire':
+                    if (!isset($line['empire']))
+                        $line['empire'] = array();
+
+                    if ($v['Joueur'] != '')
+                        $line['empire'][] = $v['Joueur'] . ' (' . $v['Grade'] . ')';
+                    else
+                        $line['empire'][] = $v['USER'];
+                    break;
                 case 'Vortex':
                     if (!isset($line['wormholes']))
                         $line['wormholes'] = array();
@@ -203,7 +212,8 @@ class job_map_tooltips extends phpcron_job {
             }
         }
 
-        $tmp = 'ss_info[' . $ss . ']={';
+        $tmp = '
+ss_info[' . $ss . ']={';
 
         foreach ($line as $k => $v) {
             if (is_array($v) && count($v) > 0) {
@@ -212,7 +222,8 @@ class job_map_tooltips extends phpcron_job {
             } elseif (!is_array($v))
                 $tmp .= $k . ':' . (is_numeric($v) ? $v : '"' . $v . '"') . ',';
         }
-        fwrite($this->fp, substr($tmp, 0, strlen($tmp) - 1) . ' };');
+        fwrite($this->fp, substr($tmp, 0, strlen($tmp) - 1) . ' };
+');
 
         /*
           bubulle[$ss] = { // ss
@@ -238,7 +249,7 @@ class job_map_tooltips extends phpcron_job {
         $vortex_a = array();
         $CurrSS_a = array();
         $empire = trim(DataEngine::config_key('config', 'MyEmpire'));
-        $cxx_empires = DataEngine::CheckPerms('CARTE_SHOWEMPIRE');
+        $cxx_empires = Members::CheckPerms('CARTE_SHOWEMPIRE');
 
         $this->fp = fopen($this->filename, 'w');
         stream_set_write_buffer($this->fp, 0);
@@ -256,8 +267,13 @@ class job_map_tooltips extends phpcron_job {
         }
 
         $sql = <<<sql
-SELECT c.`ID`, c.`TYPE`, c.`POSIN`, c.`POSOUT`, j.`USER`, j.`INFOS`, j.`EMPIRE` FROM SQL_PREFIX_Coordonnee as c
-LEFT JOIN SQL_PREFIX_Coordonnee_Joueurs as j on id=jid
+SELECT c.`ID`, c.`TYPE`, c.`POSIN`, c.`POSOUT`, j.`USER`, j.`INFOS`, j.`EMPIRE`,
+    IFNULL(g.`Grade`,'') as Grade, IFNULL(m.`Joueur`,'') as Joueur
+FROM SQL_PREFIX_Coordonnee as c
+    LEFT JOIN SQL_PREFIX_Coordonnee_Joueurs as j on (c.id=j.jid)
+    LEFT JOIN `SQL_PREFIX_Membres` m on (j.`USER`=m.`Joueur`)
+    LEFT JOIN `SQL_PREFIX_Grade` g on (m.`Grade`=g.`GradeId`)
+/*WHERE c.`ID`= 32961*/
 ORDER BY c.`POSIN` ASC
 sql;
 
@@ -333,7 +349,7 @@ sql;
         $this->add_ss($CurrSS, $CurrSS_a);
 
         fclose($this->fp);
-        
+
         parent::RunJob();
     }
 
@@ -343,8 +359,10 @@ sql;
             $this->lastrun = filemtime($this->filename);
             $sqlr = DataEngine::sql('SELECT udate FROM SQL_PREFIX_Coordonnee ORDER BY udate DESC LIMIT 1');
             $sqla = mysql_fetch_array($sqlr);
-            $time = $this->lastrun > $sqla['udate'] ? time()+3600: $this->lastrun+1;
-            $this->CronPattern = strftime("%M %H %d %m %w", $time);
+            if ($this->lastrun > $sqla['udate'])
+                $this->CronPattern = strftime("%M %H %d %m 0", time() + 3600);
+            else
+                $this->CronPattern = strftime("%M %H %d %m %w", time());
         } else {
             $this->lastrun = 0;
             $this->CronPattern = '* * * * *';

@@ -240,9 +240,17 @@ function CCarte(tc,nbc, ss_info){
             data.wormholes.each(function(value,ind){
                 bubulle.push('=> '+value)
             });
-        }        
-        if (data.alliance) {
+        }
+        if (data.empire) {
             bubulle.push(i18n.Map.empire_header.evaluate({
+                num: data.empire.length
+            }));
+            data.empire.each(function(value,ind){
+                bubulle.push(value)
+            });
+        }
+        if (data.alliance) {
+            bubulle.push(i18n.Map.alliance_header.evaluate({
                 num: data.alliance.length
             }));
             data.alliance.each(function(value,ind){
