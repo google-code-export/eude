@@ -10,7 +10,7 @@
 require_once('./init.php');
 require_once(INCLUDE_PATH.'Script.php');
 
-DataEngine::CheckPermsOrDie('MEMBRES_EDIT');
+Members::CheckPermsOrDie('MEMBRES_EDIT');
 
 $lng = language::getinstance()->GetLngBlock('dataengine');
 $tabrace=$lng['races'];
@@ -52,12 +52,12 @@ if(isset($_POST['ModifJoueur0'])) {
             DataEngine::sql_spool('UPDATE `SQL_PREFIX_Membres` SET `Points`=\''.$Joueur['ModifPoints'].'\', `Grade`=\''.$Joueur['ModifGrade'].'\', `Race`=\''.$Joueur['ModifRace'].'\' WHERE `Joueur`=\''.$Joueur['ID'].'\'');
             DataEngine::sql_spool('UPDATE `SQL_PREFIX_Users` SET `Permission`=\''.$Joueur['ModifPermission'].'\' WHERE `Login`=\''.$Joueur['ID'].'\'');
 		}
-        if($Joueur['pass'] && DataEngine::CheckPerms('MEMBRES_NEWPASS')) {
+        if($Joueur['pass'] && Members::CheckPerms('MEMBRES_NEWPASS')) {
             DataEngine::sql_spool('UPDATE `SQL_PREFIX_Users` SET `Password`=md5(\''.$Joueur['pass'].'\') WHERE `Login`=\''.$Joueur['ID'].'\'');
         }
 
-        if($Joueur['Suppr'] && DataEngine::CheckPerms('MEMBRES_DELETE')) {
-            DataEngine::DeleteUser($Joueur['ID']);
+        if($Joueur['Suppr'] && Members::CheckPerms('MEMBRES_DELETE')) {
+            Members::DeleteUser($Joueur['ID']);
         }
     } //while
 
@@ -116,9 +116,9 @@ if ($_GET['Joueur'] != '') {
 }
 
 $axx = array();
-foreach (DataEngine::s_perms() as $k => $v) {
+foreach (Members::s_perms() as $k => $v) {
     if ($k == AXX_DISABLED) continue;
-    if (DataEngine::CurrentPerms() > $k || DataEngine::CurrentPerms() == AXX_ROOTADMIN)
+    if (Members::CurrentPerms() > $k || Members::CurrentPerms() == AXX_ROOTADMIN)
         $axx[$k] = $v;
 }
 require_once(TEMPLATE_PATH.'editmembres.tpl.php');

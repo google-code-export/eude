@@ -12,7 +12,7 @@ require_once('../init.php');
 require_once(INCLUDE_PATH.'Script.php');
 require_once(CLASS_PATH.'map.class.php');
 
-if (!DataEngine::CheckPerms('CARTE_SEARCH')) {
+if (!Members::CheckPerms('CARTE_SEARCH')) {
     $msg = language::getinstance()->GetLngBlock('dateengine');
     $msg = $msg['nopermsanddie'];
     $out=<<<o

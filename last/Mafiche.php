@@ -10,7 +10,7 @@ require_once('./init.php');
 require_once(INCLUDE_PATH.'Script.php');
 require_once(CLASS_PATH.'parser.class.php');
 
-DataEngine::CheckPermsOrDie('PERSO');
+Members::CheckPermsOrDie('PERSO');
 
 $lng = language::getinstance()->GetLngBlock('personal');
 

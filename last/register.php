@@ -14,7 +14,7 @@ require_once(INCLUDE_PATH . 'Script.php');
 if (DataEngine::config_key('config', 'closed'))
     output::Boink ();
 if (!DataEngine::config_key('config', 'CanRegister'))
-    DataEngine::NoPermsAndDie();
+    Members::NoPermsAndDie();
 
 $lng = language::getinstance()->GetLngBlock('login');
 
@@ -35,7 +35,7 @@ if (isset($_POST['login']) && $_POST['login'] != '' && $_POST['mdp'] != '') {
             $axx = AXX_MEMBER;
         else
             $axx = AXX_VALIDATING;
-        DataEngine::NewUser($login, $pass, $axx, 0, DataEngine::config_key('config', 'DefaultGrade'));
+        Members::NewUser($login, $pass, $axx, 0, DataEngine::config_key('config', 'DefaultGrade'));
         // TODO: Redir, no sign in.
         $_SESSION['_login'] = $login;
         $_SESSION['_pass'] = $pass;

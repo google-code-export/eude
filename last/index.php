@@ -10,8 +10,8 @@
 require_once('./init.php');
 require_once(INCLUDE_PATH.'Script.php');
 
-if (!DataEngine::CheckPerms('CARTOGRAPHIE')) {
-    if (DataEngine::CheckPerms('CARTE'))
+if (!Members::CheckPerms('CARTOGRAPHIE')) {
+    if (Members::CheckPerms('CARTE'))
         output::Boink(ROOT_URL.'Carte.php');
     else
         output::Boink(ROOT_URL.'Mafiche.php');

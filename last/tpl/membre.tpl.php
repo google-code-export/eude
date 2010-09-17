@@ -50,9 +50,9 @@ class tpl_membre extends output {
     public function level_player_row($joueur) {
 //        FB::info($joueur);
         $ship = $editlink= '';
-        if (DataEngine::CheckPerms(AXX_MODO) && $joueur['ship'] != '')
+        if (Members::CheckPerms(AXX_MODO) && $joueur['ship'] != '')
             $ship=sprintf ($this->lng['level_player_row_ship'], $joueur['ship']);
-        if (DataEngine::CheckPerms(AXX_ADMIN))
+        if (Members::CheckPerms(AXX_ADMIN))
             $editlink=' <a href="%ROOT_URL%editmembres.php?Joueur='.$joueur['Joueur']
             .'"><img src="%IMAGES_URL%edit.png"></a> &nbsp; ';
 

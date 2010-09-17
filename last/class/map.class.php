@@ -246,7 +246,7 @@ class map /*extends parcours*/ {
             $grade = $ligne['Grade'];
             $this->empire = $ligne['Grade'];
         }
-        $this->cxx_empires = DataEngine::CheckPerms('CARTE_SHOWEMPIRE');
+        $this->cxx_empires = Members::CheckPerms('CARTE_SHOWEMPIRE');
         $this->lng = language::getinstance()->GetLngBlock('carte');
 
         $this->itineraire = ( ($this->IN != '' && $this->OUT != '') && ($this->IN != $this->OUT) );
@@ -288,7 +288,7 @@ class map /*extends parcours*/ {
     }
 
     private function perms_prefs() {
-        if (!DataEngine::CheckPerms('CARTE_JOUEUR')) $this->joueur = 0;
+        if (!Members::CheckPerms('CARTE_JOUEUR')) $this->joueur = 0;
 
     }
 
@@ -532,8 +532,6 @@ sql;
      * @return	integer		ID du tableau de couleur
      */
     public function ss_colors($ss) {
-
-        if (isset($ss['alliance'])) xdebug_break();
 
         $joueur		= ( isset( $ss['Joueur'] ))		? intval($ss['Joueur'])		: 0;
         $vortex		= ( isset( $ss['Vortex'] ))		? intval($ss['Vortex'])		: 0;

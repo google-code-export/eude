@@ -20,7 +20,7 @@ require_once(CLASS_PATH . 'cartographie.class.php');
 
 $lng = language::getinstance()->GetLngBlock('eude');
 
-if (!DataEngine::CheckPerms('CARTOGRAPHIE_GREASE')) {
+if (!Members::CheckPerms('CARTOGRAPHIE_GREASE')) {
     header('HTTP/1.1 403 Forbidden');
     output::_DoOutput('<eude><alert>' . $lng['err_403'] . '</alert><GM_active>0</GM_active></eude>');
 }
@@ -36,13 +36,13 @@ $carto = cartographie::getinstance();
 
 switch ($_GET['act']) {
     case 'init': //-------------------------------------------------------------
-        $xml['GM_galaxy_info'] = DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS') ? '1' : '0';
-        $xml['GM_planet_info'] = DataEngine::CheckPerms('CARTOGRAPHIE_PLANETS') ? '1' : '0';
-        $xml['GM_asteroid_info'] = DataEngine::CheckPerms('CARTOGRAPHIE_ASTEROID') ? '1' : '0';
-        $xml['GM_pnj_info'] = DataEngine::CheckPerms('CARTOGRAPHIE_PNJ') ? '1' : '0';
+        $xml['GM_galaxy_info'] = Members::CheckPerms('CARTOGRAPHIE_PLAYERS') ? '1' : '0';
+        $xml['GM_planet_info'] = Members::CheckPerms('CARTOGRAPHIE_PLANETS') ? '1' : '0';
+        $xml['GM_asteroid_info'] = Members::CheckPerms('CARTOGRAPHIE_ASTEROID') ? '1' : '0';
+        $xml['GM_pnj_info'] = Members::CheckPerms('CARTOGRAPHIE_PNJ') ? '1' : '0';
 
-        $xml['GM_troops_battle'] = DataEngine::CheckPerms('PERSO_TROOPS_BATTLE') ? '1' : '0';
-        $xml['GM_empire_maj'] = DataEngine::CheckPerms('EMPIRE_GREASE') ? '1' : '0';
+        $xml['GM_troops_battle'] = Members::CheckPerms('PERSO_TROOPS_BATTLE') ? '1' : '0';
+        $xml['GM_empire_maj'] = Members::CheckPerms('EMPIRE_GREASE') ? '1' : '0';
 
         DataEngine::sql_spool('INSERT INTO `SQL_PREFIX_Log` (`DATE`,`LOGIN`,`IP`) VALUES(NOW(),\'gm:' . sqlesc($_SESSION['_login']) . '\',\'' . $_SESSION['_IP'] . '\')');
         DataEngine::sql_spool('UPDATE `SQL_PREFIX_Membres` SET `Date`=now() WHERE `Joueur`=\'' . sqlesc($_SESSION['_login']) . '\'');
@@ -77,7 +77,7 @@ q;
 
     case 'ownuniverse': //------------------------------------------------------
 
-        if (!DataEngine::CheckPerms('PERSO_OWNUNIVERSE')) {
+        if (!Members::CheckPerms('PERSO_OWNUNIVERSE')) {
             $carto->AddErreur($lng['err_noaxx']);
             break;
         }
@@ -89,7 +89,7 @@ q;
 
     case 'troop_battle': //-----------------------------------------------------
 
-        if (!DataEngine::CheckPerms('PERSO_TROOPS_BATTLE')) {
+        if (!Members::CheckPerms('PERSO_TROOPS_BATTLE')) {
             $carto->AddErreur($lng['err_noaxx']);
             break;
         }
@@ -109,7 +109,7 @@ q;
 
     case 'troop_log': //--------------------------------------------------------
 
-        if (!DataEngine::CheckPerms('PERSO_TROOPS_BATTLE')) {
+        if (!Members::CheckPerms('PERSO_TROOPS_BATTLE')) {
             $carto->AddErreur($lng['err_noaxx']);
             break;
         }
@@ -126,7 +126,7 @@ q;
 
     case 'troop_howmany': //--------------------------------------------------------
 
-        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')) {
+        if (!Members::CheckPerms('CARTOGRAPHIE_PLAYERS')) {
             $carto->AddErreur($lng['err_noaxx']);
             break;
         }
@@ -144,7 +144,7 @@ q;
 
     case 'galaxy_info': //------------------------------------------------------
 
-        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')) {
+        if (!Members::CheckPerms('CARTOGRAPHIE_PLAYERS')) {
             $carto->AddErreur($lng['err_noaxx']);
             break;
         }
@@ -200,7 +200,7 @@ sql;
 
     case 'planet': // ----------------------------------------------------------
 
-        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLANETS')) {
+        if (!Members::CheckPerms('CARTOGRAPHIE_PLANETS')) {
             $carto->AddErreur($lng['err_noaxx']);
             break;
         }
@@ -212,7 +212,7 @@ sql;
         break;
     case 'asteroid': // --------------------------------------------------------
 
-        if (!DataEngine::CheckPerms('CARTOGRAPHIE_ASTEROID')) {
+        if (!Members::CheckPerms('CARTOGRAPHIE_ASTEROID')) {
             $carto->AddErreur($lng['err_noaxx']);
             break;
         }
@@ -225,7 +225,7 @@ sql;
 
     case 'pnj': // -------------------------------------------------------------
 
-        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PNJ')) {
+        if (!Members::CheckPerms('CARTOGRAPHIE_PNJ')) {
             $carto->AddErreur($lng['err_noaxx']);
             break;
         }
@@ -236,7 +236,7 @@ sql;
 
     case 'player': // --------------------------------------------------------
 
-        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS')) {
+        if (!Members::CheckPerms('CARTOGRAPHIE_PLAYERS')) {
             $carto->AddErreur($lng['err_noaxx']);
             break;
         }
@@ -257,7 +257,7 @@ sql;
         break;
 
     case 'empire': // --------------------------------------------------------
-        if (!DataEngine::CheckPerms('EMPIRE_GREASE')) {
+        if (!Members::CheckPerms('EMPIRE_GREASE')) {
             $carto->AddErreur('Permissions manquante');
             break;
         }

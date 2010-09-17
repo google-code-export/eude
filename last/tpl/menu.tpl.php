@@ -28,27 +28,27 @@ class tpl_menu {
 // 'menu_unique_id' => array('file/http','btn-img','btn_width','eval(some_php_for_axx)', $array_for_sub_menu_item),
 // $array_for_sub_menu_item = array('file/http','btn-img','eval(some_php_for_axx)')
         return array(
-                'carto' => array('%ROOT_URL%index.php','%BTN_URL%cartographie.png',160,'DataEngine::CheckPerms("CARTOGRAPHIE")||DataEngine::CheckPerms("CARTE")', array(
-                                array('%ROOT_URL%cartographie.php','%BTN_URL%tableau.png','DataEngine::CheckPerms("CARTOGRAPHIE")'),
-                                array('%ROOT_URL%Carte.php','%BTN_URL%carte.png','DataEngine::CheckPerms("CARTE")'),
+                'carto' => array('%ROOT_URL%index.php','%BTN_URL%cartographie.png',160,'Members::CheckPerms("CARTOGRAPHIE")||Members::CheckPerms("CARTE")', array(
+                                array('%ROOT_URL%cartographie.php','%BTN_URL%tableau.png','Members::CheckPerms("CARTOGRAPHIE")'),
+                                array('%ROOT_URL%Carte.php','%BTN_URL%carte.png','Members::CheckPerms("CARTE")'),
                         ),
                 ),
-                'perso' => array('%ROOT_URL%Mafiche.php','%BTN_URL%mafiche.png',160,'DataEngine::CheckPerms("PERSO")', array(
-                                array('%ROOT_URL%Recherche.php','%BTN_URL%recherche.png','DataEngine::CheckPerms("PERSO_RESEARCH")'),
-                                array('%ROOT_URL%ownuniverse.php','%BTN_URL%ownuniverse.png','DataEngine::CheckPerms("PERSO_OWNUNIVERSE")'),
-                                array('%ROOT_URL%pillage.php','%BTN_URL%pillage.png','DataEngine::CheckPerms("PERSO_TROOPS_BATTLE")'),
+                'perso' => array('%ROOT_URL%Mafiche.php','%BTN_URL%mafiche.png',160,'Members::CheckPerms("PERSO")', array(
+                                array('%ROOT_URL%Recherche.php','%BTN_URL%recherche.png','Members::CheckPerms("PERSO_RESEARCH")'),
+                                array('%ROOT_URL%ownuniverse.php','%BTN_URL%ownuniverse.png','Members::CheckPerms("PERSO_OWNUNIVERSE")'),
+                                array('%ROOT_URL%pillage.php','%BTN_URL%pillage.png','Members::CheckPerms("PERSO_TROOPS_BATTLE")'),
                         ),
                 ),
                 'addon' => array('', '%BTN_URL%addon.png',160, 'addons::getinstance()->IncludeAddonMenu()', array() ),
-                'admin' => array('%ROOT_URL%Membres.php','%BTN_URL%membres.png',160,'DataEngine::CheckPerms("MEMBRES_HIERARCHIE")', array(
-                                array('%ROOT_URL%Membres.php','%BTN_URL%hierarchie.png','DataEngine::CheckPerms("MEMBRES_HIERARCHIE")'),
-                                array('%ROOT_URL%editmembres.php','%BTN_URL%editmembres.png','DataEngine::CheckPerms("MEMBRES_EDIT")'),
-                                array('%ROOT_URL%stats.php','%BTN_URL%stats.png','DataEngine::CheckPerms("MEMBRES_STATS")'),
-                                array('%ROOT_URL%EAdmin.php','%BTN_URL%eadmin.png','DataEngine::CheckPerms("MEMBRES_ADMIN")'),
+                'admin' => array('%ROOT_URL%Membres.php','%BTN_URL%membres.png',160,'Members::CheckPerms("MEMBRES_HIERARCHIE")', array(
+                                array('%ROOT_URL%Membres.php','%BTN_URL%hierarchie.png','Members::CheckPerms("MEMBRES_HIERARCHIE")'),
+                                array('%ROOT_URL%editmembres.php','%BTN_URL%editmembres.png','Members::CheckPerms("MEMBRES_EDIT")'),
+                                array('%ROOT_URL%stats.php','%BTN_URL%stats.png','Members::CheckPerms("MEMBRES_STATS")'),
+                                array('%ROOT_URL%EAdmin.php','%BTN_URL%eadmin.png','Members::CheckPerms("MEMBRES_ADMIN")'),
                         ),
                 ),
                 'forum' => array(DataEngine::config_key('config', 'ForumLink'),'%BTN_URL%forum.png',160,'DataEngine::config_key(\'config\', \'ForumLink\') != ""', null),
-                'logout' => array('%ROOT_URL%logout.php','%BTN_URL%logout.png',160,'DataEngine::CheckPerms(AXX_GUEST)', null),
+                'logout' => array('%ROOT_URL%logout.php','%BTN_URL%logout.png',160,'Members::CheckPerms(AXX_GUEST)', null),
         );
     }
 

@@ -12,7 +12,7 @@ require_once(CLASS_PATH.'ownuniverse.class.php');
 require_once(CLASS_PATH.'parser.class.php');
 require_once(TEMPLATE_PATH.'ownuniverse.tpl.php');
 
-DataEngine::CheckPermsOrDie('PERSO_OWNUNIVERSE');
+Members::CheckPermsOrDie('PERSO_OWNUNIVERSE');
 
 $ownuniverse = ownuniverse::getinstance();
 $lng = language::getinstance()->GetLngBlock('ownuniverse');

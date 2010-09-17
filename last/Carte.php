@@ -15,7 +15,7 @@ DataEngine::conf_cache('EmpireAllys');
 DataEngine::conf_cache('EmpireEnnemy');
 DataEngine::conf_cache('MapColors');
 
-if (!DataEngine::CheckPerms('CARTE'))
+if (!Members::CheckPerms('CARTE'))
     output::Boink(ROOT_URL . 'Mafiche.php');
 
 $map = map::getinstance();

@@ -46,9 +46,9 @@ class tpl_editmembres extends output {
 <TD onclick="location.href='./editmembres.php?TriModif={$TriModif}';">{$this->lng['table_last_login']}</TD>
 h;
         $this->PushOutput($out);
-        if(DataEngine::CheckPerms('MEMBRES_NEWPASS'))
+        if(Members::CheckPerms('MEMBRES_NEWPASS'))
             $this->PushOutput("<td>{$this->lng['table_setnewpass']}</td>");
-        if(DataEngine::CheckPerms('MEMBRES_DELETE'))
+        if(Members::CheckPerms('MEMBRES_DELETE'))
             $this->PushOutput("<td>{$this->lng['table_deleteone']}</td>");
     }
 
@@ -104,9 +104,9 @@ r;
 r2;
         $this->PushOutput($out);
 
-        if(DataEngine::CheckPerms('MEMBRES_NEWPASS'))
+        if(Members::CheckPerms('MEMBRES_NEWPASS'))
             $this->PushOutput('<TD><INPUT type="password" name="pass'.$i.'" value=""/></TD>');
-        if(DataEngine::CheckPerms('MEMBRES_DELETE'))
+        if(Members::CheckPerms('MEMBRES_DELETE'))
             $this->PushOutput('<TD><INPUT type="checkbox" name="Suppr'.$i.'" value="1">'.$this->lng['ckb_delete'].'</TD>');
 
 
@@ -115,8 +115,8 @@ r2;
 
     public function footer() {
         $cols = 9;
-        if(DataEngine::CheckPerms('MEMBRES_NEWPASS')) $cols++;
-        if(DataEngine::CheckPerms('MEMBRES_DELETE')) $cols++;
+        if(Members::CheckPerms('MEMBRES_NEWPASS')) $cols++;
+        if(Members::CheckPerms('MEMBRES_DELETE')) $cols++;
         
         $out = <<<f
             <TR align=right><TD Colspan=$cols><input type="submit" value="{$this->lng['btn_submit']}"></TD></TR>

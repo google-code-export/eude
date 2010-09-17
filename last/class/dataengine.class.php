@@ -9,20 +9,9 @@
  */
 
 class DataEngine extends Members {
-    /*     * #@+
-     * Variables initialisé, pouvant être utilisé en dehors de la class
-     * @access public
-     * @var mixed
-     */
-
     static public $lastsql = '';
-    static public $browser;
-    /*     * #@- */
-    /*     * #@+
-     * Utilisation interne uniquement
-     * @access protected
-     * @var mixed
-     */
+    static public $browser; // TODO: REMOVE THIS browser useless class (should by done by engine Gecko/webkit/Trident)
+    
     static protected $initialized;
     static protected $sql_spool = array();
     static protected $tpls = array();
@@ -31,7 +20,6 @@ class DataEngine extends Members {
     static protected $conf_load = array();
     static protected $conf_save = array();
     static protected $settings = array();
-    /*     * #@- */
 
     static public function init() {
         if (self::$initialized)
@@ -492,7 +480,7 @@ ead;
      */
     static public function Get_Version() {
         if (DE_DEMO)
-            return 'r612 demo';
+            return 'r626 demo';
         elseif (IN_DEV)
             return 'svn-' . time();
         else
@@ -643,6 +631,7 @@ PERM;
         DataEngine::sql('DELETE FROM `SQL_PREFIX_Membres` WHERE `Joueur`=\'' . $user . '\'');
         DataEngine::sql('DELETE FROM `SQL_PREFIX_Users` WHERE `Login`=\'' . $user . '\'');
         DataEngine::sql('DELETE FROM `SQL_PREFIX_ownuniverse` WHERE `Utilisateur`=\'' . $user . '\'');
+        // TODO: Clean user cache
         addons::getinstance()->DeleteUser($user);
     }
 

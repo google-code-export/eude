@@ -9,7 +9,7 @@
 require_once('./init.php');
 require_once(INCLUDE_PATH.'Script.php');
 
-DataEngine::CheckPermsOrDie('MEMBRES_STATS');
+Members::CheckPermsOrDie('MEMBRES_STATS');
 
 require_once(TEMPLATE_PATH.'stats.tpl.php');
 

@@ -69,7 +69,7 @@ class tpl_carte extends output {
         $taille_dec = ($this->map->taille - 100);
         $search = ( isset($_SESSION['search']) ? $_SESSION['search'] : '');
 
-        $can_search = (DataEngine::CheckPerms('CARTE_SEARCH'));
+        $can_search = (Members::CheckPerms('CARTE_SEARCH'));
         $nav_size = $can_search ? 1000 : 540;
         $out = <<<NAV
 <div  class="color_header" style="width:100%; height:30px; top:50px; position:absolute;">
@@ -119,7 +119,7 @@ class tpl_carte extends output {
 			<TD class="size110 text_right">&nbsp;{$this->lng['msg_coords']}&nbsp;</td>
 			<td id="Coord" class="size60 color_row0 text_center">- - - -</td>
 NAV;
-        if (DataEngine::CheckPerms('CARTE_SEARCH'))
+        if (Members::CheckPerms('CARTE_SEARCH'))
             $out.=<<<SEARCH
 <form id="searchempire" action="Carte.php" method="post" OnSubmit="return Navigateur.DoSearch();">
 			<td {$msg_search1} align=right>

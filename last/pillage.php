@@ -10,7 +10,7 @@
 require_once('./init.php');
 require_once(INCLUDE_PATH.'Script.php');
 
-DataEngine::CheckPermsOrDie('PERSO_TROOPS_BATTLE');
+Members::CheckPermsOrDie('PERSO_TROOPS_BATTLE');
 
 
 require_once(TEMPLATE_PATH.'troops.tpl.php');

@@ -173,7 +173,7 @@ sql;
     $result = DataEngine::sql($sql);
     $files = scandir(CACHE_PATH);
     foreach ($files as $file) {
-        if (preg_match('/.*\.(css|png|cron)$/', $file))
+        if (preg_match('/.*\.(js|css|png|cron)$/', $file))
             @unlink(CACHE_PATH . $file);
     }
     include_once(INCLUDE_PATH . 'crontab.php');
@@ -434,8 +434,8 @@ if ($_REQUEST['act'] == 'logs' && Members::CheckPerms('MEMBRES_ADMIN_LOG')) {
 }
 
 if ($_REQUEST['act'] == 'perms' && Members::CheckPerms(AXX_ROOTADMIN)) {
-    $cxx_name = DataEngine::s_cperms();
-    $axx_name = DataEngine::s_perms();
+    $cxx_name = Members::s_cperms();
+    $axx_name = Members::s_perms();
     $cxx_conf = DataEngine::config('perms');
     $axx_num = count($axx_name);
 

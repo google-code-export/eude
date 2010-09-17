@@ -54,7 +54,7 @@ class cartographie {
      * @return boolean
      */
     public function add_planet($coords, $ress_val) {
-        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLANETS'))
+        if (!Members::CheckPerms('CARTOGRAPHIE_PLANETS'))
             return $this->AddErreur('Permissions manquante');
 
         $Ressource=DataEngine::a_Ressources();
@@ -151,7 +151,7 @@ class cartographie {
      * @return boolean
      */
     public function add_asteroid($coords, $ress_val) {
-        if (!DataEngine::CheckPerms('CARTOGRAPHIE_ASTEROID'))
+        if (!Members::CheckPerms('CARTOGRAPHIE_ASTEROID'))
             return $this->AddErreur($this->lng['class_err_noaxx']);
 
         $Ressource=DataEngine::a_Ressources();
@@ -216,7 +216,7 @@ class cartographie {
     }
 
     public function add_player($coords, $planete='', $nom='', $empire='') {
-        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PLAYERS'))
+        if (!Members::CheckPerms('CARTOGRAPHIE_PLAYERS'))
             return $this->AddErreur($this->lng['class_err_noaxx']);
 
         $updatetype=true;
@@ -296,7 +296,7 @@ sql;
 
 
     public function add_PNJ($coords, $nom='', $fleet='') {
-        if (!DataEngine::CheckPerms('CARTOGRAPHIE_PNJ'))
+        if (!Members::CheckPerms('CARTOGRAPHIE_PNJ'))
             return $this->AddErreur($this->lng['class_err_noaxx']);
 
         $qnom     = sqlesc(trim($nom));

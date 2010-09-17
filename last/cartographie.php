@@ -13,7 +13,7 @@ require_once(CLASS_PATH.'parser.class.php');
 require_once(CLASS_PATH.'cartographie.class.php');
 require_once(CLASS_PATH.'map.class.php');
 
-if (!DataEngine::CheckPermsOrDie('CARTOGRAPHIE'));
+if (!Members::CheckPermsOrDie('CARTOGRAPHIE'));
 
 $map = map::getinstance();
 $carto = cartographie::getinstance();
@@ -97,7 +97,7 @@ if (isset($_POST['Type'])) {
 
 $where = 'WHERE 1=1 ';
 $Recherche = array();
-if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
+if (Members::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     if(isset($_GET['ResetSearch']) && $_GET['ResetSearch']!='') {
         if (isset($_COOKIE['Recherche'])) {
             foreach ($_COOKIE['Recherche'] as $key => $value) {
@@ -194,7 +194,7 @@ $tpl->PushRow();
 
 //------------------------------------------------------------------------------
 
-if (DataEngine::CheckPerms('CARTOGRAPHIE_SEARCH')) {
+if (Members::CheckPerms('CARTOGRAPHIE_SEARCH')) {
     $tpl->SearchForm();
     if (!isset ($Recherche['Type'])) $Recherche['Type'] = -1;
     $tpl->AddToRow($tpl->SelectOptions2($lngmain['types']['dropdown'],$Recherche['Type']), 'Type');

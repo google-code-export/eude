@@ -10,11 +10,11 @@
 require_once('./init.php');
 require_once(INCLUDE_PATH.'Script.php');
 
-DataEngine::CheckPermsOrDie('MEMBRES_HIERARCHIE');
+Members::CheckPermsOrDie('MEMBRES_HIERARCHIE');
 
-if(DataEngine::checkPerms('MEMBRES_NEW')) {
+if(Members::checkPerms('MEMBRES_NEW')) {
     if(isset($_POST['Joueur'])) {
-        DataEngine::NewUser(sqlesc($_POST['Joueur']), sqlesc(md5($_POST['Password'])), AXX_MEMBER,
+        Members::NewUser(sqlesc($_POST['Joueur']), sqlesc(md5($_POST['Password'])), AXX_MEMBER,
             sqlesc($_POST['Points']), intval($_POST['Grade']));
     }
 
@@ -97,7 +97,7 @@ foreach ($levels as $levelkey => $level) {
 $tpl->level_vs_grade();
 
 // Séparer les grades de la création de joueur ?
-if(DataEngine::CheckPerms('MEMBRES_NEW')) {
+if(Members::CheckPerms('MEMBRES_NEW')) {
 
     $tpl->Grade_Header()->Grade_AddPlayer($Grades)->Grade_Sep();
 

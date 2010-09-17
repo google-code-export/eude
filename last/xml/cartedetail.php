@@ -11,7 +11,7 @@ define('USE_AJAX',true);
 require_once('../init.php');
 require_once(INCLUDE_PATH.'Script.php');
 
-if (!DataEngine::CheckPerms('CARTE_JOUEUR')) {
+if (!Members::CheckPerms('CARTE_JOUEUR')) {
     $out=<<<o
 <carte>
     <script>

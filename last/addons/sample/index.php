@@ -19,7 +19,7 @@ require_once(INCLUDE_PATH.'Script.php');
 
 
 // Check si activé / permissions
-if (!addons::getinstance()->Is_installed('sample')) DataEngine::NoPermsAndDie();
+if (!addons::getinstance()->Is_installed('sample')) Members::NoPermsAndDie();
 
 require_once(TEMPLATE_PATH.'sample.tpl.php');
 
@@ -58,9 +58,9 @@ $tpl->PushOutput($out); // ajoute le texte précédant à la sortie qui sera aff
 
 // Un petit menu perso pour l'addons
 $menu = array(
-    'carte' => array('%ROOT_URL%Carte.php','%BTN_URL%cartographie.png',180,'DataEngine::CheckPerms(AXX_MEMBER)', array()),
-    'mafiche' => array('%ROOT_URL%Mafiche.php','%BTN_URL%mafiche.png',125,'DataEngine::CheckPerms(AXX_MEMBER)', array()),
-    'moi' => array('%ADDONS_URL%sample/index.php','%BTN_URL%addons_sample.png',125,'DataEngine::CheckPerms(AXX_MEMBER)', array()),
+    'carte' => array('%ROOT_URL%Carte.php','%BTN_URL%cartographie.png',180,'Members::CheckPerms(AXX_MEMBER)', array()),
+    'mafiche' => array('%ROOT_URL%Mafiche.php','%BTN_URL%mafiche.png',125,'Members::CheckPerms(AXX_MEMBER)', array()),
+    'moi' => array('%ADDONS_URL%sample/index.php','%BTN_URL%addons_sample.png',125,'Members::CheckPerms(AXX_MEMBER)', array()),
 );
 
 $tpl->DoOutput($menu,true); // stoppe toute execution du script et transmet les sorties html/xml/...
