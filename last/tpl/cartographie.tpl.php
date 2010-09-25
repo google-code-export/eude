@@ -172,8 +172,8 @@ ROW;
         $this->currow = <<<ROW
     <tr>
         <td>
-        <table class="table_center table_nospacing" width="100%">
         <form name="searchresult" method="post" action="{$this->BASE_FILE}?{$this->BASE_GET}">
+        <table class="table_center table_nospacing" width="100%">
             <tr>
                 <TD colspan="4">&nbsp;</TD>
                 <TD class="text_right color_pagination" colspan="2">

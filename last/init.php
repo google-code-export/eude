@@ -25,7 +25,7 @@ define('IN_DEV', true);
 /// ### NE RIEN CHANGER CI DESSOUS  ### ///
 /// ### ### ### ### ### ### ### ### ### ///
 
-ob_start();
+ob_start('ob_gzhandler');
 define('START', microtime(true));
 define('ROOT_PATH', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
 define('INCLUDE_PATH', ROOT_PATH .'Script'.DIRECTORY_SEPARATOR );

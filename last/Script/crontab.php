@@ -115,7 +115,7 @@ class job_buttons extends phpcron_job {
 
 function array_js(&$item1, $key) {
     if (!is_numeric($item1))
-        $item1 = '"' . $item1 . '"';
+        $item1 = '"' . addslashes ($item1) . '"';
 }
 
 class job_map_tooltips extends phpcron_job {
@@ -211,36 +211,30 @@ class job_map_tooltips extends phpcron_job {
                     break;
             }
         }
+        if (true) {
+            $tmp = 'ss_info[' . $ss . ']={';
 
-        $tmp = '
-ss_info[' . $ss . ']={';
+            foreach ($line as $k => $v) {
+                if (is_array($v) && count($v) > 0) {
+                    array_walk($v, 'array_js');
+                    $tmp .= $k . ':[' . implode(',', $v) . '],';
+                } elseif (!is_array($v))
+                    $tmp .= $k . ':' . (is_numeric($v) ? $v : '"' . $v . '"') . ',';
+            }
+            fwrite($this->fp, substr($tmp, 0, strlen($tmp) - 1) . ' };');
+        } else {
+            $tmp = 'ss_info[' . $ss . ']={' . PHP_EOL;
 
-        foreach ($line as $k => $v) {
-            if (is_array($v) && count($v) > 0) {
-                array_walk($v, 'array_js');
-                $tmp .= $k . ':[' . implode(',', $v) . '],';
-            } elseif (!is_array($v))
-                $tmp .= $k . ':' . (is_numeric($v) ? $v : '"' . $v . '"') . ',';
+            foreach ($line as $k => $v) {
+                if (is_array($v) && count($v) > 0) {
+                    array_walk($v, 'array_js');
+                    $tmp .= $k . ':[' . implode(',', $v) . '],' . PHP_EOL;
+                } elseif (!is_array($v))
+                    $tmp .= $k . ':' . (is_numeric($v) ? $v : '"' . $v . '"') . ',' . PHP_EOL;
+            }
+            fwrite($this->fp, substr($tmp, 0, strlen($tmp) - strlen(PHP_EOL) - 1) . ' };' . PHP_EOL);
         }
-        fwrite($this->fp, substr($tmp, 0, strlen($tmp) - 1) . ' };
-');
 
-        /*
-          bubulle[$ss] = { // ss
-          ownplanet: {$line['ownplanet']},
-          planets: 4, // Numbers
-          asteroids: 2, // number
-          //    cdr: 2, // number
-          wormholes: [4433, 5050], // Out SS ^ x
-          alliance: ['alliance'], // alliance members ^ x
-          players: ['Name (Alliance)'], // Players ^ x
-          ennemys: ['Name (Alliance)'], // Players ^ x
-          allys: ['Name (Alliance)'], // Players ^ x
-          reaperfleet: ['Fleet name'], // Fleets name ^ x
-          playerfleet: ['Fleet name'], // Fleets owner/name ^ x
-          searchresult: ['searchresult'] // Players ^ x
-          };
-          EOF; */
     }
 
     public function RunJob() {

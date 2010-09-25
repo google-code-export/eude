@@ -70,9 +70,9 @@ class tpl_carte extends output {
         $search = ( isset($_SESSION['search']) ? $_SESSION['search'] : '');
 
         $can_search = (Members::CheckPerms('CARTE_SEARCH'));
-        $nav_size = $can_search ? 1000 : 540;
+        $nav_size = $can_search ? 860 : 540;
         $out = <<<NAV
-<div  class="color_header" style="width:100%; height:30px; top:50px; position:absolute;">
+<div  class="color_header" style="width:1020px; height:30px; top:50px; position:absolute;">
 	<TABLE class="color_header" width={$nav_size}px>
 		<TR>	
 			<TD>
@@ -282,7 +282,6 @@ pe;
         $cls = DataEngine::config('MapColors');
         $id = $this->map->itineraire ? 0 : $this->map->sc + 1;
         $out = <<<h
-            </Table>
 		</form>
 	<Table class="color_row0">
 		<tr>
