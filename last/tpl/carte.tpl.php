@@ -70,10 +70,11 @@ class tpl_carte extends output {
         $search = ( isset($_SESSION['search']) ? $_SESSION['search'] : '');
 
         $can_search = (Members::CheckPerms('CARTE_SEARCH'));
-        $nav_size = $can_search ? 860 : 540;
+        $nav_size = $can_search ? 900 : 540;
+        $nav_size2 = $this->map->taille + 420;
         $out = <<<NAV
-<div  class="color_header" style="width:1020px; height:30px; top:50px; position:absolute;">
-	<TABLE class="color_header" width={$nav_size}px>
+<div  class="color_header" style="width:{$nav_size2}px; height:30px; top:50px; position:absolute;">
+	<TABLE class="color_header" style="width:{$nav_size}px; white-space: no-wrap">
 		<TR>	
 			<TD>
 				<A {$msg_taill_inc} HREF="{$this->BASE_FILE}?taille={$taille_inc}">&nbsp;+&nbsp;</A>
