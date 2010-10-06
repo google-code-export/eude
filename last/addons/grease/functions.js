@@ -316,12 +316,11 @@ function MaFiche() {
     prefixpts = '/html/body/div[2]/div/div/div/center';
     prefixright = '/html/body/div[2]/div/div/div[2]';
     id_td = 4;
-
     player = $x(prefixright+'/table/tbody/tr[2]/td[4]')[0].innerHTML;
 
     if (player.toLowerCase() != GM_getValue(c_prefix+'user','').toLowerCase()) return;
 
-    a['Titre'] = $x(prefixright+'/table/tbody/tr[3]/td[4]')[0].innerHTML;
+    a['Titre'] = $x(prefixright+'/table/tbody/tr[3]/td[4]/a')[0].innerHTML;
     a['Race'] = $x(prefixright+'/table/tbody/tr[4]/td[4]')[0].innerHTML;
 
     a['Commerce'] = $x(prefixright+'/table[2]/tbody/tr[2]/td[3]')[0].innerHTML;
