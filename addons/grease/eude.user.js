@@ -1544,7 +1544,7 @@ function MaFiche() {
 
     if (player.toLowerCase() != GM_getValue(c_prefix+'user','').toLowerCase()) return;
 
-    a['Titre'] = $x(prefixright+'/table/tbody/tr[3]/td[4]')[0].innerHTML;
+    a['Titre'] = $x(prefixright+'/table/tbody/tr[3]/td[4]/a')[0].innerHTML;
     a['Race'] = $x(prefixright+'/table/tbody/tr[4]/td[4]')[0].innerHTML;
 
     a['Commerce'] = $x(prefixright+'/table[2]/tbody/tr[2]/td[3]')[0].innerHTML;
