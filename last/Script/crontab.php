@@ -97,7 +97,6 @@ class job_buttons extends phpcron_job {
     public function RunJob() {
         $this->_lock();
         include(LNG_PATH . 'btn.php');
-//        file_put_contents(CACHE_PATH . 'eude.css', $css);
         $files = scandir(CACHE_PATH);
         foreach ($files as $file)
             if (substr($file, -4) == '.png' && substr($file, 0, 3) == 'btn-')
@@ -115,7 +114,7 @@ class job_buttons extends phpcron_job {
 
 function array_js(&$item1, $key) {
     if (!is_numeric($item1))
-        $item1 = '"' . addslashes ($item1) . '"';
+        $item1 = '"' . addslashes($item1) . '"';
 }
 
 class job_map_tooltips extends phpcron_job {
@@ -167,13 +166,19 @@ class job_map_tooltips extends phpcron_job {
                     else
                         $line['players'][] = $v['USER'];
                     break;
+//                case 'search':
+//                    if (!isset($line['searchresult']))
+//                        $line['searchresult'] = array();
+//
+//                    if ($v['EMPIRE'] != '')
+//                        $line['searchresult'][] = $v['USER'] . ' [' . $v['EMPIRE'] . ']';
+//                    else
+//                        $line['searchresult'][] = $v['USER'];
+//                    break;
                 case 'alliance':
                     if (!isset($line['alliance']))
                         $line['alliance'] = array();
 
-//                    if ($v['Joueur'] != '')
-//                        $line['alliance'][] = $v['Joueur'] . ' (' . $v['Grade'] . ')';
-//                    else
                     $line['alliance'][] = $v['USER'] . ' [' . $v['EMPIRE'] . ']';
                     break;
                 case 'Ennemi':
@@ -234,7 +239,6 @@ class job_map_tooltips extends phpcron_job {
             }
             fwrite($this->fp, substr($tmp, 0, strlen($tmp) - strlen(PHP_EOL) - 1) . ' };' . PHP_EOL);
         }
-
     }
 
     public function RunJob() {
@@ -267,7 +271,6 @@ FROM SQL_PREFIX_Coordonnee as c
     LEFT JOIN SQL_PREFIX_Coordonnee_Joueurs as j on (c.id=j.jid)
     LEFT JOIN `SQL_PREFIX_Membres` m on (j.`USER`=m.`Joueur`)
     LEFT JOIN `SQL_PREFIX_Grade` g on (m.`Grade`=g.`GradeId`)
-/*WHERE c.`ID`= 32961*/
 ORDER BY c.`POSIN` ASC
 sql;
 
@@ -320,6 +323,7 @@ sql;
                 }
                 if ($empire != '' && $line['EMPIRE'] == $empire && $cxx_empires)
                     $type = 'empire';
+//                if (eval($typeeval)) $type = 'search';
                 if (stristr($line['USER'], $_SESSION['_login']) !== FALSE)
                     $type = 'moi';
                 $CurrSS_a[$ID]['type'] = $type;

@@ -30,5 +30,5 @@ $lng['allreadyhaveone'] = 'Déjà un compte ?';
 $lng['signin_page_title'] = 'EU2: DataEngine, Inscription';
 $lng['user_exists']       = 'Joueur existe déjà...';
 
-$lng['currently_closed'] = '<u>/<small>!</small>\</u> Le serveur est temporairement fermé <u>/<small>!</small>\</u><br/>&nbsp;';
+$lng['currently_closed'] = '<img src="%IMAGES_URL%warning.png"/> Le serveur est temporairement fermé <img src="%IMAGES_URL%warning.png"/><br/><br/>';
 $lng['currently_closed_nohtml'] = 'Le serveur est temporairement fermé.';

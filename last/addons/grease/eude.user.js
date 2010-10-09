@@ -1564,7 +1564,6 @@ function MaFiche() {
 
     if (player.toLowerCase() != GM_getValue(c_prefix+'user','').toLowerCase()) return;
 
-//html/body/div[2]/div/div/div[2]/table/tbody/tr[3]/td[4]/a
     a['Titre'] = $x(prefixright+'/table/tbody/tr[3]/td[4]/a')[0].innerHTML;
     a['Race'] = $x(prefixright+'/table/tbody/tr[4]/td[4]')[0].innerHTML;
 

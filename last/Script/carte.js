@@ -113,6 +113,7 @@ function CCarte(tc,nbc, ss_info){
     var NbCase=nbc;
     var CX=CY=CO=IN=0;
     var lastsearch='';
+    var ss_info_custom= new Array();
     var postop  = $('divcarteunivers').style.top;
     var posleft = $('divcarteunivers').style.left;
     postop = parseInt(postop.substring(0,postop.indexOf("px")));
@@ -142,7 +143,10 @@ function CCarte(tc,nbc, ss_info){
             $('cibleurH').style.top=y+postop-TailleCase+1;
             $('Coord').innerHTML=CO;
             cache();
-            if(typeof(ss_info[CO]) != 'undefined') {
+            if(typeof(ss_info_custom[CO]) != 'undefined') {
+                IN=1;
+                montre(this.build_bubulle(CO, ss_info_custom[CO]));
+            } else if(typeof(ss_info[CO]) != 'undefined') {
                 IN=1;
                 montre(this.build_bubulle(CO, ss_info[CO]));
             } else {
@@ -199,13 +203,18 @@ function CCarte(tc,nbc, ss_info){
     }
 
     this.Get_SS = function (number) {
+        if (typeof ss_info_custom[number] != 'undefined')
+            return ss_info_custom[number];
         if (typeof ss_info[number] == 'undefined')
             return false;
         else
             return ss_info[number];
     }
     this.Set_SS = function (number, data) {
-        ss_info[number] = data;
+        ss_info_custom[number] = data;
+    }
+    this.Remove_SS = function (number) {
+        delete ss_info_custom[number];
     }
     this.build_bubulle = function (ss, data) {
         if (typeof data == 'undefined') return false;

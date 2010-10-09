@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script type="text/javascript" src="../Script/prototype.js"></script>
+        <script type="text/javascript" src="../tpl/lng/fr/eude.local.js"></script>
+        <script type="text/javascript" src="../Script/carte.js"></script>
+        <script type="text/javascript" src="map.842c6e7d9f68e308da17a9cf9456b59a.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            var build_bubulle = function (ss, data) {
+                if (typeof data == 'undefined') return false;
+                var bubulle = Array();
+                var ss2xy = function (ss) {
+                    y = Math.floor((ss-1)/100);
+                    x = ((ss-1)%100)+1;
+                    x = (x == 0) ? 100: x;
+                    return {
+                        ss:ss,
+                        x:x,
+                        y:y
+                    };
+                }
+                bubulle.push(new Template('#{x}:#{y} (#{ss})').evaluate(ss2xy(ss)));
+                if (data.ownplanet) bubulle.push(i18n.map.ownplanet.evaluate({
+                    planetname: data.ownplanet
+                }));
+                if (data.planets) bubulle.push(i18n.map.planet_header.evaluate({
+                    num: data.planets
+                }));
+                if (data.asteroids) bubulle.push(i18n.map.asteroid_header.evaluate({
+                    num: data.asteroids
+                }));
+                if (data.wormholes) {
+                    bubulle.push(i18n.map.wormhole_header.evaluate({
+                        num: data.wormholes.length
+                    }));
+                    data.wormholes.each(function(value,ind){
+                        bubulle.push('=> '+value)
+                    });
+                }
+                if (data.alliance) {
+                    bubulle.push(i18n.map.empire_header.evaluate({
+                        num: data.alliance.length
+                    }));
+                    data.alliance.each(function(value,ind){
+                        bubulle.push(value)
+                    });
+                }
+                if (data.players) {
+                    bubulle.push(i18n.map.player_header.evaluate({
+                        num: data.players.length
+                    }));
+                    data.players.each(function(value,ind){
+                        bubulle.push(value)
+                    });
+                }
+                if (data.ennemys) {
+                    bubulle.push(i18n.map.ennemy_header.evaluate({
+                        num: data.ennemys.length
+                    }));
+                    data.ennemys.each(function(value,ind){
+                        bubulle.push(value)
+                    });
+                }
+                if (data.reaperfleet) {
+                    bubulle.push(i18n.map.pnj_header.evaluate({
+                        num: data.reaperfleet.length
+                    }));
+                    data.reaperfleet.each(function(value,ind){
+                        bubulle.push(value)
+                    });
+                }
+                if (data.searchresult) {
+                    bubulle.push(i18n.map.search_header.evaluate({
+                        num: data.searchresult.length
+                    }));
+                    data.searchresult.each(function(value,ind){
+                        bubulle.push(value)
+                    });
+                }
+                return bubulle.join('<br/>');
+            }
+            document.write(build_bubulle(1, ss_info[1])+'<hr/>');
+            document.write(build_bubulle(2488, ss_info[2488])+'<hr/>');
+            document.write(build_bubulle(4890, ss_info[4890])+'<hr/>');
+        </script>
+    </body>
+</html>
