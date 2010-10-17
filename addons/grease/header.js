@@ -43,7 +43,7 @@ var mversion=RegExp.$1.replace(/\.*/g, '');
 metadata.search(/Id\:\ eude\.user\.js\ (\d+)\ \d+\-\d+\-\d+\ .+\$/);
 var revision=RegExp.$1;
 var version=mversion+'r'+revision;
-const debug=true;
+const debug=false;
 //c_prefix = 'borealis.fr';
 
 //const UseTamper = function_exists('TM_log');
