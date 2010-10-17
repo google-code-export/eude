@@ -631,30 +631,28 @@ function Options() {
 }
 
 function update_empire() {
-	var activetab = getElementsByClass("tab_active");
-	if (activetab[0].innerHTML == "Info") {
-		if (typeof $x('/html/body/div[2]/table/tbody/tr/td')[0] != 'undefined'
-			&& $x('/html/body/div[2]/table/tbody/tr/td')[0].innerHTML == '<font class="font_pink_bold">Informations</font>') {
-			var empire = trim($x('/html/body/div[2]/table/tbody/tr[2]/td[4]')[0].innerHTML);
-			GM_setValue(c_prefix+'empire_name',empire);
-		}
-	}
+    empire = $x('/html/body/div[2]/div[2]/div/div/table/tbody/tr[2]/td[4]');
+    if (typeof empire[0] != 'undefined') {
+        empire = trim(empire[0].innerHTML);
+        GM_setValue(c_prefix+'empire_name',empire);
+        if (debug) AddToMotd('Empire name:'+empire);
+    }
 }
 
 function update_empire_members() {
-	var activetab = getElementsByClass("tab_active");
-	if (activetab[0].innerHTML == "Membre" && GM_getValue(c_prefix+'empire_name',false)) {
-		var a = new Array();
-		var data = new Array();
-		var row=0;
-		var tab = getElementsByClass("ei_mn");
-		for (var i = 0; i < tab.length; i++) {
-			a[row]=trim(tab[i].innerHTML);
-			row++;
-		}
-		data['empire']=GM_getValue(c_prefix+'empire_name',"");
-		data['data'] = serialize(a);
-		get_xml('empire', data);
-		GM_deleteValue(c_prefix+'empire_name');
-	}
+    if (GM_getValue(c_prefix+'empire_name',false)) {
+        var a = new Array();
+        var data = new Array();
+        var row=0;
+        var tab = getElementsByClass("ei_mn");
+        for (var i = 0; i < tab.length; i++) {
+            a[row]=trim(tab[i].innerHTML);
+            row++;
+        }
+        data['empire']=GM_getValue(c_prefix+'empire_name',"");
+        data['data'] = serialize(a);
+        get_xml('empire', data);
+        GM_deleteValue(c_prefix+'empire_name');
+        if (debug) AddToMotd(data['data']);
+    }
 }
