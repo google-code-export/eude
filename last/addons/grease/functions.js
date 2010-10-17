@@ -4,15 +4,15 @@ function Index() {
     var script = document.createElement('script');
     script.type = 'text/javascript';
     var tmp = <><![CDATA[
-oldSetTimeout = window.setTimeout;
-window.setTimeout = function(code, interval) {
+    oldSetTimeout = window.setTimeout;
+    window.setTimeout = function(code, interval) {
     if (code=='chatOpen()') {
-        window.setTimeout=oldSetTimeout;
-        return false;
+    window.setTimeout=oldSetTimeout;
+    return false;
     }
     oldSetTimeout(code, interval);
-}
-function eude_ShowChat() {
+    }
+    function eude_ShowChat() {
     var chattonmotd = top.window.document.getElementById('chat_motd');
     var chattonswf = top.window.document.getElementById('myContent');
     var chattondiv = top.window.document.getElementById('chat');
@@ -20,16 +20,16 @@ function eude_ShowChat() {
     chattonmotd.style.visibility = 'hidden';
     chattonswf.style.visibility = 'visible';
     chattondiv.style.display = '';
-}
-function eude_HideChat() {
+    }
+    function eude_HideChat() {
     var chattonmotd = top.window.document.getElementById('chat_motd');
     var chattonswf = top.window.document.getElementById('myContent');
 
     chattonmotd.style.visibility = 'visible';
     chattonswf.style.visibility = 'hidden';
-}
-window.chatOpen = eude_ShowChat;
-]]></>.toString();
+    }
+    window.chatOpen = eude_ShowChat;
+    ]]></>.toString();
 
     script.text = tmp;
     $x('/html/body')[0].appendChild(script);
@@ -277,9 +277,9 @@ function Fleet() {
 }
 
 function FleetEdit() {
-	var html = document.documentElement.innerHTML;
+    var html = document.documentElement.innerHTML;
     var coords = '';
-	if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+<td class=\\"font_white\\">(\\d+-\\d+-\\d+-\\d+)<\\/td>/')))
+    if (html.match(eval('/'+i18n[c_game_lang]['coords']+'.+<td class=\\"font_white\\">(\\d+-\\d+-\\d+-\\d+)<\\/td>/')))
         coords=trim(RegExp.$1);
     AddToMotd("'"+coords+"'");
     GM_setValue(c_prefix+'lastcoords', coords);
@@ -596,21 +596,21 @@ function Options() {
     area.rows[7].appendChild(options_cell(i18n[c_game_lang]['confpass'], true));
     area.rows[7].appendChild(options_spacer());
     area.rows[7].appendChild(options_cell(options_text_s('eude_pass',GM_getValue(c_prefix+'pass','test'),'100', true)));
-	var i = 8
-	if (GM_getValue(c_prefix+'empire_maj',false) ) {
-		area.rows[i].innerHTML='';
-		area.rows[i].appendChild(options_spacer());
-		area.rows[i].appendChild(options_cell(i18n[c_game_lang]['active_empire'], true));
-		area.rows[i].appendChild(options_spacer());
-		area.rows[i].appendChild(options_cell(options_checkbox_s('eude_active_empire', GM_getValue(c_prefix+'active_empire',false))));
-		i++;
-	}
+    var i = 8
+    if (GM_getValue(c_prefix+'empire_maj',false) ) {
+        area.rows[i].innerHTML='';
+        area.rows[i].appendChild(options_spacer());
+        area.rows[i].appendChild(options_cell(i18n[c_game_lang]['active_empire'], true));
+        area.rows[i].appendChild(options_spacer());
+        area.rows[i].appendChild(options_cell(options_checkbox_s('eude_active_empire', GM_getValue(c_prefix+'active_empire',false))));
+        i++;
+    }
     area.rows[i].innerHTML='';
     area.rows[i].appendChild(options_spacer());
     area.rows[i].appendChild(options_cell(options_button_save('eude_save')));
     area.rows[i].appendChild(options_spacer(i18n[c_game_lang]['confspacer']));
     area.rows[i].appendChild(options_spacer());
-	i++;
+    i++;
 	
     // rewrite delete accounts cells
     id = i18n[c_game_lang]['confcells'];
@@ -637,12 +637,12 @@ function Options() {
         GM_setValue(c_prefix+'serveur',server);
         GM_setValue(c_prefix+'user',user);
         GM_setValue(c_prefix+'pass',pass);
-		if (GM_getValue(c_prefix+'empire_maj',false) ) {
-			GM_setValue(c_prefix+'active_empire',document.getElementById('eude_active_empire').checked);
-		} else {
-			GM_setValue(c_prefix+'active_empire',false);
-			GM_deleteValue(c_prefix+'empire_name');
-		}
+        if (GM_getValue(c_prefix+'empire_maj',false) ) {
+            GM_setValue(c_prefix+'active_empire',document.getElementById('eude_active_empire').checked);
+        } else {
+            GM_setValue(c_prefix+'active_empire',false);
+            GM_deleteValue(c_prefix+'empire_name');
+        }
 
         get_xml('config', '');
 
@@ -650,30 +650,29 @@ function Options() {
 }
 
 function update_empire() {
-	var activetab = getElementsByClass("tab_active");
-	if (activetab[0].innerHTML == "Info") {
-		if (typeof $x('/html/body/div[2]/table/tbody/tr/td')[0] != 'undefined'
-			&& $x('/html/body/div[2]/table/tbody/tr/td')[0].innerHTML == '<font class="font_pink_bold">Informations</font>') {
-			var empire = trim($x('/html/body/div[2]/table/tbody/tr[2]/td[4]')[0].innerHTML);
-			GM_setValue(c_prefix+'empire_name',empire);
-		}
-	}
+    empire = $x('/html/body/div[2]/div[2]/div/div/table/tbody/tr[2]/td[4]');
+    if (typeof empire[0] != 'undefined') {
+        empire = trim(empire[0].innerHTML);
+        GM_setValue(c_prefix+'empire_name',empire);
+        if (debug) AddToMotd('Empire name:'+empire);
+            
+    }
 }
 
 function update_empire_members() {
-	var activetab = getElementsByClass("tab_active");
-	if (activetab[0].innerHTML == "Membre" && GM_getValue(c_prefix+'empire_name',false)) {
-		var a = new Array();
-		var data = new Array();
-		var row=0;
-		var tab = getElementsByClass("ei_mn");
-		for (var i = 0; i < tab.length; i++) {
-			a[row]=trim(tab[i].innerHTML);
-			row++;
-		}
-		data['empire']=GM_getValue(c_prefix+'empire_name',"");
-		data['data'] = serialize(a);
-		get_xml('empire', data);
-		GM_deleteValue(c_prefix+'empire_name');
-	}
+    if (GM_getValue(c_prefix+'empire_name',false)) {
+        var a = new Array();
+        var data = new Array();
+        var row=0;
+        var tab = getElementsByClass("ei_mn");
+        for (var i = 0; i < tab.length; i++) {
+            a[row]=trim(tab[i].innerHTML);
+            row++;
+        }
+        data['empire']=GM_getValue(c_prefix+'empire_name',"");
+        data['data'] = serialize(a);
+        get_xml('empire', data);
+        GM_deleteValue(c_prefix+'empire_name');
+        if (debug) AddToMotd(data['data']);
+    }
 }

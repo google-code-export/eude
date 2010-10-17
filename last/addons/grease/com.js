@@ -60,6 +60,7 @@ var c_onload = function(e) {
 }
 
 var c_onerror = function(e) {
+    AddGameLog('<span class="gamelog_raid">Server offline ?</span>');
     AddGameLog('<span class="gamelog_raid">Fatal ('+e.status+'): Use in firefox only</span>');
 }
 
