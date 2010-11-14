@@ -153,6 +153,12 @@ table.newmessage {
     width: 700px;
 }
 
+.radiuscorner {
+    -moz-border-radius: 7px 10px 7px 10px;
+    border-radius: 7px 10px 7px 10px;
+    margin: 5px 5px 5px 5px;
+}
+
 .ress_0 {
     position: absolute;
     background-color: red;

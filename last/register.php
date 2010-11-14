@@ -31,19 +31,20 @@ if (isset($_POST['login']) && $_POST['login'] != '' && $_POST['mdp'] != '') {
     if ($ligne['Login'] == $login) { // joueur existe déjà...
         $erreur = $lng['user_exists'];
     } else {
-        if (DE_DEMO)
+        if (DE_DEMO) {
             $axx = AXX_MEMBER;
-        else
+            $_SESSION['_login'] = $login;
+            $_SESSION['_pass'] = $pass;
+            $_SESSION['_Perm'] = $axx;
+            $_SESSION['_IP'] = Get_IP();
+        } else {
             $axx = AXX_VALIDATING;
+        }
         Members::NewUser($login, $pass, $axx, 0, DataEngine::config_key('config', 'DefaultGrade'));
-        // TODO: Redir, no sign in.
-        $_SESSION['_login'] = $login;
-        $_SESSION['_pass'] = $pass;
-        $_SESSION['_Perm'] = $axx;
-        $_SESSION['_IP'] = Get_IP();
+
         $query = 'INSERT INTO `SQL_PREFIX_Log` (`DATE`,`log`,`IP`) VALUES(NOW(),\'login,new:' . $qlogin . '\',\'' . $_SESSION['_IP'] . '\')';
         DataEngine::sql($query);
-        output::boink('./');
+        output::boink('./', sprintf($lng['user_created'], $login));
     }
 }
 require_once(TEMPLATE_PATH . 'login.tpl.php');

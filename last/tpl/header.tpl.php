@@ -60,17 +60,17 @@ EOF;
             $html = <<<h
 <div id="newmessage" Onclick="$('newmessage').style.visibility='hidden';">
     <div class="newmessage">
-      <table class="newmessage">
+      <table class="newmessage radiuscorner">
         <tr>
-            <td colspan="3">&nbsp;</td>
+            <td colspan="3" heigth="5px"></td>
         </tr>
         <tr>
-            <td width="50px">&nbsp;</td>
-            <td class="color_row0">{$html}</td>
-            <td width="50px">&nbsp;</td>
+            <td width="5px">&nbsp;</td>
+            <td class="color_row0 radiuscorner">{$html}</td>
+            <td width="5px">&nbsp;</td>
         </tr>
         <tr>
-            <td colspan="3">&nbsp;</td>
+            <td colspan="3" heigth="5px"></td>
         </tr>
      </table>
    </div>

@@ -21,7 +21,7 @@ DataEngine::init();
 if (CHECK_LOGIN)  require_once(INCLUDE_PATH.'/login.php');
 
 /// ### Mode debug, root admin & dev ONLY ###
-FB::setEnabled( !IS_IMG && IN_DEV && Members::CheckPerms(AXX_ROOTADMIN));
+FB::setEnabled( /*!IS_IMG &&*/ IN_DEV && Members::CheckPerms(AXX_ROOTADMIN));
 FB::info(DataEngine::$browser->getBrowser(),'Browser');
 
 function Get_IP() {

@@ -117,8 +117,7 @@ class DataEngine extends Members {
      * lance le spool de requète sql
      */
     static public function sql_do_spool() {
-        if (IN_DEV)
-            self::$sqls[] = array(0, 'Spooler...');
+        $spoolactive = false;
         if (count(self::$conf_save) > 0) {
             foreach (self::$conf_save as $key => $value) {
                 self::sql_spool('UPDATE `SQL_PREFIX_Config` SET `value` =\'' . sqlesc(serialize($value)) . '\' WHERE `key`=\'' . $key . '\' LIMIT 1');
@@ -126,6 +125,10 @@ class DataEngine extends Members {
             self::$conf_save = array();
         }
         if (count(self::$sql_spool) > 0) {
+            if (IN_DEV) {
+                self::$sqls[] = array(0, 'Spooler...');
+                $spoolactive = true;
+            }
             foreach (self::$sql_spool as $sql) {
                 $time = microtime(true);
                 $sql = str_replace('SQL_PREFIX_', SQL_PREFIX_, $sql);
@@ -138,7 +141,7 @@ class DataEngine extends Members {
         }
         if (class_exists('cartographie'))
             cartographie::getinstance()->do_spooler();
-        if (IN_DEV)
+        if (IN_DEV && $spoolactive)
             self::$sqls[] = array(0, '...Spooler');
     }
 
@@ -480,7 +483,7 @@ ead;
      */
     static public function Get_Version() {
         if (DE_DEMO)
-            return 'r626 demo';
+            return 'r645 demo';
         elseif (IN_DEV)
             return 'svn-' . time();
         else
