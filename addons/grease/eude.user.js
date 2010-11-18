@@ -84,7 +84,7 @@ i18n['fr']['conflink']       = 'Adresse';
 i18n['fr']['confuser']       = 'Nom d\'utilisateur';
 i18n['fr']['confpass']       = 'Mot de passe';
 i18n['fr']['confspacer']     = 130;
-i18n['fr']['confcells']      = 20;
+//i18n['fr']['confcells']      = 20;
 i18n['fr']['coords']         = 'Coordonnées';
 i18n['fr']['ress0']          = 'Titane';
 i18n['fr']['ress1']          = 'Cuivre';
@@ -126,7 +126,7 @@ i18n['en']['conflink']       = 'Address';
 i18n['en']['confuser']       = 'User name';
 i18n['en']['confpass']       = 'Password';
 i18n['en']['confspacer']     = 65;
-i18n['en']['confcells']      = 20;
+//i18n['en']['confcells']      = 20;
 i18n['en']['coords']         = 'Coordinates';
 i18n['en']['ress0']          = 'Titanium';
 i18n['en']['ress1']          = 'Copper';
@@ -166,7 +166,7 @@ i18n['de']['conflink']       = 'Adresse';
 i18n['de']['confuser']       = 'Nickname';
 i18n['de']['confpass']       = 'Passwort';
 i18n['de']['confspacer']     = 1;
-i18n['de']['confcells']      = 20;
+//i18n['de']['confcells']      = 20;
 i18n['de']['coords']         = 'Koordinaten';
 i18n['de']['ress0']          = 'Titan';
 i18n['de']['ress1']          = 'Kupfer';
@@ -207,7 +207,7 @@ i18n['pl']['conflink']       = 'Strona';
 i18n['pl']['confuser']       = 'Użytkownik';
 i18n['pl']['confpass']       = 'Hasło';
 i18n['pl']['confspacer']     = 1;
-i18n['pl']['confcells']      = 20;
+//i18n['pl']['confcells']      = 20;
 i18n['pl']['coords']         = 'Współrzędne';
 i18n['pl']['ress0']          = 'Tytan';
 i18n['pl']['ress1']          = 'Miedź';
@@ -1800,53 +1800,58 @@ function gamelog_spooler () {
 
 function Options() {
     var area = $x('/html/body/div[2]/div/div/div/form/table[2]')[0];
+    var i = 4;
 
-    area.rows[4].innerHTML='';
-    area.rows[4].appendChild(options_header(i18n[c_game_lang]['confheader']+' <small>('+version+')</small>'));
+    area.rows[i].innerHTML='';
+    area.rows[i].appendChild(options_header(i18n[c_game_lang]['confheader']+' <small>('+version+')</small>'));
 
-    area.rows[5].innerHTML='';
-    area.rows[5].appendChild(options_spacer());
-    area.rows[5].appendChild(options_cell(i18n[c_game_lang]['conflink'], true));
-    area.rows[5].appendChild(options_spacer());
-    area.rows[5].appendChild(options_cell(options_text_s('eude_server',GM_getValue(c_prefix+'serveur','http://app216.free.fr/eu2/test/'),'250')));
+    i++;
+    area.rows[i].innerHTML='';
+    area.rows[i].appendChild(options_spacer());
+    area.rows[i].appendChild(options_cell(i18n[c_game_lang]['conflink'], true));
+    area.rows[i].appendChild(options_spacer());
+    area.rows[i].appendChild(options_cell(options_text_s('eude_server',GM_getValue(c_prefix+'serveur','http://app216.free.fr/eu2/test/'),'250')));
 
-    area.rows[6].innerHTML='';
-    area.rows[6].appendChild(options_spacer());
-    area.rows[6].appendChild(options_cell(i18n[c_game_lang]['confuser'], true));
-    area.rows[6].appendChild(options_spacer());
-    area.rows[6].appendChild(options_cell(options_text_s('eude_user',GM_getValue(c_prefix+'user','test'),'100')));
+    i++;
+    area.rows[i].innerHTML='';
+    area.rows[i].appendChild(options_spacer());
+    area.rows[i].appendChild(options_cell(i18n[c_game_lang]['confuser'], true));
+    area.rows[i].appendChild(options_spacer());
+    area.rows[i].appendChild(options_cell(options_text_s('eude_user',GM_getValue(c_prefix+'user','test'),'100')));
 
-    area.rows[7].innerHTML='';
-    area.rows[7].appendChild(options_spacer());
-    area.rows[7].appendChild(options_cell(i18n[c_game_lang]['confpass'], true));
-    area.rows[7].appendChild(options_spacer());
-    area.rows[7].appendChild(options_cell(options_text_s('eude_pass',GM_getValue(c_prefix+'pass','test'),'100', true)));
-	var i = 8
-	if (GM_getValue(c_prefix+'empire_maj',false) ) {
-		area.rows[i].innerHTML='';
-		area.rows[i].appendChild(options_spacer());
-		area.rows[i].appendChild(options_cell(i18n[c_game_lang]['active_empire'], true));
-		area.rows[i].appendChild(options_spacer());
-		area.rows[i].appendChild(options_cell(options_checkbox_s('eude_active_empire', GM_getValue(c_prefix+'active_empire',false))));
-		i++;
-	}
+    i++;
+    area.rows[i].innerHTML='';
+    area.rows[i].appendChild(options_spacer());
+    area.rows[i].appendChild(options_cell(i18n[c_game_lang]['confpass'], true));
+    area.rows[i].appendChild(options_spacer());
+    area.rows[i].appendChild(options_cell(options_text_s('eude_pass',GM_getValue(c_prefix+'pass','test'),'100', true)));
+
+    if (GM_getValue(c_prefix+'empire_maj',false) ) {
+        i++;
+        area.rows[i].innerHTML='';
+        area.rows[i].appendChild(options_spacer());
+        area.rows[i].appendChild(options_cell(i18n[c_game_lang]['active_empire'], true));
+        area.rows[i].appendChild(options_spacer());
+        area.rows[i].appendChild(options_cell(options_checkbox_s('eude_active_empire', GM_getValue(c_prefix+'active_empire',false))));
+    }
+
+    i++;
     area.rows[i].innerHTML='';
     area.rows[i].appendChild(options_spacer());
     area.rows[i].appendChild(options_cell(options_button_save('eude_save')));
     area.rows[i].appendChild(options_spacer(i18n[c_game_lang]['confspacer']));
     area.rows[i].appendChild(options_spacer());
-	i++;
-	
+
+    i++;
     // rewrite delete accounts cells
-    id = i18n[c_game_lang]['confcells'];
-    var msg = area.rows[id].cells[3].innerHTML;
-    area.rows[id].innerHTML='';
-    area.rows[id].appendChild(options_spacer());
-    var cell = options_cell(msg);
-    cell.setAttribute('colspan', '3');
-    area.rows[id].appendChild(cell);
-    area.deleteRow(i);
-    area.deleteRow(i);
+//    id = i18n[c_game_lang]['confcells'];
+//    var msg = area.rows[id].cells[3].innerHTML;
+//    alert(msg);
+//    area.rows[id].innerHTML='';
+//    area.rows[id].appendChild(options_spacer());
+//    var cell = options_cell(msg);
+//    cell.setAttribute('colspan', '3');
+//    area.rows[id].appendChild(cell);
     area.deleteRow(i);
     area.deleteRow(i);
     area.deleteRow(i);
