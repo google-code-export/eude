@@ -83,7 +83,7 @@ class job_buttons extends phpcron_job {
         parent::__construct();
         $files = scandir(CACHE_PATH);
         foreach ($files as $file)
-            if (substr($file, -4) == '.png' && substr($file, 0, 3) == 'btn-') {
+            if (p_substr($file, -4) == '.png' && p_substr($file, 0, 3) == 'btn-') {
                 $this->lastrun = filemtime($file);
                 break;
             }
@@ -99,7 +99,7 @@ class job_buttons extends phpcron_job {
         include(LNG_PATH . 'btn.php');
         $files = scandir(CACHE_PATH);
         foreach ($files as $file)
-            if (substr($file, -4) == '.png' && substr($file, 0, 3) == 'btn-')
+            if (p_substr($file, -4) == '.png' && p_substr($file, 0, 3) == 'btn-')
                 unlink(CACHE_PATH . $file);
         foreach ($listing as $key => $dummy)
             do_btn($key, $listing);
@@ -226,7 +226,7 @@ class job_map_tooltips extends phpcron_job {
                 } elseif (!is_array($v))
                     $tmp .= $k . ':' . (is_numeric($v) ? $v : '"' . $v . '"') . ',';
             }
-            fwrite($this->fp, substr($tmp, 0, strlen($tmp) - 1) . ' };');
+            fwrite($this->fp, p_substr($tmp, 0, p_strlen($tmp) - 1) . ' };');
         } else {
             $tmp = 'ss_info[' . $ss . ']={' . PHP_EOL;
 
@@ -237,7 +237,7 @@ class job_map_tooltips extends phpcron_job {
                 } elseif (!is_array($v))
                     $tmp .= $k . ':' . (is_numeric($v) ? $v : '"' . $v . '"') . ',' . PHP_EOL;
             }
-            fwrite($this->fp, substr($tmp, 0, strlen($tmp) - strlen(PHP_EOL) - 1) . ' };' . PHP_EOL);
+            fwrite($this->fp, p_substr($tmp, 0, p_strlen($tmp) - p_strlen(PHP_EOL) - 1) . ' };' . PHP_EOL);
         }
     }
 

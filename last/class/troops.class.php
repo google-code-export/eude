@@ -123,7 +123,7 @@ sql;
         }
 
         // Info à ajouter
-        $amsg = explode("\n", trim(mb_substr($msg, mb_stripos($msg, $ident, 0, 'utf8') + mb_strlen($ident, 'utf8'), -1, 'utf8')));
+        $amsg = explode("\n", trim(p_substr($msg, p_stripos($msg, $ident, 0) + p_strlen($ident), -1)));
         $ares = DataEngine::a_ressources();
         $fields = array();
         $sets = array();

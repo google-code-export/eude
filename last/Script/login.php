@@ -11,11 +11,6 @@ if (!SCRIPT_IN) die('Need by included');
 $validsession=false; // false=nul, true=Ok, -1=Err?
 $login_msg = ''; // Message en cas d'erreur.
 
-/// ### Procédure de déconnexion ###
-if (isset($do_logout) && $do_logout) {
-    session_destroy();
-    output::Boink(ROOT_URL);
-}
 $lng = language::getinstance()->GetLngBlock('login');
 
 if (NO_SESSIONS) {

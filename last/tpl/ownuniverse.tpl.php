@@ -69,7 +69,7 @@ h;
     private function RessToImgAndText($key) {
         $inf = false;
         foreach($this->ress as $v)
-            if (mb_stripos($v['Field'],$key,0, 'utf8')!==false)
+            if (p_stripos($v['Field'],$key,0)!==false)
                 $inf = $v;
 
         if (!$inf) return '';

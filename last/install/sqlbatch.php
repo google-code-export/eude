@@ -86,10 +86,10 @@ function sql($sql) {
     $sql = str_replace('%%password%%', mysql_real_escape_string(gpc_esc($_POST['password'])), $sql);
     $empire = gpc_esc($_POST['empire']);
     $sql = str_replace('%%empirename%%', mysql_real_escape_string($empire), $sql);
-    $sql = str_replace('%%empirenamelen%%', mb_strlen($empire, 'utf-8'), $sql);
+    $sql = str_replace('%%empirenamelen%%', p_strlen($empire), $sql);
     $board = gpc_esc($_POST['board']);
     $sql = str_replace('%%boardname%%', mysql_real_escape_string($board), $sql);
-    $sql = str_replace('%%boardnamelen%%', mb_strlen($board, 'utf-8'), $sql);
+    $sql = str_replace('%%boardnamelen%%', p_strlen($board), $sql);
     $sql = str_replace('SQL_PREFIX_', SQL_PREFIX_, $sql);
     FB::log($sql);
     if (!DEBUG_PLAIN)

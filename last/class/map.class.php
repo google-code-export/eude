@@ -156,9 +156,9 @@ class parcours {
             if ($pos===false)
                 return $ssdet;
             else
-                return substr($ssdet,0,$pos);
+                return p_substr($ssdet,0,$pos);
         else
-            return substr($ssdet,$pos+1);
+            return p_substr($ssdet,$pos+1);
     }
     public function GetListeCoorByRay($SS,$max_dist) {
         // 4890 = 90:48
@@ -477,7 +477,7 @@ sql;
 
         $text = utf8_decode($text);
         for ($i=0; $i<strlen($text); $i++) {
-            $c = substr($text,$i,1);
+            $c = p_substr($text,$i,1);
             if ( (($x-10) >= ($map->taille-15)) or ($c == "\n") ) {
                 $x=1;
                 $y+=15;

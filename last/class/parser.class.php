@@ -12,7 +12,7 @@ class parser {
 
     static protected $instance;
     private $data_sep;
-    private $strlen, $stripos, $strripos, $substr;
+//    private $strlen, $stripos, $strripos, $substr;
 
     /**
      *
@@ -22,24 +22,24 @@ class parser {
      */
     public function GetValueByLabel($data, $label) {
         $result = '';
-        $length = call_user_func($this->strlen, $label);
-        $start = call_user_func($this->stripos, $data, $label, 0);
-        $end = call_user_func($this->stripos, $data, "\n", $start + $length);
+        $length = p_strlen($label);
+        $start = p_stripos($data, $label, 0);
+        $end = p_stripos($data, "\n", $start + $length);
 
         if ($start !== false && $end !== false)
-            $result = trim(call_user_func($this->substr, $data, $start + $length, $end - $start - $length));
+            $result = trim(p_substr($data, $start + $length, $end - $start - $length));
 
         return $result;
     }
 
     public function GetValueByLabelInverted($data, $label) {
         $result = '';
-        $end = call_user_func($this->stripos, $data, $label, 0);
-        $part1 = call_user_func($this->substr, $data, 0, $end);
-        $start = call_user_func($this->strripos, $part1, "\n", 0);
+        $end = p_stripos($data, $label, 0);
+        $part1 = p_substr($data, 0, $end);
+        $start = p_strripos($part1, "\n", 0);
 
         if ($start !== false && $end !== false)
-            $result = trim(call_user_func($this->substr, $data, $start, $end - $start));
+            $result = trim(p_substr($data, $start, $end - $start));
 
         return $result;
     }
@@ -52,7 +52,7 @@ class parser {
      */
     public function LabelExist($data, $label) {
 
-        if (call_user_func($this->stripos, $data, $label, 0) !== false)
+        if (p_stripos($data, $label, 0) !== false)
             return true;
 
         return false;
@@ -78,16 +78,16 @@ class parser {
     }
 
     function GetInner($data, $from, $to='') {
-        $l = call_user_func($this->strlen, $from);
-        $f = call_user_func($this->stripos, $data, $from, 0);
-        $t = call_user_func($this->stripos, $data, $to, $l + $f);
+        $l = p_strlen($from);
+        $f = p_stripos($data, $from, 0);
+        $t = p_stripos($data, $to, $l + $f);
 
         if ($f === false)
             $inner = $data;
         elseif ($t === false)
-            $inner = call_user_func($this->substr, $data, $f + $l, -1);
+            $inner = p_substr($data, $f + $l, -1);
         else
-            $inner = call_user_func($this->substr, $data, $f + $l, $t - $f - $l);
+            $inner = p_substr($data, $f + $l, $t - $f - $l);
 
         return trim($inner);
     }
@@ -112,20 +112,6 @@ class parser {
             $this->data_sep = '  '; // IE
         else
             $this->data_sep = "\t\t"; // gecko, 'Webkit'
-            // Rétrocompatibilité avec php < 5.2.0
-            // Risque de bugger quand même...
-        if (version_compare(PHP_VERSION, '5.2.0', '<')) {
-            $this->strlen = 'strlen';
-            $this->stripos = 'stripos';
-            $this->strripos = 'stripos';
-            $this->substr = 'substr';
-        } else {
-            mb_internal_encoding('utf-8');
-            $this->strlen = 'mb_strlen';
-            $this->stripos = 'mb_stripos';
-            $this->strripos = 'mb_strripos';
-            $this->substr = 'mb_substr';
-        }
     }
 
     /**

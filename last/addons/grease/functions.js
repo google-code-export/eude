@@ -576,53 +576,58 @@ function gamelog_spooler () {
 
 function Options() {
     var area = $x('/html/body/div[2]/div/div/div/form/table[2]')[0];
+    var i = 4;
 
-    area.rows[4].innerHTML='';
-    area.rows[4].appendChild(options_header(i18n[c_game_lang]['confheader']+' <small>('+version+')</small>'));
+    area.rows[i].innerHTML='';
+    area.rows[i].appendChild(options_header(i18n[c_game_lang]['confheader']+' <small>('+version+')</small>'));
 
-    area.rows[5].innerHTML='';
-    area.rows[5].appendChild(options_spacer());
-    area.rows[5].appendChild(options_cell(i18n[c_game_lang]['conflink'], true));
-    area.rows[5].appendChild(options_spacer());
-    area.rows[5].appendChild(options_cell(options_text_s('eude_server',GM_getValue(c_prefix+'serveur','http://app216.free.fr/eu2/test/'),'250')));
+    i++;
+    area.rows[i].innerHTML='';
+    area.rows[i].appendChild(options_spacer());
+    area.rows[i].appendChild(options_cell(i18n[c_game_lang]['conflink'], true));
+    area.rows[i].appendChild(options_spacer());
+    area.rows[i].appendChild(options_cell(options_text_s('eude_server',GM_getValue(c_prefix+'serveur','http://app216.free.fr/eu2/test/'),'250')));
 
-    area.rows[6].innerHTML='';
-    area.rows[6].appendChild(options_spacer());
-    area.rows[6].appendChild(options_cell(i18n[c_game_lang]['confuser'], true));
-    area.rows[6].appendChild(options_spacer());
-    area.rows[6].appendChild(options_cell(options_text_s('eude_user',GM_getValue(c_prefix+'user','test'),'100')));
+    i++;
+    area.rows[i].innerHTML='';
+    area.rows[i].appendChild(options_spacer());
+    area.rows[i].appendChild(options_cell(i18n[c_game_lang]['confuser'], true));
+    area.rows[i].appendChild(options_spacer());
+    area.rows[i].appendChild(options_cell(options_text_s('eude_user',GM_getValue(c_prefix+'user','test'),'100')));
 
-    area.rows[7].innerHTML='';
-    area.rows[7].appendChild(options_spacer());
-    area.rows[7].appendChild(options_cell(i18n[c_game_lang]['confpass'], true));
-    area.rows[7].appendChild(options_spacer());
-    area.rows[7].appendChild(options_cell(options_text_s('eude_pass',GM_getValue(c_prefix+'pass','test'),'100', true)));
-    var i = 8
+    i++;
+    area.rows[i].innerHTML='';
+    area.rows[i].appendChild(options_spacer());
+    area.rows[i].appendChild(options_cell(i18n[c_game_lang]['confpass'], true));
+    area.rows[i].appendChild(options_spacer());
+    area.rows[i].appendChild(options_cell(options_text_s('eude_pass',GM_getValue(c_prefix+'pass','test'),'100', true)));
+
     if (GM_getValue(c_prefix+'empire_maj',false) ) {
+        i++;
         area.rows[i].innerHTML='';
         area.rows[i].appendChild(options_spacer());
         area.rows[i].appendChild(options_cell(i18n[c_game_lang]['active_empire'], true));
         area.rows[i].appendChild(options_spacer());
         area.rows[i].appendChild(options_cell(options_checkbox_s('eude_active_empire', GM_getValue(c_prefix+'active_empire',false))));
-        i++;
     }
+    
+    i++;
     area.rows[i].innerHTML='';
     area.rows[i].appendChild(options_spacer());
     area.rows[i].appendChild(options_cell(options_button_save('eude_save')));
     area.rows[i].appendChild(options_spacer(i18n[c_game_lang]['confspacer']));
     area.rows[i].appendChild(options_spacer());
-    i++;
-	
+
+    i++;	
     // rewrite delete accounts cells
-    id = i18n[c_game_lang]['confcells'];
-    var msg = area.rows[id].cells[3].innerHTML;
-    area.rows[id].innerHTML='';
-    area.rows[id].appendChild(options_spacer());
-    var cell = options_cell(msg);
-    cell.setAttribute('colspan', '3');
-    area.rows[id].appendChild(cell);
-    area.deleteRow(i);
-    area.deleteRow(i);
+//    id = i18n[c_game_lang]['confcells'];
+//    var msg = area.rows[id].cells[3].innerHTML;
+//    alert(msg);
+//    area.rows[id].innerHTML='';
+//    area.rows[id].appendChild(options_spacer());
+//    var cell = options_cell(msg);
+//    cell.setAttribute('colspan', '3');
+//    area.rows[id].appendChild(cell);
     area.deleteRow(i);
     area.deleteRow(i);
     area.deleteRow(i);

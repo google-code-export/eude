@@ -282,7 +282,7 @@ function job_map_tooltips__add_ss($ss, $data) {
             } elseif (!is_array($v))
                 $tmp .= $k . ':' . (is_numeric($v) ? $v : '"' . $v . '"') . ',';
         }
-        return substr($tmp, 0, strlen($tmp) - 1) . ' });';
+        return p_substr($tmp, 0, p_strlen($tmp) - 1) . ' });';
     } else {
         $tmp = 'Carte.Set_SS(' . $ss . ',{' . PHP_EOL;
 
@@ -293,6 +293,6 @@ function job_map_tooltips__add_ss($ss, $data) {
             } elseif (!is_array($v))
                 $tmp .= $k . ':' . (is_numeric($v) ? $v : '"' . $v . '"') . ',' . PHP_EOL;
         }
-        return substr($tmp, 0, strlen($tmp) - strlen(PHP_EOL) - 1) . ' });' . PHP_EOL;
+        return p_substr($tmp, 0, p_strlen($tmp) - p_strlen(PHP_EOL) - 1) . ' });' . PHP_EOL;
     }
 }

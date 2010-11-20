@@ -6,6 +6,10 @@
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  *
  **/
-$do_logout=true;
+define('CHECK_LOGIN', false);
+
 require_once('./init.php');
 require_once(INCLUDE_PATH.'Script.php');
+
+session_destroy();
+output::Boink('./');

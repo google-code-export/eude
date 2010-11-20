@@ -31,7 +31,7 @@ if (isset($_GET['AllSwitch'])) {
     $map->planete = $newval;
     $map->pnj = $newval;
     $map->save_prefs();
-    output::boink('Carte.php');
+    output::Boink('Carte.php');
 }
 
 if (isset($_GET['vortex'])) {

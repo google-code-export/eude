@@ -20,7 +20,7 @@ if(isset($_POST['importation'])) {
     $parser = parser::getinstance();
 
     // simple détection...
-    if (mb_stripos($parser->GetValueByLabel($data, $lng['ident']), $_SESSION['_login'],0, 'utf8') !== false) {
+    if (p_stripos($parser->GetValueByLabel($data, $lng['ident']), $_SESSION['_login'],0) !== false) {
         $matrix = explode("\n",trim($data));
         $info = array();
         $info['GameGrade'] = trim($matrix[0]);

@@ -85,7 +85,7 @@ if (isset($_GET['ident'])) {
 
     $files = scandir('./');
     foreach ($files as $file)
-        if (substr($file, -4) == '.png')
+        if (p_substr($file, -4) == '.png')
             unlink($file);
 
     foreach ($listing as $key => $dummy)

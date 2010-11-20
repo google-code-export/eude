@@ -357,7 +357,7 @@ if (!isset($_REQUEST['act'])) {
             continue;
         $cur_emp = htmlentities(stripslashes($ligne['EMPIRE']), ENT_QUOTES, 'utf-8');
         $shw_emp = DataEngine::utf_strip($ligne['EMPIRE']);
-        $shw_emp = (mb_strlen($shw_emp, 'utf8') > 50) ? mb_substr($shw_emp, 0, 47, 'utf8') . '...' : $shw_emp;
+        $shw_emp = (p_strlen($shw_emp) > 50) ? p_substr($shw_emp, 0, 47) . '...' : $shw_emp;
         $shw_emp = htmlentities($shw_emp, ENT_QUOTES, 'utf-8');
         $empire[$cur_emp] = $shw_emp;
     }

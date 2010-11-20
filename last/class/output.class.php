@@ -69,7 +69,8 @@ abstract class output {
 //        if (IN_DEV)
 //            echo '<a href="'.$url.'">Boink !</a>';
 //        else
-            header('location: ' . $url);
+//            header('HTTP/1.0 302 Moved Temporarily');
+            header('Location: ' . $url);
         exit(0);
     }
 

@@ -354,7 +354,7 @@ sql;
             $coords = trim($coords);
             $planete = trim($planete);
             $nom = trim($nom);
-            if ( (strlen($coords)<6) ) continue;
+            if ( (p_strlen($coords)<6) ) continue;
             if (!$cur_ss) if (!$this->FormatId($coords,$cur_ss,$dummy,'')) $cur_ss = false;
             if ( trim($lignes[$i+1]) != '') { // Empire ?
                 list($empire) = explode($sep, trim($lignes[$i+1]));
@@ -542,7 +542,7 @@ sql;
                 return true;
         }
         if ($checkpercent) {
-            if(!is_numeric($value) && is_numeric(substr($value,0,strlen($value)-1))) $value=substr($value,0,strlen($value)-1);
+            if(!is_numeric($value) && is_numeric(p_substr($value,0,p_strlen($value)-1))) $value=p_substr($value,0,p_strlen($value)-1);
             if(is_numeric($value) && $value >=100) $value = 100;
             if(is_numeric($value) && $value <0) $value=0;
             if(is_numeric($value)) {

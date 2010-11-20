@@ -47,8 +47,8 @@ class DataEngine extends Members {
 
     static public function minimalinit() {
         if (!defined('ROOT_URL')) {
-            if (strlen(ROOT_PATH) > strlen($_SERVER['DOCUMENT_ROOT']))
-                define('ROOT_URL', substr(ROOT_PATH, strlen($_SERVER['DOCUMENT_ROOT'])));
+            if (p_strlen(ROOT_PATH) > p_strlen($_SERVER['DOCUMENT_ROOT']))
+                define('ROOT_URL', p_substr(ROOT_PATH, p_strlen($_SERVER['DOCUMENT_ROOT'])));
             else
                 define('ROOT_URL', '/');
         }
@@ -483,7 +483,7 @@ ead;
      */
     static public function Get_Version() {
         if (DE_DEMO)
-            return 'r645 demo';
+            return 'r648 demo';
         elseif (IN_DEV)
             return 'svn-' . time();
         else

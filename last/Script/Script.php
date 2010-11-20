@@ -16,14 +16,6 @@ require_once(CLASS_PATH.'output.class.php');
 require_once(CLASS_PATH.'addons.class.php');
 require_once(CLASS_PATH.'language.class.php');
 
-DataEngine::init();
-
-if (CHECK_LOGIN)  require_once(INCLUDE_PATH.'/login.php');
-
-/// ### Mode debug, root admin & dev ONLY ###
-FB::setEnabled( /*!IS_IMG &&*/ IN_DEV && Members::CheckPerms(AXX_ROOTADMIN));
-FB::info(DataEngine::$browser->getBrowser(),'Browser');
-
 function Get_IP() {
     if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
         return $_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -69,19 +61,46 @@ function gpc_esc($value) {
 
 
 // Rétrocompatibilité avec php < 5.2.0
-if (!function_exists('mb_stripos')) {
-  function mb_stripos($str,$needle,$offset=0)
-  {
-      return stripos($str,$needle,$offset=0);
-  }
-}
-if (!function_exists('mb_strripos')) {
-  function mb_strripos($str,$needle,$offset=0)
-  {
-      return strripos($str,$needle,$offset=0);
-  }
+if (version_compare(PHP_VERSION, '5.2.0', '<')) {
+    function p_strlen($string) {
+        return strlen($string);
+    }
+    function p_stripos($haystack, $needle, $offset=NULL) {
+        return stripos($haystack, $needle, $offset);
+    }
+    function p_strripos($haystack, $needle, $offset=NULL) {
+        return strripos($haystack, $needle, $offset);
+    }
+    function p_substr($string, $start, $length=NULL) {
+        return substr($string, $start, $length);
+    }
+} else {
+    mb_internal_encoding('utf-8');
+
+    function p_strlen($str/*, $encoding=NULL*/) {
+        return mb_strlen($str/*, $encoding*/);
+    }
+    function p_stripos($haystack, $needle, $offset=NULL/*, $encoding=NULL*/) {
+        return mb_stripos($haystack, $needle, $offset/*, $encoding*/);
+    }
+    function p_strripos ($haystack, $needle, $offset=NULL/*, $encoding=NULL*/) {
+        return mb_strripos($haystack, $needle, $offset/*, $encoding*/);
+    }
+
+    function p_substr($str, $start, $length=NULL/*, $encoding=NULL*/) {
+        return mb_substr($str, $start, $length/*, $encoding*/);
+    }
 }
 
 function array_fullsqlesc(&$item1, $key) {
     $item1 = '\'' . mysql_escape_string($item1) . '\'';
 }
+
+
+DataEngine::init();
+
+if (CHECK_LOGIN)  require_once(INCLUDE_PATH.'/login.php');
+
+/// ### Mode debug, root admin & dev ONLY ###
+FB::setEnabled( /*!IS_IMG &&*/ IN_DEV && Members::CheckPerms(AXX_ROOTADMIN));
+FB::info(DataEngine::$browser->getBrowser(),'Browser');

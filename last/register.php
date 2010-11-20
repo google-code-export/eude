@@ -39,6 +39,7 @@ if (isset($_POST['login']) && $_POST['login'] != '' && $_POST['mdp'] != '') {
             $_SESSION['_IP'] = Get_IP();
         } else {
             $axx = AXX_VALIDATING;
+            // TODO: Mail admin on event ?
         }
         Members::NewUser($login, $pass, $axx, 0, DataEngine::config_key('config', 'DefaultGrade'));
 

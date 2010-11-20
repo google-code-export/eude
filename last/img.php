@@ -78,9 +78,9 @@ function initimg($Nbx, $Nby, $taillex, $tailley) {
     if ($map->itineraire)
         $map->load_prefs('1;0;0;0;' . $map->sc . ';' . $map->taille . ';0;0;0');
     foreach ($colormap as $k => $c) {
-        $R = hexdec(substr($c, 1, 2));
-        $V = hexdec(substr($c, 3, 2));
-        $B = hexdec(substr($c, 5, 2));
+        $R = hexdec(p_substr($c, 1, 2));
+        $V = hexdec(p_substr($c, 3, 2));
+        $B = hexdec(p_substr($c, 5, 2));
         $colormap[$k] = imagecolorallocate($image, $R, $V, $B);
     }
     $colormap[-1] = $debug_cl = $blanc;
