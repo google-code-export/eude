@@ -21,17 +21,6 @@ class wormhole_import_addons implements addon_config {
 
     public function Get_Menu() {
 
-        // menu simple.
-        $menu = array('%ADDONS_URL%sample/index.php', '%BTN_URL%addons_sample.png', 160, 'Members::CheckPerms(\'addons_sample\')', null);
-
-        // menu + sous menu
-        $menu2 = array('%ADDONS_URL%sample/index.php', '%BTN_URL%testonly.png', 160, 'Members::CheckPerms(\'addons_sample\')',
-            array(
-                array('%ADDONS_URL%sample/index.php', '%BTN_URL%addons_sample.png', 'true'), // sous-menu 1
-                array('%ROOT_URL%index.php', '%BTN_URL%cartographie.png', 'true'), // sous-menu 2
-            ),
-        );
-
         // juste la partie 'sous-menu'
         $submenu = array(
             array('%ADDONS_URL%wormhole_import/index.php', '%BTN_URL%addons_wormhole_import.png', 'true'),
