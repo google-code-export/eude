@@ -483,7 +483,7 @@ ead;
      */
     static public function Get_Version() {
         if (DE_DEMO)
-            return 'r648 demo';
+            return 'r656 demo';
         elseif (IN_DEV)
             return 'svn-' . time();
         else

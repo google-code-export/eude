@@ -85,7 +85,7 @@ i18n['fr']['conflink']       = 'Adresse';
 i18n['fr']['confuser']       = 'Nom d\'utilisateur';
 i18n['fr']['confpass']       = 'Mot de passe';
 i18n['fr']['confspacer']     = 130;
-i18n['fr']['confcells']      = 20;
+//i18n['fr']['confcells']      = 20;
 i18n['fr']['coords']         = 'Coordonnées';
 i18n['fr']['ress0']          = 'Titane';
 i18n['fr']['ress1']          = 'Cuivre';
@@ -127,7 +127,7 @@ i18n['en']['conflink']       = 'Address';
 i18n['en']['confuser']       = 'User name';
 i18n['en']['confpass']       = 'Password';
 i18n['en']['confspacer']     = 65;
-i18n['en']['confcells']      = 20;
+//i18n['en']['confcells']      = 20;
 i18n['en']['coords']         = 'Coordinates';
 i18n['en']['ress0']          = 'Titanium';
 i18n['en']['ress1']          = 'Copper';
@@ -167,7 +167,7 @@ i18n['de']['conflink']       = 'Adresse';
 i18n['de']['confuser']       = 'Nickname';
 i18n['de']['confpass']       = 'Passwort';
 i18n['de']['confspacer']     = 1;
-i18n['de']['confcells']      = 20;
+//i18n['de']['confcells']      = 20;
 i18n['de']['coords']         = 'Koordinaten';
 i18n['de']['ress0']          = 'Titan';
 i18n['de']['ress1']          = 'Kupfer';
@@ -208,7 +208,7 @@ i18n['pl']['conflink']       = 'Strona';
 i18n['pl']['confuser']       = 'Użytkownik';
 i18n['pl']['confpass']       = 'Hasło';
 i18n['pl']['confspacer']     = 1;
-i18n['pl']['confcells']      = 20;
+//i18n['pl']['confcells']      = 20;
 i18n['pl']['coords']         = 'Współrzędne';
 i18n['pl']['ress0']          = 'Tytan';
 i18n['pl']['ress1']          = 'Miedź';
@@ -1449,7 +1449,7 @@ function Planet() {
 
     var a=new Array();
 
-    if (html.match(eval('/'+i18n[c_game_lang]['water']+'.+<td class=\\"font_white\\">(\\d+)%<\\/td>/'))) {
+    if (html.match(eval('/'+i18n[c_game_lang]['water']+'.+<td class=\\"font_white\\">(\\d+)%<\\/td>/i'))) {
         a['WATER'] = trim(RegExp.$1);
         if (debug) GM_log(i18n[c_game_lang]['water']+':'+a['WATER']);
         a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[4]/td[4]')[0].innerHTML;

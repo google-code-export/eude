@@ -1,12 +1,12 @@
 <?php
+
 /**
  * @author Alex10336
  * Dernière modification: $Id$
  * @license GNU Public License 3.0 ( http://www.gnu.org/licenses/gpl-3.0.txt )
  * @license Creative Commons 3.0 BY-SA ( http://creativecommons.org/licenses/by-sa/3.0/deed.fr )
  *
- **/
-
+ * */
 // Constantes par défaut:
 // define('IS_IMG',false);		// mode image
 // define('DEBUG_IMG',false);	// demande au navigateur de ne pas afficher comme une image
@@ -15,57 +15,57 @@
 // define('CHECK_LOGIN',true);	// désactive le besoin d'avoir un compte pour la page
 
 require_once('../../init.php');
-require_once(INCLUDE_PATH.'Script.php');
+require_once(INCLUDE_PATH . 'Script.php');
+require_once(CLASS_PATH . 'parser.class.php');
+require_once(CLASS_PATH . 'cartographie.class.php');
+require_once(CLASS_PATH . 'map.class.php');
 
 
 // Check si activé / permissions
-if (!addons::getinstance()->Is_installed('sample')) Members::NoPermsAndDie();
+if (!addons::getinstance()->Is_installed('wormhole_import'))
+    Members::NoPermsAndDie();
 
-require_once(TEMPLATE_PATH.'sample.tpl.php');
+require_once(TEMPLATE_PATH . 'sample.tpl.php');
 
 $tpl = tpl_sample::getinstance();
-$tpl->page_title = 'EU2: Addons sample';
+$tpl->page_title = 'EU2: Vortex Import';
+$BASE_FILE = ROOT_URL . "addons/wormhole_import/index.php";
 
-$out = <<<sample_text
-    <pre><font color=white>
+if (isset($_POST['act']) && $_POST['act'] == 'import') {
 
-Simple example d'addons
+    // Purge au préalable....
+    define('CRON_LOADONLY', true);
+    include(INCLUDE_PATH . 'crontab.php');
+    $cron->GetJob('job_vortex')->RunJob();
+    $cron->Save();
 
-la classe "tpl_sample" pouvant servir de transition à l'utilisation des 'templates'
+    $vortex = explode("\n", $_POST['data']);
+    $carto = cartographie::getinstance();
+    foreach ($vortex as $item) {
+        list($coordsin, $coordsout) = explode(',', $item);
 
-<i>exemple (ce fichier déjà pour plus de détails):</i>
-<b>
-require_once("../../init.php");
-	require_once(INCLUDE_PATH.'Script.php');
-[...]
-\$site = "&lt;html&gt;[...]&lt/html&gt;";
+        $carto->add_vortex($coordsin, $coordsout);
+    }
+    output::Boink($BASE_FILE, 'Whormhole import done. Enjoy.');
+}
 
-require_once(TEMPLATE_PATH.'sample.tpl.php');
-\$tpl = tpl_sample::getinstance();
-\$tpl->page_title = "EU2: Addons sample";
-\$tpl->PushOutput(\$site);
-\$tpl->doOutput();
-</b>
-
-Fichier a voir:
-%TEMPLATE_URL%sample.tpl.php
-%ADDONS_URL%sample.conf.php
-%ADDONS_URL%sample/index.php
-</font></pre>
-sample_text;
+$out .= <<<text
+<table class="table_nospacing table_center color_row1">
+    <tr><td class="color_bigheader text_center">
+            Wormhole import
+    </td></tr>
+    <tr><td class="text_center">
+        <form method="post" action="{$BASE_FILE}">
+            <textarea name="data" class="color_row1" cols="50" rows="4"></textarea><br/>
+            <input class="color_header" type="submit" value="Import"/>
+            <input type="hidden" name="act" value="import"/>
+        </form>
+    </td></tr>
+</table>
+text;
 
 $tpl->PushOutput($out); // ajoute le texte précédant à la sortie qui sera affiché.
 
-// Un petit menu perso pour l'addons
-$menu = array(
-    'carte' => array('%ROOT_URL%Carte.php','%BTN_URL%cartographie.png',180,'Members::CheckPerms(AXX_MEMBER)', array()),
-    'mafiche' => array('%ROOT_URL%Mafiche.php','%BTN_URL%mafiche.png',125,'Members::CheckPerms(AXX_MEMBER)', array()),
-    'moi' => array('%ADDONS_URL%sample/index.php','%BTN_URL%addons_sample.png',125,'Members::CheckPerms(AXX_MEMBER)', array()),
-);
-
-$tpl->DoOutput($menu,true); // stoppe toute execution du script et transmet les sorties html/xml/...
-// les deux 'true' étant
-// 1- Inclusion du menu (html, sans effet sur xml/img)
-// 2- Inclusion de l'entete de base (html, sans effet sur xml/img)
+$tpl->DoOutput();
 
 
