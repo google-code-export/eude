@@ -45,13 +45,20 @@ if (isset($_POST['act']) && $_POST['act'] == 'import') {
 
         $carto->add_vortex($coordsin, $coordsout);
     }
-    output::Boink($BASE_FILE, 'Whormhole import done. Enjoy.');
+    output::Boink($BASE_FILE, 'Wormhole import done. Enjoy.');
 }
 
+$bulle = <<<bulle
+L'importation des vortex lance sa tache cron (memet à zéro les vortex)</br>
+----<br/>
+Import wormhole will run whormhole cron task (reset all previous entry)</br>
+bulle;
+
+$bulle = bulle($bulle);
 $out .= <<<text
 <table class="table_nospacing table_center color_row1">
     <tr><td class="color_bigheader text_center">
-            Wormhole import
+            <img {$bulle} src='%IMAGES_URL%help.png'/> Wormhole import
     </td></tr>
     <tr><td class="text_center">
         <form method="post" action="{$BASE_FILE}">
