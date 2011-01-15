@@ -1427,7 +1427,7 @@ function Planet() {
 
     var a=new Array();
 
-    if (html.match(eval('/'+i18n[c_game_lang]['water']+'.+<td class=\\"font_white\\">(\\d+)%<\\/td>/'))) {
+    if (html.match(eval('/'+i18n[c_game_lang]['water']+'.+<td class=\\"font_white\\">(\\d+)%<\\/td>/i'))) {
         a['WATER'] = trim(RegExp.$1);
         if (debug) GM_log(i18n[c_game_lang]['water']+':'+a['WATER']);
         a['COORIN']= $x('/html/body/div/table/tbody/tr/td[3]/table/tbody/tr[4]/td[4]')[0].innerHTML;
