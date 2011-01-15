@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `SQL_PREFIX_itineraire` (
 CREATE TABLE IF NOT EXISTS `SQL_PREFIX_Log` (
   `ID` int(11) NOT NULL auto_increment,
   `DATE` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `LOGIN` text NOT NULL,
+  `log` text NOT NULL,
   `IP` varchar(30) NOT NULL,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
