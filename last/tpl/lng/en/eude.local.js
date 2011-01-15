@@ -29,9 +29,9 @@ var i18n = {
     Coords: 'Coordinates',
     Empire: 'Empire',
     
-    WormholeStart: 'Start',
-    WormholeEnd: 'Finish',
-    WormholeSS: 'ID System',
+    WormholeStart: 'Start of the wormhole',
+    WormholeEnd: 'Aim of the wormhole',
+    WormholeSS: 'Star system ID',
     
     Asteroid: 'Information On Asteroide',
     Sun_page: 'Number of Systems :',
