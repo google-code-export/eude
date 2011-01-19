@@ -21,7 +21,7 @@ var i18n = {
     Ressources9: 'Hydrogen',
 
     // Détections javascript:
-    PlayerPlanet: 'We do not have inforamtion on the planet',
+    PlayerPlanet: 'we were able to determine the Planet\'s data',
     Player: 'Player',
     User: 'User',
     UserName: 'Name',
@@ -42,7 +42,7 @@ var i18n = {
 
 
     // Messages d'information javascript:
-    PlayerIncomplete: 'Please click on the "Player Info" and past the Detail(s)',
+    PlayerIncomplete: 'Please click on the "User info" ingame and paste them below',
     UnknownData: "Information not recognized",
     
     // Carte.php

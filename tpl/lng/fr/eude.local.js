@@ -41,7 +41,7 @@ var i18n = {
 
 
     // Messages d'information javascript:
-    PlayerIncomplete: 'Merci de cliquer sur "Info joueur" et de coller le détail a la suite',
+    PlayerIncomplete: 'Merci de cliquer sur "Info joueur" dans le jeu et de coller le détail à la suite',
     UnknownData: "Information non reconnue\n\nN'oubliez pas, après avoir ouvert un vortex(par exemple)\nDe cliquer sur la fenêtre de celui avant le Ctrl+A,Ctrl+C.",
     
     // Carte.php
