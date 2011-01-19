@@ -157,8 +157,8 @@ function interpreter(text,insert) {
     //Recherche "nous avons les informations de la planète identifiée"  = information planète
     if(mystring.indexOf(i18n.PlayerPlanet) > 0)
     {
-        if(mystring.interpreter_getvalue(i18n.User) != "") {
-            if(mystring.interpreter_getvalue(i18n.Player) != "") {
+        if(mystring.interpreter_getvalue(i18n.Player) != "") {
+            if(mystring.interpreter_getvalue(i18n.User) != "") {
                 interpreter_joueur(mystring);
                 parsed = true;
             } else {
